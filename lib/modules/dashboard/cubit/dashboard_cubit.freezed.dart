@@ -102,9 +102,7 @@ class __$$DashboardStateImplCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$DashboardStateImpl
-    with DiagnosticableTreeMixin
-    implements _DashboardState {
+class _$DashboardStateImpl implements _DashboardState {
   const _$DashboardStateImpl(
       {required this.currentScreen, required this.currentTab});
 
@@ -114,17 +112,8 @@ class _$DashboardStateImpl
   final int currentTab;
 
   @override
-  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
+  String toString() {
     return 'DashboardState(currentScreen: $currentScreen, currentTab: $currentTab)';
-  }
-
-  @override
-  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
-    super.debugFillProperties(properties);
-    properties
-      ..add(DiagnosticsProperty('type', 'DashboardState'))
-      ..add(DiagnosticsProperty('currentScreen', currentScreen))
-      ..add(DiagnosticsProperty('currentTab', currentTab));
   }
 
   @override

@@ -10,7 +10,8 @@ part 'add_product_cubit.freezed.dart';
 
 class AddProductCubit extends BaseCubit<AddProductState> {
   MobileScannerController cameraController = MobileScannerController();
-  AddProductCubit(BuildContext context) : super(context, AddProductState());
+  AddProductCubit(BuildContext context)
+      : super(context, const AddProductState());
 
   @override
   Future<void> initData() async {

@@ -5,9 +5,12 @@ import '../base/item.dart';
 import '../base/transaction.dart';
 import '../base/transaction_detail.dart';
 import '../base/transaction_item.dart';
+import '../base/user.dart';
 
 Object factoryModel(String type, {Map<String, dynamic>? json}) {
   switch (type) {
+    case 'User':
+      return json != null ? User.fromJson(json) : User();
     case 'Product':
       return json != null ? Product.fromJson(json) : Product();
     case 'Item':

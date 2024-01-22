@@ -20,6 +20,8 @@ mixin _$CartState {
   String? get err => throw _privateConstructorUsedError;
   List<Cart> get cart => throw _privateConstructorUsedError;
   List<String> get selectedItem => throw _privateConstructorUsedError;
+  List<User> get users => throw _privateConstructorUsedError;
+  List<ValueItem> get selectedOptions => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $CartStateCopyWith<CartState> get copyWith =>
@@ -35,7 +37,9 @@ abstract class $CartStateCopyWith<$Res> {
       {DataStateStatus status,
       String? err,
       List<Cart> cart,
-      List<String> selectedItem});
+      List<String> selectedItem,
+      List<User> users,
+      List<ValueItem> selectedOptions});
 }
 
 /// @nodoc
@@ -55,6 +59,8 @@ class _$CartStateCopyWithImpl<$Res, $Val extends CartState>
     Object? err = freezed,
     Object? cart = null,
     Object? selectedItem = null,
+    Object? users = null,
+    Object? selectedOptions = null,
   }) {
     return _then(_value.copyWith(
       status: null == status
@@ -73,6 +79,14 @@ class _$CartStateCopyWithImpl<$Res, $Val extends CartState>
           ? _value.selectedItem
           : selectedItem // ignore: cast_nullable_to_non_nullable
               as List<String>,
+      users: null == users
+          ? _value.users
+          : users // ignore: cast_nullable_to_non_nullable
+              as List<User>,
+      selectedOptions: null == selectedOptions
+          ? _value.selectedOptions
+          : selectedOptions // ignore: cast_nullable_to_non_nullable
+              as List<ValueItem>,
     ) as $Val);
   }
 }
@@ -89,7 +103,9 @@ abstract class _$$CartStateImplCopyWith<$Res>
       {DataStateStatus status,
       String? err,
       List<Cart> cart,
-      List<String> selectedItem});
+      List<String> selectedItem,
+      List<User> users,
+      List<ValueItem> selectedOptions});
 }
 
 /// @nodoc
@@ -107,6 +123,8 @@ class __$$CartStateImplCopyWithImpl<$Res>
     Object? err = freezed,
     Object? cart = null,
     Object? selectedItem = null,
+    Object? users = null,
+    Object? selectedOptions = null,
   }) {
     return _then(_$CartStateImpl(
       status: null == status
@@ -125,6 +143,14 @@ class __$$CartStateImplCopyWithImpl<$Res>
           ? _value._selectedItem
           : selectedItem // ignore: cast_nullable_to_non_nullable
               as List<String>,
+      users: null == users
+          ? _value._users
+          : users // ignore: cast_nullable_to_non_nullable
+              as List<User>,
+      selectedOptions: null == selectedOptions
+          ? _value._selectedOptions
+          : selectedOptions // ignore: cast_nullable_to_non_nullable
+              as List<ValueItem>,
     ));
   }
 }
@@ -136,9 +162,13 @@ class _$CartStateImpl implements _CartState {
       {this.status = DataStateStatus.initial,
       this.err,
       final List<Cart> cart = const [],
-      final List<String> selectedItem = const []})
+      final List<String> selectedItem = const [],
+      final List<User> users = const [],
+      final List<ValueItem> selectedOptions = const []})
       : _cart = cart,
-        _selectedItem = selectedItem;
+        _selectedItem = selectedItem,
+        _users = users,
+        _selectedOptions = selectedOptions;
 
   @override
   @JsonKey()
@@ -163,9 +193,27 @@ class _$CartStateImpl implements _CartState {
     return EqualUnmodifiableListView(_selectedItem);
   }
 
+  final List<User> _users;
+  @override
+  @JsonKey()
+  List<User> get users {
+    if (_users is EqualUnmodifiableListView) return _users;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_users);
+  }
+
+  final List<ValueItem> _selectedOptions;
+  @override
+  @JsonKey()
+  List<ValueItem> get selectedOptions {
+    if (_selectedOptions is EqualUnmodifiableListView) return _selectedOptions;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_selectedOptions);
+  }
+
   @override
   String toString() {
-    return 'CartState(status: $status, err: $err, cart: $cart, selectedItem: $selectedItem)';
+    return 'CartState(status: $status, err: $err, cart: $cart, selectedItem: $selectedItem, users: $users, selectedOptions: $selectedOptions)';
   }
 
   @override
@@ -177,7 +225,10 @@ class _$CartStateImpl implements _CartState {
             (identical(other.err, err) || other.err == err) &&
             const DeepCollectionEquality().equals(other._cart, _cart) &&
             const DeepCollectionEquality()
-                .equals(other._selectedItem, _selectedItem));
+                .equals(other._selectedItem, _selectedItem) &&
+            const DeepCollectionEquality().equals(other._users, _users) &&
+            const DeepCollectionEquality()
+                .equals(other._selectedOptions, _selectedOptions));
   }
 
   @override
@@ -186,7 +237,9 @@ class _$CartStateImpl implements _CartState {
       status,
       err,
       const DeepCollectionEquality().hash(_cart),
-      const DeepCollectionEquality().hash(_selectedItem));
+      const DeepCollectionEquality().hash(_selectedItem),
+      const DeepCollectionEquality().hash(_users),
+      const DeepCollectionEquality().hash(_selectedOptions));
 
   @JsonKey(ignore: true)
   @override
@@ -200,7 +253,9 @@ abstract class _CartState implements CartState {
       {final DataStateStatus status,
       final String? err,
       final List<Cart> cart,
-      final List<String> selectedItem}) = _$CartStateImpl;
+      final List<String> selectedItem,
+      final List<User> users,
+      final List<ValueItem> selectedOptions}) = _$CartStateImpl;
 
   @override
   DataStateStatus get status;
@@ -210,6 +265,10 @@ abstract class _CartState implements CartState {
   List<Cart> get cart;
   @override
   List<String> get selectedItem;
+  @override
+  List<User> get users;
+  @override
+  List<ValueItem> get selectedOptions;
   @override
   @JsonKey(ignore: true)
   _$$CartStateImplCopyWith<_$CartStateImpl> get copyWith =>

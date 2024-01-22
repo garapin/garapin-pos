@@ -1,6 +1,16 @@
+// To parse this JSON data, do
+//
+//     final transaction = transactionFromJson(jsonString);
+
 import 'package:json_annotation/json_annotation.dart';
+import 'dart:convert';
 
 part 'transaction.g.dart';
+
+Transaction transactionFromJson(String str) =>
+    Transaction.fromJson(json.decode(str));
+
+String transactionToJson(Transaction data) => json.encode(data.toJson());
 
 @JsonSerializable()
 class Transaction {
@@ -16,8 +26,12 @@ class Transaction {
   String? notes;
   @JsonKey(name: "signature_image")
   String? signatureImage;
+  @JsonKey(name: "instalation_image")
+  List<String>? instalationImage;
   @JsonKey(name: "status_transaction")
   String? statusTransaction;
+  @JsonKey(name: "teknisi")
+  List<Teknisi>? teknisi;
   @JsonKey(name: "created")
   DateTime? created;
   @JsonKey(name: "updated")
@@ -34,7 +48,9 @@ class Transaction {
     this.quantity,
     this.notes,
     this.signatureImage,
+    this.instalationImage,
     this.statusTransaction,
+    this.teknisi,
     this.created,
     this.updated,
     this.idUser,
@@ -45,4 +61,19 @@ class Transaction {
       _$TransactionFromJson(json);
 
   Map<String, dynamic> toJson() => _$TransactionToJson(this);
+}
+
+@JsonSerializable()
+class Teknisi {
+  @JsonKey(name: "username")
+  String? username;
+
+  Teknisi({
+    this.username,
+  });
+
+  factory Teknisi.fromJson(Map<String, dynamic> json) =>
+      _$TeknisiFromJson(json);
+
+  Map<String, dynamic> toJson() => _$TeknisiToJson(this);
 }

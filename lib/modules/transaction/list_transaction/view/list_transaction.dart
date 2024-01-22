@@ -24,44 +24,22 @@ class ListTransactionPage extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
             child: SizedBox(
               height: 40,
-              child: SingleChildScrollView(
-                scrollDirection: Axis.horizontal,
-                child: Row(
-                  children: [
-                    FilterButton(
-                        onPressed: () {
-                          cubit.changeStatus("ALL");
-                        },
-                        title: 'Semua',
-                        isActive: cubit.statusTransaction.text == "ALL"
-                            ? true
-                            : false),
-                    FilterButton(
-                        onPressed: () {
-                          cubit.changeStatus("SUCCESS");
-                        },
-                        title: 'Sukses',
-                        isActive: cubit.statusTransaction.text == "SUCCESS"
-                            ? true
-                            : false),
-                    FilterButton(
-                        onPressed: () {
-                          cubit.changeStatus("PROCESS");
-                        },
-                        title: 'Proses',
-                        isActive: cubit.statusTransaction.text == "PROCESS"
-                            ? true
-                            : false),
-                    FilterButton(
-                        onPressed: () {
-                          cubit.changeStatus("CANCELLED");
-                        },
-                        title: 'Batal',
-                        isActive: cubit.statusTransaction.text == "CANCELLED"
-                            ? true
-                            : false),
-                  ],
-                ),
+              child: BlocBuilder<ListTransactionCubit, ListTransactionState>(
+                builder: (context, state) {
+                  return ContainerStateHandler(
+                    status: DataStateStatus.success,
+                    loading: FilterTransaction(
+                        cubit: cubit, status: state.filterStatus),
+                    errorOptions: ErrorOptions(
+                        customError: FilterTransaction(
+                            cubit: cubit, status: state.filterStatus)),
+                    emptyOptions: EmptyOptions(
+                        customEmpty: FilterTransaction(
+                            cubit: cubit, status: state.filterStatus)),
+                    child: FilterTransaction(
+                        cubit: cubit, status: state.filterStatus),
+                  );
+                },
               ),
             ),
           ),
@@ -107,6 +85,52 @@ class ListTransactionPage extends StatelessWidget {
               },
             ),
           ),
+        ],
+      ),
+    );
+  }
+}
+
+class FilterTransaction extends StatelessWidget {
+  const FilterTransaction({
+    required this.status,
+    super.key,
+    required this.cubit,
+  });
+
+  final ListTransactionCubit cubit;
+  final String status;
+
+  @override
+  Widget build(BuildContext context) {
+    return SingleChildScrollView(
+      scrollDirection: Axis.horizontal,
+      child: Row(
+        children: [
+          FilterButton(
+              onPressed: () {
+                cubit.changeStatus("ALL");
+              },
+              title: 'Semua',
+              isActive: status == "ALL" ? true : false),
+          FilterButton(
+              onPressed: () {
+                cubit.changeStatus("SUCCESS");
+              },
+              title: 'Sukses',
+              isActive: status == "SUCCESS" ? true : false),
+          FilterButton(
+              onPressed: () {
+                cubit.changeStatus("PROCESS");
+              },
+              title: 'Proses',
+              isActive: status == "PROCESS" ? true : false),
+          FilterButton(
+              onPressed: () {
+                cubit.changeStatus("CANCELLED");
+              },
+              title: 'Batal',
+              isActive: status == "CANCELLED" ? true : false),
         ],
       ),
     );

@@ -1,4 +1,5 @@
 import 'package:abditrack_inventory/data/api/services.dart';
+import 'package:abditrack_inventory/data/models/base/transaction.dart';
 import 'package:abditrack_inventory/data/models/base/transaction_detail.dart';
 import 'package:abditrack_inventory/data/models/base/transaction_item.dart';
 import 'package:abditrack_inventory/engine/engine.dart';
@@ -21,6 +22,11 @@ class DetailTransactionCubit extends BaseCubit<DetailTransactionState> {
     getTransaction();
     getTransactionItem();
     finishRefresh(state.status);
+  }
+
+  String getRoleUser() {
+    String? role = Sessions.getUserModel()!.role;
+    return role!;
   }
 
   void getTransaction() async {
@@ -49,4 +55,13 @@ class DetailTransactionCubit extends BaseCubit<DetailTransactionState> {
 
   @override
   Future<void> refreshData() => initData();
+
+  showTypeImage(ShowImageType showImageType) {
+    emit(state.copyWith(showImageType: showImageType));
+  }
+}
+
+enum ShowImageType {
+  signature,
+  instalation,
 }

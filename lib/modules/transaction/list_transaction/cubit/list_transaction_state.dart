@@ -6,5 +6,6 @@ class ListTransactionState with _$ListTransactionState {
     @Default(DataStateStatus.initial) DataStateStatus status,
     String? err,
     @Default([]) List<Transaction> listTransaction,
+    @Default("ALL") String filterStatus,
   }) = _ListTransactionState;
 }

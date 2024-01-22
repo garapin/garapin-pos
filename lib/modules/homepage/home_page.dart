@@ -49,6 +49,16 @@ class HomePage extends StatelessWidget {
               subtitle: 'Input barang keluar',
               total: '1000',
             ),
+            InItemWidget(
+              icon: Icons.people,
+              onPressed: () {
+                context.pushNamed(RouteNames.addUser);
+              },
+              color: Colors.orange,
+              title: 'Daftarkan Teknisi',
+              subtitle: 'Untuk membuat akun teknisi',
+              total: '',
+            ),
           ],
         ));
   }

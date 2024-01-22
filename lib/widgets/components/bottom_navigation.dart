@@ -13,14 +13,14 @@ class BottomNavigation extends StatelessWidget {
   final String? centerTitle;
 
   const BottomNavigation({
-    Key? key,
+    super.key,
     required this.items,
     required this.onChangePage,
     this.selectedColor,
     this.unselectedColor,
     required this.currentPage,
     this.centerTitle,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -41,33 +41,33 @@ class BottomNavigation extends StatelessWidget {
     if (list.length % 2 == 0) {
       int indexInsert = (list.length / 2).floor();
       Widget additional = const SizedBox.shrink();
-      if (centerTitle != null && centerTitle!.isNotEmpty) {
-        additional = SizedBox(
-          width: width,
-          height: width * 0.15,
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              SizedBox(height: width * 0.01),
-              const Expanded(
-                child: Center(
-                  child: Icon(Icons.menu, color: Colors.transparent),
-                ),
-              ),
-              FittedBox(
-                child: Text(
-                  '$centerTitle',
-                  style:
-                      AppFont.medium(context)?.copyWith(color: unselectedColor),
-                ),
-              ),
-              SizedBox(height: width * 0.01),
-            ],
-          ),
-        );
-      }
-      list.insert(indexInsert, Expanded(child: additional));
+      // if (centerTitle != null && centerTitle!.isNotEmpty) {
+      //   additional = SizedBox(
+      //     width: width,
+      //     height: width * 0.15,
+      //     child: Column(
+      //       mainAxisSize: MainAxisSize.min,
+      //       mainAxisAlignment: MainAxisAlignment.center,
+      //       children: [
+      //         SizedBox(height: width * 0.01),
+      //         const Expanded(
+      //           child: Center(
+      //             child: Icon(Icons.menu, color: Colors.transparent),
+      //           ),
+      //         ),
+      //         FittedBox(
+      //           child: Text(
+      //             '$centerTitle',
+      //             style:
+      //                 AppFont.medium(context)?.copyWith(color: unselectedColor),
+      //           ),
+      //         ),
+      //         SizedBox(height: width * 0.01),
+      //       ],
+      //     ),
+      //   );
+      // }
+      // list.insert(indexInsert, Expanded(child: additional));
     }
     return BottomAppBar(
       notchMargin: 5,

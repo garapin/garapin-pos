@@ -6,6 +6,7 @@ class DetailTransactionState with _$DetailTransactionState {
     @Default(DataStateStatus.initial) DataStateStatus status,
     String? err,
     @Default([]) List<Cart> item,
-    TransactionDetail? transaction,
+    Transaction? transaction,
+    @Default(ShowImageType.instalation) ShowImageType showImageType,
   }) = _DetailTransactionState;
 }

@@ -19,7 +19,8 @@ mixin _$DetailTransactionState {
   DataStateStatus get status => throw _privateConstructorUsedError;
   String? get err => throw _privateConstructorUsedError;
   List<Cart> get item => throw _privateConstructorUsedError;
-  TransactionDetail? get transaction => throw _privateConstructorUsedError;
+  Transaction? get transaction => throw _privateConstructorUsedError;
+  ShowImageType get showImageType => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $DetailTransactionStateCopyWith<DetailTransactionState> get copyWith =>
@@ -36,7 +37,8 @@ abstract class $DetailTransactionStateCopyWith<$Res> {
       {DataStateStatus status,
       String? err,
       List<Cart> item,
-      TransactionDetail? transaction});
+      Transaction? transaction,
+      ShowImageType showImageType});
 }
 
 /// @nodoc
@@ -57,6 +59,7 @@ class _$DetailTransactionStateCopyWithImpl<$Res,
     Object? err = freezed,
     Object? item = null,
     Object? transaction = freezed,
+    Object? showImageType = null,
   }) {
     return _then(_value.copyWith(
       status: null == status
@@ -74,7 +77,11 @@ class _$DetailTransactionStateCopyWithImpl<$Res,
       transaction: freezed == transaction
           ? _value.transaction
           : transaction // ignore: cast_nullable_to_non_nullable
-              as TransactionDetail?,
+              as Transaction?,
+      showImageType: null == showImageType
+          ? _value.showImageType
+          : showImageType // ignore: cast_nullable_to_non_nullable
+              as ShowImageType,
     ) as $Val);
   }
 }
@@ -92,7 +99,8 @@ abstract class _$$DetailTransactionStateImplCopyWith<$Res>
       {DataStateStatus status,
       String? err,
       List<Cart> item,
-      TransactionDetail? transaction});
+      Transaction? transaction,
+      ShowImageType showImageType});
 }
 
 /// @nodoc
@@ -112,6 +120,7 @@ class __$$DetailTransactionStateImplCopyWithImpl<$Res>
     Object? err = freezed,
     Object? item = null,
     Object? transaction = freezed,
+    Object? showImageType = null,
   }) {
     return _then(_$DetailTransactionStateImpl(
       status: null == status
@@ -129,7 +138,11 @@ class __$$DetailTransactionStateImplCopyWithImpl<$Res>
       transaction: freezed == transaction
           ? _value.transaction
           : transaction // ignore: cast_nullable_to_non_nullable
-              as TransactionDetail?,
+              as Transaction?,
+      showImageType: null == showImageType
+          ? _value.showImageType
+          : showImageType // ignore: cast_nullable_to_non_nullable
+              as ShowImageType,
     ));
   }
 }
@@ -141,7 +154,8 @@ class _$DetailTransactionStateImpl implements _DetailTransactionState {
       {this.status = DataStateStatus.initial,
       this.err,
       final List<Cart> item = const [],
-      this.transaction})
+      this.transaction,
+      this.showImageType = ShowImageType.instalation})
       : _item = item;
 
   @override
@@ -159,11 +173,14 @@ class _$DetailTransactionStateImpl implements _DetailTransactionState {
   }
 
   @override
-  final TransactionDetail? transaction;
+  final Transaction? transaction;
+  @override
+  @JsonKey()
+  final ShowImageType showImageType;
 
   @override
   String toString() {
-    return 'DetailTransactionState(status: $status, err: $err, item: $item, transaction: $transaction)';
+    return 'DetailTransactionState(status: $status, err: $err, item: $item, transaction: $transaction, showImageType: $showImageType)';
   }
 
   @override
@@ -175,12 +192,14 @@ class _$DetailTransactionStateImpl implements _DetailTransactionState {
             (identical(other.err, err) || other.err == err) &&
             const DeepCollectionEquality().equals(other._item, _item) &&
             (identical(other.transaction, transaction) ||
-                other.transaction == transaction));
+                other.transaction == transaction) &&
+            (identical(other.showImageType, showImageType) ||
+                other.showImageType == showImageType));
   }
 
   @override
   int get hashCode => Object.hash(runtimeType, status, err,
-      const DeepCollectionEquality().hash(_item), transaction);
+      const DeepCollectionEquality().hash(_item), transaction, showImageType);
 
   @JsonKey(ignore: true)
   @override
@@ -195,7 +214,8 @@ abstract class _DetailTransactionState implements DetailTransactionState {
       {final DataStateStatus status,
       final String? err,
       final List<Cart> item,
-      final TransactionDetail? transaction}) = _$DetailTransactionStateImpl;
+      final Transaction? transaction,
+      final ShowImageType showImageType}) = _$DetailTransactionStateImpl;
 
   @override
   DataStateStatus get status;
@@ -204,7 +224,9 @@ abstract class _DetailTransactionState implements DetailTransactionState {
   @override
   List<Cart> get item;
   @override
-  TransactionDetail? get transaction;
+  Transaction? get transaction;
+  @override
+  ShowImageType get showImageType;
   @override
   @JsonKey(ignore: true)
   _$$DetailTransactionStateImplCopyWith<_$DetailTransactionStateImpl>

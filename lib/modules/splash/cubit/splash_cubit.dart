@@ -1,6 +1,5 @@
-import 'dart:convert';
 import 'dart:developer';
-
+import 'package:abditrack_inventory/data/models/base/user.dart';
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -18,21 +17,25 @@ class SplashCubit extends Cubit<String> {
 
   void initialize() async {
     await InitialApps.start();
-    print("Splash screen");
     sessionLogin();
   }
 
-  void sessionLogin() async {
-    String? dataUser = Sessions.getIsLogin();
-    log(dataUser ?? "tidak ada");
-    if (dataUser == "Y" && dataUser != null) {
+  void sessionLogin() {
+    User? user = Sessions.getUserModel();
+    if (user == null) {
       Future.delayed(const Duration(seconds: 1), () {
-        context.go(RouteNames.dashboard);
+        context.go(RouteNames.login);
       });
     } else {
-      Future.delayed(const Duration(seconds: 1), () {
-        context.go(RouteNames.dashboard);
-      });
+      if (user.role == "TEKNISI") {
+        Future.delayed(const Duration(seconds: 1), () {
+          context.go(RouteNames.dashboardTeknisi);
+        });
+      } else {
+        Future.delayed(const Duration(seconds: 1), () {
+          context.go(RouteNames.dashboard);
+        });
+      }
     }
   }
 }

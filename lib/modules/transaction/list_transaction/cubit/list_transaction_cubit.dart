@@ -9,33 +9,29 @@ part 'list_transaction_state.dart';
 part 'list_transaction_cubit.freezed.dart';
 
 class ListTransactionCubit extends BaseCubit<ListTransactionState> {
-  TextEditingController statusTransaction = TextEditingController();
   ListTransactionCubit(BuildContext context)
       : super(context, const ListTransactionState());
 
   @override
   Future<void> initData({String status = "ALL"}) async {
-    statusTransaction.text = status;
-    log(statusTransaction.text);
-    final data = await ApiService.getListTransaction(context,
-        status: statusTransaction.text);
+    final data = await ApiService.getListTransaction(context, status: status);
     if (data.isSuccess) {
       if (data.data.isEmpty) {
         emit(state.copyWith(
-          status: DataStateStatus.empty,
-          listTransaction: data.data,
-        ));
+            status: DataStateStatus.empty,
+            listTransaction: data.data,
+            filterStatus: status));
       } else {
         emit(state.copyWith(
-          status: DataStateStatus.success,
-          listTransaction: data.data,
-        ));
+            status: DataStateStatus.success,
+            listTransaction: data.data,
+            filterStatus: status));
       }
     } else {
       emit(state.copyWith(
-        status: DataStateStatus.error,
-        err: data.message,
-      ));
+          status: DataStateStatus.error,
+          err: data.message,
+          filterStatus: status));
     }
     finishRefresh(state.status);
   }
@@ -49,7 +45,6 @@ class ListTransactionCubit extends BaseCubit<ListTransactionState> {
   Future<void> refreshData() => initData();
 
   changeStatus(String status) async {
-    statusTransaction.text = status;
-    initData(status: statusTransaction.text);
+    initData(status: status);
   }
 }

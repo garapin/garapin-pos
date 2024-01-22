@@ -139,8 +139,7 @@ class ProductDetailPage extends StatelessWidget {
                                   child: Center(
                                       child: Text(
                                           state.product[index].status!
-                                                  .toUpperCase() ??
-                                              "",
+                                              .toUpperCase(),
                                           style: AppFont.whiteLarge(context)!
                                               .copyWith(
                                             fontWeight: FontWeight.bold,

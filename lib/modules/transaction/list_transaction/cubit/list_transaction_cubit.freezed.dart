@@ -19,6 +19,7 @@ mixin _$ListTransactionState {
   DataStateStatus get status => throw _privateConstructorUsedError;
   String? get err => throw _privateConstructorUsedError;
   List<Transaction> get listTransaction => throw _privateConstructorUsedError;
+  String get filterStatus => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $ListTransactionStateCopyWith<ListTransactionState> get copyWith =>
@@ -32,7 +33,10 @@ abstract class $ListTransactionStateCopyWith<$Res> {
       _$ListTransactionStateCopyWithImpl<$Res, ListTransactionState>;
   @useResult
   $Res call(
-      {DataStateStatus status, String? err, List<Transaction> listTransaction});
+      {DataStateStatus status,
+      String? err,
+      List<Transaction> listTransaction,
+      String filterStatus});
 }
 
 /// @nodoc
@@ -52,6 +56,7 @@ class _$ListTransactionStateCopyWithImpl<$Res,
     Object? status = null,
     Object? err = freezed,
     Object? listTransaction = null,
+    Object? filterStatus = null,
   }) {
     return _then(_value.copyWith(
       status: null == status
@@ -66,6 +71,10 @@ class _$ListTransactionStateCopyWithImpl<$Res,
           ? _value.listTransaction
           : listTransaction // ignore: cast_nullable_to_non_nullable
               as List<Transaction>,
+      filterStatus: null == filterStatus
+          ? _value.filterStatus
+          : filterStatus // ignore: cast_nullable_to_non_nullable
+              as String,
     ) as $Val);
   }
 }
@@ -79,7 +88,10 @@ abstract class _$$ListTransactionStateImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {DataStateStatus status, String? err, List<Transaction> listTransaction});
+      {DataStateStatus status,
+      String? err,
+      List<Transaction> listTransaction,
+      String filterStatus});
 }
 
 /// @nodoc
@@ -96,6 +108,7 @@ class __$$ListTransactionStateImplCopyWithImpl<$Res>
     Object? status = null,
     Object? err = freezed,
     Object? listTransaction = null,
+    Object? filterStatus = null,
   }) {
     return _then(_$ListTransactionStateImpl(
       status: null == status
@@ -110,6 +123,10 @@ class __$$ListTransactionStateImplCopyWithImpl<$Res>
           ? _value._listTransaction
           : listTransaction // ignore: cast_nullable_to_non_nullable
               as List<Transaction>,
+      filterStatus: null == filterStatus
+          ? _value.filterStatus
+          : filterStatus // ignore: cast_nullable_to_non_nullable
+              as String,
     ));
   }
 }
@@ -120,7 +137,8 @@ class _$ListTransactionStateImpl implements _ListTransactionState {
   const _$ListTransactionStateImpl(
       {this.status = DataStateStatus.initial,
       this.err,
-      final List<Transaction> listTransaction = const []})
+      final List<Transaction> listTransaction = const [],
+      this.filterStatus = "ALL"})
       : _listTransaction = listTransaction;
 
   @override
@@ -138,8 +156,12 @@ class _$ListTransactionStateImpl implements _ListTransactionState {
   }
 
   @override
+  @JsonKey()
+  final String filterStatus;
+
+  @override
   String toString() {
-    return 'ListTransactionState(status: $status, err: $err, listTransaction: $listTransaction)';
+    return 'ListTransactionState(status: $status, err: $err, listTransaction: $listTransaction, filterStatus: $filterStatus)';
   }
 
   @override
@@ -150,12 +172,14 @@ class _$ListTransactionStateImpl implements _ListTransactionState {
             (identical(other.status, status) || other.status == status) &&
             (identical(other.err, err) || other.err == err) &&
             const DeepCollectionEquality()
-                .equals(other._listTransaction, _listTransaction));
+                .equals(other._listTransaction, _listTransaction) &&
+            (identical(other.filterStatus, filterStatus) ||
+                other.filterStatus == filterStatus));
   }
 
   @override
   int get hashCode => Object.hash(runtimeType, status, err,
-      const DeepCollectionEquality().hash(_listTransaction));
+      const DeepCollectionEquality().hash(_listTransaction), filterStatus);
 
   @JsonKey(ignore: true)
   @override
@@ -170,7 +194,8 @@ abstract class _ListTransactionState implements ListTransactionState {
   const factory _ListTransactionState(
       {final DataStateStatus status,
       final String? err,
-      final List<Transaction> listTransaction}) = _$ListTransactionStateImpl;
+      final List<Transaction> listTransaction,
+      final String filterStatus}) = _$ListTransactionStateImpl;
 
   @override
   DataStateStatus get status;
@@ -178,6 +203,8 @@ abstract class _ListTransactionState implements ListTransactionState {
   String? get err;
   @override
   List<Transaction> get listTransaction;
+  @override
+  String get filterStatus;
   @override
   @JsonKey(ignore: true)
   _$$ListTransactionStateImplCopyWith<_$ListTransactionStateImpl>

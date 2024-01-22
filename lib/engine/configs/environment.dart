@@ -14,12 +14,18 @@ abstract class Environment {
 
   static String baseAPIUrl() => baseUrl();
 
+  static String showUrlImage({required String path}) => urlImage(path: path);
+
   static AssetGenImage appIcon() {
     return Resources.images.armor;
   }
 
   static String baseUrl({String? url}) {
     return Development.baseUrl();
+  }
+
+  static String urlImage({required String path}) {
+    return Development.urlImage() + path;
   }
 
   static String googleMapKey() {

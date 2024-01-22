@@ -5,8 +5,8 @@ import 'package:abditrack_inventory/data/models/base/cart.dart';
 import 'package:abditrack_inventory/data/models/base/product.dart';
 import 'package:abditrack_inventory/data/models/base/item.dart';
 import 'package:abditrack_inventory/data/models/base/transaction.dart';
-import 'package:abditrack_inventory/data/models/base/transaction_detail.dart';
-import 'package:abditrack_inventory/data/models/base/transaction_item.dart';
+import 'package:abditrack_inventory/data/models/base/user.dart';
+import 'package:abditrack_inventory/engine/engine.dart';
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -57,6 +57,40 @@ class ApiService {
         )
         .then((result) => ApiResponse<String>.fromJson(result.data))
         .handler((error) => ApiResponse<String>.onError(error));
+  }
+
+  static Future<ApiResponse> createUser(BuildContext context,
+      {required Map<String, dynamic> params}) async {
+    return await ApiConfigure(context)
+        .post('user/create', params: params)
+        .then((result) => ApiResponse.fromJson(result.data))
+        .handler((error) => ApiResponse.onError(error));
+  }
+
+  static Future<ApiResponse<User>> getUserId(
+    BuildContext context,
+  ) async {
+    return await ApiConfigure(context)
+        .get('user/${Sessions.getUserModel()?.id}')
+        .then((result) => ApiResponse<User>.fromJson(result.data))
+        .handler((error) => ApiResponse<User>.onError(error));
+  }
+
+  static Future<ApiResponse<User>> login(BuildContext context,
+      {required String email, required String password}) async {
+    return await ApiConfigure(context)
+        .post('/user/login', params: {"email": email, "password": password})
+        .then((result) => ApiResponse<User>.fromJson(result.data))
+        .handler((error) => ApiResponse<User>.onError(error));
+  }
+
+  static Future<ApiResponseList<User>> getUsers(
+    BuildContext context,
+  ) async {
+    return await ApiConfigure(context)
+        .get('user')
+        .then((result) => ApiResponseList<User>.fromJson(result.data))
+        .handler((error) => ApiResponseList<User>.onError(error));
   }
 
   static Future<ApiResponseList<Product>> productAll(BuildContext context,
@@ -115,16 +149,17 @@ class ApiService {
           "no_sn": noSn,
           "no_product": noProduct,
           "status": "in",
-          "id_user": 2
+          "id_user": Sessions.getUserModel()?.id
         })
         .then((result) => ApiResponse<dynamic>.fromJson(result.data))
         .handler((error) => ApiResponse<dynamic>.onError(error));
   }
 
-  static Future<ApiResponseList<Cart>> cartById(BuildContext context,
-      {required String id}) async {
+  static Future<ApiResponseList<Cart>> cartById(
+    BuildContext context,
+  ) async {
     return await ApiConfigure(context)
-        .get('cart/$id')
+        .get('cart/${Sessions.getUserModel()?.id}')
         .then((result) => ApiResponseList<Cart>.fromJson(result.data))
         .handler((error) => ApiResponseList<Cart>.onError(error));
   }
@@ -136,7 +171,7 @@ class ApiService {
           "imei": imei,
           "no_sn": noSn,
           "no_product": noProduct,
-          "id_user": "2"
+          "id_user": Sessions.getUserModel()?.id
         })
         .then((result) => ApiResponse<dynamic>.fromJson(result.data))
         .handler((error) => ApiResponse<dynamic>.onError(error));
@@ -146,15 +181,17 @@ class ApiService {
       {required String base64,
       required String notes,
       required String transactionPurpose,
-      required List<String> idProductDetail,
+      required List<String> idProductItem,
+      required List<int> listTeknisi,
       String? noProduct}) async {
     return await ApiConfigure(context)
         .post('transaction/create', params: {
           "transaction_purpose": transactionPurpose,
           "signature_image": base64,
           "notes": notes,
-          "id_product_detail": idProductDetail,
-          "id_user": "2"
+          "id_product_item": idProductItem,
+          "list_id_teknisi": listTeknisi,
+          "id_user": Sessions.getUserModel()?.id
         })
         .then((result) => ApiResponse<dynamic>.fromJson(result.data))
         .handler((error) => ApiResponse<dynamic>.onError(error));
@@ -170,14 +207,24 @@ class ApiService {
         .handler((error) => ApiResponseList<Transaction>.onError(error));
   }
 
-  static Future<ApiResponse<TransactionDetail>> getTransactionDetail(
+  static Future<ApiResponseList<Transaction>> getListTransactionByTeknisi(
+      BuildContext context,
+      {required String status}) async {
+    return await ApiConfigure(context)
+        .get(
+            'transaction/teknisi/${Sessions.getUserModel()!.id}?status=$status')
+        .then((result) => ApiResponseList<Transaction>.fromJson(result.data))
+        .handler((error) => ApiResponseList<Transaction>.onError(error));
+  }
+
+  static Future<ApiResponse<Transaction>> getTransactionDetail(
     BuildContext context, {
     required int id,
   }) async {
     return await ApiConfigure(context)
         .get('/transaction/$id')
-        .then((result) => ApiResponse<TransactionDetail>.fromJson(result.data))
-        .handler((error) => ApiResponse<TransactionDetail>.onError(error));
+        .then((result) => ApiResponse<Transaction>.fromJson(result.data))
+        .handler((error) => ApiResponse<Transaction>.onError(error));
   }
 
   static Future<ApiResponseList<Cart>> getTransactionItem(

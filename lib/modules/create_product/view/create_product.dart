@@ -34,20 +34,23 @@ class CreateProductPage extends StatelessWidget {
                     children: [
                       const SizedBox(height: 20),
                       const OutlineTextField(
-                        hintText: 'Nama Produk',
+                        hintText: 'Masukan Nama Produk',
                         name: 'name',
+                        label: 'Nama Produk',
                       ),
                       const SizedBox(height: 20),
                       const OutlineTextField(
-                        hintText: 'Deskripsi',
+                        hintText: 'Masukan Deskripsi Produk',
                         name: 'description',
+                        label: 'Deskripsi',
                       ),
                       const SizedBox(height: 20),
                       const OutlineTextField(
                         typeInput: TextInputType.number,
-                        hintText: 'Kode Produk',
+                        hintText: 'Masukan Kode Produk',
                         maxLength: 6,
                         name: 'code_product',
+                        label: 'Kode Produk',
                       ),
                       const SizedBox(height: 12),
                       Row(
@@ -130,25 +133,44 @@ class CreateProductPage extends StatelessWidget {
 
 class OutlineTextField extends StatelessWidget {
   final String hintText;
+  final String label;
   final TextInputType? typeInput;
   final String name;
   final int? maxLength;
+  final bool obsecureText;
+  final String? initialValue;
+  final bool readOnly;
   const OutlineTextField(
       {super.key,
       required this.hintText,
       required this.name,
       this.maxLength,
-      this.typeInput});
+      this.obsecureText = false,
+      this.typeInput,
+      this.readOnly = false,
+      this.initialValue,
+      required this.label});
 
   @override
   Widget build(BuildContext context) {
-    return FormBuilderTextField(
-      keyboardType: typeInput,
-      maxLength: maxLength,
-      name: name,
-      decoration: InputDecoration(
-          hintText: hintText,
-          border: OutlineInputBorder(borderRadius: BorderRadius.circular(8))),
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(label, style: AppFont.largeBold(context)),
+        SizedBox(height: 4),
+        FormBuilderTextField(
+          readOnly: readOnly,
+          initialValue: initialValue,
+          obscureText: obsecureText,
+          keyboardType: typeInput,
+          maxLength: maxLength,
+          name: name,
+          decoration: InputDecoration(
+              hintText: hintText,
+              border:
+                  OutlineInputBorder(borderRadius: BorderRadius.circular(8))),
+        ),
+      ],
     );
   }
 }

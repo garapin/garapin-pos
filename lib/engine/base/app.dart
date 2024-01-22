@@ -1,5 +1,4 @@
 import 'dart:developer';
-
 import 'package:abditrack_inventory/engine/engine.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -9,7 +8,6 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 import '../../routes/routes.dart';
-import '../configs/main_cubit.dart';
 
 List<NavigatorObserver> observers = [];
 double baseWidth = 0.0;

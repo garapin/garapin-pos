@@ -2,7 +2,6 @@ import 'package:abditrack_inventory/themes/themes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../engine/base/app.dart';
-import '../../../engine/helpers/sessions.dart';
 import '../../../widgets/widgets.dart';
 import '../cubit/dashboard_cubit.dart';
 
@@ -20,34 +19,11 @@ class DashboardPage extends StatelessWidget {
             bucket: context.read<DashboardCubit>().bucket,
             child: state.currentScreen,
           ),
-          floatingActionButtonLocation:
-              FloatingActionButtonLocation.centerDocked,
-          floatingActionButton: SizedBox(
-            height: 55,
-            child: FloatingActionButton(
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(60)),
-              onPressed: () {
-                Sessions.clear();
-              },
-              child: Padding(
-                padding: EdgeInsets.all(width * 0.02),
-                child: Builder(builder: (context) {
-                  return const Icon(
-                    Icons.qr_code_scanner_outlined,
-                    color: Colors.white,
-                    size: 30,
-                  );
-                }),
-              ),
-            ),
-          ),
           resizeToAvoidBottomInset: false,
           bottomNavigationBar: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
               BottomNavigation(
-                centerTitle: 'Scan',
                 items: [
                   BottomNavigationItemData(
                       label: 'Beranda',
@@ -73,8 +49,13 @@ class DashboardPage extends StatelessWidget {
                   BottomNavigationItemData(
                       label: 'Transaksi',
                       icon: const Icon(Icons.outbond),
+                      activeIcon: Icon(Icons.outbond,
+                          color: AppColor.appColor.primary)),
+                  BottomNavigationItemData(
+                      label: 'Profile',
+                      icon: const Icon(Icons.person),
                       activeIcon:
-                          Icon(Icons.outbond, color: AppColor.appColor.primary))
+                          Icon(Icons.person, color: AppColor.appColor.primary))
                 ],
                 onChangePage: context.read<DashboardCubit>().changeTab,
                 selectedColor: Theme.of(context).primaryColor,

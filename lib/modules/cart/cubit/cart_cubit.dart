@@ -5,15 +5,19 @@ import 'dart:ui' as ui;
 import 'package:abditrack_inventory/data/models/base/cart.dart';
 import 'package:abditrack_inventory/engine/engine.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:multi_dropdown/multiselect_dropdown.dart';
 import 'package:syncfusion_flutter_signaturepad/signaturepad.dart';
 
 import '../../../data/api/services.dart';
+import '../../../data/models/base/user.dart';
 
 part 'cart_state.dart';
 part 'cart_cubit.freezed.dart';
 
 class CartCubit extends BaseCubit<CartState> {
+  final formKey = GlobalKey<FormBuilderState>();
   GlobalKey<SfSignaturePadState> signaturePadKey = GlobalKey();
   List<String> listSelected = [];
   CartCubit(BuildContext context) : super(context, CartState());
@@ -21,17 +25,27 @@ class CartCubit extends BaseCubit<CartState> {
   @override
   Future<void> initData() async {
     loadingState();
-    final data = await ApiService.cartById(context, id: "1");
+
+    final data = await ApiService.cartById(context);
+    final user = await ApiService.getUsers(context);
     if (data.isSuccess) {
       if (data.data.isEmpty) {
         emit(state.copyWith(status: DataStateStatus.empty));
       } else {
-        emit(state.copyWith(status: DataStateStatus.success, cart: data.data));
+        emit(state.copyWith(
+            status: DataStateStatus.success,
+            cart: data.data,
+            users: user.data));
       }
     } else {
       emit(state.copyWith(status: DataStateStatus.error));
     }
     finishRefresh(state.status);
+  }
+
+  selectedListTeknisi(List<ValueItem> value) {
+    emit(state.copyWith(selectedOptions: value));
+    log(state.selectedOptions.toString());
   }
 
   @override
@@ -41,19 +55,27 @@ class CartCubit extends BaseCubit<CartState> {
   Future<void> refreshData() => initData();
 
   void doTransaction() async {
+    formKey.currentState!.save();
+    List<int> selectedTeknisi = state.selectedOptions
+        .map((item) => int.parse(item.value.toString()))
+        .toList();
+
     if (signaturePadKey.currentState!.toPathList().isEmpty) {
       showError("Belum Tanda Tangan");
     } else {
       await createSignature().then((value) async {
         final data = await ApiService.addTransaction(context,
-            transactionPurpose: "test transaksi",
+            transactionPurpose:
+                formKey.currentState?.value["transaction_purpose"],
             base64: value,
-            notes: "test",
-            idProductDetail: state.selectedItem);
+            notes: formKey.currentState?.value["notes"],
+            listTeknisi: selectedTeknisi,
+            idProductItem: state.selectedItem);
         if (data.isSuccess) {
           initData();
           showSuccess(data.message);
         } else {
+          emit(state.copyWith(err: data.message));
           showError(data.message);
         }
       });
