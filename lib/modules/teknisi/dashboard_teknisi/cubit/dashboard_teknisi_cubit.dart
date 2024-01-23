@@ -42,9 +42,5 @@ class DashboardTeknisiCubit extends BaseCubit<DashboardTeknisiState> {
   @override
   Future<void> refreshData() async {}
 
-  final listScreen = [
-    const HomePage(),
-    ListTransactionTeknisiPage(),
-    ProfilePage()
-  ];
+  final listScreen = [ListTransactionTeknisiPage(), ProfilePage()];
 }

@@ -1,3 +1,5 @@
+import 'package:abditrack_inventory/data/models/base/cart.dart';
+import 'package:abditrack_inventory/data/models/base/transaction_item.dart';
 import 'package:abditrack_inventory/modules/add_product/cubit/add_product_cubit.dart';
 import 'package:abditrack_inventory/modules/add_product/view/add_product.dart';
 import 'package:abditrack_inventory/modules/add_to_cart/cubit/add_to_cart_cubit.dart';
@@ -13,6 +15,10 @@ import 'package:abditrack_inventory/modules/product_detail/cubit/product_detail_
 import 'package:abditrack_inventory/modules/product_detail/view/product_detail.dart';
 import 'package:abditrack_inventory/modules/profile/cubit/profile_cubit.dart';
 import 'package:abditrack_inventory/modules/profile/view/profile.dart';
+import 'package:abditrack_inventory/modules/teknisi/instalation/cubit/list_item_instalation_cubit.dart';
+import 'package:abditrack_inventory/modules/teknisi/instalation/cubit/process_instalation_item_cubit.dart';
+import 'package:abditrack_inventory/modules/teknisi/instalation/view/list_item_instalation.dart';
+import 'package:abditrack_inventory/modules/teknisi/instalation/view/process_instalation_item.dart';
 import 'package:abditrack_inventory/modules/teknisi/transaction/list_transaction/cubit/list_transaction_teknisi_cubit.dart';
 import 'package:abditrack_inventory/modules/teknisi/transaction/list_transaction/view/list_transaction_teknisi.dart';
 import 'package:abditrack_inventory/modules/transaction/detail_transaction/cubit/detail_transaction_cubit.dart';
@@ -231,6 +237,36 @@ class Routes implements RouterInterface {
               ),
             ],
             child: const ListTransactionTeknisiPage(),
+          );
+        },
+      ),
+      GoRoute(
+        name: RouteNames.listItemInstalation,
+        path: RouteNames.listItemInstalation,
+        builder: (ctx, GoRouterState state) {
+          return MultiBlocProvider(
+            providers: [
+              BlocProvider(
+                create: (ctx) => ListItemInstalationCubit(ctx,
+                    idTransaction: state.extra as int),
+              ),
+            ],
+            child: const ListItemInstalation(),
+          );
+        },
+      ),
+      GoRoute(
+        name: RouteNames.processInstalationItem,
+        path: RouteNames.processInstalationItem,
+        builder: (ctx, GoRouterState state) {
+          return MultiBlocProvider(
+            providers: [
+              BlocProvider(
+                create: (ctx) => ProcessInstalationItemCubit(ctx,
+                    listItem: state.extra as List<TransactionItem>),
+              ),
+            ],
+            child: const ProcessInstalationItem(),
           );
         },
       ),

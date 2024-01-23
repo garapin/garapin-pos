@@ -1,10 +1,12 @@
 import 'package:abditrack_inventory/engine/engine.dart';
 import 'package:abditrack_inventory/modules/transaction/detail_transaction/cubit/detail_transaction_cubit.dart';
 import 'package:abditrack_inventory/modules/transaction/detail_transaction/widget/full_image_network.dart';
+import 'package:abditrack_inventory/routes/routes.dart';
 import 'package:abditrack_inventory/widgets/widgets.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../../../resources/resources.dart';
 import '../../../../themes/themes.dart';
@@ -20,12 +22,15 @@ class DetailTransactionPage extends StatelessWidget {
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: cubit.getRoleUser() == "TEKNISI"
           ? FloatingActionButton.extended(
-              onPressed: () {},
+              onPressed: () {
+                context.pushNamed(RouteNames.listItemInstalation,
+                    extra: cubit.idTransaction);
+              },
               label: SizedBox(
                 width: 300,
                 child: Center(
                   child: Text(
-                    "UPDATE PEMASANGAN SELESAI",
+                    "Pilih Barang yang akan dipasang",
                     style: AppFont.whiteLarge(context)!
                         .copyWith(fontWeight: FontWeight.bold),
                   ),
@@ -257,76 +262,209 @@ class DetailTransactionPage extends StatelessWidget {
                       const SizedBox(height: 8),
                       const Divider(thickness: 2),
                       const SizedBox(height: 8),
-                      Text(
-                        "Daftar Barang Dibawa",
-                        style: AppFont.largeBold(context),
+                      Row(
+                        children: [
+                          FilterButton(
+                              title: "Barang Dibawa",
+                              isActive: state.showItemType == ShowItemType.bring
+                                  ? true
+                                  : false,
+                              onPressed: () {
+                                cubit.showItemType(ShowItemType.bring);
+                              }),
+                          FilterButton(
+                              title: "Barang Terpasang",
+                              isActive:
+                                  state.showItemType == ShowItemType.installed
+                                      ? true
+                                      : false,
+                              onPressed: () {
+                                cubit.showItemType(ShowItemType.installed);
+                              }),
+                        ],
                       ),
-                      ListView.builder(
-                        shrinkWrap: true,
-                        physics: const NeverScrollableScrollPhysics(),
-                        itemCount: state.item.length,
-                        itemBuilder: (context, index) {
-                          var item = state.item[index];
-                          return Container(
-                              width: double.infinity,
-                              height: 80,
-                              decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(12)),
-                              child: Padding(
-                                  padding:
-                                      const EdgeInsets.symmetric(vertical: 4),
-                                  child: Row(children: [
-                                    Container(
-                                      padding: const EdgeInsets.all(12),
-                                      decoration: BoxDecoration(
-                                          shape: BoxShape.circle,
-                                          color: AppColor.appColor.primary),
-                                      child: Text(
-                                        (index + 1).toString(),
-                                        style: AppFont.whiteLarge(context),
-                                      ),
-                                    ),
-                                    const SizedBox(width: 20),
-                                    Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                          item.noProduct ?? "",
-                                          style: AppFont.largeBold(context),
-                                        ),
-                                        Text(
-                                          "IMEI ${item.imei} | SN ${item.noSn}",
-                                          style: AppFont.medium(context),
-                                        )
-                                      ],
-                                    ),
-                                    const Spacer(),
-                                    Container(
-                                        height: 30,
+                      (state.showItemType == ShowItemType.bring)
+                          ? ListView.builder(
+                              shrinkWrap: true,
+                              physics: const NeverScrollableScrollPhysics(),
+                              itemCount: state.item.length,
+                              itemBuilder: (context, index) {
+                                var item = state.item[index];
+                                return Container(
+                                    width: double.infinity,
+                                    height: 80,
+                                    decoration: BoxDecoration(
+                                        borderRadius:
+                                            BorderRadius.circular(12)),
+                                    child: Padding(
                                         padding: const EdgeInsets.symmetric(
-                                            horizontal: 12),
-                                        decoration: BoxDecoration(
-                                            borderRadius:
-                                                BorderRadius.circular(32),
-                                            color: AppColor.appColor.primary
-                                                .withOpacity(0.2)),
-                                        child: Center(
+                                            vertical: 4),
+                                        child: Row(children: [
+                                          Container(
+                                            padding: const EdgeInsets.all(12),
+                                            decoration: BoxDecoration(
+                                                shape: BoxShape.circle,
+                                                color:
+                                                    AppColor.appColor.primary),
                                             child: Text(
-                                                item.status?.toUpperCase() ??
-                                                    "",
+                                              (index + 1).toString(),
+                                              style:
+                                                  AppFont.whiteLarge(context),
+                                            ),
+                                          ),
+                                          const SizedBox(width: 20),
+                                          Column(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Text(
+                                                item.noProduct ?? "",
                                                 style:
-                                                    AppFont.whiteLarge(context)!
-                                                        .copyWith(
-                                                  fontWeight: FontWeight.bold,
-                                                  color:
-                                                      AppColor.appColor.primary,
-                                                ))))
-                                  ])));
-                        },
-                      )
+                                                    AppFont.largeBold(context),
+                                              ),
+                                              Text(
+                                                "IMEI ${item.imei} | SN ${item.noSn}",
+                                                style: AppFont.medium(context),
+                                              )
+                                            ],
+                                          ),
+                                          const Spacer(),
+                                          Container(
+                                              height: 30,
+                                              padding:
+                                                  const EdgeInsets.symmetric(
+                                                      horizontal: 12),
+                                              decoration: BoxDecoration(
+                                                  borderRadius:
+                                                      BorderRadius.circular(32),
+                                                  color: AppColor
+                                                      .appColor.primary
+                                                      .withOpacity(0.2)),
+                                              child: Center(
+                                                  child: Text(
+                                                      item.status
+                                                              ?.toUpperCase() ??
+                                                          "",
+                                                      style: AppFont.whiteLarge(
+                                                              context)!
+                                                          .copyWith(
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                        color: AppColor
+                                                            .appColor.primary,
+                                                      ))))
+                                        ])));
+                              },
+                            )
+                          : ListView.separated(
+                              padding: EdgeInsets.symmetric(vertical: 12),
+                              shrinkWrap: true,
+                              physics: NeverScrollableScrollPhysics(),
+                              separatorBuilder: (context, index) {
+                                return SizedBox(height: 12);
+                              },
+                              itemCount: state.listInstalationVehicle.length,
+                              itemBuilder: (context, index) {
+                                var instalation =
+                                    state.listInstalationVehicle[index];
+                                return Container(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 16, vertical: 12),
+                                  width: baseWidth,
+                                  decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      boxShadow: [
+                                        BoxShadow(
+                                          color: Colors.grey.withOpacity(0.5),
+                                          spreadRadius: 1,
+                                          blurRadius: 2,
+                                          offset: const Offset(0, 0),
+                                        ),
+                                      ],
+                                      borderRadius: BorderRadius.circular(8)),
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Row(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Text(
+                                                "Kendaraan ${instalation.vehicleName ?? ""}",
+                                                style:
+                                                    AppFont.mediumBold(context),
+                                              ),
+                                              Text(
+                                                instalation.created!
+                                                    .toddMMMyyyyHHmm(),
+                                                style: AppFont.small(context),
+                                              ),
+                                            ],
+                                          ),
+                                          Container(
+                                            padding: const EdgeInsets.symmetric(
+                                                horizontal: 10, vertical: 4),
+                                            decoration: BoxDecoration(
+                                                color: AppColor.appColor.warning
+                                                    .withOpacity(0.2),
+                                                borderRadius:
+                                                    BorderRadius.circular(4)),
+                                            child: Text(
+                                              instalation.status ?? "-",
+                                              style: AppFont.smallBold(context)!
+                                                  .copyWith(
+                                                      color: AppColor
+                                                          .appColor.warning),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                      const Divider(thickness: 1),
+                                      Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            "Nama Barang ${instalation.name ?? ""}",
+                                            style: AppFont.medium(context),
+                                            maxLines: 2,
+                                            overflow: TextOverflow.ellipsis,
+                                          ),
+                                          Text(
+                                            "Kode Barang ${instalation.noProduct ?? ""}",
+                                            style: AppFont.medium(context),
+                                            maxLines: 2,
+                                            overflow: TextOverflow.ellipsis,
+                                          ),
+                                          Text(
+                                            "Imei ${instalation.imei ?? ""}",
+                                            style: AppFont.medium(context),
+                                            maxLines: 1,
+                                            overflow: TextOverflow.ellipsis,
+                                          ),
+                                          Text(
+                                            "Serial Number ${instalation.noSn ?? ""}",
+                                            style: AppFont.medium(context),
+                                            maxLines: 3,
+                                            overflow: TextOverflow.ellipsis,
+                                          ),
+                                        ],
+                                      )
+                                    ],
+                                  ),
+                                );
+                              },
+                            ),
+                      SizedBox(height: 80)
                     ],
                   ),
                 ),

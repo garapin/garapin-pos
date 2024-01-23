@@ -18,4 +18,8 @@ class RouteNames {
 
   //product
   static const String createProduct = "/create_product";
+
+  //teknisi
+  static const String listItemInstalation = "/list_item_instalation";
+  static const String processInstalationItem = "/process_instalation_item";
 }

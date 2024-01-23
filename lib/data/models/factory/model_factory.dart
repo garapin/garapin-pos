@@ -1,9 +1,10 @@
 import 'dart:developer';
 import '../base/cart.dart';
+import '../base/instalation_vehicle.dart';
 import '../base/product.dart';
 import '../base/item.dart';
 import '../base/transaction.dart';
-import '../base/transaction_detail.dart';
+
 import '../base/transaction_item.dart';
 import '../base/user.dart';
 
@@ -19,12 +20,13 @@ Object factoryModel(String type, {Map<String, dynamic>? json}) {
       return json != null ? Transaction.fromJson(json) : Transaction();
     case 'Cart':
       return json != null ? Cart.fromJson(json) : Cart();
-    case 'TransactionDetail':
-      return json != null
-          ? TransactionDetail.fromJson(json)
-          : TransactionDetail();
+
     case 'TransactionItem':
       return json != null ? TransactionItem.fromJson(json) : TransactionItem();
+    case 'InstalationVehicle':
+      return json != null
+          ? InstalationVehicle.fromJson(json)
+          : InstalationVehicle();
     case 'dynamic':
       return json != null ? DefaultModel(json) : DefaultModel({});
     default:

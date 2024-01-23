@@ -38,7 +38,7 @@ class TransactionCard extends StatelessWidget {
                     style: AppFont.mediumBold(context),
                   ),
                   Text(
-                    data?.created!.toddMMMMyyyy() ?? "-",
+                    data?.created!.toddMMMyyyyHHmm() ?? "-",
                     style: AppFont.small(context),
                   ),
                 ],

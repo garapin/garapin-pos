@@ -2,9 +2,11 @@ import 'dart:developer';
 import 'dart:io';
 import 'package:abditrack_inventory/data/api/error_handler.dart';
 import 'package:abditrack_inventory/data/models/base/cart.dart';
+import 'package:abditrack_inventory/data/models/base/instalation_vehicle.dart';
 import 'package:abditrack_inventory/data/models/base/product.dart';
 import 'package:abditrack_inventory/data/models/base/item.dart';
 import 'package:abditrack_inventory/data/models/base/transaction.dart';
+import 'package:abditrack_inventory/data/models/base/transaction_item.dart';
 import 'package:abditrack_inventory/data/models/base/user.dart';
 import 'package:abditrack_inventory/engine/engine.dart';
 import 'package:device_info_plus/device_info_plus.dart';
@@ -222,18 +224,59 @@ class ApiService {
     required int id,
   }) async {
     return await ApiConfigure(context)
-        .get('/transaction/$id')
+        .get('transaction/$id')
         .then((result) => ApiResponse<Transaction>.fromJson(result.data))
         .handler((error) => ApiResponse<Transaction>.onError(error));
   }
 
-  static Future<ApiResponseList<Cart>> getTransactionItem(
+  static Future<ApiResponseList<TransactionItem>> getTransactionItem(
     BuildContext context, {
     required int id,
   }) async {
     return await ApiConfigure(context)
         .get('transaction/item/$id')
-        .then((result) => ApiResponseList<Cart>.fromJson(result.data))
-        .handler((error) => ApiResponseList<Cart>.onError(error));
+        .then(
+            (result) => ApiResponseList<TransactionItem>.fromJson(result.data))
+        .handler((error) => ApiResponseList<TransactionItem>.onError(error));
+  }
+
+  static Future<ApiResponse> instalationVehicleCreate(
+    BuildContext context, {
+    required List<String> instalationImages,
+    required List<int> idTransactionItem,
+    required List<int> idProductItem,
+    required int idMitra,
+    required String vehicleName,
+    required String vehicleNo,
+    required String odoMeter,
+    required String memory,
+  }) async {
+    return await ApiConfigure(context)
+        .post('instalation_vehicle/create', params: {
+          "id_transaction_item": idTransactionItem,
+          "id_product_item": idProductItem,
+          "id_mitra": idMitra,
+          "vehicle_name": vehicleName,
+          "vehicle_no": vehicleNo,
+          "odo_meter": odoMeter,
+          "memory": memory,
+          "instalation_images": instalationImages,
+          "created": DateTime.now().toString(),
+          "updated": DateTime.now().toString(),
+        })
+        .then((result) => ApiResponse.fromJson(result.data))
+        .handler((error) => ApiResponse.onError(error));
+  }
+
+  static Future<ApiResponseList<InstalationVehicle>>
+      getInsalationVehicleByIdTransaction(
+    BuildContext context, {
+    required int idTransaction,
+  }) async {
+    return await ApiConfigure(context)
+        .get('instalation_vehicle/$idTransaction')
+        .then((result) =>
+            ApiResponseList<InstalationVehicle>.fromJson(result.data))
+        .handler((error) => ApiResponseList<InstalationVehicle>.onError(error));
   }
 }
