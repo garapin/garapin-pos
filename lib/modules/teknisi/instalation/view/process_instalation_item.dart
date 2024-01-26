@@ -63,7 +63,7 @@ class ProcessInstalationItem extends StatelessWidget {
                       ),
                     ],
                   ),
-                  SizedBox(height: 20),
+                  const SizedBox(height: 20),
                   SizedBox(
                     child: ListView.builder(
                       shrinkWrap: true,
@@ -125,18 +125,21 @@ class ProcessInstalationItem extends StatelessWidget {
                       },
                     ),
                   ),
+                  ElevatedButton(
+                    onPressed: () {
+                      cubit.formKey.currentState!.save();
+                      cubit.pickImage();
+                    },
+                    child: const Text("Pilih Image"),
+                  ),
                   (state.pickedImage.isEmpty)
-                      ? TextButton(
-                          onPressed: () {
-                            cubit.pickImage();
-                          },
-                          child: Text("sada"))
+                      ? SizedBox()
                       : SizedBox(
                           width: baseWidth,
                           height: 120,
                           child: ListView.separated(
                             separatorBuilder: (context, index) {
-                              return SizedBox(width: 8);
+                              return const SizedBox(width: 8);
                             },
                             scrollDirection: Axis.horizontal,
                             shrinkWrap: true,
@@ -156,14 +159,15 @@ class ProcessInstalationItem extends StatelessWidget {
                             },
                           ),
                         ),
-                  SizedBox(height: 50),
+                  const SizedBox(height: 50),
                   SizedBox(
                       height: 45,
                       child: ElevatedButton(
                           onPressed: () {
                             cubit.doSubmit();
                           },
-                          child: const Text("Simpan")))
+                          child: const Text("Simpan"))),
+                  SizedBox(height: 20)
                 ],
               ),
             ),

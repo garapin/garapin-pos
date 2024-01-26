@@ -22,4 +22,6 @@ class RouteNames {
   //teknisi
   static const String listItemInstalation = "/list_item_instalation";
   static const String processInstalationItem = "/process_instalation_item";
+
+  static const String installedVehicle = "/installed_vehicle";
 }

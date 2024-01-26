@@ -1,8 +1,11 @@
+import 'package:abditrack_inventory/engine/configs/environment.dart';
 import 'package:abditrack_inventory/resources/resources.dart';
 import 'package:abditrack_inventory/widgets/components/image_load.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import '../../../data/models/base/product.dart';
 import '../../../engine/base/app.dart';
+import '../../../routes/routes.dart';
 import '../../../themes/themes.dart';
 import '../../../widgets/components/custom_button.dart';
 
@@ -14,7 +17,9 @@ class ProductCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return CustomButton(
       borderRadius: BorderRadius.circular(16),
-      onPressed: () {},
+      onPressed: () {
+        context.pushNamed(RouteNames.productDetail, extra: catalog.id);
+      },
       child: Card(
         color: (catalog.quantity! < 1) ? Colors.white.withOpacity(0.6) : null,
         elevation: 2,
@@ -29,7 +34,8 @@ class ProductCard extends StatelessWidget {
               child: ClipRRect(
                   borderRadius: BorderRadius.circular(12),
                   child: ImageLoad(
-                      imageUrl: "image url",
+                      imageUrl:
+                          Environment.showUrlImage(path: catalog.image ?? ""),
                       fit: BoxFit.cover,
                       errorWidget:
                           Resources.images.armor.image(color: Colors.grey))),
@@ -50,7 +56,7 @@ class ProductCard extends StatelessWidget {
                   Text(
                     (catalog.quantity! < 1)
                         ? "Stok Habis"
-                        : catalog.quantity.toString(),
+                        : "jumlah barang ${catalog.quantity.toString()}",
                     style: Theme.of(context).textTheme.bodyMedium,
                   ),
                   const SizedBox(height: 8),

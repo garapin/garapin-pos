@@ -77,7 +77,10 @@ class ListTransactionTeknisiPage extends StatelessWidget {
                             child: CustomButton(
                               onPressed: () {
                                 context.pushNamed(RouteNames.detailTransaction,
-                                    extra: state.listTransaction[index].id);
+                                    extra: {
+                                      "id_transaction":
+                                          state.listTransaction[index].id
+                                    });
                               },
                               child: TransactionCard(
                                 data: state.listTransaction[index],

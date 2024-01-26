@@ -1,4 +1,5 @@
 import 'package:abditrack_inventory/data/models/base/cart.dart';
+import 'package:abditrack_inventory/data/models/base/instalation_vehicle.dart';
 import 'package:abditrack_inventory/data/models/base/transaction_item.dart';
 import 'package:abditrack_inventory/modules/add_product/cubit/add_product_cubit.dart';
 import 'package:abditrack_inventory/modules/add_product/view/add_product.dart';
@@ -11,6 +12,8 @@ import 'package:abditrack_inventory/modules/catalog/cubit/catalog_cubit.dart';
 import 'package:abditrack_inventory/modules/create_product/cubit/create_product_cubit.dart';
 import 'package:abditrack_inventory/modules/create_product/view/create_product.dart';
 import 'package:abditrack_inventory/modules/dashboard/dashboard.dart';
+import 'package:abditrack_inventory/modules/installed_vehicle/cubit/installed_vehicle_cubit.dart';
+import 'package:abditrack_inventory/modules/installed_vehicle/view/installed_vehicle.dart';
 import 'package:abditrack_inventory/modules/product_detail/cubit/product_detail_cubit.dart';
 import 'package:abditrack_inventory/modules/product_detail/view/product_detail.dart';
 import 'package:abditrack_inventory/modules/profile/cubit/profile_cubit.dart';
@@ -204,8 +207,8 @@ class Routes implements RouterInterface {
           return MultiBlocProvider(
             providers: [
               BlocProvider(
-                create: (ctx) =>
-                    DetailTransactionCubit(ctx, state.extra as int),
+                create: (ctx) => DetailTransactionCubit(
+                    ctx, state.extra as Map<String, dynamic>),
               ),
             ],
             child: const DetailTransactionPage(),
@@ -267,6 +270,21 @@ class Routes implements RouterInterface {
               ),
             ],
             child: const ProcessInstalationItem(),
+          );
+        },
+      ),
+      GoRoute(
+        name: RouteNames.installedVehicle,
+        path: RouteNames.installedVehicle,
+        builder: (ctx, GoRouterState state) {
+          return MultiBlocProvider(
+            providers: [
+              BlocProvider(
+                create: (ctx) => InstalledVehicleCubit(
+                    ctx, state.extra as Map<String, dynamic>),
+              ),
+            ],
+            child: InstalledVehicle(),
           );
         },
       ),

@@ -1,8 +1,11 @@
+import 'package:abditrack_inventory/modules/installed_vehicle/cubit/installed_vehicle_cubit.dart';
 import 'package:abditrack_inventory/modules/product_detail/cubit/product_detail_cubit.dart';
 import 'package:abditrack_inventory/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import '../../../engine/helpers/options.dart';
+import '../../../routes/routes.dart';
 import '../../../themes/themes.dart';
 
 class ProductDetailPage extends StatelessWidget {
@@ -77,6 +80,14 @@ class ProductDetailPage extends StatelessWidget {
                         isActive: cubit.statusController.text == "OUT"
                             ? true
                             : false),
+                    FilterButton(
+                        onPressed: () {
+                          cubit.statusProduct("INSTALLED");
+                        },
+                        title: 'INSTALLED',
+                        isActive: cubit.statusController.text == "INSTALLED"
+                            ? true
+                            : false),
                   ],
                 ),
               ),
@@ -100,9 +111,18 @@ class ProductDetailPage extends StatelessWidget {
                   child: ListView.builder(
                     itemCount: state.product.length,
                     itemBuilder: (context, index) {
+                      var item = state.product[index];
                       return CustomButton(
                         borderRadius: BorderRadius.circular(16),
-                        onPressed: () {},
+                        onPressed: () {
+                          if (item.status == "INSTALLED") {
+                            context.pushNamed(RouteNames.installedVehicle,
+                                extra: {
+                                  "id": item.id,
+                                  "type": TypeInstalledBy.idProductItem
+                                });
+                          }
+                        },
                         child: Container(
                           width: double.infinity,
                           height: 80,

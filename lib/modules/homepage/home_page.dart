@@ -24,8 +24,8 @@ class HomePage extends StatelessWidget {
               color: Colors.blue,
               title: 'Daftarkan Produk',
               subtitle: 'Daftarkan produk baru',
-              total: '10',
-              icon: Icons.store,
+              total: '',
+              icon: Icons.add,
             ),
             const SizedBox(height: 4),
             InItemWidget(
@@ -36,7 +36,7 @@ class HomePage extends StatelessWidget {
               color: Colors.green,
               title: 'Barang Masuk',
               subtitle: 'Input barang masuk',
-              total: '210',
+              total: '',
             ),
             const SizedBox(height: 4),
             InItemWidget(
@@ -47,7 +47,7 @@ class HomePage extends StatelessWidget {
               color: Colors.red,
               title: 'Barang Keluar',
               subtitle: 'Input barang keluar',
-              total: '1000',
+              total: '',
             ),
             InItemWidget(
               icon: Icons.people,

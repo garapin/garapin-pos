@@ -1,18 +1,20 @@
 import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
-
 import 'package:abditrack_inventory/data/api/services.dart';
 import 'package:abditrack_inventory/data/models/base/transaction_item.dart';
 import 'package:abditrack_inventory/engine/engine.dart';
-import 'package:bloc/bloc.dart';
+import 'package:abditrack_inventory/engine/helpers/compressed_base64.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:go_router/go_router.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:permission_handler/permission_handler.dart';
 
-import '../../../../data/models/base/cart.dart';
+import '../../../../engine/helpers/image_watermark.dart';
 
 part 'process_instalation_item_state.dart';
 part 'process_instalation_item_cubit.freezed.dart';
@@ -28,6 +30,7 @@ class ProcessInstalationItemCubit
   @override
   Future<void> initData() async {
     loadingState();
+    locationPermission();
     emit(state.copyWith(status: DataStateStatus.success, item: listItem));
     finishRefresh(state.status);
   }
@@ -50,20 +53,33 @@ class ProcessInstalationItemCubit
   }
 
   saveImageList(List<XFile> pickedImage) async {
-    log(pickedImage.toString());
+    showLoading(message: "Memproses image");
+    formKey.currentState!.save();
+    String coordinates = await getCurrentLocation();
     List<String> base64ImageList = [];
     for (var i = 0; i < pickedImage.length; i++) {
       File imageFile = File(pickedImage[i].path);
-      List<int> imageBytes = imageFile.readAsBytesSync();
-      var base64Image = base64Encode(imageBytes);
+
+      Uint8List compressedImageBytes = await compressImage(imageFile);
+
+      // Add watermark to compressed image
+      String watermarkText =
+          "${DateTime.now().toddMMMyyyyHHmm()} \nPemasangan ${formKey.currentState!.value["vehicle_name"]}|${formKey.currentState!.value["vehicle_no"]}\n$coordinates\nVerified Armory";
+      Uint8List watermarkedImageBytes =
+          await addWatermarkToImage(compressedImageBytes, watermarkText);
+
+/////harus di compress lagi
       String prefix =
-          "data:image/${pickedImage[i].path.split(".").last};base64,$base64Image}";
+          "data:image/${pickedImage[i].path.split(".").last};base64,${base64Encode(watermarkedImageBytes)}";
       base64ImageList.add(prefix);
     }
+    dismissLoading();
+
     emit(state.copyWith(listBase64: base64ImageList));
   }
 
   doSubmit() async {
+    showLoading(message: "Sedang upload image");
     formKey.currentState!.save();
     List<int> listIdTransactionItem =
         state.item.map((cart) => cart.id!).toList();
@@ -86,5 +102,27 @@ class ProcessInstalationItemCubit
     } else {
       showError(data.message);
     }
+    dismissLoading();
+  }
+
+  Future<String> getCurrentLocation() async {
+    try {
+      Position position = await Geolocator.getCurrentPosition(
+        desiredAccuracy: LocationAccuracy.high,
+      );
+      return "${position.latitude} ${position.longitude}";
+    } catch (e) {
+      return "unknown coordinates";
+    }
+  }
+
+  locationPermission() async {
+    PermissionStatus permission = await Permission.location.request();
+    log(permission.name.toString());
+    if (permission.isDenied) {
+      await Permission.location.request();
+      showError("ijin lokasi belum di ijinkan");
+      context.pop();
+    } else if (permission.isGranted) {}
   }
 }

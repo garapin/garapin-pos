@@ -8,7 +8,6 @@ class DetailTransactionState with _$DetailTransactionState {
     @Default([]) List<TransactionItem> item,
     Transaction? transaction,
     @Default([]) List<InstalationVehicle> listInstalationVehicle,
-    @Default(ShowImageType.instalation) ShowImageType showImageType,
     @Default(ShowItemType.bring) ShowItemType showItemType,
   }) = _DetailTransactionState;
 }

@@ -22,7 +22,6 @@ mixin _$DetailTransactionState {
   Transaction? get transaction => throw _privateConstructorUsedError;
   List<InstalationVehicle> get listInstalationVehicle =>
       throw _privateConstructorUsedError;
-  ShowImageType get showImageType => throw _privateConstructorUsedError;
   ShowItemType get showItemType => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
@@ -42,7 +41,6 @@ abstract class $DetailTransactionStateCopyWith<$Res> {
       List<TransactionItem> item,
       Transaction? transaction,
       List<InstalationVehicle> listInstalationVehicle,
-      ShowImageType showImageType,
       ShowItemType showItemType});
 }
 
@@ -65,7 +63,6 @@ class _$DetailTransactionStateCopyWithImpl<$Res,
     Object? item = null,
     Object? transaction = freezed,
     Object? listInstalationVehicle = null,
-    Object? showImageType = null,
     Object? showItemType = null,
   }) {
     return _then(_value.copyWith(
@@ -89,10 +86,6 @@ class _$DetailTransactionStateCopyWithImpl<$Res,
           ? _value.listInstalationVehicle
           : listInstalationVehicle // ignore: cast_nullable_to_non_nullable
               as List<InstalationVehicle>,
-      showImageType: null == showImageType
-          ? _value.showImageType
-          : showImageType // ignore: cast_nullable_to_non_nullable
-              as ShowImageType,
       showItemType: null == showItemType
           ? _value.showItemType
           : showItemType // ignore: cast_nullable_to_non_nullable
@@ -116,7 +109,6 @@ abstract class _$$DetailTransactionStateImplCopyWith<$Res>
       List<TransactionItem> item,
       Transaction? transaction,
       List<InstalationVehicle> listInstalationVehicle,
-      ShowImageType showImageType,
       ShowItemType showItemType});
 }
 
@@ -138,7 +130,6 @@ class __$$DetailTransactionStateImplCopyWithImpl<$Res>
     Object? item = null,
     Object? transaction = freezed,
     Object? listInstalationVehicle = null,
-    Object? showImageType = null,
     Object? showItemType = null,
   }) {
     return _then(_$DetailTransactionStateImpl(
@@ -162,10 +153,6 @@ class __$$DetailTransactionStateImplCopyWithImpl<$Res>
           ? _value._listInstalationVehicle
           : listInstalationVehicle // ignore: cast_nullable_to_non_nullable
               as List<InstalationVehicle>,
-      showImageType: null == showImageType
-          ? _value.showImageType
-          : showImageType // ignore: cast_nullable_to_non_nullable
-              as ShowImageType,
       showItemType: null == showItemType
           ? _value.showItemType
           : showItemType // ignore: cast_nullable_to_non_nullable
@@ -183,7 +170,6 @@ class _$DetailTransactionStateImpl implements _DetailTransactionState {
       final List<TransactionItem> item = const [],
       this.transaction,
       final List<InstalationVehicle> listInstalationVehicle = const [],
-      this.showImageType = ShowImageType.instalation,
       this.showItemType = ShowItemType.bring})
       : _item = item,
         _listInstalationVehicle = listInstalationVehicle;
@@ -216,14 +202,11 @@ class _$DetailTransactionStateImpl implements _DetailTransactionState {
 
   @override
   @JsonKey()
-  final ShowImageType showImageType;
-  @override
-  @JsonKey()
   final ShowItemType showItemType;
 
   @override
   String toString() {
-    return 'DetailTransactionState(status: $status, err: $err, item: $item, transaction: $transaction, listInstalationVehicle: $listInstalationVehicle, showImageType: $showImageType, showItemType: $showItemType)';
+    return 'DetailTransactionState(status: $status, err: $err, item: $item, transaction: $transaction, listInstalationVehicle: $listInstalationVehicle, showItemType: $showItemType)';
   }
 
   @override
@@ -238,8 +221,6 @@ class _$DetailTransactionStateImpl implements _DetailTransactionState {
                 other.transaction == transaction) &&
             const DeepCollectionEquality().equals(
                 other._listInstalationVehicle, _listInstalationVehicle) &&
-            (identical(other.showImageType, showImageType) ||
-                other.showImageType == showImageType) &&
             (identical(other.showItemType, showItemType) ||
                 other.showItemType == showItemType));
   }
@@ -252,7 +233,6 @@ class _$DetailTransactionStateImpl implements _DetailTransactionState {
       const DeepCollectionEquality().hash(_item),
       transaction,
       const DeepCollectionEquality().hash(_listInstalationVehicle),
-      showImageType,
       showItemType);
 
   @JsonKey(ignore: true)
@@ -270,7 +250,6 @@ abstract class _DetailTransactionState implements DetailTransactionState {
       final List<TransactionItem> item,
       final Transaction? transaction,
       final List<InstalationVehicle> listInstalationVehicle,
-      final ShowImageType showImageType,
       final ShowItemType showItemType}) = _$DetailTransactionStateImpl;
 
   @override
@@ -283,8 +262,6 @@ abstract class _DetailTransactionState implements DetailTransactionState {
   Transaction? get transaction;
   @override
   List<InstalationVehicle> get listInstalationVehicle;
-  @override
-  ShowImageType get showImageType;
   @override
   ShowItemType get showItemType;
   @override

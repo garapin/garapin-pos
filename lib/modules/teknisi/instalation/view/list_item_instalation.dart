@@ -1,5 +1,4 @@
 import 'dart:developer';
-
 import 'package:abditrack_inventory/modules/teknisi/instalation/cubit/list_item_instalation_cubit.dart';
 import 'package:abditrack_inventory/routes/routes.dart';
 import 'package:abditrack_inventory/widgets/widgets.dart';
@@ -18,23 +17,27 @@ class ListItemInstalation extends StatelessWidget {
     final cubit = context.read<ListItemInstalationCubit>();
     return Scaffold(
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      floatingActionButton: FloatingActionButton.extended(
-          onPressed: () {
-            if (cubit.sendSelectedListCart().isEmpty) {
-              ShowNotify.error(context,
-                  msg: "Belum pilih barang yang akan di pasang pada kendaraan");
-            } else {
-              context.pushNamed(RouteNames.processInstalationItem,
-                  extra: cubit.sendSelectedListCart());
-            }
-          },
-          label: Container(
-              width: 300,
-              child: Center(
-                  child: Text(
-                "PASANG",
-                style: AppFont.whiteLarge(context),
-              )))),
+      floatingActionButton: Padding(
+        padding: const EdgeInsets.only(bottom: 20),
+        child: FloatingActionButton.extended(
+            onPressed: () {
+              if (cubit.sendSelectedListCart().isEmpty) {
+                ShowNotify.error(context,
+                    msg:
+                        "Belum pilih barang yang akan di pasang pada kendaraan");
+              } else {
+                context.pushNamed(RouteNames.processInstalationItem,
+                    extra: cubit.sendSelectedListCart());
+              }
+            },
+            label: SizedBox(
+                width: 300,
+                child: Center(
+                    child: Text(
+                  "PASANG",
+                  style: AppFont.whiteLarge(context),
+                )))),
+      ),
       appBar: AppBar(
         title: const Text("Pilih Barang dan dipasang"),
       ),
@@ -52,7 +55,11 @@ class ListItemInstalation extends StatelessWidget {
                 return CustomButton(
                   borderRadius: BorderRadius.circular(16),
                   onPressed: () {
-                    cubit.selectedItem(state.item[index]);
+                    if (state.item[index].status == "OUT") {
+                      cubit.selectedItem(state.item[index]);
+                    } else {
+                      ShowNotify.error(context, msg: "Barang sudah terpasang");
+                    }
                   },
                   child: Container(
                     width: baseWidth,

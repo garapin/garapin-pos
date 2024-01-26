@@ -37,7 +37,7 @@ class ApiInterceptors extends InterceptorsWrapper {
     log('=================Request=================');
     log('${options.method.toUpperCase()} ${options.uri} ${options.path}');
     log('Header => ${options.headers}');
-    log('Parameter => ${options.queryParameters}');
+    log('Parameter => ${options.extra}'); //extra, queryparam
     log('Data => $data');
     log('============R==E==Q==U==E==S==T===========');
     super.onRequest(options, handler);

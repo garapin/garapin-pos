@@ -70,7 +70,10 @@ class ListTransactionPage extends StatelessWidget {
                             child: CustomButton(
                               onPressed: () {
                                 context.pushNamed(RouteNames.detailTransaction,
-                                    extra: state.listTransaction[index].id);
+                                    extra: {
+                                      "id_transaction":
+                                          state.listTransaction[index].id
+                                    });
                               },
                               child: TransactionCard(
                                 data: state.listTransaction[index],
@@ -131,6 +134,18 @@ class FilterTransaction extends StatelessWidget {
               },
               title: 'Batal',
               isActive: status == "CANCELLED" ? true : false),
+          FilterButton(
+              onPressed: () {
+                cubit.changeStatus("REQUEST");
+              },
+              title: 'Permintaan Keluar',
+              isActive: status == "REQUEST" ? true : false),
+          FilterButton(
+              onPressed: () {
+                cubit.changeStatus("REQUEST_RETURN");
+              },
+              title: 'Permintaan Retur',
+              isActive: status == "REQUEST_RETURN" ? true : false),
         ],
       ),
     );

@@ -103,7 +103,10 @@ class CatalogCubit extends BaseCubit<CatalogState> {
 
   Future<void> filterStatus(String statusProduct) async {
     statusFilter.text = statusProduct;
-    initData(search: searchController.text, statusProduct: statusProduct);
+    initData(
+        search: searchController.text,
+        statusProduct: statusProduct,
+        sort: sortProduct.text);
   }
 
   Future<void> sort(String sort) async {

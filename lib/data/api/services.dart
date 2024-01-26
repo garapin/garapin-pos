@@ -279,4 +279,54 @@ class ApiService {
             ApiResponseList<InstalationVehicle>.fromJson(result.data))
         .handler((error) => ApiResponseList<InstalationVehicle>.onError(error));
   }
+
+  static Future<ApiResponseList<InstalationVehicle>>
+      getInsalationVehicleByVehicleNo(
+    BuildContext context, {
+    required int vehicleNo,
+  }) async {
+    return await ApiConfigure(context)
+        .get('instalation_vehicle/vehicle/$vehicleNo')
+        .then((result) =>
+            ApiResponseList<InstalationVehicle>.fromJson(result.data))
+        .handler((error) => ApiResponseList<InstalationVehicle>.onError(error));
+  }
+
+  static Future<ApiResponseList<InstalationVehicle>>
+      getInsalationVehicleByItemId(BuildContext context,
+          {required int idProductItem}) async {
+    return await ApiConfigure(context)
+        .get('instalation_vehicle/item/$idProductItem')
+        .then((result) =>
+            ApiResponseList<InstalationVehicle>.fromJson(result.data))
+        .handler((error) => ApiResponseList<InstalationVehicle>.onError(error));
+  }
+
+  static Future<ApiResponse> transactionUpdateStatus(
+    BuildContext context, {
+    required int idTransaction,
+    required String status,
+  }) async {
+    return await ApiConfigure(context)
+        .post('transaction/update_status',
+            params: {"id_transaction": idTransaction, "status": status})
+        .then((result) => ApiResponse.fromJson(result.data))
+        .handler((error) => ApiResponse.onError(error));
+  }
+
+  static Future<ApiResponse> transactionUpdateStatusReturn(BuildContext context,
+      {required List<int> listIdItem,
+      required int idTransaction,
+      required String statusItem,
+      required String statusTransaction}) async {
+    return await ApiConfigure(context)
+        .post('transaction/update_status_return', params: {
+          "list_id_item": listIdItem,
+          "id_transaction": idTransaction,
+          "status_item": statusItem,
+          "status_transaction": statusTransaction
+        })
+        .then((result) => ApiResponse.fromJson(result.data))
+        .handler((error) => ApiResponse.onError(error));
+  }
 }

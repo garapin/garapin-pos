@@ -253,11 +253,13 @@ class CatalogPage extends StatelessWidget {
                                                             12),
                                                     child: ImageLoad(
                                                         imageUrl: Environment
-                                                                .baseUrl() +
-                                                            state.catalog[index]
-                                                                .image
-                                                                .toString(),
-                                                        fit: BoxFit.contain,
+                                                            .showUrlImage(
+                                                                path: state
+                                                                        .catalog[
+                                                                            index]
+                                                                        .image ??
+                                                                    ""),
+                                                        fit: BoxFit.cover,
                                                         errorWidget: Resources
                                                             .images.armor
                                                             .image(
