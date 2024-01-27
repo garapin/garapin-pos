@@ -8,6 +8,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import '../../../engine/helpers/options.dart';
 import '../../../resources/resources.dart';
+import '../../../widgets/components/empty_widget_image.dart';
 import '../cubit/catalog_cubit.dart';
 
 class CatalogPage extends StatelessWidget {
@@ -183,7 +184,10 @@ class CatalogPage extends StatelessWidget {
                     enablePullUp: state.canLoadMore,
                   ),
                   status: state.status,
-                  emptyOptions: EmptyOptions(empty: "Produk Kosong"),
+                  emptyOptions: EmptyOptions(
+                      customEmpty: const EmptyImageData(
+                    text: "Produk Kosong",
+                  )),
                   loading: const Center(
                     child: CircularProgressIndicator(),
                   ),
@@ -275,8 +279,7 @@ class CatalogPage extends StatelessWidget {
                                                 children: [
                                                   Text(
                                                     state.catalog[index].name!
-                                                            .toUpperCase() ??
-                                                        "",
+                                                        .toUpperCase(),
                                                     style: AppFont.largeBold(
                                                         context),
                                                   ),

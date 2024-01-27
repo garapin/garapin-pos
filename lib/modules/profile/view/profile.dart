@@ -26,6 +26,7 @@ class ProfilePage extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
+                  SizedBox(height: 20),
                   Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -46,7 +47,7 @@ class ProfilePage extends StatelessWidget {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            const SizedBox(height: 12),
+                            const SizedBox(height: 8),
                             Text(
                               state.user?.username?.toUpperCase() ?? "",
                               style: AppFont.largeBold(context)
@@ -71,14 +72,52 @@ class ProfilePage extends StatelessWidget {
                       )
                     ],
                   ),
+                  SizedBox(height: 35),
                   ListTile(
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(8)),
+                    tileColor: Colors.grey.withOpacity(0.1),
+                    onTap: () {},
+                    title: Text(
+                      "Syarat & ketentuan",
+                      style: AppFont.large(context),
+                    ),
+                    trailing: const Icon(Icons.safety_check),
+                  ),
+                  SizedBox(height: 16),
+                  ListTile(
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12)),
+                    tileColor: Colors.grey.withOpacity(0.1),
+                    onTap: () {},
+                    title: Text(
+                      "Tentang Armory",
+                      style: AppFont.large(context),
+                    ),
+                    trailing: const Icon(Icons.info),
+                  ),
+                  SizedBox(height: 16),
+                  ListTile(
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(8)),
+                    tileColor: Colors.grey.withOpacity(0.1),
                     onTap: () {
                       Sessions.clear().then((value) {
                         context.go(RouteNames.root);
                       });
                     },
-                    title: const Text("Keluar"),
+                    title: Text(
+                      "Keluar",
+                      style: AppFont.large(context),
+                    ),
                     trailing: const Icon(Icons.logout),
+                  ),
+                  SizedBox(height: 20),
+                  Center(
+                    child: Text(
+                      "Versi ${state.version}",
+                      style: AppFont.largeBold(context),
+                    ),
                   )
                 ],
               ),

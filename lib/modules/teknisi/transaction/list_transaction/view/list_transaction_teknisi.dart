@@ -7,6 +7,7 @@ import 'package:go_router/go_router.dart';
 
 import '../../../../../engine/helpers/options.dart';
 import '../../../../../routes/routes.dart';
+import '../../../../../widgets/components/empty_widget_image.dart';
 
 class ListTransactionTeknisiPage extends StatelessWidget {
   const ListTransactionTeknisiPage({super.key});
@@ -62,6 +63,10 @@ class ListTransactionTeknisiPage extends StatelessWidget {
                   loading: const Center(
                     child: CircularProgressIndicator(),
                   ),
+                  emptyOptions: EmptyOptions(
+                      customEmpty: const EmptyImageData(
+                    text: "Data Transaksi Kosong",
+                  )),
                   child: SingleChildScrollView(
                     child: Padding(
                       padding: const EdgeInsets.symmetric(
@@ -141,6 +146,18 @@ class FilterTransaksiTeknisi extends StatelessWidget {
               },
               title: 'Batal',
               isActive: status == "CANCELLED" ? true : false),
+          FilterButton(
+              onPressed: () {
+                cubit.changeStatus("REQUEST");
+              },
+              title: 'Permintaan Keluar',
+              isActive: status == "REQUEST" ? true : false),
+          FilterButton(
+              onPressed: () {
+                cubit.changeStatus("REQUEST_RETURN");
+              },
+              title: 'Permintaan Retur',
+              isActive: status == "REQUEST_RETURN" ? true : false),
         ],
       ),
     );

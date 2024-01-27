@@ -3,6 +3,7 @@ import '../base/cart.dart';
 import '../base/instalation_vehicle.dart';
 import '../base/product.dart';
 import '../base/item.dart';
+import '../base/rules_scan.dart';
 import '../base/transaction.dart';
 
 import '../base/transaction_item.dart';
@@ -14,6 +15,8 @@ Object factoryModel(String type, {Map<String, dynamic>? json}) {
       return json != null ? User.fromJson(json) : User();
     case 'Product':
       return json != null ? Product.fromJson(json) : Product();
+    case 'RulesScan':
+      return json != null ? RulesScan.fromJson(json) : RulesScan();
     case 'Item':
       return json != null ? Item.fromJson(json) : Item();
     case 'Transaction':

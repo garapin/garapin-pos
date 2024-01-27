@@ -9,35 +9,22 @@
 
 import 'package:flutter/widgets.dart';
 
-class $AssetsIconsGen {
-  const $AssetsIconsGen();
-
-  /// File path: assets/icons/car-steering-wheel.png
-  AssetGenImage get carSteeringWheel =>
-      const AssetGenImage('assets/icons/car-steering-wheel.png');
-
-  /// File path: assets/icons/ic-face-recognition.png
-  AssetGenImage get icFaceRecognition =>
-      const AssetGenImage('assets/icons/ic-face-recognition.png');
-
-  /// List of all assets
-  List<AssetGenImage> get values => [carSteeringWheel, icFaceRecognition];
-}
-
 class $AssetsImagesGen {
   const $AssetsImagesGen();
 
   /// File path: assets/images/armor.png
   AssetGenImage get armor => const AssetGenImage('assets/images/armor.png');
 
+  /// File path: assets/images/box.png
+  AssetGenImage get box => const AssetGenImage('assets/images/box.png');
+
   /// List of all assets
-  List<AssetGenImage> get values => [armor];
+  List<AssetGenImage> get values => [armor, box];
 }
 
 class Assets {
   Assets._();
 
-  static const $AssetsIconsGen icons = $AssetsIconsGen();
   static const $AssetsImagesGen images = $AssetsImagesGen();
 }
 

@@ -6,5 +6,6 @@ class ProfileState with _$ProfileState {
     @Default(DataStateStatus.initial) DataStateStatus status,
     String? err,
     User? user,
+    String? version,
   }) = _ProfileState;
 }

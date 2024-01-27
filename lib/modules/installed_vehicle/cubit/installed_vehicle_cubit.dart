@@ -1,5 +1,6 @@
 import 'package:abditrack_inventory/data/api/response.dart';
 import 'package:abditrack_inventory/data/api/services.dart';
+import 'package:abditrack_inventory/data/models/base/item.dart';
 import 'package:abditrack_inventory/engine/engine.dart';
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
@@ -32,8 +33,7 @@ class InstalledVehicleCubit extends BaseCubit<InstalledVehicleState> {
 
     if (data.isSuccess) {
       if (data.data.isEmpty) {
-        emit(state.copyWith(
-            status: DataStateStatus.empty, instalationVehicle: data.data));
+        emit(state.copyWith(status: DataStateStatus.empty));
       } else {
         emit(state.copyWith(
             status: DataStateStatus.success, instalationVehicle: data.data));

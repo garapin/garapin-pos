@@ -24,6 +24,11 @@ class DashboardTeknisiPage extends StatelessWidget {
               BottomNavigation(
                 items: [
                   BottomNavigationItemData(
+                      label: 'Beranda',
+                      icon: const Icon(Icons.home),
+                      activeIcon:
+                          Icon(Icons.home, color: AppColor.appColor.primary)),
+                  BottomNavigationItemData(
                       label: 'Transaksi',
                       icon: const Icon(Icons.outbond),
                       activeIcon: Icon(Icons.outbond,

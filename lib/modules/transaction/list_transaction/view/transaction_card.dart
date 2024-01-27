@@ -1,5 +1,6 @@
 import 'package:abditrack_inventory/data/models/base/transaction.dart';
 import 'package:abditrack_inventory/engine/engine.dart';
+import 'package:abditrack_inventory/engine/helpers/color_status.dart';
 import 'package:abditrack_inventory/themes/themes.dart';
 import 'package:flutter/material.dart';
 
@@ -47,12 +48,14 @@ class TransactionCard extends StatelessWidget {
                 padding:
                     const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
                 decoration: BoxDecoration(
-                    color: AppColor.appColor.warning.withOpacity(0.2),
+                    color: statusTransactionColor(data?.statusTransaction ?? "")
+                        .withOpacity(0.2),
                     borderRadius: BorderRadius.circular(4)),
                 child: Text(
                   data?.statusTransaction ?? "-",
-                  style: AppFont.smallBold(context)!
-                      .copyWith(color: AppColor.appColor.warning),
+                  style: AppFont.smallBold(context)!.copyWith(
+                      color: statusTransactionColor(
+                          data?.statusTransaction ?? "")),
                 ),
               ),
             ],

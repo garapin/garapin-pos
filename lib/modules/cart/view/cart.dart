@@ -2,6 +2,7 @@ import 'dart:developer';
 import 'package:abditrack_inventory/engine/base/app.dart';
 import 'package:abditrack_inventory/modules/cart/cubit/cart_cubit.dart';
 import 'package:abditrack_inventory/modules/create_product/view/create_product.dart';
+import 'package:abditrack_inventory/widgets/components/empty_widget_image.dart';
 import 'package:abditrack_inventory/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -29,6 +30,7 @@ class CartPage extends StatelessWidget {
             onRefresh: cubit.refreshData,
           ),
           status: state.status,
+          emptyOptions: EmptyOptions(customEmpty: EmptyImageData()),
           loading: const Center(
             child: CircularProgressIndicator(),
           ),

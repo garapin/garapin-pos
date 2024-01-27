@@ -5,6 +5,7 @@ import 'package:abditrack_inventory/data/models/base/cart.dart';
 import 'package:abditrack_inventory/data/models/base/instalation_vehicle.dart';
 import 'package:abditrack_inventory/data/models/base/product.dart';
 import 'package:abditrack_inventory/data/models/base/item.dart';
+import 'package:abditrack_inventory/data/models/base/rules_scan.dart';
 import 'package:abditrack_inventory/data/models/base/transaction.dart';
 import 'package:abditrack_inventory/data/models/base/transaction_item.dart';
 import 'package:abditrack_inventory/data/models/base/user.dart';
@@ -111,16 +112,30 @@ class ApiService {
       {required String name,
       required String codeProduct,
       required String desc,
+      required String scanImei,
+      required String scanSn,
       required String base64}) async {
     return await ApiConfigure(context)
         .post('product/create', params: {
           "name": name,
           "code_product": codeProduct,
           "description": desc,
-          "image": base64
+          "image": base64,
+          "scan_imei": scanImei,
+          "scan_sn": scanSn,
         })
         .then((result) => ApiResponse.fromJson(result.data))
         .handler((error) => ApiResponse.onError(error));
+  }
+
+  static Future<ApiResponse<RulesScan>> checkRulesScanProduct(
+    BuildContext context, {
+    required String codeProduct,
+  }) async {
+    return await ApiConfigure(context)
+        .post('product/check_rules_scan', params: {"code_product": codeProduct})
+        .then((result) => ApiResponse<RulesScan>.fromJson(result.data))
+        .handler((error) => ApiResponse<RulesScan>.onError(error));
   }
 
   static Future<ApiResponseList<Item>> getAllItem(

@@ -8,6 +8,8 @@ class AddToCartState with _$AddToCartState {
     String? noProduct,
     String? imei,
     String? noSn,
-    TypeScan? typeScan,
+    @Default(TypeScan.noProduct) TypeScan typeScan,
+    RulesScan? rulesScan,
+    @Default([]) List<Cart> cart,
   }) = _AddToCartState;
 }

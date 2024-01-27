@@ -8,10 +8,12 @@ import 'package:abditrack_inventory/modules/add_to_cart/view/add_to_cart.dart';
 import 'package:abditrack_inventory/modules/auth/login/cubit/login_cubit.dart';
 import 'package:abditrack_inventory/modules/auth/login/view/login.dart';
 import 'package:abditrack_inventory/modules/cart/cubit/cart_cubit.dart';
+import 'package:abditrack_inventory/modules/cart/view/cart.dart';
 import 'package:abditrack_inventory/modules/catalog/cubit/catalog_cubit.dart';
 import 'package:abditrack_inventory/modules/create_product/cubit/create_product_cubit.dart';
 import 'package:abditrack_inventory/modules/create_product/view/create_product.dart';
 import 'package:abditrack_inventory/modules/dashboard/dashboard.dart';
+import 'package:abditrack_inventory/modules/homepage/cubit/homepage_cubit.dart';
 import 'package:abditrack_inventory/modules/installed_vehicle/cubit/installed_vehicle_cubit.dart';
 import 'package:abditrack_inventory/modules/installed_vehicle/view/installed_vehicle.dart';
 import 'package:abditrack_inventory/modules/product_detail/cubit/product_detail_cubit.dart';
@@ -36,6 +38,7 @@ import 'package:go_router/go_router.dart';
 import '../modules/splash/cubit/splash_cubit.dart';
 import '../modules/splash/views/splash_page.dart';
 import '../modules/teknisi/dashboard_teknisi/dashboard_teknisi.dart';
+import '../modules/teknisi/homepage_teknisi/cubit/home_page_teknisi_cubit.dart';
 import '../widgets/components/unknown_page.dart';
 
 part 'route_names.dart';
@@ -76,6 +79,9 @@ class Routes implements RouterInterface {
                 create: (ctx) => DashboardCubit(ctx),
               ),
               BlocProvider(
+                create: (ctx) => HomepageCubit(ctx),
+              ),
+              BlocProvider(
                 create: (context) => CatalogCubit(context),
               ),
               BlocProvider(
@@ -95,6 +101,9 @@ class Routes implements RouterInterface {
         builder: (ctx, GoRouterState state) {
           return MultiBlocProvider(
             providers: [
+              BlocProvider(
+                create: (context) => HomePageTeknisiCubit(ctx),
+              ),
               BlocProvider(
                 create: (context) => ProfileCubit(ctx),
               ),
@@ -127,6 +136,20 @@ class Routes implements RouterInterface {
               ),
             ],
             child: const ProductDetailPage(),
+          );
+        },
+      ),
+      GoRoute(
+        name: RouteNames.cart,
+        path: RouteNames.cart,
+        builder: (ctx, GoRouterState state) {
+          return MultiBlocProvider(
+            providers: [
+              BlocProvider(
+                create: (ctx) => CartCubit(ctx),
+              ),
+            ],
+            child: const CartPage(),
           );
         },
       ),

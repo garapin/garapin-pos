@@ -5,6 +5,7 @@ class InstalledVehicleState with _$InstalledVehicleState {
   const factory InstalledVehicleState({
     @Default(DataStateStatus.initial) DataStateStatus status,
     @Default([]) List<InstalationVehicle> instalationVehicle,
+    @Default([]) List<Item> listItem,
     String? err,
   }) = _InstalledVehicleState;
 }

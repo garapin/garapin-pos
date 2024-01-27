@@ -21,7 +21,8 @@ mixin _$AddProductState {
   String? get noProduct => throw _privateConstructorUsedError;
   String? get imei => throw _privateConstructorUsedError;
   String? get noSn => throw _privateConstructorUsedError;
-  TypeScan? get typeScan => throw _privateConstructorUsedError;
+  TypeScan get typeScan => throw _privateConstructorUsedError;
+  RulesScan? get rulesScan => throw _privateConstructorUsedError;
   List<Product> get filterCatalog => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
@@ -41,7 +42,8 @@ abstract class $AddProductStateCopyWith<$Res> {
       String? noProduct,
       String? imei,
       String? noSn,
-      TypeScan? typeScan,
+      TypeScan typeScan,
+      RulesScan? rulesScan,
       List<Product> filterCatalog});
 }
 
@@ -63,7 +65,8 @@ class _$AddProductStateCopyWithImpl<$Res, $Val extends AddProductState>
     Object? noProduct = freezed,
     Object? imei = freezed,
     Object? noSn = freezed,
-    Object? typeScan = freezed,
+    Object? typeScan = null,
+    Object? rulesScan = freezed,
     Object? filterCatalog = null,
   }) {
     return _then(_value.copyWith(
@@ -87,10 +90,14 @@ class _$AddProductStateCopyWithImpl<$Res, $Val extends AddProductState>
           ? _value.noSn
           : noSn // ignore: cast_nullable_to_non_nullable
               as String?,
-      typeScan: freezed == typeScan
+      typeScan: null == typeScan
           ? _value.typeScan
           : typeScan // ignore: cast_nullable_to_non_nullable
-              as TypeScan?,
+              as TypeScan,
+      rulesScan: freezed == rulesScan
+          ? _value.rulesScan
+          : rulesScan // ignore: cast_nullable_to_non_nullable
+              as RulesScan?,
       filterCatalog: null == filterCatalog
           ? _value.filterCatalog
           : filterCatalog // ignore: cast_nullable_to_non_nullable
@@ -113,7 +120,8 @@ abstract class _$$AddProductStateImplCopyWith<$Res>
       String? noProduct,
       String? imei,
       String? noSn,
-      TypeScan? typeScan,
+      TypeScan typeScan,
+      RulesScan? rulesScan,
       List<Product> filterCatalog});
 }
 
@@ -133,7 +141,8 @@ class __$$AddProductStateImplCopyWithImpl<$Res>
     Object? noProduct = freezed,
     Object? imei = freezed,
     Object? noSn = freezed,
-    Object? typeScan = freezed,
+    Object? typeScan = null,
+    Object? rulesScan = freezed,
     Object? filterCatalog = null,
   }) {
     return _then(_$AddProductStateImpl(
@@ -157,10 +166,14 @@ class __$$AddProductStateImplCopyWithImpl<$Res>
           ? _value.noSn
           : noSn // ignore: cast_nullable_to_non_nullable
               as String?,
-      typeScan: freezed == typeScan
+      typeScan: null == typeScan
           ? _value.typeScan
           : typeScan // ignore: cast_nullable_to_non_nullable
-              as TypeScan?,
+              as TypeScan,
+      rulesScan: freezed == rulesScan
+          ? _value.rulesScan
+          : rulesScan // ignore: cast_nullable_to_non_nullable
+              as RulesScan?,
       filterCatalog: null == filterCatalog
           ? _value._filterCatalog
           : filterCatalog // ignore: cast_nullable_to_non_nullable
@@ -178,7 +191,8 @@ class _$AddProductStateImpl implements _AddProductState {
       this.noProduct,
       this.imei,
       this.noSn,
-      this.typeScan,
+      this.typeScan = TypeScan.noProduct,
+      this.rulesScan,
       final List<Product> filterCatalog = const []})
       : _filterCatalog = filterCatalog;
 
@@ -194,7 +208,10 @@ class _$AddProductStateImpl implements _AddProductState {
   @override
   final String? noSn;
   @override
-  final TypeScan? typeScan;
+  @JsonKey()
+  final TypeScan typeScan;
+  @override
+  final RulesScan? rulesScan;
   final List<Product> _filterCatalog;
   @override
   @JsonKey()
@@ -206,7 +223,7 @@ class _$AddProductStateImpl implements _AddProductState {
 
   @override
   String toString() {
-    return 'AddProductState(status: $status, error: $error, noProduct: $noProduct, imei: $imei, noSn: $noSn, typeScan: $typeScan, filterCatalog: $filterCatalog)';
+    return 'AddProductState(status: $status, error: $error, noProduct: $noProduct, imei: $imei, noSn: $noSn, typeScan: $typeScan, rulesScan: $rulesScan, filterCatalog: $filterCatalog)';
   }
 
   @override
@@ -222,13 +239,23 @@ class _$AddProductStateImpl implements _AddProductState {
             (identical(other.noSn, noSn) || other.noSn == noSn) &&
             (identical(other.typeScan, typeScan) ||
                 other.typeScan == typeScan) &&
+            (identical(other.rulesScan, rulesScan) ||
+                other.rulesScan == rulesScan) &&
             const DeepCollectionEquality()
                 .equals(other._filterCatalog, _filterCatalog));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, status, error, noProduct, imei,
-      noSn, typeScan, const DeepCollectionEquality().hash(_filterCatalog));
+  int get hashCode => Object.hash(
+      runtimeType,
+      status,
+      error,
+      noProduct,
+      imei,
+      noSn,
+      typeScan,
+      rulesScan,
+      const DeepCollectionEquality().hash(_filterCatalog));
 
   @JsonKey(ignore: true)
   @override
@@ -245,7 +272,8 @@ abstract class _AddProductState implements AddProductState {
       final String? noProduct,
       final String? imei,
       final String? noSn,
-      final TypeScan? typeScan,
+      final TypeScan typeScan,
+      final RulesScan? rulesScan,
       final List<Product> filterCatalog}) = _$AddProductStateImpl;
 
   @override
@@ -259,7 +287,9 @@ abstract class _AddProductState implements AddProductState {
   @override
   String? get noSn;
   @override
-  TypeScan? get typeScan;
+  TypeScan get typeScan;
+  @override
+  RulesScan? get rulesScan;
   @override
   List<Product> get filterCatalog;
   @override

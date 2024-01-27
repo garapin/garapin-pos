@@ -19,6 +19,7 @@ mixin _$ProfileState {
   DataStateStatus get status => throw _privateConstructorUsedError;
   String? get err => throw _privateConstructorUsedError;
   User? get user => throw _privateConstructorUsedError;
+  String? get version => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $ProfileStateCopyWith<ProfileState> get copyWith =>
@@ -31,7 +32,7 @@ abstract class $ProfileStateCopyWith<$Res> {
           ProfileState value, $Res Function(ProfileState) then) =
       _$ProfileStateCopyWithImpl<$Res, ProfileState>;
   @useResult
-  $Res call({DataStateStatus status, String? err, User? user});
+  $Res call({DataStateStatus status, String? err, User? user, String? version});
 }
 
 /// @nodoc
@@ -50,6 +51,7 @@ class _$ProfileStateCopyWithImpl<$Res, $Val extends ProfileState>
     Object? status = null,
     Object? err = freezed,
     Object? user = freezed,
+    Object? version = freezed,
   }) {
     return _then(_value.copyWith(
       status: null == status
@@ -64,6 +66,10 @@ class _$ProfileStateCopyWithImpl<$Res, $Val extends ProfileState>
           ? _value.user
           : user // ignore: cast_nullable_to_non_nullable
               as User?,
+      version: freezed == version
+          ? _value.version
+          : version // ignore: cast_nullable_to_non_nullable
+              as String?,
     ) as $Val);
   }
 }
@@ -76,7 +82,7 @@ abstract class _$$ProfileStateImplCopyWith<$Res>
       __$$ProfileStateImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({DataStateStatus status, String? err, User? user});
+  $Res call({DataStateStatus status, String? err, User? user, String? version});
 }
 
 /// @nodoc
@@ -93,6 +99,7 @@ class __$$ProfileStateImplCopyWithImpl<$Res>
     Object? status = null,
     Object? err = freezed,
     Object? user = freezed,
+    Object? version = freezed,
   }) {
     return _then(_$ProfileStateImpl(
       status: null == status
@@ -107,6 +114,10 @@ class __$$ProfileStateImplCopyWithImpl<$Res>
           ? _value.user
           : user // ignore: cast_nullable_to_non_nullable
               as User?,
+      version: freezed == version
+          ? _value.version
+          : version // ignore: cast_nullable_to_non_nullable
+              as String?,
     ));
   }
 }
@@ -115,7 +126,10 @@ class __$$ProfileStateImplCopyWithImpl<$Res>
 
 class _$ProfileStateImpl implements _ProfileState {
   const _$ProfileStateImpl(
-      {this.status = DataStateStatus.initial, this.err, this.user});
+      {this.status = DataStateStatus.initial,
+      this.err,
+      this.user,
+      this.version});
 
   @override
   @JsonKey()
@@ -124,10 +138,12 @@ class _$ProfileStateImpl implements _ProfileState {
   final String? err;
   @override
   final User? user;
+  @override
+  final String? version;
 
   @override
   String toString() {
-    return 'ProfileState(status: $status, err: $err, user: $user)';
+    return 'ProfileState(status: $status, err: $err, user: $user, version: $version)';
   }
 
   @override
@@ -137,11 +153,12 @@ class _$ProfileStateImpl implements _ProfileState {
             other is _$ProfileStateImpl &&
             (identical(other.status, status) || other.status == status) &&
             (identical(other.err, err) || other.err == err) &&
-            (identical(other.user, user) || other.user == user));
+            (identical(other.user, user) || other.user == user) &&
+            (identical(other.version, version) || other.version == version));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, status, err, user);
+  int get hashCode => Object.hash(runtimeType, status, err, user, version);
 
   @JsonKey(ignore: true)
   @override
@@ -154,7 +171,8 @@ abstract class _ProfileState implements ProfileState {
   const factory _ProfileState(
       {final DataStateStatus status,
       final String? err,
-      final User? user}) = _$ProfileStateImpl;
+      final User? user,
+      final String? version}) = _$ProfileStateImpl;
 
   @override
   DataStateStatus get status;
@@ -162,6 +180,8 @@ abstract class _ProfileState implements ProfileState {
   String? get err;
   @override
   User? get user;
+  @override
+  String? get version;
   @override
   @JsonKey(ignore: true)
   _$$ProfileStateImplCopyWith<_$ProfileStateImpl> get copyWith =>

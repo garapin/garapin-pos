@@ -59,7 +59,14 @@ class CreateProductCubit extends BaseCubit<CreateProductState> {
         name: formKey.currentState?.value['name'] ?? "",
         codeProduct: formKey.currentState?.value['code_product'] ?? "",
         desc: formKey.currentState?.value['description'] ?? "",
-        base64: base64Image);
+        base64: base64Image,
+        scanImei:
+            (formKey.currentState!.value["scan_imei"].toString() == "true")
+                ? "YES"
+                : "NO",
+        scanSn: (formKey.currentState!.value["scan_sn"].toString() == "true")
+            ? "YES"
+            : "NO");
     if (data.isSuccess) {
       context.pop();
       showSuccess(data.message);

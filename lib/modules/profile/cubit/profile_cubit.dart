@@ -1,8 +1,8 @@
 import 'package:abditrack_inventory/data/api/services.dart';
 import 'package:abditrack_inventory/engine/engine.dart';
-import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 
 import '../../../data/models/base/user.dart';
 
@@ -15,6 +15,7 @@ class ProfileCubit extends BaseCubit<ProfileState> {
   @override
   Future<void> initData() async {
     loadingState();
+    getVersion();
     final data = await ApiService.getUserId(context);
     if (data.isSuccess) {
       emit(state.copyWith(status: DataStateStatus.success, user: data.data));
@@ -29,4 +30,9 @@ class ProfileCubit extends BaseCubit<ProfileState> {
 
   @override
   Future<void> refreshData() => initData();
+
+  getVersion() async {
+    PackageInfo info = await PackageInfo.fromPlatform();
+    emit(state.copyWith(version: "${info.version}+${info.buildNumber}"));
+  }
 }

@@ -1,5 +1,6 @@
 import 'dart:developer';
 import 'package:abditrack_inventory/modules/profile/view/profile.dart';
+import 'package:abditrack_inventory/modules/teknisi/homepage_teknisi/view/homepage_teknisi.dart';
 import 'package:flutter/material.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import '../../../../engine/base/base_cubit.dart';
@@ -15,7 +16,7 @@ class DashboardTeknisiCubit extends BaseCubit<DashboardTeknisiState> {
       : super(
           context,
           const DashboardTeknisiState(
-              currentScreen: ListTransactionTeknisiPage(), currentTab: 0),
+              currentScreen: HomePageTeknisiPage(), currentTab: 0),
         );
 
   void onClickProduct() {}
@@ -36,5 +37,9 @@ class DashboardTeknisiCubit extends BaseCubit<DashboardTeknisiState> {
   @override
   Future<void> refreshData() async {}
 
-  final listScreen = [ListTransactionTeknisiPage(), ProfilePage()];
+  final listScreen = [
+    HomePageTeknisiPage(),
+    ListTransactionTeknisiPage(),
+    ProfilePage()
+  ];
 }

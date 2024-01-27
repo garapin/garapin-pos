@@ -10,7 +10,8 @@ class AddProductState with _$AddProductState {
     String? noProduct,
     String? imei,
     String? noSn,
-    TypeScan? typeScan,
+    @Default(TypeScan.noProduct) TypeScan typeScan,
+    RulesScan? rulesScan,
     @Default([]) List<Product> filterCatalog,
   }) = _AddProductState;
 }

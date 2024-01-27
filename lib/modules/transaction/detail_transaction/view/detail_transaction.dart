@@ -1,5 +1,7 @@
+import 'package:abditrack_inventory/data/models/base/item.dart';
 import 'package:abditrack_inventory/engine/engine.dart';
 import 'package:abditrack_inventory/modules/installed_vehicle/cubit/installed_vehicle_cubit.dart';
+import 'package:abditrack_inventory/modules/product_detail/view/product_detail.dart';
 import 'package:abditrack_inventory/modules/transaction/detail_transaction/cubit/detail_transaction_cubit.dart';
 import 'package:abditrack_inventory/modules/transaction/detail_transaction/widget/full_image_network.dart';
 import 'package:abditrack_inventory/routes/routes.dart';
@@ -8,6 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../../../engine/helpers/color_status.dart';
 import '../../../../themes/themes.dart';
 import '../../../../widgets/components/empty_image.dart';
 
@@ -105,12 +108,12 @@ class DetailTransactionPage extends StatelessWidget {
                                 )),
                               ));
                         } else {
-                          return SizedBox();
+                          return const SizedBox();
                         }
                       },
                     );
                   } else {
-                    return SizedBox();
+                    return const SizedBox();
                   }
                 },
               ),
@@ -171,15 +174,19 @@ class DetailTransactionPage extends StatelessWidget {
                         padding: const EdgeInsets.symmetric(
                             horizontal: 10, vertical: 4),
                         decoration: BoxDecoration(
-                            color: AppColor.appColor.warning.withOpacity(0.2),
+                            color: statusTransactionColor(
+                                    state.transaction?.statusTransaction ?? "")
+                                .withOpacity(0.2),
                             borderRadius: BorderRadius.circular(4)),
                         child: Text(
                           state.transaction?.statusTransaction ?? "-",
-                          style: AppFont.smallBold(context)!
-                              .copyWith(color: AppColor.appColor.warning),
+                          style: AppFont.smallBold(context)!.copyWith(
+                            color: statusTransactionColor(
+                                state.transaction?.statusTransaction ?? ""),
+                          ),
                         ),
                       ),
-                      SizedBox(height: 4),
+                      const SizedBox(height: 4),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
@@ -282,84 +289,23 @@ class DetailTransactionPage extends StatelessWidget {
                               itemBuilder: (context, index) {
                                 var item = state.item[index];
                                 return InkWell(
-                                  onTap: () {
-                                    context.pushNamed(
-                                        RouteNames.installedVehicle,
-                                        extra: {
-                                          "id": item.idProductItem,
-                                          "type": TypeInstalledBy.idProductItem
-                                        });
-                                  },
-                                  child: Container(
-                                      width: double.infinity,
-                                      height: 80,
-                                      decoration: BoxDecoration(
-                                          borderRadius:
-                                              BorderRadius.circular(12)),
-                                      child: Padding(
-                                          padding: const EdgeInsets.symmetric(
-                                              vertical: 4),
-                                          child: Row(children: [
-                                            Container(
-                                              padding: const EdgeInsets.all(12),
-                                              decoration: BoxDecoration(
-                                                  shape: BoxShape.circle,
-                                                  color: AppColor
-                                                      .appColor.primary),
-                                              child: Text(
-                                                (index + 1).toString(),
-                                                style:
-                                                    AppFont.whiteLarge(context),
-                                              ),
-                                            ),
-                                            const SizedBox(width: 20),
-                                            Column(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.center,
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: [
-                                                Text(
-                                                  item.noProduct ?? "",
-                                                  style: AppFont.largeBold(
-                                                      context),
-                                                ),
-                                                Text(
-                                                  "IMEI ${item.imei} | SN ${item.noSn}",
-                                                  style:
-                                                      AppFont.medium(context),
-                                                )
-                                              ],
-                                            ),
-                                            const Spacer(),
-                                            Container(
-                                                height: 30,
-                                                padding:
-                                                    const EdgeInsets.symmetric(
-                                                        horizontal: 12),
-                                                decoration: BoxDecoration(
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            32),
-                                                    color: AppColor
-                                                        .appColor.primary
-                                                        .withOpacity(0.2)),
-                                                child: Center(
-                                                    child: Text(
-                                                        item.status
-                                                                ?.toUpperCase() ??
-                                                            "",
-                                                        style:
-                                                            AppFont.whiteLarge(
-                                                                    context)!
-                                                                .copyWith(
-                                                          fontWeight:
-                                                              FontWeight.bold,
-                                                          color: AppColor
-                                                              .appColor.primary,
-                                                        ))))
-                                          ]))),
-                                );
+                                    onTap: () {
+                                      context.pushNamed(
+                                          RouteNames.installedVehicle,
+                                          extra: {
+                                            "id": item.idProductItem,
+                                            "type":
+                                                TypeInstalledBy.idProductItem
+                                          });
+                                    },
+                                    child: ItemWidget(
+                                        item: Item(
+                                            noProduct: item.noProduct ?? "",
+                                            name: item.name?.toUpperCase()??"",
+                                            imei: item.imei,
+                                            noSn: item.noSn,
+                                            status: item.status),
+                                        index: index));
                               },
                             )
                           : ListView.separated(

@@ -19,6 +19,7 @@ mixin _$InstalledVehicleState {
   DataStateStatus get status => throw _privateConstructorUsedError;
   List<InstalationVehicle> get instalationVehicle =>
       throw _privateConstructorUsedError;
+  List<Item> get listItem => throw _privateConstructorUsedError;
   String? get err => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
@@ -35,6 +36,7 @@ abstract class $InstalledVehicleStateCopyWith<$Res> {
   $Res call(
       {DataStateStatus status,
       List<InstalationVehicle> instalationVehicle,
+      List<Item> listItem,
       String? err});
 }
 
@@ -54,6 +56,7 @@ class _$InstalledVehicleStateCopyWithImpl<$Res,
   $Res call({
     Object? status = null,
     Object? instalationVehicle = null,
+    Object? listItem = null,
     Object? err = freezed,
   }) {
     return _then(_value.copyWith(
@@ -65,6 +68,10 @@ class _$InstalledVehicleStateCopyWithImpl<$Res,
           ? _value.instalationVehicle
           : instalationVehicle // ignore: cast_nullable_to_non_nullable
               as List<InstalationVehicle>,
+      listItem: null == listItem
+          ? _value.listItem
+          : listItem // ignore: cast_nullable_to_non_nullable
+              as List<Item>,
       err: freezed == err
           ? _value.err
           : err // ignore: cast_nullable_to_non_nullable
@@ -85,6 +92,7 @@ abstract class _$$InstalledVehicleStateImplCopyWith<$Res>
   $Res call(
       {DataStateStatus status,
       List<InstalationVehicle> instalationVehicle,
+      List<Item> listItem,
       String? err});
 }
 
@@ -102,6 +110,7 @@ class __$$InstalledVehicleStateImplCopyWithImpl<$Res>
   $Res call({
     Object? status = null,
     Object? instalationVehicle = null,
+    Object? listItem = null,
     Object? err = freezed,
   }) {
     return _then(_$InstalledVehicleStateImpl(
@@ -113,6 +122,10 @@ class __$$InstalledVehicleStateImplCopyWithImpl<$Res>
           ? _value._instalationVehicle
           : instalationVehicle // ignore: cast_nullable_to_non_nullable
               as List<InstalationVehicle>,
+      listItem: null == listItem
+          ? _value._listItem
+          : listItem // ignore: cast_nullable_to_non_nullable
+              as List<Item>,
       err: freezed == err
           ? _value.err
           : err // ignore: cast_nullable_to_non_nullable
@@ -127,8 +140,10 @@ class _$InstalledVehicleStateImpl implements _InstalledVehicleState {
   const _$InstalledVehicleStateImpl(
       {this.status = DataStateStatus.initial,
       final List<InstalationVehicle> instalationVehicle = const [],
+      final List<Item> listItem = const [],
       this.err})
-      : _instalationVehicle = instalationVehicle;
+      : _instalationVehicle = instalationVehicle,
+        _listItem = listItem;
 
   @override
   @JsonKey()
@@ -143,12 +158,21 @@ class _$InstalledVehicleStateImpl implements _InstalledVehicleState {
     return EqualUnmodifiableListView(_instalationVehicle);
   }
 
+  final List<Item> _listItem;
+  @override
+  @JsonKey()
+  List<Item> get listItem {
+    if (_listItem is EqualUnmodifiableListView) return _listItem;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_listItem);
+  }
+
   @override
   final String? err;
 
   @override
   String toString() {
-    return 'InstalledVehicleState(status: $status, instalationVehicle: $instalationVehicle, err: $err)';
+    return 'InstalledVehicleState(status: $status, instalationVehicle: $instalationVehicle, listItem: $listItem, err: $err)';
   }
 
   @override
@@ -159,12 +183,17 @@ class _$InstalledVehicleStateImpl implements _InstalledVehicleState {
             (identical(other.status, status) || other.status == status) &&
             const DeepCollectionEquality()
                 .equals(other._instalationVehicle, _instalationVehicle) &&
+            const DeepCollectionEquality().equals(other._listItem, _listItem) &&
             (identical(other.err, err) || other.err == err));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, status,
-      const DeepCollectionEquality().hash(_instalationVehicle), err);
+  int get hashCode => Object.hash(
+      runtimeType,
+      status,
+      const DeepCollectionEquality().hash(_instalationVehicle),
+      const DeepCollectionEquality().hash(_listItem),
+      err);
 
   @JsonKey(ignore: true)
   @override
@@ -178,12 +207,15 @@ abstract class _InstalledVehicleState implements InstalledVehicleState {
   const factory _InstalledVehicleState(
       {final DataStateStatus status,
       final List<InstalationVehicle> instalationVehicle,
+      final List<Item> listItem,
       final String? err}) = _$InstalledVehicleStateImpl;
 
   @override
   DataStateStatus get status;
   @override
   List<InstalationVehicle> get instalationVehicle;
+  @override
+  List<Item> get listItem;
   @override
   String? get err;
   @override

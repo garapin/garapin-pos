@@ -17,6 +17,8 @@ class Item {
   int? id;
   @JsonKey(name: "id_product")
   int? idProduct;
+  @JsonKey(name: "name")
+  String? name;
   @JsonKey(name: "imei")
   String? imei;
   @JsonKey(name: "no_sn")
@@ -35,6 +37,7 @@ class Item {
   Item({
     this.id,
     this.idProduct,
+    this.name,
     this.imei,
     this.noSn,
     this.noProduct,

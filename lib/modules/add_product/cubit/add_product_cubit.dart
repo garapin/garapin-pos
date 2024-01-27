@@ -1,5 +1,6 @@
 import 'package:abditrack_inventory/data/api/services.dart';
 import 'package:abditrack_inventory/data/models/base/product.dart';
+import 'package:abditrack_inventory/data/models/base/rules_scan.dart';
 import 'package:abditrack_inventory/engine/engine.dart';
 import 'package:flutter/material.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
@@ -28,7 +29,9 @@ class AddProductCubit extends BaseCubit<AddProductState> {
   void doSubmit() async {
     showLoading();
     final data = await ApiService.addItem(context,
-        imei: state.imei, noSn: state.noSn, noProduct: state.noProduct);
+        imei: (state.rulesScan?.scanImei == "YES") ? state.imei : "",
+        noSn: (state.rulesScan?.scanSn == "YES") ? state.noSn : "",
+        noProduct: state.noProduct);
     if (data.isSuccess) {
       showSuccess(data.message);
     } else {
@@ -39,20 +42,34 @@ class AddProductCubit extends BaseCubit<AddProductState> {
   }
 
   void doScanv2(String result) {
-    if (state.typeScan == null) {
-      showError("Pilih Scan dahulu");
-    } else {
-      if (state.typeScan == TypeScan.imei) {
-        emit(state.copyWith(imei: result));
-      } else if (state.typeScan == TypeScan.noProduct) {
-        emit(state.copyWith(noProduct: result));
-      } else if (state.typeScan == TypeScan.sn) {
-        emit(state.copyWith(noSn: result));
-      }
+    // if (state.typeScan == null) {
+    //   showError("Pilih Scan dahulu");
+    // } else {
+    if (state.typeScan == TypeScan.imei) {
+      emit(state.copyWith(imei: result));
+    } else if (state.typeScan == TypeScan.noProduct) {
+      emit(state.copyWith(noProduct: result));
+    } else if (state.typeScan == TypeScan.sn) {
+      emit(state.copyWith(noSn: result));
     }
+    // }
   }
 
   void changeTypeScan(TypeScan typeScan) {
     emit(state.copyWith(typeScan: typeScan));
+  }
+
+  void checkRulesScan(String codeProduct) async {
+    final data = await ApiService.checkRulesScanProduct(context,
+        codeProduct: codeProduct);
+    if (data.isSuccess) {
+      emit(state.copyWith(rulesScan: data.data));
+      // showSuccess(
+      //     "rules scan produk ini imei ${data.data?.scanImei} dan sn ${data.data?.scanSn}");
+    } else {
+      emit(
+          state.copyWith(rulesScan: RulesScan(scanImei: "YES", scanSn: "YES")));
+      // showError("rules tidak ditemukan, isi imei dan sn");
+    }
   }
 }

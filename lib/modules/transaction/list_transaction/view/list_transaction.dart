@@ -1,5 +1,7 @@
 import 'package:abditrack_inventory/modules/transaction/list_transaction/cubit/list_transaction_cubit.dart';
+import 'package:abditrack_inventory/resources/resources.dart';
 import 'package:abditrack_inventory/routes/routes.dart';
+import 'package:abditrack_inventory/widgets/components/empty_widget_image.dart';
 import 'package:abditrack_inventory/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -52,6 +54,10 @@ class ListTransactionPage extends StatelessWidget {
                     controller: cubit.refreshController,
                     onRefresh: cubit.refreshData,
                   ),
+                  emptyOptions: EmptyOptions(
+                      customEmpty: const EmptyImageData(
+                    text: "Data Transaksi Kosong",
+                  )),
                   loading: const Center(
                     child: CircularProgressIndicator(),
                   ),
@@ -61,7 +67,7 @@ class ListTransactionPage extends StatelessWidget {
                           horizontal: 20, vertical: 0),
                       child: ListView.builder(
                         shrinkWrap: true,
-                        physics: NeverScrollableScrollPhysics(),
+                        physics: const NeverScrollableScrollPhysics(),
                         itemCount: state.listTransaction.length,
                         itemBuilder: (BuildContext context, int index) {
                           return Padding(

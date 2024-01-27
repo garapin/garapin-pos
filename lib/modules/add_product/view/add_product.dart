@@ -24,7 +24,7 @@ class AddProductPage extends StatelessWidget {
       body: BlocBuilder<AddProductCubit, AddProductState>(
         builder: (context, state) {
           return ContainerStateHandler(
-            loading: Center(
+            loading: const Center(
               child: CircularProgressIndicator(),
             ),
             status: state.status,
@@ -90,6 +90,9 @@ class AddProductPage extends StatelessWidget {
                             final Uint8List? image = capture.image;
                             // Timer.periodic(Duration(seconds: 3), (t) {
                             for (final barcode in barcodes) {
+                              if (state.typeScan == TypeScan.noProduct) {
+                                cubit.checkRulesScan(barcode.rawValue!);
+                              }
                               log("data ditemukan ${barcode.rawValue}");
                               cubit.doScanv2(barcode.rawValue!);
                             }
@@ -99,25 +102,43 @@ class AddProductPage extends StatelessWidget {
                       ),
                     ),
                     const SizedBox(height: 10),
-                    ResultScanWidget(
-                      onPressed: () => cubit.changeTypeScan(TypeScan.sn),
-                      data: 'SN ${state.noSn ?? ""}',
-                      isActive: state.typeScan == TypeScan.sn ? true : false,
-                    ),
-                    const SizedBox(height: 12),
-                    ResultScanWidget(
-                      isActive: state.typeScan == TypeScan.imei ? true : false,
-                      onPressed: () => cubit.changeTypeScan(TypeScan.imei),
-                      data: 'IMEI ${state.imei ?? ""}',
-                    ),
-                    const SizedBox(height: 12),
+
                     ResultScanWidget(
                       isActive:
                           state.typeScan == TypeScan.noProduct ? true : false,
-                      onPressed: () => cubit.changeTypeScan(TypeScan.noProduct),
+                      onPressed: () {
+                        cubit.changeTypeScan(TypeScan.noProduct);
+                      },
                       data: 'NO PRODUCT ${state.noProduct ?? ""}',
                     ),
-                    SizedBox(height: 30),
+                    const SizedBox(height: 12),
+                    (state.rulesScan == null)
+                        ? const SizedBox()
+                        : (state.rulesScan?.scanSn == "NO")
+                            ? const SizedBox()
+                            : ResultScanWidget(
+                                onPressed: () =>
+                                    cubit.changeTypeScan(TypeScan.sn),
+                                data: 'SN ${state.noSn ?? ""}',
+                                isActive: state.typeScan == TypeScan.sn
+                                    ? true
+                                    : false,
+                              ),
+                    const SizedBox(height: 12),
+                    (state.rulesScan == null)
+                        ? const SizedBox()
+                        : (state.rulesScan?.scanImei == "NO")
+                            ? const SizedBox()
+                            : ResultScanWidget(
+                                isActive: state.typeScan == TypeScan.imei
+                                    ? true
+                                    : false,
+                                onPressed: () =>
+                                    cubit.changeTypeScan(TypeScan.imei),
+                                data: 'IMEI ${state.imei ?? ""}',
+                              ),
+
+                    const SizedBox(height: 30),
                     Container(
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(36)),
@@ -127,7 +148,7 @@ class AddProductPage extends StatelessWidget {
                           borderRadius: BorderRadius.circular(36),
                           child: ElevatedButton(
                               onPressed: () => cubit.doSubmit(),
-                              child: Text("Simpan")),
+                              child: const Text("Simpan")),
                         ))
                   ],
                 ),
@@ -165,7 +186,7 @@ class ResultScanWidget extends StatelessWidget {
             borderRadius: BorderRadius.circular(32)),
         child: Container(
           decoration: BoxDecoration(
-              color: isActive ? AppColor.appColor.primary : Colors.white,
+              color: isActive ? AppColor.appColor.success : Colors.white,
               borderRadius: BorderRadius.circular(32)),
           child: Center(
             child: Text(

@@ -2,11 +2,13 @@ import 'dart:developer';
 import 'package:abditrack_inventory/engine/engine.dart';
 import 'package:abditrack_inventory/modules/add_product/cubit/add_product_cubit.dart';
 import 'package:abditrack_inventory/modules/add_to_cart/cubit/add_to_cart_cubit.dart';
+import 'package:abditrack_inventory/routes/routes.dart';
 import 'package:abditrack_inventory/themes/themes.dart';
 import 'package:abditrack_inventory/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
 
 class AddToCartPage extends StatelessWidget {
@@ -57,24 +59,40 @@ class AddToCartPage extends StatelessWidget {
                     ),
                     const SizedBox(height: 10),
                     ResultScanWidget(
-                      onPressed: () => cubit.changeTypeScan(TypeScan.sn),
-                      data: 'SN ${state.noSn ?? ""}',
-                      isActive: state.typeScan == TypeScan.sn ? true : false,
-                    ),
-                    const SizedBox(height: 12),
-                    ResultScanWidget(
-                      isActive: state.typeScan == TypeScan.imei ? true : false,
-                      onPressed: () => cubit.changeTypeScan(TypeScan.imei),
-                      data: 'IMEI ${state.imei ?? ""}',
-                    ),
-                    const SizedBox(height: 12),
-                    ResultScanWidget(
                       isActive:
                           state.typeScan == TypeScan.noProduct ? true : false,
-                      onPressed: () => cubit.changeTypeScan(TypeScan.noProduct),
+                      onPressed: () {
+                        cubit.changeTypeScan(TypeScan.noProduct);
+                      },
                       data: 'NO PRODUCT ${state.noProduct ?? ""}',
                     ),
-                    const SizedBox(height: 30),
+                    const SizedBox(height: 12),
+                    (state.rulesScan == null)
+                        ? SizedBox()
+                        : (state.rulesScan?.scanSn == "NO")
+                            ? SizedBox()
+                            : ResultScanWidget(
+                                onPressed: () =>
+                                    cubit.changeTypeScan(TypeScan.sn),
+                                data: 'SN ${state.noSn ?? ""}',
+                                isActive: state.typeScan == TypeScan.sn
+                                    ? true
+                                    : false,
+                              ),
+                    const SizedBox(height: 12),
+                    (state.rulesScan == null)
+                        ? SizedBox()
+                        : (state.rulesScan?.scanImei == "NO")
+                            ? SizedBox()
+                            : ResultScanWidget(
+                                isActive: state.typeScan == TypeScan.imei
+                                    ? true
+                                    : false,
+                                onPressed: () =>
+                                    cubit.changeTypeScan(TypeScan.imei),
+                                data: 'IMEI ${state.imei ?? ""}',
+                              ),
+                    SizedBox(height: 60),
                     Container(
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(36)),
@@ -84,7 +102,22 @@ class AddToCartPage extends StatelessWidget {
                           borderRadius: BorderRadius.circular(36),
                           child: ElevatedButton(
                               onPressed: () => cubit.doSubmit(),
-                              child: const Text("Simpan")),
+                              child: Text("Simpan Ke Keranjang")),
+                        )),
+                    SizedBox(height: 20),
+                    Container(
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(36)),
+                        height: 50,
+                        width: double.infinity,
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(36),
+                          child: ElevatedButton(
+                              onPressed: () {
+                                context.pushNamed(RouteNames.cart);
+                              },
+                              child: Text(
+                                  "Lihat Keranjang (${state.cart.length})")),
                         ))
                   ],
                 ),
@@ -122,7 +155,7 @@ class ResultScanWidget extends StatelessWidget {
             borderRadius: BorderRadius.circular(32)),
         child: Container(
           decoration: BoxDecoration(
-              color: isActive ? AppColor.appColor.primary : Colors.white,
+              color: isActive ? AppColor.appColor.success : Colors.white,
               borderRadius: BorderRadius.circular(32)),
           child: Center(
             child: Text(

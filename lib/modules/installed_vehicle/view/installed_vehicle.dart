@@ -1,5 +1,7 @@
 import 'package:abditrack_inventory/data/models/base/instalation_vehicle.dart';
+import 'package:abditrack_inventory/data/models/base/item.dart';
 import 'package:abditrack_inventory/modules/installed_vehicle/cubit/installed_vehicle_cubit.dart';
+import 'package:abditrack_inventory/modules/product_detail/view/product_detail.dart';
 import 'package:abditrack_inventory/themes/themes.dart';
 import 'package:abditrack_inventory/widgets/widgets.dart';
 import 'package:carousel_slider/carousel_slider.dart';
@@ -34,6 +36,7 @@ class InstalledVehicle extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
+                    SizedBox(height: 20),
                     InkWell(
                       onTap: () {},
                       child: CarouselSlider.builder(
@@ -64,9 +67,7 @@ class InstalledVehicle extends StatelessWidget {
                           enableInfiniteScroll: true,
                           reverse: false,
                           autoPlay: true,
-                          autoPlayInterval: const Duration(seconds: 5),
-                          autoPlayAnimationDuration:
-                              const Duration(milliseconds: 800),
+                          autoPlayInterval: const Duration(seconds: 10),
                           autoPlayCurve: Curves.fastOutSlowIn,
                           enlargeCenterPage: true,
                           enlargeFactor: 0.3,
@@ -86,13 +87,17 @@ class InstalledVehicle extends StatelessWidget {
                     ListView.builder(
                       shrinkWrap: true,
                       physics: const NeverScrollableScrollPhysics(),
-                      itemCount: state.instalationVehicle.length ?? 0,
+                      itemCount: state.instalationVehicle.length,
                       itemBuilder: (context, index) {
-                        var vehicle = state.instalationVehicle[index];
-                        return ListTile(
-                          leading: Text("${index + 1}"),
-                          title: Text(vehicle.name ?? ""),
-                          subtitle: Text(vehicle.imei ?? ""),
+                        var item = state.instalationVehicle[index];
+                        return ItemWidget(
+                          item: Item(
+                              noProduct: item.noProduct ?? "",
+                              name: item.name?.toUpperCase() ?? "",
+                              imei: item.imei,
+                              noSn: item.noSn,
+                              status: item.status),
+                          index: index,
                         );
                       },
                     ),
@@ -123,6 +128,7 @@ class VehicleWidget extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          SizedBox(height: 20),
           Text(
             "Kendaraan",
             style: AppFont.largeBold(context),

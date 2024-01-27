@@ -21,7 +21,9 @@ mixin _$AddToCartState {
   String? get noProduct => throw _privateConstructorUsedError;
   String? get imei => throw _privateConstructorUsedError;
   String? get noSn => throw _privateConstructorUsedError;
-  TypeScan? get typeScan => throw _privateConstructorUsedError;
+  TypeScan get typeScan => throw _privateConstructorUsedError;
+  RulesScan? get rulesScan => throw _privateConstructorUsedError;
+  List<Cart> get cart => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $AddToCartStateCopyWith<AddToCartState> get copyWith =>
@@ -40,7 +42,9 @@ abstract class $AddToCartStateCopyWith<$Res> {
       String? noProduct,
       String? imei,
       String? noSn,
-      TypeScan? typeScan});
+      TypeScan typeScan,
+      RulesScan? rulesScan,
+      List<Cart> cart});
 }
 
 /// @nodoc
@@ -61,7 +65,9 @@ class _$AddToCartStateCopyWithImpl<$Res, $Val extends AddToCartState>
     Object? noProduct = freezed,
     Object? imei = freezed,
     Object? noSn = freezed,
-    Object? typeScan = freezed,
+    Object? typeScan = null,
+    Object? rulesScan = freezed,
+    Object? cart = null,
   }) {
     return _then(_value.copyWith(
       status: null == status
@@ -84,10 +90,18 @@ class _$AddToCartStateCopyWithImpl<$Res, $Val extends AddToCartState>
           ? _value.noSn
           : noSn // ignore: cast_nullable_to_non_nullable
               as String?,
-      typeScan: freezed == typeScan
+      typeScan: null == typeScan
           ? _value.typeScan
           : typeScan // ignore: cast_nullable_to_non_nullable
-              as TypeScan?,
+              as TypeScan,
+      rulesScan: freezed == rulesScan
+          ? _value.rulesScan
+          : rulesScan // ignore: cast_nullable_to_non_nullable
+              as RulesScan?,
+      cart: null == cart
+          ? _value.cart
+          : cart // ignore: cast_nullable_to_non_nullable
+              as List<Cart>,
     ) as $Val);
   }
 }
@@ -106,7 +120,9 @@ abstract class _$$AddToCartStateImplCopyWith<$Res>
       String? noProduct,
       String? imei,
       String? noSn,
-      TypeScan? typeScan});
+      TypeScan typeScan,
+      RulesScan? rulesScan,
+      List<Cart> cart});
 }
 
 /// @nodoc
@@ -125,7 +141,9 @@ class __$$AddToCartStateImplCopyWithImpl<$Res>
     Object? noProduct = freezed,
     Object? imei = freezed,
     Object? noSn = freezed,
-    Object? typeScan = freezed,
+    Object? typeScan = null,
+    Object? rulesScan = freezed,
+    Object? cart = null,
   }) {
     return _then(_$AddToCartStateImpl(
       status: null == status
@@ -148,10 +166,18 @@ class __$$AddToCartStateImplCopyWithImpl<$Res>
           ? _value.noSn
           : noSn // ignore: cast_nullable_to_non_nullable
               as String?,
-      typeScan: freezed == typeScan
+      typeScan: null == typeScan
           ? _value.typeScan
           : typeScan // ignore: cast_nullable_to_non_nullable
-              as TypeScan?,
+              as TypeScan,
+      rulesScan: freezed == rulesScan
+          ? _value.rulesScan
+          : rulesScan // ignore: cast_nullable_to_non_nullable
+              as RulesScan?,
+      cart: null == cart
+          ? _value._cart
+          : cart // ignore: cast_nullable_to_non_nullable
+              as List<Cart>,
     ));
   }
 }
@@ -165,7 +191,10 @@ class _$AddToCartStateImpl implements _AddToCartState {
       this.noProduct,
       this.imei,
       this.noSn,
-      this.typeScan});
+      this.typeScan = TypeScan.noProduct,
+      this.rulesScan,
+      final List<Cart> cart = const []})
+      : _cart = cart;
 
   @override
   @JsonKey()
@@ -179,11 +208,22 @@ class _$AddToCartStateImpl implements _AddToCartState {
   @override
   final String? noSn;
   @override
-  final TypeScan? typeScan;
+  @JsonKey()
+  final TypeScan typeScan;
+  @override
+  final RulesScan? rulesScan;
+  final List<Cart> _cart;
+  @override
+  @JsonKey()
+  List<Cart> get cart {
+    if (_cart is EqualUnmodifiableListView) return _cart;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_cart);
+  }
 
   @override
   String toString() {
-    return 'AddToCartState(status: $status, error: $error, noProduct: $noProduct, imei: $imei, noSn: $noSn, typeScan: $typeScan)';
+    return 'AddToCartState(status: $status, error: $error, noProduct: $noProduct, imei: $imei, noSn: $noSn, typeScan: $typeScan, rulesScan: $rulesScan, cart: $cart)';
   }
 
   @override
@@ -198,12 +238,15 @@ class _$AddToCartStateImpl implements _AddToCartState {
             (identical(other.imei, imei) || other.imei == imei) &&
             (identical(other.noSn, noSn) || other.noSn == noSn) &&
             (identical(other.typeScan, typeScan) ||
-                other.typeScan == typeScan));
+                other.typeScan == typeScan) &&
+            (identical(other.rulesScan, rulesScan) ||
+                other.rulesScan == rulesScan) &&
+            const DeepCollectionEquality().equals(other._cart, _cart));
   }
 
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, status, error, noProduct, imei, noSn, typeScan);
+  int get hashCode => Object.hash(runtimeType, status, error, noProduct, imei,
+      noSn, typeScan, rulesScan, const DeepCollectionEquality().hash(_cart));
 
   @JsonKey(ignore: true)
   @override
@@ -220,7 +263,9 @@ abstract class _AddToCartState implements AddToCartState {
       final String? noProduct,
       final String? imei,
       final String? noSn,
-      final TypeScan? typeScan}) = _$AddToCartStateImpl;
+      final TypeScan typeScan,
+      final RulesScan? rulesScan,
+      final List<Cart> cart}) = _$AddToCartStateImpl;
 
   @override
   DataStateStatus get status;
@@ -233,7 +278,11 @@ abstract class _AddToCartState implements AddToCartState {
   @override
   String? get noSn;
   @override
-  TypeScan? get typeScan;
+  TypeScan get typeScan;
+  @override
+  RulesScan? get rulesScan;
+  @override
+  List<Cart> get cart;
   @override
   @JsonKey(ignore: true)
   _$$AddToCartStateImplCopyWith<_$AddToCartStateImpl> get copyWith =>

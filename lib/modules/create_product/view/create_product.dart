@@ -52,29 +52,68 @@ class CreateProductPage extends StatelessWidget {
                         name: 'code_product',
                         label: 'Kode Produk',
                       ),
-                      const SizedBox(height: 12),
+                      Align(
+                          alignment: Alignment.centerLeft,
+                          child: Text(
+                            "Aturan menambahkan barang dari produk ini",
+                            style: AppFont.mediumBold(context),
+                          )),
                       Row(
                         children: [
                           Expanded(
-                            child: ElevatedButton(
-                                onPressed: () {
-                                  cubit.pickImage(ImageSource.gallery);
+                            child: SizedBox(
+                              child: FormBuilderCheckbox(
+                                initialValue: true,
+                                name: 'scan_imei',
+                                onChanged: (value) {
+                                  print('Nilai Checkbox: $value');
                                 },
-                                child: Text(
-                                  "Pilih Dari Kamera",
-                                  style: AppFont.whiteLarge(context),
-                                )),
+                                title: const Text("Scan IMEI"),
+                              ),
+                            ),
+                          ),
+                          Expanded(
+                            child: SizedBox(
+                              child: FormBuilderCheckbox(
+                                initialValue: true,
+                                name: 'scan_sn',
+                                onChanged: (value) {
+                                  print('Nilai Checkbox: $value');
+                                },
+                                title: const Text("Scan SN"),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                      Row(
+                        children: [
+                          Expanded(
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(20),
+                              child: ElevatedButton(
+                                  onPressed: () {
+                                    cubit.pickImage(ImageSource.gallery);
+                                  },
+                                  child: Text(
+                                    "Pilih Dari Kamera",
+                                    style: AppFont.whiteLarge(context),
+                                  )),
+                            ),
                           ),
                           const SizedBox(width: 20),
                           Expanded(
-                            child: ElevatedButton(
-                                onPressed: () {
-                                  cubit.pickImage(ImageSource.gallery);
-                                },
-                                child: Text(
-                                  "Pilih Dari Galery",
-                                  style: AppFont.whiteLarge(context),
-                                )),
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(20),
+                              child: ElevatedButton(
+                                  onPressed: () {
+                                    cubit.pickImage(ImageSource.gallery);
+                                  },
+                                  child: Text(
+                                    "Pilih Dari Galery",
+                                    style: AppFont.whiteLarge(context),
+                                  )),
+                            ),
                           ),
                         ],
                       ),
@@ -108,17 +147,21 @@ class CreateProductPage extends StatelessWidget {
                       SizedBox(
                         height: 50,
                         width: baseWidth,
-                        child: ElevatedButton(
-                            onPressed: () {
-                              cubit.formKey.currentState!.save();
-                              cubit.doSave();
-                            },
-                            child: Text(
-                              "Simpan Produk",
-                              style: AppFont.largeBold(context)!
-                                  .copyWith(color: Colors.white, fontSize: 16),
-                            )),
-                      )
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(12),
+                          child: ElevatedButton(
+                              onPressed: () {
+                                cubit.formKey.currentState!.save();
+                                cubit.doSave();
+                              },
+                              child: Text(
+                                "Simpan Produk",
+                                style: AppFont.largeBold(context)!.copyWith(
+                                    color: Colors.white, fontSize: 16),
+                              )),
+                        ),
+                      ),
+                      SizedBox(height: 120)
                     ],
                   ),
                 ),
@@ -157,7 +200,7 @@ class OutlineTextField extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(label, style: AppFont.largeBold(context)),
-        SizedBox(height: 4),
+        const SizedBox(height: 4),
         FormBuilderTextField(
           readOnly: readOnly,
           initialValue: initialValue,
