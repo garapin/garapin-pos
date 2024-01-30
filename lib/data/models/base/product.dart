@@ -3,7 +3,6 @@
 //     final product = productFromJson(jsonString);
 
 import 'package:json_annotation/json_annotation.dart';
-import 'dart:convert';
 
 part 'product.g.dart';
 
@@ -23,6 +22,10 @@ class Product {
   String? codeProduct;
   @JsonKey(name: "status")
   String? status;
+  @JsonKey(name: "scan_imei")
+  String? scanImei;
+  @JsonKey(name: "scan_sn")
+  String? scanSn;
   @JsonKey(name: "created")
   DateTime? created;
   @JsonKey(name: "updated")
@@ -36,6 +39,8 @@ class Product {
     this.description,
     this.codeProduct,
     this.status,
+    this.scanImei,
+    this.scanSn,
     this.created,
     this.updated,
   });

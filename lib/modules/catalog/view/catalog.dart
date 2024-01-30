@@ -110,7 +110,7 @@ class CatalogPage extends StatelessWidget {
                               height: 30,
                               color: AppColor.appColor.primary,
                             ),
-                            SizedBox(width: 12),
+                            const SizedBox(width: 12),
                             FilterButton(
                               onPressed: () {
                                 cubit.sort("latest");
@@ -223,9 +223,9 @@ class CatalogPage extends StatelessWidget {
                                   physics: const NeverScrollableScrollPhysics(),
                                   itemCount: state.catalog.length,
                                   itemBuilder: (context, index) {
-                                    return CustomButton(
+                                    return InkWell(
                                       borderRadius: BorderRadius.circular(16),
-                                      onPressed: () {
+                                      onTap: () {
                                         context.pushNamed(
                                             RouteNames.productDetail,
                                             extra: state.catalog[index].id);
@@ -271,50 +271,75 @@ class CatalogPage extends StatelessWidget {
                                                                     .grey))),
                                               ),
                                               const SizedBox(width: 10),
-                                              Column(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.center,
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                children: [
-                                                  Text(
-                                                    state.catalog[index].name!
-                                                        .toUpperCase(),
-                                                    style: AppFont.largeBold(
-                                                        context),
-                                                  ),
-                                                  Text(
-                                                    "Kode ${state.catalog[index].codeProduct}",
-                                                    style:
-                                                        AppFont.medium(context),
-                                                  )
-                                                ],
+                                              Expanded(
+                                                flex: 10,
+                                                child: Column(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.center,
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                  children: [
+                                                    Text(
+                                                      state.catalog[index].name!
+                                                          .toUpperCase(),
+                                                      style: AppFont.largeBold(
+                                                          context),
+                                                      maxLines: 2,
+                                                      overflow:
+                                                          TextOverflow.ellipsis,
+                                                    ),
+                                                    Text(
+                                                      "Kode ${state.catalog[index].codeProduct}",
+                                                      style: AppFont.medium(
+                                                          context),
+                                                    )
+                                                  ],
+                                                ),
                                               ),
                                               const Spacer(),
-                                              Container(
-                                                height: 30,
-                                                width: 80,
-                                                decoration: BoxDecoration(
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            32),
-                                                    color: AppColor
-                                                        .appColor.primary
-                                                        .withOpacity(0.2)),
-                                                child: Center(
-                                                    child: Text(
-                                                        state.catalog[index]
-                                                            .quantity
-                                                            .toString(),
-                                                        style:
-                                                            AppFont.whiteLarge(
-                                                                    context)!
+                                              Row(
+                                                children: [
+                                                  Container(
+                                                    padding: const EdgeInsets
+                                                        .symmetric(
+                                                        horizontal: 24),
+                                                    height: 30,
+                                                    decoration: BoxDecoration(
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(32),
+                                                        color: AppColor
+                                                            .appColor.primary
+                                                            .withOpacity(0.2)),
+                                                    child: Center(
+                                                        child: Text(
+                                                            state.catalog[index]
+                                                                .quantity
+                                                                .toString(),
+                                                            style: AppFont
+                                                                    .whiteLarge(
+                                                                        context)!
                                                                 .copyWith(
-                                                          fontWeight:
-                                                              FontWeight.bold,
-                                                          color: AppColor
-                                                              .appColor.primary,
-                                                        ))),
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .bold,
+                                                              color: AppColor
+                                                                  .appColor
+                                                                  .primary,
+                                                            ))),
+                                                  ),
+                                                  IconButton(
+                                                      onPressed: () {
+                                                        context.pushNamed(
+                                                            RouteNames
+                                                                .editProduct,
+                                                            extra: state
+                                                                .catalog[index]
+                                                                .id);
+                                                      },
+                                                      icon: const Icon(
+                                                          Icons.edit))
+                                                ],
                                               )
                                             ],
                                           ),

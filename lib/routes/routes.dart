@@ -13,6 +13,8 @@ import 'package:abditrack_inventory/modules/catalog/cubit/catalog_cubit.dart';
 import 'package:abditrack_inventory/modules/create_product/cubit/create_product_cubit.dart';
 import 'package:abditrack_inventory/modules/create_product/view/create_product.dart';
 import 'package:abditrack_inventory/modules/dashboard/dashboard.dart';
+import 'package:abditrack_inventory/modules/edit_product/cubit/edit_product_cubit.dart';
+import 'package:abditrack_inventory/modules/edit_product/view/edit_product.dart';
 import 'package:abditrack_inventory/modules/homepage/cubit/homepage_cubit.dart';
 import 'package:abditrack_inventory/modules/installed_vehicle/cubit/installed_vehicle_cubit.dart';
 import 'package:abditrack_inventory/modules/installed_vehicle/view/installed_vehicle.dart';
@@ -136,6 +138,20 @@ class Routes implements RouterInterface {
               ),
             ],
             child: const ProductDetailPage(),
+          );
+        },
+      ),
+      GoRoute(
+        name: RouteNames.editProduct,
+        path: RouteNames.editProduct,
+        builder: (ctx, GoRouterState state) {
+          return MultiBlocProvider(
+            providers: [
+              BlocProvider(
+                create: (ctx) => EditProductCubit(ctx, state.extra as int),
+              ),
+            ],
+            child: const EditProductPage(),
           );
         },
       ),

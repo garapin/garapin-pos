@@ -14,6 +14,8 @@ Product _$ProductFromJson(Map<String, dynamic> json) => Product(
       description: json['description'] as String?,
       codeProduct: json['code_product'] as String?,
       status: json['status'] as String?,
+      scanImei: json['scan_imei'] as String?,
+      scanSn: json['scan_sn'] as String?,
       created: json['created'] == null
           ? null
           : DateTime.parse(json['created'] as String),
@@ -30,6 +32,8 @@ Map<String, dynamic> _$ProductToJson(Product instance) => <String, dynamic>{
       'description': instance.description,
       'code_product': instance.codeProduct,
       'status': instance.status,
+      'scan_imei': instance.scanImei,
+      'scan_sn': instance.scanSn,
       'created': instance.created?.toIso8601String(),
       'updated': instance.updated?.toIso8601String(),
     };

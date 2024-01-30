@@ -108,6 +108,16 @@ class ApiService {
         .handler((error) => ApiResponseList<Product>.onError(error));
   }
 
+  static Future<ApiResponse<Product>> singleProduct(
+    BuildContext context, {
+    required int id,
+  }) async {
+    return await ApiConfigure(context)
+        .get('product/$id')
+        .then((result) => ApiResponse<Product>.fromJson(result.data))
+        .handler((error) => ApiResponse<Product>.onError(error));
+  }
+
   static Future<ApiResponse> addProduct(BuildContext context,
       {required String name,
       required String codeProduct,
@@ -117,6 +127,28 @@ class ApiService {
       required String base64}) async {
     return await ApiConfigure(context)
         .post('product/create', params: {
+          "name": name,
+          "code_product": codeProduct,
+          "description": desc,
+          "image": base64,
+          "scan_imei": scanImei,
+          "scan_sn": scanSn,
+        })
+        .then((result) => ApiResponse.fromJson(result.data))
+        .handler((error) => ApiResponse.onError(error));
+  }
+
+  static Future<ApiResponse> editProduct(BuildContext context,
+      {required int id,
+      required String name,
+      required String codeProduct,
+      required String desc,
+      required String scanImei,
+      required String scanSn,
+      required String base64}) async {
+    return await ApiConfigure(context)
+        .post('product/edit', params: {
+          "id": id,
           "name": name,
           "code_product": codeProduct,
           "description": desc,

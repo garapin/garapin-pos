@@ -9,6 +9,7 @@ class RouteNames {
   static const String dashboardTeknisi = "/dashboard_teknisi";
   static const String productDetail = "/product_detail";
   static const String addProduct = "/add_product";
+  static const String editProduct = "/edit_product";
   static const String addToCart = "/add_to_cart";
   static const String listTransaction = "/list_transaction";
   static const String listTransactionTeknisi = "/list_transaction_teknisi";

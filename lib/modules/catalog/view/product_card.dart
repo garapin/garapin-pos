@@ -7,7 +7,6 @@ import '../../../data/models/base/product.dart';
 import '../../../engine/base/app.dart';
 import '../../../routes/routes.dart';
 import '../../../themes/themes.dart';
-import '../../../widgets/components/custom_button.dart';
 
 class ProductCard extends StatelessWidget {
   final Product catalog;
@@ -15,9 +14,9 @@ class ProductCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return CustomButton(
+    return InkWell(
       borderRadius: BorderRadius.circular(16),
-      onPressed: () {
+      onTap: () {
         context.pushNamed(RouteNames.productDetail, extra: catalog.id);
       },
       child: Card(
@@ -60,10 +59,24 @@ class ProductCard extends StatelessWidget {
                     style: Theme.of(context).textTheme.bodyMedium,
                   ),
                   const SizedBox(height: 8),
-                  Text(catalog.codeProduct ?? "",
-                      style: Theme.of(context).textTheme.titleMedium!.copyWith(
-                          color: AppColor.appColor.success,
-                          fontWeight: FontWeight.w600)),
+                  Row(
+                    children: [
+                      Text(catalog.codeProduct ?? "",
+                          style: Theme.of(context)
+                              .textTheme
+                              .titleMedium!
+                              .copyWith(
+                                  color: AppColor.appColor.success,
+                                  fontWeight: FontWeight.w600)),
+                      const SizedBox(width: 20),
+                      InkWell(
+                          onTap: () {
+                            context.pushNamed(RouteNames.editProduct,
+                                extra: catalog.id);
+                          },
+                          child: const Icon(Icons.edit))
+                    ],
+                  ),
                 ],
               ),
             ),
