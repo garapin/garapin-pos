@@ -88,7 +88,6 @@ class ProcessInstalationItemCubit
     final data = await ApiService.instalationVehicleCreate(context,
         instalationImages: state.listBase64,
         idTransactionItem: listIdTransactionItem,
-        idMitra: 1,
         vehicleName: formKey.currentState!.value["vehicle_name"],
         vehicleNo: formKey.currentState!.value["vehicle_no"],
         odoMeter: formKey.currentState!.value["odo_meter"],

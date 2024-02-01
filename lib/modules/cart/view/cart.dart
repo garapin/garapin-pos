@@ -261,6 +261,27 @@ class ModalTransaction extends StatelessWidget {
                           ),
                         ],
                       ),
+                      SizedBox(height: 16),
+                      Align(
+                        alignment: Alignment.centerLeft,
+                        child:
+                            Text("Customer", style: AppFont.largeBold(context)),
+                      ),
+                      SizedBox(height: 4),
+                      FormBuilderDropdown(
+                          onChanged: (value) {
+                            cubit.selectedMitra(value!);
+                          },
+                          decoration: InputDecoration(
+                              hintText: "Pilih customer",
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(8),
+                              )),
+                          name: "id_mitra",
+                          items: state.listMitra.map((e) {
+                            return DropdownMenuItem(
+                                value: e.id, child: Text(e.name ?? ""));
+                          }).toList()),
                       const SizedBox(height: 20),
                       SizedBox(
                         width: baseWidth,

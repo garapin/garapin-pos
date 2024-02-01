@@ -3,12 +3,14 @@ import 'dart:io';
 import 'package:abditrack_inventory/data/api/error_handler.dart';
 import 'package:abditrack_inventory/data/models/base/cart.dart';
 import 'package:abditrack_inventory/data/models/base/instalation_vehicle.dart';
+import 'package:abditrack_inventory/data/models/base/mitra.dart';
 import 'package:abditrack_inventory/data/models/base/product.dart';
 import 'package:abditrack_inventory/data/models/base/item.dart';
 import 'package:abditrack_inventory/data/models/base/rules_scan.dart';
 import 'package:abditrack_inventory/data/models/base/transaction.dart';
 import 'package:abditrack_inventory/data/models/base/transaction_item.dart';
 import 'package:abditrack_inventory/data/models/base/user.dart';
+import 'package:abditrack_inventory/data/models/base/vehicle.dart';
 import 'package:abditrack_inventory/engine/engine.dart';
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter/foundation.dart';
@@ -232,6 +234,7 @@ class ApiService {
       required String transactionPurpose,
       required List<String> idProductItem,
       required List<int> listTeknisi,
+      required int idMitra,
       String? noProduct}) async {
     return await ApiConfigure(context)
         .post('transaction/create', params: {
@@ -240,7 +243,8 @@ class ApiService {
           "notes": notes,
           "id_product_item": idProductItem,
           "list_id_teknisi": listTeknisi,
-          "id_user": Sessions.getUserModel()?.id
+          "id_user": Sessions.getUserModel()?.id,
+          "id_mitra": idMitra
         })
         .then((result) => ApiResponse<dynamic>.fromJson(result.data))
         .handler((error) => ApiResponse<dynamic>.onError(error));
@@ -254,6 +258,13 @@ class ApiService {
         .get('transaction?status=$status')
         .then((result) => ApiResponseList<Transaction>.fromJson(result.data))
         .handler((error) => ApiResponseList<Transaction>.onError(error));
+  }
+
+  static Future<ApiResponseList<Mitra>> allMitra(BuildContext context) async {
+    return await ApiConfigure(context)
+        .get('mitra')
+        .then((result) => ApiResponseList<Mitra>.fromJson(result.data))
+        .handler((error) => ApiResponseList<Mitra>.onError(error));
   }
 
   static Future<ApiResponseList<Transaction>> getListTransactionByTeknisi(
@@ -292,7 +303,6 @@ class ApiService {
     required List<String> instalationImages,
     required List<int> idTransactionItem,
     required List<int> idProductItem,
-    required int idMitra,
     required String vehicleName,
     required String vehicleNo,
     required String odoMeter,
@@ -302,7 +312,6 @@ class ApiService {
         .post('instalation_vehicle/create', params: {
           "id_transaction_item": idTransactionItem,
           "id_product_item": idProductItem,
-          "id_mitra": idMitra,
           "vehicle_name": vehicleName,
           "vehicle_no": vehicleNo,
           "odo_meter": odoMeter,
@@ -375,5 +384,50 @@ class ApiService {
         })
         .then((result) => ApiResponse.fromJson(result.data))
         .handler((error) => ApiResponse.onError(error));
+  }
+
+  static Future<ApiResponseList<Vehicle>> listInsatalledVehicle(
+    BuildContext context,
+  ) async {
+    return await ApiConfigure(context)
+        .get('instalation_vehicle')
+        .then((result) => ApiResponseList<Vehicle>.fromJson(result.data))
+        .handler((error) => ApiResponseList<Vehicle>.onError(error));
+  }
+
+  static Future<ApiResponse<Vehicle>> singleInsatalledVehicle(
+      BuildContext context,
+      {required int id}) async {
+    return await ApiConfigure(context)
+        .get('instalation_vehicle/installed/$id')
+        .then((result) => ApiResponse<Vehicle>.fromJson(result.data))
+        .handler((error) => ApiResponse<Vehicle>.onError(error));
+  }
+
+  static Future<ApiResponse> addCustomer(BuildContext context,
+      {required String name,
+      required String fullName,
+      required String address}) async {
+    return await ApiConfigure(context)
+        .post('mitra/store',
+            params: {"name": name, "full_name": fullName, "address": address})
+        .then((result) => ApiResponse.fromJson(result.data))
+        .handler((error) => ApiResponse.onError(error));
+  }
+
+  static Future<ApiResponseList<Mitra>> listCustomer(
+      BuildContext context) async {
+    return await ApiConfigure(context)
+        .get('mitra')
+        .then((result) => ApiResponseList<Mitra>.fromJson(result.data))
+        .handler((error) => ApiResponseList<Mitra>.onError(error));
+  }
+
+  static Future<ApiResponse<Mitra>> singleCutomer(
+      BuildContext context, int id) async {
+    return await ApiConfigure(context)
+        .get('mitra/$id')
+        .then((result) => ApiResponse<Mitra>.fromJson(result.data))
+        .handler((error) => ApiResponse<Mitra>.onError(error));
   }
 }

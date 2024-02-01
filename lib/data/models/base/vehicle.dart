@@ -1,11 +1,15 @@
 import 'package:json_annotation/json_annotation.dart';
 
-part 'instalation_vehicle.g.dart';
+part 'vehicle.g.dart';
 
 @JsonSerializable()
-class InstalationVehicle {
+class Vehicle {
   @JsonKey(name: "id")
   int? id;
+  @JsonKey(name: "id_transaction_item")
+  int? idTransactionItem;
+  @JsonKey(name: "id_mitra")
+  String? idMitra;
   @JsonKey(name: "vehicle_name")
   String? vehicleName;
   @JsonKey(name: "vehicle_no")
@@ -16,18 +20,6 @@ class InstalationVehicle {
   String? memory;
   @JsonKey(name: "instalation_images")
   List<String>? instalationImages;
-  @JsonKey(name: "no_product")
-  String? noProduct;
-  @JsonKey(name: "imei")
-  String? imei;
-  @JsonKey(name: "no_sn")
-  String? noSn;
-  @JsonKey(name: "status")
-  String? status;
-  @JsonKey(name: "name")
-  String? name;
-  @JsonKey(name: "image")
-  String? image;
   @JsonKey(name: "mitra_name")
   String? mitraName;
   @JsonKey(name: "mitra_full_name")
@@ -39,19 +31,15 @@ class InstalationVehicle {
   @JsonKey(name: "updated")
   DateTime? updated;
 
-  InstalationVehicle({
+  Vehicle({
     this.id,
+    this.idTransactionItem,
+    this.idMitra,
     this.vehicleName,
     this.vehicleNo,
     this.odoMeter,
     this.memory,
     this.instalationImages,
-    this.noProduct,
-    this.imei,
-    this.noSn,
-    this.status,
-    this.name,
-    this.image,
     this.mitraName,
     this.mitraFullName,
     this.mitraAddress,
@@ -59,8 +47,8 @@ class InstalationVehicle {
     this.updated,
   });
 
-  factory InstalationVehicle.fromJson(Map<String, dynamic> json) =>
-      _$InstalationVehicleFromJson(json);
+  factory Vehicle.fromJson(Map<String, dynamic> json) =>
+      _$VehicleFromJson(json);
 
-  Map<String, dynamic> toJson() => _$InstalationVehicleToJson(this);
+  Map<String, dynamic> toJson() => _$VehicleToJson(this);
 }

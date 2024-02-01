@@ -11,6 +11,7 @@ import 'package:multi_dropdown/multiselect_dropdown.dart';
 import 'package:syncfusion_flutter_signaturepad/signaturepad.dart';
 
 import '../../../data/api/services.dart';
+import '../../../data/models/base/mitra.dart';
 import '../../../data/models/base/user.dart';
 
 part 'cart_state.dart';
@@ -25,9 +26,10 @@ class CartCubit extends BaseCubit<CartState> {
   @override
   Future<void> initData() async {
     loadingState();
-
+    getAllMitra();
     final data = await ApiService.cartById(context);
     final user = await ApiService.getUsers(context);
+
     if (data.isSuccess) {
       if (data.data.isEmpty) {
         emit(state.copyWith(status: DataStateStatus.empty));
@@ -43,9 +45,18 @@ class CartCubit extends BaseCubit<CartState> {
     finishRefresh(state.status);
   }
 
+  getAllMitra() async {
+    final data = await ApiService.allMitra(context);
+    emit(state.copyWith(listMitra: data.data));
+  }
+
   selectedListTeknisi(List<ValueItem> value) {
     emit(state.copyWith(selectedOptions: value));
     log(state.selectedOptions.toString());
+  }
+
+  selectedMitra(int mitra) {
+    emit(state.copyWith(selectedMitra: mitra));
   }
 
   @override
@@ -70,7 +81,8 @@ class CartCubit extends BaseCubit<CartState> {
             base64: value,
             notes: formKey.currentState?.value["notes"],
             listTeknisi: selectedTeknisi,
-            idProductItem: state.selectedItem);
+            idProductItem: state.selectedItem,
+            idMitra: state.selectedMitra!);
         if (data.isSuccess) {
           initData();
           showSuccess(data.message);

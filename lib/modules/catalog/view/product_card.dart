@@ -1,4 +1,5 @@
 import 'package:abditrack_inventory/engine/configs/environment.dart';
+import 'package:abditrack_inventory/modules/catalog/cubit/catalog_cubit.dart';
 import 'package:abditrack_inventory/resources/resources.dart';
 import 'package:abditrack_inventory/widgets/components/image_load.dart';
 import 'package:flutter/material.dart';
@@ -9,8 +10,9 @@ import '../../../routes/routes.dart';
 import '../../../themes/themes.dart';
 
 class ProductCard extends StatelessWidget {
+  final CatalogCubit cubit;
   final Product catalog;
-  const ProductCard({super.key, required this.catalog});
+  const ProductCard({super.key, required this.catalog, required this.cubit});
 
   @override
   Widget build(BuildContext context) {
@@ -71,8 +73,10 @@ class ProductCard extends StatelessWidget {
                       const SizedBox(width: 20),
                       InkWell(
                           onTap: () {
-                            context.pushNamed(RouteNames.editProduct,
-                                extra: catalog.id);
+                            context
+                                .pushNamed(RouteNames.editProduct,
+                                    extra: catalog.id)
+                                .then((value) => cubit.refreshData());
                           },
                           child: const Icon(Icons.edit))
                     ],

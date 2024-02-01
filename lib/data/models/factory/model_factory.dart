@@ -1,6 +1,7 @@
 import 'dart:developer';
 import '../base/cart.dart';
 import '../base/instalation_vehicle.dart';
+import '../base/mitra.dart';
 import '../base/product.dart';
 import '../base/item.dart';
 import '../base/rules_scan.dart';
@@ -8,6 +9,7 @@ import '../base/transaction.dart';
 
 import '../base/transaction_item.dart';
 import '../base/user.dart';
+import '../base/vehicle.dart';
 
 Object factoryModel(String type, {Map<String, dynamic>? json}) {
   switch (type) {
@@ -23,13 +25,16 @@ Object factoryModel(String type, {Map<String, dynamic>? json}) {
       return json != null ? Transaction.fromJson(json) : Transaction();
     case 'Cart':
       return json != null ? Cart.fromJson(json) : Cart();
-
     case 'TransactionItem':
       return json != null ? TransactionItem.fromJson(json) : TransactionItem();
     case 'InstalationVehicle':
       return json != null
           ? InstalationVehicle.fromJson(json)
           : InstalationVehicle();
+    case 'Vehicle':
+      return json != null ? Vehicle.fromJson(json) : Vehicle();
+    case 'Mitra':
+      return json != null ? Mitra.fromJson(json) : Mitra();
     case 'dynamic':
       return json != null ? DefaultModel(json) : DefaultModel({});
     default:

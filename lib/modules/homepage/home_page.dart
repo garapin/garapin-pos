@@ -13,111 +13,152 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final cubit = context.read<HomepageCubit>();
     return Scaffold(
         appBar: AppBar(
           title: const Text("Beranda"),
         ),
-        body: SingleChildScrollView(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    InItemWidget(
-                      onPressed: () {
-                        context.pushNamed(RouteNames.createProduct);
-                      },
-                      color: const Color.fromARGB(255, 25, 85, 135),
-                      title: 'Daftarkan Produk',
-                      subtitle: 'Daftarkan produk baru',
-                      total: '',
-                      icon: Icons.devices,
-                    ),
-                    const SizedBox(width: 4),
-                    InItemWidget(
-                      icon: Icons.build,
-                      onPressed: () {
-                        context.pushNamed(RouteNames.addUser);
-                      },
-                      color: Color.fromARGB(255, 197, 91, 21),
-                      title: 'Daftarkan Teknisi',
-                      subtitle: 'Untuk membuat akun teknisi',
-                      total: '',
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 8),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    InItemWidget(
-                      icon: Icons.check,
-                      onPressed: () {
-                        context.pushNamed(RouteNames.addProduct);
-                      },
-                      color: Color.fromARGB(255, 49, 107, 50),
-                      title: 'Barang Masuk',
-                      subtitle: 'Input barang masuk',
-                      total: '',
-                    ),
-                    const SizedBox(width: 4),
-                    InItemWidget(
-                      icon: Icons.exit_to_app,
-                      onPressed: () {
-                        context.pushNamed(RouteNames.addToCart);
-                      },
-                      color: AppColor.appColor.primary,
-                      title: 'Barang Keluar',
-                      subtitle: 'Input barang keluar',
-                      total: '',
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 20),
-                Text(
-                  "Perlu dikonfirmasi Anda",
-                  style: AppFont.largeBold(context),
-                ),
-                const SizedBox(height: 12),
-                BlocBuilder<HomepageCubit, HomepageState>(
-                  builder: (context, state) {
-                    return ContainerStateHandler(
-                      loading: const SizedBox(),
-                      status: state.status,
-                      emptyOptions: EmptyOptions(
-                          customEmpty: Container(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 20, vertical: 4),
-                        height: 70,
-                        width: baseWidth,
-                        decoration: BoxDecoration(
-                            color: Colors.grey.withOpacity(0.3),
-                            borderRadius: BorderRadius.circular(12)),
-                        child: Center(
-                          child: Text(
-                            "Belum ada yang perlu dikonfirmasi",
-                            style: AppFont.large(context),
+        body: BlocBuilder<HomepageCubit, HomepageState>(
+          builder: (context, state) {
+            return ContainerStateHandler(
+              refresherOptions: cubit.defaultRefresh,
+              loading: Center(
+                child: CircularProgressIndicator(),
+              ),
+              status: DataStateStatus.success,
+              child: SingleChildScrollView(
+                child: Padding(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+                          InItemWidget(
+                            onPressed: () {
+                              context.pushNamed(RouteNames.createProduct);
+                            },
+                            color: const Color.fromARGB(255, 25, 85, 135),
+                            title: 'Daftarkan Produk',
+                            subtitle: 'Daftarkan produk baru',
+                            total: '',
+                            icon: Icons.devices,
                           ),
-                        ),
-                      )),
-                      child: ListView.builder(
-                        shrinkWrap: true,
-                        itemCount: state.listTransaction.length,
-                        physics: const NeverScrollableScrollPhysics(),
-                        itemBuilder: (BuildContext context, int index) {
-                          return TransactionCard(
-                              data: state.listTransaction[index]);
-                        },
+                          const SizedBox(width: 4),
+                          InItemWidget(
+                            icon: Icons.build,
+                            onPressed: () {
+                              context.pushNamed(RouteNames.addUser);
+                            },
+                            color: Color.fromARGB(255, 197, 91, 21),
+                            title: 'Daftarkan Teknisi',
+                            subtitle: 'Untuk membuat akun teknisi',
+                            total: '',
+                          ),
+                        ],
                       ),
-                    );
-                  },
-                )
-              ],
-            ),
-          ),
+                      const SizedBox(height: 8),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+                          InItemWidget(
+                            icon: Icons.check,
+                            onPressed: () {
+                              context.pushNamed(RouteNames.addProduct);
+                            },
+                            color: Color.fromARGB(255, 49, 107, 50),
+                            title: 'Barang Masuk',
+                            subtitle: 'Input barang masuk',
+                            total: '',
+                          ),
+                          const SizedBox(width: 4),
+                          InItemWidget(
+                            icon: Icons.exit_to_app,
+                            onPressed: () {
+                              context.pushNamed(RouteNames.addToCart);
+                            },
+                            color: AppColor.appColor.primary,
+                            title: 'Barang Keluar',
+                            subtitle: 'Input barang keluar',
+                            total: '',
+                          ),
+                        ],
+                      ),
+                      SizedBox(height: 8),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+                          InItemWidget(
+                            icon: Icons.fire_truck,
+                            onPressed: () {
+                              context
+                                  .pushNamed(RouteNames.listVehicleInstalled);
+                            },
+                            color: const Color.fromARGB(255, 154, 141, 24),
+                            title: 'Daftar Kendaraan',
+                            subtitle: 'Input barang masuk',
+                            total: '',
+                          ),
+                          const SizedBox(width: 4),
+                          InItemWidget(
+                            icon: Icons.shop,
+                            onPressed: () {
+                              context.pushNamed(RouteNames.listCustomer);
+                            },
+                            color: Color.fromARGB(255, 60, 60, 58),
+                            title: 'Daftar Mitra',
+                            subtitle: '',
+                            total: '',
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 20),
+                      Text(
+                        "Perlu dikonfirmasi Anda",
+                        style: AppFont.largeBold(context),
+                      ),
+                      const SizedBox(height: 12),
+                      BlocBuilder<HomepageCubit, HomepageState>(
+                        builder: (context, state) {
+                          return ContainerStateHandler(
+                            loading: const SizedBox(),
+                            status: state.status,
+                            emptyOptions: EmptyOptions(
+                                customEmpty: Container(
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 20, vertical: 4),
+                              height: 70,
+                              width: baseWidth,
+                              decoration: BoxDecoration(
+                                  color: Colors.grey.withOpacity(0.3),
+                                  borderRadius: BorderRadius.circular(12)),
+                              child: Center(
+                                child: Text(
+                                  "Belum ada yang perlu dikonfirmasi",
+                                  style: AppFont.large(context),
+                                ),
+                              ),
+                            )),
+                            child: ListView.builder(
+                              shrinkWrap: true,
+                              itemCount: state.listTransaction.length,
+                              physics: const NeverScrollableScrollPhysics(),
+                              itemBuilder: (BuildContext context, int index) {
+                                return TransactionCard(
+                                    data: state.listTransaction[index]);
+                              },
+                            ),
+                          );
+                        },
+                      )
+                    ],
+                  ),
+                ),
+              ),
+            );
+          },
         ));
   }
 }

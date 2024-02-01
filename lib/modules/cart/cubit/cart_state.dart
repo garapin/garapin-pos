@@ -8,5 +8,7 @@ class CartState with _$CartState {
       @Default([]) List<Cart> cart,
       @Default([]) List<String> selectedItem,
       @Default([]) List<User> users,
+      @Default([]) List<Mitra> listMitra,
+      int? selectedMitra,
       @Default([]) List<ValueItem> selectedOptions}) = _CartState;
 }

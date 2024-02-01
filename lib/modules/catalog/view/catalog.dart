@@ -330,12 +330,16 @@ class CatalogPage extends StatelessWidget {
                                                   ),
                                                   IconButton(
                                                       onPressed: () {
-                                                        context.pushNamed(
-                                                            RouteNames
-                                                                .editProduct,
-                                                            extra: state
-                                                                .catalog[index]
-                                                                .id);
+                                                        context
+                                                            .pushNamed(
+                                                                RouteNames
+                                                                    .editProduct,
+                                                                extra: state
+                                                                    .catalog[
+                                                                        index]
+                                                                    .id)
+                                                            .then((value) => cubit
+                                                                .refreshData());
                                                       },
                                                       icon: const Icon(
                                                           Icons.edit))
@@ -361,6 +365,7 @@ class CatalogPage extends StatelessWidget {
                                   itemBuilder: (context, index) {
                                     return ProductCard(
                                       catalog: state.catalog[index],
+                                      cubit: cubit,
                                     );
                                   },
                                 ),

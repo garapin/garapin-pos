@@ -7,7 +7,7 @@ abstract class Development {
   static String baseUrl() {
     switch (Environment.mode) {
       case EnvironmentMode.dev:
-        return 'http://192.168.20.59:8000/api/v1/'; // real device
+        return 'http://192.168.20.154:8000/api/v1/'; // real device
       case EnvironmentMode.production:
         return '';
     }
@@ -16,7 +16,7 @@ abstract class Development {
   static String urlImage() {
     switch (Environment.mode) {
       case EnvironmentMode.dev:
-        return 'http://192.168.20.59:8000/'; // real device
+        return 'http://192.168.20.154:8000/'; // real device
       case EnvironmentMode.production:
         return '';
     }

@@ -12,6 +12,10 @@ import 'package:abditrack_inventory/modules/cart/view/cart.dart';
 import 'package:abditrack_inventory/modules/catalog/cubit/catalog_cubit.dart';
 import 'package:abditrack_inventory/modules/create_product/cubit/create_product_cubit.dart';
 import 'package:abditrack_inventory/modules/create_product/view/create_product.dart';
+import 'package:abditrack_inventory/modules/customer/add_customer/cubit/add_customer_cubit.dart';
+import 'package:abditrack_inventory/modules/customer/add_customer/view/add_customer.dart';
+import 'package:abditrack_inventory/modules/customer/list_customer/cubit/list_customer_cubit.dart';
+import 'package:abditrack_inventory/modules/customer/list_customer/view/list_customer.dart';
 import 'package:abditrack_inventory/modules/dashboard/dashboard.dart';
 import 'package:abditrack_inventory/modules/edit_product/cubit/edit_product_cubit.dart';
 import 'package:abditrack_inventory/modules/edit_product/view/edit_product.dart';
@@ -34,6 +38,8 @@ import 'package:abditrack_inventory/modules/transaction/list_transaction/cubit/l
 import 'package:abditrack_inventory/modules/transaction/list_transaction/view/list_transaction.dart';
 import 'package:abditrack_inventory/modules/users/add_user/cubit/add_user_cubit.dart';
 import 'package:abditrack_inventory/modules/users/add_user/view/add_user.dart';
+import 'package:abditrack_inventory/modules/vehicle/list_vehicle_installed/cubit/list_vehicle_installed_cubit.dart';
+import 'package:abditrack_inventory/modules/vehicle/list_vehicle_installed/view/list_vehicle_installed.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -64,7 +70,7 @@ class Routes implements RouterInterface {
         builder: (ctx, GoRouterState state) {
           return BlocProvider(
             create: (context) => ProfileCubit(ctx),
-            child: ProfilePage(),
+            child: const ProfilePage(),
           );
         },
       ),
@@ -304,8 +310,10 @@ class Routes implements RouterInterface {
           return MultiBlocProvider(
             providers: [
               BlocProvider(
-                create: (ctx) => ProcessInstalationItemCubit(ctx,
-                    listItem: state.extra as List<TransactionItem>),
+                create: (ctx) => ProcessInstalationItemCubit(
+                  ctx,
+                  listItem: state.extra as List<TransactionItem>,
+                ),
               ),
             ],
             child: const ProcessInstalationItem(),
@@ -323,7 +331,49 @@ class Routes implements RouterInterface {
                     ctx, state.extra as Map<String, dynamic>),
               ),
             ],
-            child: InstalledVehicle(),
+            child: const InstalledVehicle(),
+          );
+        },
+      ),
+      GoRoute(
+        name: RouteNames.listVehicleInstalled,
+        path: RouteNames.listVehicleInstalled,
+        builder: (ctx, GoRouterState state) {
+          return MultiBlocProvider(
+            providers: [
+              BlocProvider(
+                create: (ctx) => ListVehicleInstalledCubit(ctx),
+              ),
+            ],
+            child: const ListVehicleInsalledPage(),
+          );
+        },
+      ),
+      GoRoute(
+        name: RouteNames.addCustomer,
+        path: RouteNames.addCustomer,
+        builder: (ctx, GoRouterState state) {
+          return MultiBlocProvider(
+            providers: [
+              BlocProvider(
+                create: (ctx) => AddCustomerCubit(ctx),
+              ),
+            ],
+            child: const AddCustomerPage(),
+          );
+        },
+      ),
+      GoRoute(
+        name: RouteNames.listCustomer,
+        path: RouteNames.listCustomer,
+        builder: (ctx, GoRouterState state) {
+          return MultiBlocProvider(
+            providers: [
+              BlocProvider(
+                create: (ctx) => ListCustomerCubit(ctx),
+              ),
+            ],
+            child: const ListCustomerPage(),
           );
         },
       ),

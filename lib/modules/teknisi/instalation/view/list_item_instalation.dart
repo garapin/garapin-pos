@@ -55,7 +55,8 @@ class ListItemInstalation extends StatelessWidget {
                 return CustomButton(
                   borderRadius: BorderRadius.circular(16),
                   onPressed: () {
-                    if (state.item[index].status == "OUT") {
+                    log(state.item[index].status.toString());
+                    if (state.item[index].status != "OUT") {
                       cubit.selectedItem(state.item[index]);
                     } else {
                       ShowNotify.error(context, msg: "Barang sudah terpasang");

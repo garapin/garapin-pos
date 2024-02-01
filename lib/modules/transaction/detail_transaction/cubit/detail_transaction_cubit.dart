@@ -102,5 +102,3 @@ class DetailTransactionCubit extends BaseCubit<DetailTransactionState> {
 }
 
 enum ShowItemType { installed, bring }
-
-

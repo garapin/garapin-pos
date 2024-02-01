@@ -26,4 +26,11 @@ class RouteNames {
   static const String processInstalationItem = "/process_instalation_item";
 
   static const String installedVehicle = "/installed_vehicle";
+
+  //vahicle installed
+  static const String listVehicleInstalled = "/list_vehicle_installed";
+
+  //customer/mitra
+  static const String addCustomer = "/add_customer";
+  static const String listCustomer = "/list_customer";
 }
