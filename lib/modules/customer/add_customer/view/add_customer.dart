@@ -25,30 +25,30 @@ class AddCustomerPage extends StatelessWidget {
             child: FormBuilder(
               key: cubit.formKey,
               child: Padding(
-                padding: EdgeInsets.symmetric(horizontal: 20),
+                padding: const EdgeInsets.symmetric(horizontal: 20),
                 child: Column(
                   children: [
-                    SizedBox(height: 20),
-                    OutlineTextField(
+                    const SizedBox(height: 20),
+                    const OutlineTextField(
                       hintText: 'Masukan Inisial Customer/Mitre',
                       name: 'name',
                       label: 'Nama',
                     ),
-                    SizedBox(height: 20),
-                    OutlineTextField(
+                    const SizedBox(height: 20),
+                    const OutlineTextField(
                       hintText: 'Nama lengkap customer/mitra',
                       name: 'full_name',
                       label: 'nama lengkap',
                     ),
-                    SizedBox(height: 20),
-                    OutlineTextField(
+                    const SizedBox(height: 20),
+                    const OutlineTextField(
                       typeInput: TextInputType.number,
                       hintText: 'Alamat customer/mitra',
                       maxLength: 6,
                       name: 'address',
                       label: 'Alamat',
                     ),
-                    SizedBox(height: 30),
+                    const SizedBox(height: 30),
                     ClipRRect(
                       borderRadius: BorderRadius.circular(12),
                       child: SizedBox(
