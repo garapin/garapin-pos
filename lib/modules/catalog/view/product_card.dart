@@ -1,7 +1,7 @@
-import 'package:abditrack_inventory/engine/configs/environment.dart';
-import 'package:abditrack_inventory/modules/catalog/cubit/catalog_cubit.dart';
-import 'package:abditrack_inventory/resources/resources.dart';
-import 'package:abditrack_inventory/widgets/components/image_load.dart';
+import 'package:armory/engine/configs/environment.dart';
+import 'package:armory/modules/catalog/cubit/catalog_cubit.dart';
+import 'package:armory/resources/resources.dart';
+import 'package:armory/widgets/components/image_load.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import '../../../data/models/base/product.dart';

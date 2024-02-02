@@ -1,6 +1,6 @@
-import 'package:abditrack_inventory/data/api/services.dart';
-import 'package:abditrack_inventory/data/models/base/item.dart';
-import 'package:abditrack_inventory/engine/engine.dart';
+import 'package:armory/data/api/services.dart';
+import 'package:armory/data/models/base/item.dart';
+import 'package:armory/engine/engine.dart';
 import 'package:flutter/material.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 

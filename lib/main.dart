@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get_storage/get_storage.dart';
@@ -10,6 +11,13 @@ import 'engine/configs/environment.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+      options: const FirebaseOptions(
+    apiKey: 'AIzaSyCQFDybRHbzPHRvq0zuXFY0Fdosl7fI5YI',
+    appId: '1:921694687850:android:222aa5d7d6e23132acb013',
+    messagingSenderId: '921694687850',
+    projectId: 'armory-3c2be',
+  ));
 
   HttpOverrides.global = MyHttpOverrides();
 
@@ -39,7 +47,9 @@ class InitialApps {
     observers.add(RouteObserver<PageRoute>());
   }
 
-  static firebaseInit() async {}
+  static firebaseInit() async {
+    // Initialize Firebase
+  }
 }
 
 class MyHttpOverrides extends HttpOverrides {

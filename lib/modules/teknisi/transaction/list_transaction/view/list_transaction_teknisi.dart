@@ -1,6 +1,6 @@
-import 'package:abditrack_inventory/modules/teknisi/transaction/list_transaction/cubit/list_transaction_teknisi_cubit.dart';
-import 'package:abditrack_inventory/modules/transaction/list_transaction/view/transaction_card.dart';
-import 'package:abditrack_inventory/widgets/widgets.dart';
+import 'package:armory/modules/teknisi/transaction/list_transaction/cubit/list_transaction_teknisi_cubit.dart';
+import 'package:armory/modules/transaction/list_transaction/view/transaction_card.dart';
+import 'package:armory/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';

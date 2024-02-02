@@ -1,11 +1,12 @@
 import 'dart:io';
-import 'package:abditrack_inventory/modules/teknisi/instalation/cubit/process_instalation_item_cubit.dart';
-import 'package:abditrack_inventory/widgets/widgets.dart';
+import 'package:armory/modules/teknisi/instalation/cubit/process_instalation_item_cubit.dart';
+import 'package:armory/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 
 import '../../../../engine/base/app.dart';
+import '../../../../engine/helpers/color_status.dart';
 import '../../../../themes/themes.dart';
 import '../../../create_product/view/create_product.dart';
 
@@ -43,6 +44,7 @@ class ProcessInstalationItem extends StatelessWidget {
                       ),
                       SizedBox(height: 20),
                       OutlineTextField(
+                        typeInput: TextInputType.number,
                         hintText: 'Masukan Nomor Lambung',
                         name: 'vehicle_no',
                         label: 'Nomor Lambung',
@@ -59,11 +61,14 @@ class ProcessInstalationItem extends StatelessWidget {
                         typeInput: TextInputType.number,
                         hintText: 'Masukan Memory yang digunakan',
                         name: 'memory',
-                        label: 'Memory',
+                        label: 'Memory (*GB)',
                       ),
                     ],
                   ),
                   const SizedBox(height: 20),
+                  Text("Device yang akan dipasang",
+                      style: AppFont.largeBold(context)),
+                  SizedBox(height: 4),
                   SizedBox(
                     child: ListView.builder(
                       shrinkWrap: true,
@@ -79,6 +84,19 @@ class ProcessInstalationItem extends StatelessWidget {
                                 horizontal: 4, vertical: 4),
                             child: Row(
                               children: [
+                                Container(
+                                  padding: const EdgeInsets.all(12),
+                                  decoration: BoxDecoration(
+                                      shape: BoxShape.circle,
+                                      color: statusItemColor(state
+                                          .item[index].status!
+                                          .toUpperCase())),
+                                  child: Text(
+                                    (index + 1).toString(),
+                                    style: AppFont.whiteLarge(context),
+                                  ),
+                                ),
+                                SizedBox(width: 16),
                                 Column(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -105,8 +123,9 @@ class ProcessInstalationItem extends StatelessWidget {
                                       horizontal: 12),
                                   decoration: BoxDecoration(
                                       borderRadius: BorderRadius.circular(32),
-                                      color: AppColor.appColor.primary
-                                          .withOpacity(0.2)),
+                                      color: statusItemColor(state
+                                          .item[index].status!
+                                          .toUpperCase())),
                                   child: Center(
                                       child: Text(
                                           state.item[index].status
@@ -115,7 +134,7 @@ class ProcessInstalationItem extends StatelessWidget {
                                           style: AppFont.whiteLarge(context)!
                                               .copyWith(
                                             fontWeight: FontWeight.bold,
-                                            color: AppColor.appColor.primary,
+                                            color: AppColor.appColor.background,
                                           ))),
                                 )
                               ],
@@ -125,12 +144,35 @@ class ProcessInstalationItem extends StatelessWidget {
                       },
                     ),
                   ),
-                  ElevatedButton(
+                  SizedBox(height: 20),
+                  CustomButton(
                     onPressed: () {
                       cubit.formKey.currentState!.save();
                       cubit.pickImage();
                     },
-                    child: const Text("Pilih Image"),
+                    child: Container(
+                      width: baseWidth,
+                      height: 160.0,
+                      decoration: BoxDecoration(
+                        color: const Color.fromARGB(255, 193, 193, 193),
+                        border: Border.all(
+                          color: const Color.fromARGB(
+                              221, 103, 100, 100), // Warna outline lebih gelap
+                          width: 2.0,
+                        ),
+                        borderRadius: BorderRadius.circular(10.0),
+                      ),
+                      child: Center(
+                        child: Icon(
+                          Icons.photo,
+                          size: 80.0,
+                          color: Colors.white, // Warna ikon
+                        ),
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 20,
                   ),
                   (state.pickedImage.isEmpty)
                       ? SizedBox()
@@ -159,15 +201,19 @@ class ProcessInstalationItem extends StatelessWidget {
                             },
                           ),
                         ),
-                  const SizedBox(height: 50),
-                  SizedBox(
-                      height: 45,
-                      child: ElevatedButton(
-                          onPressed: () {
-                            cubit.doSubmit();
-                          },
-                          child: const Text("Simpan"))),
-                  SizedBox(height: 20)
+                  const SizedBox(height: 30),
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(16),
+                    child: SizedBox(
+                        height: 50,
+                        child: ElevatedButton(
+                            style: ElevatedButton.styleFrom(),
+                            onPressed: () {
+                              cubit.doSubmit();
+                            },
+                            child: const Text("Simpan"))),
+                  ),
+                  SizedBox(height: 50)
                 ],
               ),
             ),

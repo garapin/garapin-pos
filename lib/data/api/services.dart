@@ -1,21 +1,20 @@
 import 'dart:developer';
 import 'dart:io';
-import 'package:abditrack_inventory/data/api/error_handler.dart';
-import 'package:abditrack_inventory/data/models/base/cart.dart';
-import 'package:abditrack_inventory/data/models/base/instalation_vehicle.dart';
-import 'package:abditrack_inventory/data/models/base/mitra.dart';
-import 'package:abditrack_inventory/data/models/base/product.dart';
-import 'package:abditrack_inventory/data/models/base/item.dart';
-import 'package:abditrack_inventory/data/models/base/rules_scan.dart';
-import 'package:abditrack_inventory/data/models/base/transaction.dart';
-import 'package:abditrack_inventory/data/models/base/transaction_item.dart';
-import 'package:abditrack_inventory/data/models/base/user.dart';
-import 'package:abditrack_inventory/data/models/base/vehicle.dart';
-import 'package:abditrack_inventory/engine/engine.dart';
+import 'package:armory/data/api/error_handler.dart';
+import 'package:armory/data/models/base/cart.dart';
+import 'package:armory/data/models/base/instalation_vehicle.dart';
+import 'package:armory/data/models/base/mitra.dart';
+import 'package:armory/data/models/base/product.dart';
+import 'package:armory/data/models/base/item.dart';
+import 'package:armory/data/models/base/rules_scan.dart';
+import 'package:armory/data/models/base/transaction.dart';
+import 'package:armory/data/models/base/transaction_item.dart';
+import 'package:armory/data/models/base/user.dart';
+import 'package:armory/data/models/base/vehicle.dart';
+import 'package:armory/engine/engine.dart';
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-
 import 'configure.dart';
 import 'response.dart';
 
@@ -110,6 +109,16 @@ class ApiService {
         .handler((error) => ApiResponseList<Product>.onError(error));
   }
 
+  static Future<ApiResponse<User>> checkEmailForGoogleSignIn(
+    BuildContext context, {
+    required String email,
+  }) async {
+    return await ApiConfigure(context)
+        .post('user/check_email', params: {"email": email})
+        .then((result) => ApiResponse<User>.fromJson(result.data))
+        .handler((error) => ApiResponse<User>.onError(error));
+  }
+
   static Future<ApiResponse<Product>> singleProduct(
     BuildContext context, {
     required int id,
@@ -199,7 +208,7 @@ class ApiService {
           "imei": imei,
           "no_sn": noSn,
           "no_product": noProduct,
-          "status": "in",
+          "status": "IN",
           "id_user": Sessions.getUserModel()?.id
         })
         .then((result) => ApiResponse<dynamic>.fromJson(result.data))
@@ -215,17 +224,20 @@ class ApiService {
         .handler((error) => ApiResponseList<Cart>.onError(error));
   }
 
-  static Future<ApiResponse<dynamic>> addToCart(BuildContext context,
+  static Future<ApiResponse> addToCart(BuildContext context,
       {String? imei, String? noSn, String? noProduct}) async {
+    log(imei.toString());
+    log(noSn.toString());
+    log(noProduct.toString());
     return await ApiConfigure(context)
         .post('cart/create', params: {
-          "imei": imei,
-          "no_sn": noSn,
-          "no_product": noProduct,
-          "id_user": Sessions.getUserModel()?.id
+          "imei": imei.toString(),
+          "no_sn": noSn.toString(),
+          "no_product": noProduct.toString(),
+          "id_user": Sessions.getUserModel()?.id.toString()
         })
-        .then((result) => ApiResponse<dynamic>.fromJson(result.data))
-        .handler((error) => ApiResponse<dynamic>.onError(error));
+        .then((result) => ApiResponse.fromJson(result.data))
+        .handler((error) => ApiResponse.onError(error));
   }
 
   static Future<ApiResponse<dynamic>> addTransaction(BuildContext context,

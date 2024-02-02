@@ -1,5 +1,5 @@
 import 'dart:convert';
-import 'package:abditrack_inventory/data/models/base/user.dart';
+import 'package:armory/data/models/base/user.dart';
 import 'package:get_storage/get_storage.dart';
 
 import 'constants.dart';

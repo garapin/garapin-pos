@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>921694687850-4vhgnddajd19eeae1hlida28quu0ta6b.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.921694687850-4vhgnddajd19eeae1hlida28quu0ta6b</string>
+	<key>API_KEY</key>
+	<string>AIzaSyANkol1urFuu3v1iJgnui9K6Xdg-rxlSmw</string>
+	<key>GCM_SENDER_ID</key>
+	<string>921694687850</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.abditrack.armory</string>
+	<key>PROJECT_ID</key>
+	<string>armory-3c2be</string>
+	<key>STORAGE_BUCKET</key>
+	<string>armory-3c2be.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:921694687850:ios:f2999ffed1cd3a25acb013</string>
+</dict>
+</plist>

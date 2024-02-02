@@ -1,12 +1,13 @@
 import 'dart:developer';
-import 'package:abditrack_inventory/modules/teknisi/instalation/cubit/list_item_instalation_cubit.dart';
-import 'package:abditrack_inventory/routes/routes.dart';
-import 'package:abditrack_inventory/widgets/widgets.dart';
+import 'package:armory/modules/teknisi/instalation/cubit/list_item_instalation_cubit.dart';
+import 'package:armory/routes/routes.dart';
+import 'package:armory/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../../engine/base/app.dart';
+import '../../../../engine/helpers/color_status.dart';
 import '../../../../themes/themes.dart';
 
 class ListItemInstalation extends StatelessWidget {
@@ -39,7 +40,7 @@ class ListItemInstalation extends StatelessWidget {
                 )))),
       ),
       appBar: AppBar(
-        title: const Text("Pilih Barang dan dipasang"),
+        title: const Text("Device Tersedia"),
       ),
       body: BlocBuilder<ListItemInstalationCubit, ListItemInstalationState>(
         builder: (context, state) {
@@ -56,7 +57,7 @@ class ListItemInstalation extends StatelessWidget {
                   borderRadius: BorderRadius.circular(16),
                   onPressed: () {
                     log(state.item[index].status.toString());
-                    if (state.item[index].status != "OUT") {
+                    if (state.item[index].status == "IN") {
                       cubit.selectedItem(state.item[index]);
                     } else {
                       ShowNotify.error(context, msg: "Barang sudah terpasang");
@@ -72,7 +73,8 @@ class ListItemInstalation extends StatelessWidget {
                           horizontal: 16, vertical: 4),
                       child: Row(
                         children: [
-                          (state.item[index].status == "INSTALLED")
+                          (state.item[index].status!.toUpperCase() ==
+                                  "INSTALLED")
                               ? SizedBox()
                               : Checkbox(
                                   value: state.selectedItem
@@ -107,8 +109,8 @@ class ListItemInstalation extends StatelessWidget {
                             padding: const EdgeInsets.symmetric(horizontal: 12),
                             decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(32),
-                                color:
-                                    AppColor.appColor.primary.withOpacity(0.2)),
+                                color: statusItemColor(
+                                    state.item[index].status!.toUpperCase())),
                             child: Center(
                                 child: Text(
                                     state.item[index].status?.toUpperCase() ??
@@ -116,7 +118,7 @@ class ListItemInstalation extends StatelessWidget {
                                     style:
                                         AppFont.whiteLarge(context)!.copyWith(
                                       fontWeight: FontWeight.bold,
-                                      color: AppColor.appColor.primary,
+                                      color: AppColor.appColor.background,
                                     ))),
                           )
                         ],

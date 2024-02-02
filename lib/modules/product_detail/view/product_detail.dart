@@ -1,7 +1,7 @@
-import 'package:abditrack_inventory/modules/installed_vehicle/cubit/installed_vehicle_cubit.dart';
-import 'package:abditrack_inventory/modules/product_detail/cubit/product_detail_cubit.dart';
-import 'package:abditrack_inventory/widgets/components/empty_widget_image.dart';
-import 'package:abditrack_inventory/widgets/widgets.dart';
+import 'package:armory/modules/installed_vehicle/cubit/installed_vehicle_cubit.dart';
+import 'package:armory/modules/product_detail/cubit/product_detail_cubit.dart';
+import 'package:armory/widgets/components/empty_widget_image.dart';
+import 'package:armory/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';

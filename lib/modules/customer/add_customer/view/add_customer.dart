@@ -1,5 +1,5 @@
-import 'package:abditrack_inventory/modules/customer/add_customer/cubit/add_customer_cubit.dart';
-import 'package:abditrack_inventory/widgets/widgets.dart';
+import 'package:armory/modules/customer/add_customer/cubit/add_customer_cubit.dart';
+import 'package:armory/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
@@ -42,9 +42,7 @@ class AddCustomerPage extends StatelessWidget {
                     ),
                     const SizedBox(height: 20),
                     const OutlineTextField(
-                      typeInput: TextInputType.number,
                       hintText: 'Alamat customer/mitra',
-                      maxLength: 6,
                       name: 'address',
                       label: 'Alamat',
                     ),
@@ -56,7 +54,7 @@ class AddCustomerPage extends StatelessWidget {
                           width: baseWidth,
                           child: ElevatedButton(
                               onPressed: () {
-                                cubit.formKey.currentState!.save();
+                                cubit.formKey.currentState?.saveAndValidate();
                                 cubit.doSubmit();
                               },
                               child: const Text("Simpan"))),

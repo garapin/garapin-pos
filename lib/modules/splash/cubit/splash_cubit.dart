@@ -1,5 +1,5 @@
 import 'dart:developer';
-import 'package:abditrack_inventory/data/models/base/user.dart';
+import 'package:armory/data/models/base/user.dart';
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';

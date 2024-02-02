@@ -1,10 +1,10 @@
 import 'dart:developer';
-import 'package:abditrack_inventory/engine/engine.dart';
-import 'package:abditrack_inventory/modules/add_product/cubit/add_product_cubit.dart';
-import 'package:abditrack_inventory/modules/add_to_cart/cubit/add_to_cart_cubit.dart';
-import 'package:abditrack_inventory/routes/routes.dart';
-import 'package:abditrack_inventory/themes/themes.dart';
-import 'package:abditrack_inventory/widgets/widgets.dart';
+import 'package:armory/engine/engine.dart';
+import 'package:armory/modules/add_product/cubit/add_product_cubit.dart';
+import 'package:armory/modules/add_to_cart/cubit/add_to_cart_cubit.dart';
+import 'package:armory/routes/routes.dart';
+import 'package:armory/themes/themes.dart';
+import 'package:armory/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -49,6 +49,11 @@ class AddToCartPage extends StatelessWidget {
                             final Uint8List? image = capture.image;
                             // Timer.periodic(Duration(seconds: 3), (t) {
                             for (final barcode in barcodes) {
+                              // log("data ditemukan ${barcode.rawValue}");
+                              // cubit.doScanv2(barcode.rawValue!);
+                              if (state.typeScan == TypeScan.noProduct) {
+                                cubit.checkRulesScan(barcode.rawValue!);
+                              }
                               log("data ditemukan ${barcode.rawValue}");
                               cubit.doScanv2(barcode.rawValue!);
                             }
@@ -68,9 +73,9 @@ class AddToCartPage extends StatelessWidget {
                     ),
                     const SizedBox(height: 12),
                     (state.rulesScan == null)
-                        ? SizedBox()
+                        ? const SizedBox()
                         : (state.rulesScan?.scanSn == "NO")
-                            ? SizedBox()
+                            ? const SizedBox()
                             : ResultScanWidget(
                                 onPressed: () =>
                                     cubit.changeTypeScan(TypeScan.sn),
@@ -81,9 +86,9 @@ class AddToCartPage extends StatelessWidget {
                               ),
                     const SizedBox(height: 12),
                     (state.rulesScan == null)
-                        ? SizedBox()
+                        ? const SizedBox()
                         : (state.rulesScan?.scanImei == "NO")
-                            ? SizedBox()
+                            ? const SizedBox()
                             : ResultScanWidget(
                                 isActive: state.typeScan == TypeScan.imei
                                     ? true
@@ -92,7 +97,7 @@ class AddToCartPage extends StatelessWidget {
                                     cubit.changeTypeScan(TypeScan.imei),
                                 data: 'IMEI ${state.imei ?? ""}',
                               ),
-                    SizedBox(height: 60),
+                    const SizedBox(height: 50),
                     Container(
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(36)),
@@ -101,7 +106,9 @@ class AddToCartPage extends StatelessWidget {
                         child: ClipRRect(
                           borderRadius: BorderRadius.circular(36),
                           child: ElevatedButton(
-                              onPressed: () => cubit.doSubmit(),
+                              onPressed: () {
+                                cubit.doSubmit();
+                              },
                               child: Text("Simpan Ke Keranjang")),
                         )),
                     SizedBox(height: 20),

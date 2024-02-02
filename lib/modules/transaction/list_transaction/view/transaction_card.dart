@@ -1,7 +1,7 @@
-import 'package:abditrack_inventory/data/models/base/transaction.dart';
-import 'package:abditrack_inventory/engine/engine.dart';
-import 'package:abditrack_inventory/engine/helpers/color_status.dart';
-import 'package:abditrack_inventory/themes/themes.dart';
+import 'package:armory/data/models/base/transaction.dart';
+import 'package:armory/engine/engine.dart';
+import 'package:armory/engine/helpers/color_status.dart';
+import 'package:armory/themes/themes.dart';
 import 'package:flutter/material.dart';
 
 class TransactionCard extends StatelessWidget {

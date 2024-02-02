@@ -1,7 +1,7 @@
-import 'package:abditrack_inventory/data/api/services.dart';
-import 'package:abditrack_inventory/data/models/base/product.dart';
-import 'package:abditrack_inventory/engine/engine.dart';
-import 'package:abditrack_inventory/themes/themes.dart';
+import 'package:armory/data/api/services.dart';
+import 'package:armory/data/models/base/product.dart';
+import 'package:armory/engine/engine.dart';
+import 'package:armory/themes/themes.dart';
 import 'package:flutter/material.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
@@ -144,17 +144,17 @@ class CatalogCubit extends BaseCubit<CatalogState> {
                 children: [
                   FilterButton(
                     onPressed: () {
-                      sort("latest");
+                      sort("oldest");
                     },
                     title: 'Terbaru',
-                    isActive: sortProduct.text == "latest" ? true : false,
+                    isActive: sortProduct.text == "oldest" ? true : false,
                   ),
                   FilterButton(
                     onPressed: () {
-                      sort("oldest");
+                      sort("latest");
                     },
                     title: 'Terlama',
-                    isActive: sortProduct.text == "oldest" ? true : false,
+                    isActive: sortProduct.text == "latest" ? true : false,
                   ),
                   FilterButton(
                     onPressed: () {

@@ -1,9 +1,9 @@
-import 'package:abditrack_inventory/data/models/base/instalation_vehicle.dart';
-import 'package:abditrack_inventory/data/models/base/item.dart';
-import 'package:abditrack_inventory/modules/installed_vehicle/cubit/installed_vehicle_cubit.dart';
-import 'package:abditrack_inventory/modules/product_detail/view/product_detail.dart';
-import 'package:abditrack_inventory/themes/themes.dart';
-import 'package:abditrack_inventory/widgets/widgets.dart';
+import 'package:armory/data/models/base/instalation_vehicle.dart';
+import 'package:armory/data/models/base/item.dart';
+import 'package:armory/modules/installed_vehicle/cubit/installed_vehicle_cubit.dart';
+import 'package:armory/modules/product_detail/view/product_detail.dart';
+import 'package:armory/themes/themes.dart';
+import 'package:armory/widgets/widgets.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -11,6 +11,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../engine/base/app.dart';
 import '../../../engine/configs/environment.dart';
 import '../../../resources/resources.dart';
+import '../../transaction/detail_transaction/widget/full_image_network.dart';
+import 'full_image_installed.dart';
 
 class InstalledVehicle extends StatelessWidget {
   const InstalledVehicle({super.key});
@@ -47,18 +49,41 @@ class InstalledVehicle extends StatelessWidget {
                                 0,
                         itemBuilder: (BuildContext context, int itemIndex,
                                 int pageViewIndex) =>
-                            ClipRRect(
-                                borderRadius: BorderRadius.circular(12),
-                                child: ImageLoad(
-                                    width: baseWidth,
-                                    imageUrl: Environment.showUrlImage(
-                                        path: state.instalationVehicle.first
-                                                    .instalationImages?[
-                                                itemIndex] ??
-                                            ""),
-                                    fit: BoxFit.contain,
-                                    errorWidget: Resources.images.armor
-                                        .image(color: Colors.grey))),
+                            CustomButton(
+                          onPressed: () {
+                            showModalBottomSheet(
+                                showDragHandle: true,
+                                isScrollControlled: true,
+                                shape: const RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.only(
+                                        topLeft: Radius.circular(12),
+                                        topRight: Radius.circular(12))),
+                                context: context,
+                                builder: (BuildContext context) {
+                                  return SizedBox(
+                                    height: baseHeight - 200,
+                                    child: FullImageInstalled(
+                                        image: state.instalationVehicle
+                                            .map((e) =>
+                                                e.instalationImages ??
+                                                []) // Jika instalationImages null, gunakan list kosong
+                                            .expand((images) => images)
+                                            .toList()),
+                                  );
+                                });
+                          },
+                          child: ClipRRect(
+                              borderRadius: BorderRadius.circular(12),
+                              child: ImageLoad(
+                                  width: baseWidth,
+                                  imageUrl: Environment.showUrlImage(
+                                      path: state.instalationVehicle.first
+                                              .instalationImages?[itemIndex] ??
+                                          ""),
+                                  fit: BoxFit.contain,
+                                  errorWidget: Resources.images.armor
+                                      .image(color: Colors.grey))),
+                        ),
                         options: CarouselOptions(
                           height: 300,
                           aspectRatio: 16 / 9,
@@ -81,7 +106,7 @@ class InstalledVehicle extends StatelessWidget {
                         : VehicleWidget(item: state.instalationVehicle[0]),
                     const SizedBox(height: 24),
                     Text(
-                      "Barang Terpasang",
+                      "Device Terpasang",
                       style: AppFont.largeBold(context),
                     ),
                     ListView.builder(

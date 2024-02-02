@@ -1,6 +1,6 @@
 import 'dart:developer';
-import 'package:abditrack_inventory/modules/profile/view/profile.dart';
-import 'package:abditrack_inventory/modules/teknisi/homepage_teknisi/view/homepage_teknisi.dart';
+import 'package:armory/modules/profile/view/profile.dart';
+import 'package:armory/modules/teknisi/homepage_teknisi/view/homepage_teknisi.dart';
 import 'package:flutter/material.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import '../../../../engine/base/base_cubit.dart';

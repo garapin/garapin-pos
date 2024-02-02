@@ -1,7 +1,7 @@
-import 'package:abditrack_inventory/data/api/services.dart';
-import 'package:abditrack_inventory/data/models/base/product.dart';
-import 'package:abditrack_inventory/data/models/base/rules_scan.dart';
-import 'package:abditrack_inventory/engine/engine.dart';
+import 'package:armory/data/api/services.dart';
+import 'package:armory/data/models/base/product.dart';
+import 'package:armory/data/models/base/rules_scan.dart';
+import 'package:armory/engine/engine.dart';
 import 'package:flutter/material.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';

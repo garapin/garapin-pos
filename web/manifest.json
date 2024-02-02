@@ -1,6 +1,6 @@
 {
-    "name": "abditrack_inventory",
-    "short_name": "abditrack_inventory",
+    "name": "armory",
+    "short_name": "armory",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",

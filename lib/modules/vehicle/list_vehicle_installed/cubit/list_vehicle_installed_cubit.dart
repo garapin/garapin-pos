@@ -1,5 +1,5 @@
-import 'package:abditrack_inventory/data/api/services.dart';
-import 'package:abditrack_inventory/engine/engine.dart';
+import 'package:armory/data/api/services.dart';
+import 'package:armory/engine/engine.dart';
 import 'package:flutter/material.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import '../../../../data/models/base/vehicle.dart';
@@ -16,7 +16,12 @@ class ListVehicleInstalledCubit extends BaseCubit<ListVehicleInstalledState> {
     loadingState();
     final data = await ApiService.listInsatalledVehicle(context);
     if (data.isSuccess) {
-      emit(state.copyWith(status: DataStateStatus.success, vehicle: data.data));
+      if (data.data.isEmpty) {
+        emit(state.copyWith(status: DataStateStatus.empty, vehicle: data.data));
+      } else {
+        emit(state.copyWith(
+            status: DataStateStatus.success, vehicle: data.data));
+      }
     } else {
       emit(state.copyWith(status: DataStateStatus.error, err: data.message));
     }

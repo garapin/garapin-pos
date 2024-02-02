@@ -1,8 +1,8 @@
 import 'dart:io';
-import 'package:abditrack_inventory/engine/engine.dart';
-import 'package:abditrack_inventory/modules/create_product/cubit/create_product_cubit.dart';
-import 'package:abditrack_inventory/themes/themes.dart';
-import 'package:abditrack_inventory/widgets/widgets.dart';
+import 'package:armory/engine/engine.dart';
+import 'package:armory/modules/create_product/cubit/create_product_cubit.dart';
+import 'package:armory/themes/themes.dart';
+import 'package:armory/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
@@ -93,7 +93,7 @@ class CreateProductPage extends StatelessWidget {
                               borderRadius: BorderRadius.circular(20),
                               child: ElevatedButton(
                                   onPressed: () {
-                                    cubit.pickImage(ImageSource.gallery);
+                                    cubit.pickImage(ImageSource.camera);
                                   },
                                   child: Text(
                                     "Pilih Dari Kamera",

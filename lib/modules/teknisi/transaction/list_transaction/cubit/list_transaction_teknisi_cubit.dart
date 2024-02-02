@@ -1,5 +1,5 @@
 import 'dart:developer';
-import 'package:abditrack_inventory/data/api/services.dart';
+import 'package:armory/data/api/services.dart';
 import 'package:flutter/material.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import '../../../../../data/models/base/transaction.dart';
@@ -49,7 +49,7 @@ class ListTransactionTeknisiCubit
   }
 
   @override
-  Future<void> refreshData() => initData();
+  Future<void> refreshData() => initData(status: state.filterStatus);
 
   changeStatus(String status) async {
     initData(status: status);

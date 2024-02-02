@@ -1,4 +1,4 @@
-import 'package:abditrack_inventory/data/models/base/product.dart';
+import 'package:armory/data/models/base/product.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 

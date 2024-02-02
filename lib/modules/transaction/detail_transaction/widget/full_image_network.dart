@@ -1,4 +1,4 @@
-import 'package:abditrack_inventory/engine/engine.dart';
+import 'package:armory/engine/engine.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../data/models/base/transaction.dart';
@@ -21,19 +21,12 @@ class FullImageNetworkWidget extends StatelessWidget {
                   path: transaction.signatureImage ?? ""),
               fit: BoxFit.contain,
               errorWidget: EmptyImageWidget()),
-          Divider(
-            thickness: 50,
-            color: Colors.black,
-          ),
           ListView.separated(
             shrinkWrap: true,
             physics: NeverScrollableScrollPhysics(),
             itemCount: transaction.instalationImage!.length,
             separatorBuilder: (context, index) {
-              return Divider(
-                thickness: 50,
-                color: Colors.black,
-              );
+              return SizedBox();
             },
             itemBuilder: (context, index) {
               return ImageLoad(

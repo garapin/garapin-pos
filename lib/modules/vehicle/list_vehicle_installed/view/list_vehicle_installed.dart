@@ -1,11 +1,13 @@
-import 'package:abditrack_inventory/modules/vehicle/list_vehicle_installed/cubit/list_vehicle_installed_cubit.dart';
-import 'package:abditrack_inventory/widgets/widgets.dart';
+import 'package:armory/modules/vehicle/list_vehicle_installed/cubit/list_vehicle_installed_cubit.dart';
+import 'package:armory/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../../../engine/helpers/options.dart';
 import '../../../../routes/routes.dart';
 import '../../../../themes/themes.dart';
+import '../../../../widgets/components/empty_widget_image.dart';
 import '../../../installed_vehicle/cubit/installed_vehicle_cubit.dart';
 
 class ListVehicleInsalledPage extends StatelessWidget {
@@ -22,6 +24,10 @@ class ListVehicleInsalledPage extends StatelessWidget {
         builder: (context, state) {
           return ContainerStateHandler(
             refresherOptions: cubit.defaultRefresh,
+            emptyOptions: EmptyOptions(
+                customEmpty: const EmptyImageData(
+              text: "Data Kosong",
+            )),
             loading: const Center(
               child: CircularProgressIndicator(),
             ),

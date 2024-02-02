@@ -4,7 +4,7 @@ import '../../resources/resources.dart';
 
 part 'client.dart';
 
-enum EnvironmentMode { dev, production }
+enum EnvironmentMode { test, dev, production }
 
 abstract class Environment {
   static EnvironmentMode mode = EnvironmentMode.dev;
@@ -49,6 +49,8 @@ extension EnvironmentModeExtension on EnvironmentMode {
         return 'Production';
       case EnvironmentMode.dev:
         return 'Development';
+      case EnvironmentMode.test:
+        return 'Test';
     }
   }
 }

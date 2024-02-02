@@ -1,8 +1,8 @@
-import 'package:abditrack_inventory/engine/configs/environment.dart';
-import 'package:abditrack_inventory/modules/catalog/view/product_card.dart';
-import 'package:abditrack_inventory/routes/routes.dart';
-import 'package:abditrack_inventory/themes/themes.dart';
-import 'package:abditrack_inventory/widgets/widgets.dart';
+import 'package:armory/engine/configs/environment.dart';
+import 'package:armory/modules/catalog/view/product_card.dart';
+import 'package:armory/routes/routes.dart';
+import 'package:armory/themes/themes.dart';
+import 'package:armory/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -113,19 +113,19 @@ class CatalogPage extends StatelessWidget {
                             const SizedBox(width: 12),
                             FilterButton(
                               onPressed: () {
-                                cubit.sort("latest");
+                                cubit.sort("oldest");
                               },
                               title: 'Terbaru',
-                              isActive: cubit.sortProduct.text == "latest"
+                              isActive: cubit.sortProduct.text == "oldest"
                                   ? true
                                   : false,
                             ),
                             FilterButton(
                               onPressed: () {
-                                cubit.sort("oldest");
+                                cubit.sort("latest");
                               },
                               title: 'Terlama',
-                              isActive: cubit.sortProduct.text == "oldest"
+                              isActive: cubit.sortProduct.text == "latest"
                                   ? true
                                   : false,
                             ),

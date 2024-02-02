@@ -1,11 +1,11 @@
-import 'package:abditrack_inventory/data/models/base/item.dart';
-import 'package:abditrack_inventory/engine/engine.dart';
-import 'package:abditrack_inventory/modules/installed_vehicle/cubit/installed_vehicle_cubit.dart';
-import 'package:abditrack_inventory/modules/product_detail/view/product_detail.dart';
-import 'package:abditrack_inventory/modules/transaction/detail_transaction/cubit/detail_transaction_cubit.dart';
-import 'package:abditrack_inventory/modules/transaction/detail_transaction/widget/full_image_network.dart';
-import 'package:abditrack_inventory/routes/routes.dart';
-import 'package:abditrack_inventory/widgets/widgets.dart';
+import 'package:armory/data/models/base/item.dart';
+import 'package:armory/engine/engine.dart';
+import 'package:armory/modules/installed_vehicle/cubit/installed_vehicle_cubit.dart';
+import 'package:armory/modules/product_detail/view/product_detail.dart';
+import 'package:armory/modules/transaction/detail_transaction/cubit/detail_transaction_cubit.dart';
+import 'package:armory/modules/transaction/detail_transaction/widget/full_image_network.dart';
+import 'package:armory/routes/routes.dart';
+import 'package:armory/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -301,7 +301,8 @@ class DetailTransactionPage extends StatelessWidget {
                                     child: ItemWidget(
                                         item: Item(
                                             noProduct: item.noProduct ?? "",
-                                            name: item.name?.toUpperCase()??"",
+                                            name:
+                                                item.name?.toUpperCase() ?? "",
                                             imei: item.imei,
                                             noSn: item.noSn,
                                             status: item.status),

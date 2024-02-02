@@ -1,9 +1,10 @@
 import 'dart:developer';
-import 'package:abditrack_inventory/engine/base/app.dart';
-import 'package:abditrack_inventory/modules/cart/cubit/cart_cubit.dart';
-import 'package:abditrack_inventory/modules/create_product/view/create_product.dart';
-import 'package:abditrack_inventory/widgets/components/empty_widget_image.dart';
-import 'package:abditrack_inventory/widgets/widgets.dart';
+import 'package:armory/engine/base/app.dart';
+import 'package:armory/modules/cart/cubit/cart_cubit.dart';
+import 'package:armory/modules/create_product/view/create_product.dart';
+import 'package:armory/routes/routes.dart';
+import 'package:armory/widgets/components/empty_widget_image.dart';
+import 'package:armory/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
@@ -261,13 +262,25 @@ class ModalTransaction extends StatelessWidget {
                           ),
                         ],
                       ),
-                      SizedBox(height: 16),
                       Align(
                         alignment: Alignment.centerLeft,
-                        child:
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
                             Text("Customer", style: AppFont.largeBold(context)),
+                            TextButton(
+                                onPressed: () {
+                                  context
+                                      .pushNamed(RouteNames.addCustomer)
+                                      .then((value) {
+                                    cubit.refreshData();
+                                    context.pop();
+                                  });
+                                },
+                                child: Text("New Customer"))
+                          ],
+                        ),
                       ),
-                      SizedBox(height: 4),
                       FormBuilderDropdown(
                           onChanged: (value) {
                             cubit.selectedMitra(value!);

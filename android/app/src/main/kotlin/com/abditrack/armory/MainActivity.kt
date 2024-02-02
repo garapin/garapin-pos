@@ -1,4 +1,4 @@
-package com.example.abditrack_inventory
+package com.abditrack.armory
 
 import io.flutter.embedding.android.FlutterActivity
 

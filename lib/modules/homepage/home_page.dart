@@ -1,9 +1,9 @@
-import 'package:abditrack_inventory/engine/engine.dart';
-import 'package:abditrack_inventory/modules/homepage/cubit/homepage_cubit.dart';
-import 'package:abditrack_inventory/modules/transaction/list_transaction/view/transaction_card.dart';
-import 'package:abditrack_inventory/routes/routes.dart';
-import 'package:abditrack_inventory/themes/themes.dart';
-import 'package:abditrack_inventory/widgets/widgets.dart';
+import 'package:armory/engine/engine.dart';
+import 'package:armory/modules/homepage/cubit/homepage_cubit.dart';
+import 'package:armory/modules/transaction/list_transaction/view/transaction_card.dart';
+import 'package:armory/routes/routes.dart';
+import 'package:armory/themes/themes.dart';
+import 'package:armory/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -22,7 +22,7 @@ class HomePage extends StatelessWidget {
           builder: (context, state) {
             return ContainerStateHandler(
               refresherOptions: cubit.defaultRefresh,
-              loading: Center(
+              loading: const Center(
                 child: CircularProgressIndicator(),
               ),
               status: DataStateStatus.success,
@@ -103,7 +103,7 @@ class HomePage extends StatelessWidget {
                           ),
                           const SizedBox(width: 4),
                           InItemWidget(
-                            icon: Icons.shop,
+                            icon: Icons.people_alt,
                             onPressed: () {
                               context.pushNamed(RouteNames.listCustomer);
                             },
@@ -187,7 +187,7 @@ class InItemWidget extends StatelessWidget {
         borderRadius: BorderRadius.circular(12),
         onPressed: onPressed,
         child: SizedBox(
-            height: 140,
+            height: 116,
             child: Card(
               elevation: 2,
               shape: RoundedRectangleBorder(
@@ -197,8 +197,13 @@ class InItemWidget extends StatelessWidget {
                 children: [
                   Container(
                     height: 140,
-                    width: 8,
+                    width: 24,
                     decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                          begin: Alignment.centerLeft,
+                          end: Alignment.centerRight,
+                          colors: [color, color, Colors.white],
+                        ),
                         color: color,
                         borderRadius: const BorderRadius.only(
                             topLeft: Radius.circular(12),
@@ -209,11 +214,11 @@ class InItemWidget extends StatelessWidget {
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Icon(icon, size: 40, color: color),
+                        Icon(icon, size: 50, color: color),
                         const SizedBox(height: 12),
                         Text(
                           title,
-                          style: AppFont.mediumBold(context)!
+                          style: AppFont.smallBold(context)!
                               .copyWith(color: color),
                           maxLines: 2,
                           textAlign: TextAlign.center,

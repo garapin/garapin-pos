@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "921694687850",
+    "project_id": "armory-3c2be",
+    "storage_bucket": "armory-3c2be.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:921694687850:android:222aa5d7d6e23132acb013",
+        "android_client_info": {
+          "package_name": "com.abditrack.armory"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCQFDybRHbzPHRvq0zuXFY0Fdosl7fI5YI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
