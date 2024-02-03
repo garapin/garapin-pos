@@ -1,8 +1,6 @@
-import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
-
 import '../../../data/api/services.dart';
 import '../../../data/models/base/cart.dart';
 import '../../../data/models/base/rules_scan.dart';

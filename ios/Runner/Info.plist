@@ -13,7 +13,7 @@
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>
-	<string>armory</string>
+	<string>abditrack_inventory</string>
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
@@ -45,14 +45,5 @@
 	<true/>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
-	<key>NSCameraUsageDescription</key>
-	<string>This app needs camera access to scan QR codes</string>
-	<key>NSPhotoLibraryUsageDescription</key>
-	<string>This app needs photos access to get QR code from photo library</string>
-	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>Alasan aplikasi membutuhkan akses lokasi saat digunakan.</string>
-	<key>NSLocationAlwaysUsageDescription</key>
-	<string>Alasan aplikasi membutuhkan akses lokasi sepanjang waktu.</string>
-
 </dict>
 </plist>
