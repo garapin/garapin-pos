@@ -1,52 +1,16 @@
-import 'package:armory/data/models/base/cart.dart';
-import 'package:armory/data/models/base/instalation_vehicle.dart';
-import 'package:armory/data/models/base/transaction_item.dart';
-import 'package:armory/modules/add_product/cubit/add_product_cubit.dart';
-import 'package:armory/modules/add_product/view/add_product.dart';
-import 'package:armory/modules/add_to_cart/cubit/add_to_cart_cubit.dart';
-import 'package:armory/modules/add_to_cart/view/add_to_cart.dart';
+import 'package:armory/modules/auth/create_new_database/view/create_new_database.dart';
 import 'package:armory/modules/auth/login/cubit/login_cubit.dart';
-import 'package:armory/modules/auth/login/view/login.dart';
-import 'package:armory/modules/cart/cubit/cart_cubit.dart';
-import 'package:armory/modules/cart/view/cart.dart';
-import 'package:armory/modules/catalog/cubit/catalog_cubit.dart';
-import 'package:armory/modules/create_product/cubit/create_product_cubit.dart';
-import 'package:armory/modules/create_product/view/create_product.dart';
-import 'package:armory/modules/customer/add_customer/cubit/add_customer_cubit.dart';
-import 'package:armory/modules/customer/add_customer/view/add_customer.dart';
-import 'package:armory/modules/customer/list_customer/cubit/list_customer_cubit.dart';
-import 'package:armory/modules/customer/list_customer/view/list_customer.dart';
+import 'package:armory/modules/auth/select_database/cubit/select_database_cubit.dart';
+import 'package:armory/modules/auth/select_database/view/select_database.dart';
+import 'package:armory/widgets/components/background_image.dart';
+import 'package:armory/modules/dashboard/cubit/dashboard_cubit.dart';
 import 'package:armory/modules/dashboard/dashboard.dart';
-import 'package:armory/modules/edit_product/cubit/edit_product_cubit.dart';
-import 'package:armory/modules/edit_product/view/edit_product.dart';
-import 'package:armory/modules/homepage/cubit/homepage_cubit.dart';
-import 'package:armory/modules/installed_vehicle/cubit/installed_vehicle_cubit.dart';
-import 'package:armory/modules/installed_vehicle/view/installed_vehicle.dart';
-import 'package:armory/modules/product_detail/cubit/product_detail_cubit.dart';
-import 'package:armory/modules/product_detail/view/product_detail.dart';
-import 'package:armory/modules/profile/cubit/profile_cubit.dart';
-import 'package:armory/modules/profile/view/profile.dart';
-import 'package:armory/modules/teknisi/instalation/cubit/list_item_instalation_cubit.dart';
-import 'package:armory/modules/teknisi/instalation/cubit/process_instalation_item_cubit.dart';
-import 'package:armory/modules/teknisi/instalation/view/list_item_instalation.dart';
-import 'package:armory/modules/teknisi/instalation/view/process_instalation_item.dart';
-import 'package:armory/modules/teknisi/transaction/list_transaction/cubit/list_transaction_teknisi_cubit.dart';
-import 'package:armory/modules/teknisi/transaction/list_transaction/view/list_transaction_teknisi.dart';
-import 'package:armory/modules/transaction/detail_transaction/cubit/detail_transaction_cubit.dart';
-import 'package:armory/modules/transaction/detail_transaction/view/detail_transaction.dart';
-import 'package:armory/modules/transaction/list_transaction/cubit/list_transaction_cubit.dart';
-import 'package:armory/modules/transaction/list_transaction/view/list_transaction.dart';
-import 'package:armory/modules/users/add_user/cubit/add_user_cubit.dart';
-import 'package:armory/modules/users/add_user/view/add_user.dart';
-import 'package:armory/modules/vehicle/list_vehicle_installed/cubit/list_vehicle_installed_cubit.dart';
-import 'package:armory/modules/vehicle/list_vehicle_installed/view/list_vehicle_installed.dart';
+import 'package:armory/modules/splash/views/splash_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import '../modules/auth/login/view/login.dart';
 import '../modules/splash/cubit/splash_cubit.dart';
-import '../modules/splash/views/splash_page.dart';
-import '../modules/teknisi/dashboard_teknisi/dashboard_teknisi.dart';
-import '../modules/teknisi/homepage_teknisi/cubit/home_page_teknisi_cubit.dart';
 import '../widgets/components/unknown_page.dart';
 
 part 'route_names.dart';
@@ -65,318 +29,55 @@ class Routes implements RouterInterface {
         },
       ),
       GoRoute(
-        name: RouteNames.profile,
-        path: RouteNames.profile,
+        name: RouteNames.login,
+        path: RouteNames.login,
         builder: (ctx, GoRouterState state) {
           return BlocProvider(
-            create: (context) => ProfileCubit(ctx),
-            child: const ProfilePage(),
+            create: (context) => LoginCubit(context),
+            child: const LoginPage(),
           );
+        },
+      ),
+      GoRoute(
+        name: RouteNames.selectDatababase,
+        path: RouteNames.selectDatababase,
+        builder: (ctx, GoRouterState state) {
+          return BlocProvider(
+            create: (context) => SelectDatabaseCubit(context),
+            child: SelectDatabasePage(),
+          );
+        },
+      ),
+      GoRoute(
+        name: RouteNames.createNewDatabase,
+        path: RouteNames.createNewDatabase,
+        builder: (ctx, GoRouterState state) {
+          return const CreateNewDatabasePage();
         },
       ),
       GoRoute(
         name: RouteNames.dashboard,
         path: RouteNames.dashboard,
         builder: (ctx, GoRouterState state) {
-          return MultiBlocProvider(
-            providers: [
-              BlocProvider(
-                create: (context) => ProfileCubit(ctx),
-              ),
-              BlocProvider(
-                create: (ctx) => DashboardCubit(ctx),
-              ),
-              BlocProvider(
-                create: (ctx) => HomepageCubit(ctx),
-              ),
-              BlocProvider(
-                create: (context) => CatalogCubit(context),
-              ),
-              BlocProvider(
-                create: (context) => CartCubit(context),
-              ),
-              BlocProvider(
-                create: (context) => ListTransactionCubit(context),
-              ),
-            ],
+          return BlocProvider(
+            create: (ctx) => DashboardCubit(ctx),
             child: const DashboardPage(),
           );
         },
       ),
-      GoRoute(
-        name: RouteNames.dashboardTeknisi,
-        path: RouteNames.dashboardTeknisi,
-        builder: (ctx, GoRouterState state) {
-          return MultiBlocProvider(
-            providers: [
-              BlocProvider(
-                create: (context) => HomePageTeknisiCubit(ctx),
-              ),
-              BlocProvider(
-                create: (context) => ProfileCubit(ctx),
-              ),
-              BlocProvider(
-                create: (ctx) => DashboardTeknisiCubit(ctx),
-              ),
-              BlocProvider(
-                create: (context) => CatalogCubit(context),
-              ),
-              BlocProvider(
-                create: (context) => CartCubit(context),
-              ),
-              BlocProvider(
-                create: (context) => ListTransactionTeknisiCubit(context),
-              ),
-            ],
-            child: const DashboardTeknisiPage(),
-          );
-        },
-      ),
-      GoRoute(
-        name: RouteNames.productDetail,
-        path: RouteNames.productDetail,
-        builder: (ctx, GoRouterState state) {
-          return MultiBlocProvider(
-            providers: [
-              BlocProvider(
-                create: (ctx) =>
-                    ProductDetailCubit(ctx, state.extra.toString()),
-              ),
-            ],
-            child: const ProductDetailPage(),
-          );
-        },
-      ),
-      GoRoute(
-        name: RouteNames.editProduct,
-        path: RouteNames.editProduct,
-        builder: (ctx, GoRouterState state) {
-          return MultiBlocProvider(
-            providers: [
-              BlocProvider(
-                create: (ctx) => EditProductCubit(ctx, state.extra as int),
-              ),
-            ],
-            child: const EditProductPage(),
-          );
-        },
-      ),
-      GoRoute(
-        name: RouteNames.cart,
-        path: RouteNames.cart,
-        builder: (ctx, GoRouterState state) {
-          return MultiBlocProvider(
-            providers: [
-              BlocProvider(
-                create: (ctx) => CartCubit(ctx),
-              ),
-            ],
-            child: const CartPage(),
-          );
-        },
-      ),
-      GoRoute(
-        name: RouteNames.login,
-        path: RouteNames.login,
-        builder: (ctx, GoRouterState state) {
-          return MultiBlocProvider(
-            providers: [
-              BlocProvider(
-                create: (ctx) => LoginCubit(ctx),
-              ),
-            ],
-            child: const LoginPage(),
-          );
-        },
-      ),
-      GoRoute(
-        name: RouteNames.addProduct,
-        path: RouteNames.addProduct,
-        builder: (ctx, GoRouterState state) {
-          return MultiBlocProvider(
-            providers: [
-              BlocProvider(
-                create: (ctx) => AddProductCubit(ctx),
-              ),
-            ],
-            child: const AddProductPage(),
-          );
-        },
-      ),
-      GoRoute(
-        name: RouteNames.addToCart,
-        path: RouteNames.addToCart,
-        builder: (ctx, GoRouterState state) {
-          return MultiBlocProvider(
-            providers: [
-              BlocProvider(
-                create: (ctx) => AddToCartCubit(ctx),
-              ),
-            ],
-            child: const AddToCartPage(),
-          );
-        },
-      ),
-      GoRoute(
-        name: RouteNames.listTransaction,
-        path: RouteNames.listTransaction,
-        builder: (ctx, GoRouterState state) {
-          return MultiBlocProvider(
-            providers: [
-              BlocProvider(
-                create: (ctx) => ListTransactionCubit(ctx),
-              ),
-            ],
-            child: const ListTransactionPage(),
-          );
-        },
-      ),
-      GoRoute(
-        name: RouteNames.createProduct,
-        path: RouteNames.createProduct,
-        builder: (ctx, GoRouterState state) {
-          return MultiBlocProvider(
-            providers: [
-              BlocProvider(
-                create: (ctx) => CreateProductCubit(ctx),
-              ),
-            ],
-            child: const CreateProductPage(),
-          );
-        },
-      ),
-      GoRoute(
-        name: RouteNames.detailTransaction,
-        path: RouteNames.detailTransaction,
-        builder: (ctx, GoRouterState state) {
-          return MultiBlocProvider(
-            providers: [
-              BlocProvider(
-                create: (ctx) => DetailTransactionCubit(
-                    ctx, state.extra as Map<String, dynamic>),
-              ),
-            ],
-            child: const DetailTransactionPage(),
-          );
-        },
-      ),
-      GoRoute(
-        name: RouteNames.addUser,
-        path: RouteNames.addUser,
-        builder: (ctx, GoRouterState state) {
-          return MultiBlocProvider(
-            providers: [
-              BlocProvider(
-                create: (ctx) => AddUserCubit(ctx),
-              ),
-            ],
-            child: const AddUserPage(),
-          );
-        },
-      ),
-      GoRoute(
-        name: RouteNames.listTransactionTeknisi,
-        path: RouteNames.listTransactionTeknisi,
-        builder: (ctx, GoRouterState state) {
-          return MultiBlocProvider(
-            providers: [
-              BlocProvider(
-                create: (ctx) => ListTransactionTeknisiCubit(ctx),
-              ),
-            ],
-            child: const ListTransactionTeknisiPage(),
-          );
-        },
-      ),
-      GoRoute(
-        name: RouteNames.listItemInstalation,
-        path: RouteNames.listItemInstalation,
-        builder: (ctx, GoRouterState state) {
-          return MultiBlocProvider(
-            providers: [
-              BlocProvider(
-                create: (ctx) => ListItemInstalationCubit(ctx,
-                    idTransaction: state.extra as int),
-              ),
-            ],
-            child: const ListItemInstalation(),
-          );
-        },
-      ),
-      GoRoute(
-        name: RouteNames.processInstalationItem,
-        path: RouteNames.processInstalationItem,
-        builder: (ctx, GoRouterState state) {
-          return MultiBlocProvider(
-            providers: [
-              BlocProvider(
-                create: (ctx) => ProcessInstalationItemCubit(
-                  ctx,
-                  listItem: state.extra as List<TransactionItem>,
-                ),
-              ),
-            ],
-            child: const ProcessInstalationItem(),
-          );
-        },
-      ),
-      GoRoute(
-        name: RouteNames.installedVehicle,
-        path: RouteNames.installedVehicle,
-        builder: (ctx, GoRouterState state) {
-          return MultiBlocProvider(
-            providers: [
-              BlocProvider(
-                create: (ctx) => InstalledVehicleCubit(
-                    ctx, state.extra as Map<String, dynamic>),
-              ),
-            ],
-            child: const InstalledVehicle(),
-          );
-        },
-      ),
-      GoRoute(
-        name: RouteNames.listVehicleInstalled,
-        path: RouteNames.listVehicleInstalled,
-        builder: (ctx, GoRouterState state) {
-          return MultiBlocProvider(
-            providers: [
-              BlocProvider(
-                create: (ctx) => ListVehicleInstalledCubit(ctx),
-              ),
-            ],
-            child: const ListVehicleInsalledPage(),
-          );
-        },
-      ),
-      GoRoute(
-        name: RouteNames.addCustomer,
-        path: RouteNames.addCustomer,
-        builder: (ctx, GoRouterState state) {
-          return MultiBlocProvider(
-            providers: [
-              BlocProvider(
-                create: (ctx) => AddCustomerCubit(ctx),
-              ),
-            ],
-            child: const AddCustomerPage(),
-          );
-        },
-      ),
-      GoRoute(
-        name: RouteNames.listCustomer,
-        path: RouteNames.listCustomer,
-        builder: (ctx, GoRouterState state) {
-          return MultiBlocProvider(
-            providers: [
-              BlocProvider(
-                create: (ctx) => ListCustomerCubit(ctx),
-              ),
-            ],
-            child: const ListCustomerPage(),
-          );
-        },
-      ),
+      // GoRoute(
+      //   name: RouteNames.detail,
+      //   path: '${RouteNames.root}/:param1/:param2',
+      //   builder: (ctx, GoRouterState state) {
+      //     final String param1 = state.params['param1'] ?? '';
+      //     final String param2 = state.params['param2'] ?? '';
+      //     return BlocProvider(
+      //       create: (ctx) =>
+      //           DetailCubit(ctx, param1, param2), // Use param1 and param2 here
+      //       child: const DetailPage(),
+      //     );
+      //   },
+      // ),
     ],
     errorBuilder: (ctx, GoRouterState state) {
       return const UnknownPage();

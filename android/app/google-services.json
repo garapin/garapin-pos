@@ -1,26 +1,44 @@
 {
   "project_info": {
-    "project_number": "921694687850",
-    "project_id": "armory-3c2be",
-    "storage_bucket": "armory-3c2be.appspot.com"
+    "project_number": "205261320352",
+    "project_id": "garapin-pos",
+    "storage_bucket": "garapin-pos.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:921694687850:android:222aa5d7d6e23132acb013",
+        "mobilesdk_app_id": "1:205261320352:android:0ffb4967e5d6fbc29dd9c5",
         "android_client_info": {
-          "package_name": "com.abditrack.armory"
+          "package_name": "com.pos.app"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "205261320352-950uqv5m1rgmb3nuimnhug6jfvv2kb2v.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.pos.app",
+            "certificate_hash": "8e055d01ea237da650f3081608fe125f8f6d437f"
+          }
+        },
+        {
+          "client_id": "205261320352-3t92qn7ne6gnnjr3o45t4j50gndrgp61.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
-          "current_key": "AIzaSyCQFDybRHbzPHRvq0zuXFY0Fdosl7fI5YI"
+          "current_key": "AIzaSyCU6HiBa80eG-coDduyDXUlsSYZoILdb5E"
         }
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "205261320352-3t92qn7ne6gnnjr3o45t4j50gndrgp61.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         }
       }
     }

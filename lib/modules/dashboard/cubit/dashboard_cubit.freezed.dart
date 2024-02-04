@@ -16,8 +16,9 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$DashboardState {
-  Widget get currentScreen => throw _privateConstructorUsedError;
-  int get currentTab => throw _privateConstructorUsedError;
+  DataStateStatus get status => throw _privateConstructorUsedError;
+  int get index => throw _privateConstructorUsedError;
+  Widget get widget => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $DashboardStateCopyWith<DashboardState> get copyWith =>
@@ -30,7 +31,7 @@ abstract class $DashboardStateCopyWith<$Res> {
           DashboardState value, $Res Function(DashboardState) then) =
       _$DashboardStateCopyWithImpl<$Res, DashboardState>;
   @useResult
-  $Res call({Widget currentScreen, int currentTab});
+  $Res call({DataStateStatus status, int index, Widget widget});
 }
 
 /// @nodoc
@@ -46,18 +47,23 @@ class _$DashboardStateCopyWithImpl<$Res, $Val extends DashboardState>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? currentScreen = null,
-    Object? currentTab = null,
+    Object? status = null,
+    Object? index = null,
+    Object? widget = null,
   }) {
     return _then(_value.copyWith(
-      currentScreen: null == currentScreen
-          ? _value.currentScreen
-          : currentScreen // ignore: cast_nullable_to_non_nullable
-              as Widget,
-      currentTab: null == currentTab
-          ? _value.currentTab
-          : currentTab // ignore: cast_nullable_to_non_nullable
+      status: null == status
+          ? _value.status
+          : status // ignore: cast_nullable_to_non_nullable
+              as DataStateStatus,
+      index: null == index
+          ? _value.index
+          : index // ignore: cast_nullable_to_non_nullable
               as int,
+      widget: null == widget
+          ? _value.widget
+          : widget // ignore: cast_nullable_to_non_nullable
+              as Widget,
     ) as $Val);
   }
 }
@@ -70,7 +76,7 @@ abstract class _$$DashboardStateImplCopyWith<$Res>
       __$$DashboardStateImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({Widget currentScreen, int currentTab});
+  $Res call({DataStateStatus status, int index, Widget widget});
 }
 
 /// @nodoc
@@ -84,18 +90,23 @@ class __$$DashboardStateImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? currentScreen = null,
-    Object? currentTab = null,
+    Object? status = null,
+    Object? index = null,
+    Object? widget = null,
   }) {
     return _then(_$DashboardStateImpl(
-      currentScreen: null == currentScreen
-          ? _value.currentScreen
-          : currentScreen // ignore: cast_nullable_to_non_nullable
-              as Widget,
-      currentTab: null == currentTab
-          ? _value.currentTab
-          : currentTab // ignore: cast_nullable_to_non_nullable
+      status: null == status
+          ? _value.status
+          : status // ignore: cast_nullable_to_non_nullable
+              as DataStateStatus,
+      index: null == index
+          ? _value.index
+          : index // ignore: cast_nullable_to_non_nullable
               as int,
+      widget: null == widget
+          ? _value.widget
+          : widget // ignore: cast_nullable_to_non_nullable
+              as Widget,
     ));
   }
 }
@@ -104,16 +115,23 @@ class __$$DashboardStateImplCopyWithImpl<$Res>
 
 class _$DashboardStateImpl implements _DashboardState {
   const _$DashboardStateImpl(
-      {required this.currentScreen, required this.currentTab});
+      {this.status = DataStateStatus.initial,
+      this.index = 0,
+      this.widget = const HomePage()});
 
   @override
-  final Widget currentScreen;
+  @JsonKey()
+  final DataStateStatus status;
   @override
-  final int currentTab;
+  @JsonKey()
+  final int index;
+  @override
+  @JsonKey()
+  final Widget widget;
 
   @override
   String toString() {
-    return 'DashboardState(currentScreen: $currentScreen, currentTab: $currentTab)';
+    return 'DashboardState(status: $status, index: $index, widget: $widget)';
   }
 
   @override
@@ -121,14 +139,13 @@ class _$DashboardStateImpl implements _DashboardState {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$DashboardStateImpl &&
-            (identical(other.currentScreen, currentScreen) ||
-                other.currentScreen == currentScreen) &&
-            (identical(other.currentTab, currentTab) ||
-                other.currentTab == currentTab));
+            (identical(other.status, status) || other.status == status) &&
+            (identical(other.index, index) || other.index == index) &&
+            (identical(other.widget, widget) || other.widget == widget));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, currentScreen, currentTab);
+  int get hashCode => Object.hash(runtimeType, status, index, widget);
 
   @JsonKey(ignore: true)
   @override
@@ -140,13 +157,16 @@ class _$DashboardStateImpl implements _DashboardState {
 
 abstract class _DashboardState implements DashboardState {
   const factory _DashboardState(
-      {required final Widget currentScreen,
-      required final int currentTab}) = _$DashboardStateImpl;
+      {final DataStateStatus status,
+      final int index,
+      final Widget widget}) = _$DashboardStateImpl;
 
   @override
-  Widget get currentScreen;
+  DataStateStatus get status;
   @override
-  int get currentTab;
+  int get index;
+  @override
+  Widget get widget;
   @override
   @JsonKey(ignore: true)
   _$$DashboardStateImplCopyWith<_$DashboardStateImpl> get copyWith =>

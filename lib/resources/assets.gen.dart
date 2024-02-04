@@ -19,6 +19,10 @@ class $AssetsImagesGen {
   /// File path: assets/images/armor.png
   AssetGenImage get armor => const AssetGenImage('assets/images/armor.png');
 
+  /// File path: assets/images/bacground_auth.png
+  AssetGenImage get bacgroundAuth =>
+      const AssetGenImage('assets/images/bacground_auth.png');
+
   /// File path: assets/images/box.png
   AssetGenImage get box => const AssetGenImage('assets/images/box.png');
 
@@ -26,7 +30,8 @@ class $AssetsImagesGen {
   AssetGenImage get google => const AssetGenImage('assets/images/google.png');
 
   /// List of all assets
-  List<AssetGenImage> get values => [armorWithoutText, armor, box, google];
+  List<AssetGenImage> get values =>
+      [armorWithoutText, armor, bacgroundAuth, box, google];
 }
 
 class Assets {

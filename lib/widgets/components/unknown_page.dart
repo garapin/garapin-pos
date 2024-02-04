@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import '../../themes/themes.dart';
 
 class UnknownPage extends StatelessWidget {
-  const UnknownPage({Key? key}) : super(key: key);
+  const UnknownPage({super.key});
 
   @override
   Widget build(BuildContext context) {

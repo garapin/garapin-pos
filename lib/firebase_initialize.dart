@@ -6,10 +6,10 @@ Future<void> initializeFirebase() async {
   if (Platform.isAndroid) {
     await Firebase.initializeApp(
         options: const FirebaseOptions(
-      apiKey: 'AIzaSyCQFDybRHbzPHRvq0zuXFY0Fdosl7fI5YI',
-      appId: '1:921694687850:android:222aa5d7d6e23132acb013',
-      messagingSenderId: '921694687850',
-      projectId: 'armory-3c2be',
+      apiKey: 'AIzaSyCU6HiBa80eG-coDduyDXUlsSYZoILdb5E',
+      appId: '1:205261320352:android:0ffb4967e5d6fbc29dd9c5',
+      messagingSenderId: '205261320352',
+      projectId: 'garapin-pos',
     ));
   } else if (Platform.isIOS) {
     await Firebase.initializeApp(

@@ -3,7 +3,8 @@ part of 'dashboard_cubit.dart';
 @freezed
 class DashboardState with _$DashboardState {
   const factory DashboardState({
-    required Widget currentScreen,
-    required int currentTab,
+    @Default(DataStateStatus.initial) DataStateStatus status,
+    @Default(0) int index,
+    @Default(HomePage()) Widget widget,
   }) = _DashboardState;
 }

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import '../../themes/themes.dart';
 
 class FilterButton extends StatelessWidget {
   final String title;
@@ -20,24 +19,23 @@ class FilterButton extends StatelessWidget {
       child: TextButton(
           style: OutlinedButton.styleFrom(
             shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(8),
+              borderRadius: BorderRadius.circular(40),
               side: BorderSide(
                 width: 1.5,
                 color: isActive
-                    ? AppColor.appColor.primary
+                    ? Theme.of(context).primaryColor
                     : Colors.grey.withOpacity(0.5),
               ),
             ),
           ),
           onPressed: onPressed,
           child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 4),
+            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
             child: Text(
               title,
-              style: AppFont.mediumBold(context)!.copyWith(
-                  color: isActive
-                      ? AppColor.appColor.primary
-                      : Colors.black.withOpacity(0.5)),
+              style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  color: Theme.of(context).primaryColor),
             ),
           )),
     );

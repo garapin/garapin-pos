@@ -1,6 +1,5 @@
 //GENERATED BARREL FILE
 export './components/bottom_navigation.dart';
-export './components/container_background_image.dart';
 export './components/container_collapse.dart';
 export './components/container_state_handler.dart';
 export './components/custom_button.dart';

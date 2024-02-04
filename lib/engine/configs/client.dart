@@ -11,7 +11,7 @@ abstract class Development {
       case EnvironmentMode.production:
         return 'http://armory-be.abditrack.com/api/v1/';
       case EnvironmentMode.test:
-        return 'http://192.168.20.154:8000/api/v1/'; // real device
+        return 'http://192.168.100.18:4000/'; // real device
     }
   }
 
@@ -22,7 +22,7 @@ abstract class Development {
       case EnvironmentMode.production:
         return 'http://armory-be.abditrack.com/';
       case EnvironmentMode.test:
-        return 'http://192.168.20.154:8000/'; //
+        return 'http://192.168.100.18:4000/'; //
     }
   }
 }
