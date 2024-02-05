@@ -1,20 +1,12 @@
 import 'dart:developer';
 import 'dart:io';
 import 'package:armory/data/api/error_handler.dart';
-import 'package:armory/data/models/base/cart.dart';
-import 'package:armory/data/models/base/instalation_vehicle.dart';
-import 'package:armory/data/models/base/mitra.dart';
-import 'package:armory/data/models/base/product.dart';
-import 'package:armory/data/models/base/item.dart';
-import 'package:armory/data/models/base/rules_scan.dart';
-import 'package:armory/data/models/base/transaction.dart';
-import 'package:armory/data/models/base/transaction_item.dart';
-import 'package:armory/data/models/base/user.dart';
-import 'package:armory/data/models/base/vehicle.dart';
+import 'package:armory/data/models/base/store.dart';
 import 'package:armory/engine/engine.dart';
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import '../models/base/user.dart';
 import 'configure.dart';
 import 'response.dart';
 
@@ -63,22 +55,22 @@ class ApiService {
         .handler((error) => ApiResponse<String>.onError(error));
   }
 
-  static Future<ApiResponse> createUser(BuildContext context,
-      {required Map<String, dynamic> params}) async {
-    return await ApiConfigure(context)
-        .post('user/create', params: params)
-        .then((result) => ApiResponse.fromJson(result.data))
-        .handler((error) => ApiResponse.onError(error));
-  }
+  // static Future<ApiResponse> createUser(BuildContext context,
+  //     {required Map<String, dynamic> params}) async {
+  //   return await ApiConfigure(context)
+  //       .post('user/create', params: params)
+  //       .then((result) => ApiResponse.fromJson(result.data))
+  //       .handler((error) => ApiResponse.onError(error));
+  // }
 
-  static Future<ApiResponse<User>> getUserId(
-    BuildContext context,
-  ) async {
-    return await ApiConfigure(context)
-        .get('user/${Sessions.getUserModel()?.id}')
-        .then((result) => ApiResponse<User>.fromJson(result.data))
-        .handler((error) => ApiResponse<User>.onError(error));
-  }
+  // static Future<ApiResponse<User>> getUserId(
+  //   BuildContext context,
+  // ) async {
+  //   return await ApiConfigure(context)
+  //       .get('user/${Sessions.getUserModel()?.id}')
+  //       .then((result) => ApiResponse<User>.fromJson(result.data))
+  //       .handler((error) => ApiResponse<User>.onError(error));
+  // }
 
   static Future<ApiResponse<User>> signinWithGoogle(BuildContext context,
       {required String email}) async {
@@ -86,5 +78,27 @@ class ApiService {
         .post('auth/signin_with_google', params: {"email": email})
         .then((result) => ApiResponse<User>.fromJson(result.data))
         .handler((error) => ApiResponse<User>.onError(error));
+  }
+
+  static Future<ApiResponse<User>> createDatabase(BuildContext context,
+      {required String databaseName}) async {
+    return await ApiConfigure(context)
+        .post('store/register', params: {
+          "store_name": databaseName,
+          "email": Sessions.getUserModel()?.email,
+          "connection_string": "",
+          "role": "ADMIN"
+        })
+        .then((result) => ApiResponse<User>.fromJson(result.data))
+        .handler((error) => ApiResponse<User>.onError(error));
+  }
+
+  static Future<ApiResponse<Store>> getStoreInfo(
+    BuildContext context,
+  ) async {
+    return await ApiConfigure(context)
+        .get('store/get-info')
+        .then((result) => ApiResponse<Store>.fromJson(result.data))
+        .handler((error) => ApiResponse<Store>.onError(error));
   }
 }

@@ -9,6 +9,7 @@ enum ParamType { formData, jsonBody }
 class ApiConfigure {
   final String baseUrl = Environment.baseAPIUrl();
   final BuildContext context;
+
   late Dio _dio;
 
   ApiConfigure(this.context) {
@@ -19,6 +20,7 @@ class ApiConfigure {
         receiveTimeout: const Duration(seconds: 8000),
         headers: {
           'Content-Type': 'application/json',
+          'target-database': Sessions.getDatabaseModel()?.name ?? ""
         },
       ),
     );

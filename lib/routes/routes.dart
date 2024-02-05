@@ -1,7 +1,9 @@
+import 'package:armory/modules/auth/create_new_database/cubit/create_new_database_cubit.dart';
 import 'package:armory/modules/auth/create_new_database/view/create_new_database.dart';
 import 'package:armory/modules/auth/login/cubit/login_cubit.dart';
 import 'package:armory/modules/auth/select_database/cubit/select_database_cubit.dart';
 import 'package:armory/modules/auth/select_database/view/select_database.dart';
+import 'package:armory/modules/dashboard/catalog/cubit/catalog_cubit.dart';
 import 'package:armory/widgets/components/background_image.dart';
 import 'package:armory/modules/dashboard/cubit/dashboard_cubit.dart';
 import 'package:armory/modules/dashboard/dashboard.dart';
@@ -52,15 +54,25 @@ class Routes implements RouterInterface {
         name: RouteNames.createNewDatabase,
         path: RouteNames.createNewDatabase,
         builder: (ctx, GoRouterState state) {
-          return const CreateNewDatabasePage();
+          return BlocProvider(
+            create: (context) => CreateNewDatabaseCubit(context),
+            child: const CreateNewDatabasePage(),
+          );
         },
       ),
       GoRoute(
         name: RouteNames.dashboard,
         path: RouteNames.dashboard,
         builder: (ctx, GoRouterState state) {
-          return BlocProvider(
-            create: (ctx) => DashboardCubit(ctx),
+          return MultiBlocProvider(
+            providers: [
+              BlocProvider(
+                create: (context) => DashboardCubit(ctx),
+              ),
+              BlocProvider(
+                create: (context) => CatalogCubit(ctx),
+              )
+            ],
             child: const DashboardPage(),
           );
         },

@@ -5,6 +5,6 @@ class DashboardState with _$DashboardState {
   const factory DashboardState({
     @Default(DataStateStatus.initial) DataStateStatus status,
     @Default(0) int index,
-    @Default(HomePage()) Widget widget,
+    @Default(CatalogPage()) Widget widget,
   }) = _DashboardState;
 }

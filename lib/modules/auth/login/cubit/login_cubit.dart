@@ -48,30 +48,30 @@ class LoginCubit extends BaseCubit<LoginState> {
           await googleUser.authentication;
 
       // Step 3: Check if the email is registered in your API
-      // final data = await ApiService.checkEmailForGoogleSignIn(
-      //   context,
-      //   email: googleUser.email,
-      // );
-
-      // if (data.isSuccess) {
-      // Step 4: Sign in with Firebase using Google credentials
-      final credential = GoogleAuthProvider.credential(
-        accessToken: googleAuth.accessToken,
-        idToken: googleAuth.idToken,
+      final data = await ApiService.signinWithGoogle(
+        context,
+        email: googleUser.email,
       );
-      await FirebaseAuth.instance.signInWithCredential(credential);
 
-      final GoogleSignInAccount? s = await GoogleSignIn().signOut();
+      if (data.isSuccess) {
+        // Step 4: Sign in with Firebase using Google credentials
+        final credential = GoogleAuthProvider.credential(
+          accessToken: googleAuth.accessToken,
+          idToken: googleAuth.idToken,
+        );
+        await FirebaseAuth.instance.signInWithCredential(credential);
 
-      // Step 5: Move to the new page after successful sign-in
+        final GoogleSignInAccount? s = await GoogleSignIn().signOut();
 
-      // Sessions.setUsers(jsonEncode(data.data!))
-      //     .then((value) => context.goNamed(RouteNames.root));
-      // } else {
-      //   // Step 6: Email not registered in API
-      //   showError("Email tidak terdaftar");
-      //   final GoogleSignInAccount? s = await GoogleSignIn().signOut();
-      // }
+        // Step 5: Move to the new page after successful sign-in
+
+        Sessions.setUsers(jsonEncode(data.data!))
+            .then((value) => context.pushNamed(RouteNames.selectDatababase));
+      } else {
+        // Step 6: Email not registered in API
+        showError("Email tidak terdaftar");
+        final GoogleSignInAccount? s = await GoogleSignIn().signOut();
+      }
     } catch (e) {
       // Handle exceptions
       print('Exception->$e');

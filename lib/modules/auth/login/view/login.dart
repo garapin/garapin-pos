@@ -56,8 +56,8 @@ class LoginPage extends StatelessWidget {
                 SizedBox(height: 32),
                 CustomButton(
                   onPressed: () {
-                    // cubit.signInWithGoogle();
-                    context.pushNamed(RouteNames.selectDatababase);
+                    cubit.signInWithGoogle();
+                    // context.pushNamed(RouteNames.selectDatababase);
                   },
                   child: Container(
                     height: 48,

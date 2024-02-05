@@ -1,9 +1,7 @@
 import 'package:armory/engine/engine.dart';
-import 'package:armory/engine/helpers/options.dart';
-import 'package:armory/modules/dashboard/dashboard.dart';
-import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import '../catalog/view/catalog.dart';
 
 part 'dashboard_state.dart';
 part 'dashboard_cubit.freezed.dart';
@@ -16,7 +14,7 @@ class DashboardCubit extends BaseCubit<DashboardState> {
   Future<void> initData() async {
     loadingState();
     emit(state.copyWith(
-        status: DataStateStatus.success, widget: HomePage(), index: 0));
+        status: DataStateStatus.success, widget: CatalogPage(), index: 0));
   }
 
   @override
@@ -31,7 +29,7 @@ class DashboardCubit extends BaseCubit<DashboardState> {
   }
 
   List<Widget> page = [
-    HomePage(),
+    CatalogPage(),
     SizedBox(),
     SizedBox(),
   ];

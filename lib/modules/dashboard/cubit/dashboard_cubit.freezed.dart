@@ -117,7 +117,7 @@ class _$DashboardStateImpl implements _DashboardState {
   const _$DashboardStateImpl(
       {this.status = DataStateStatus.initial,
       this.index = 0,
-      this.widget = const HomePage()});
+      this.widget = const CatalogPage()});
 
   @override
   @JsonKey()

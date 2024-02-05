@@ -82,7 +82,7 @@ class SelectDatabasePage extends StatelessWidget {
                             SizedBox(
                               height: 260,
                               child: ListView.builder(
-                                padding: EdgeInsets.symmetric(
+                                padding: const EdgeInsets.symmetric(
                                     horizontal: 2, vertical: 2),
                                 shrinkWrap: true,
                                 itemCount:
@@ -116,7 +116,9 @@ class SelectDatabasePage extends StatelessWidget {
                                 child: ClipRRect(
                                     borderRadius: BorderRadius.circular(58),
                                     child: ElevatedButton(
-                                        onPressed: () {},
+                                        onPressed: () {
+                                          cubit.doSelecteDatabase(state.user!);
+                                        },
                                         child: const Text("Load")))),
                           ],
                         ),
@@ -130,7 +132,9 @@ class SelectDatabasePage extends StatelessWidget {
                         child: ClipRRect(
                           borderRadius: BorderRadius.circular(58),
                           child: OutlinedButton(
-                            onPressed: () {},
+                            onPressed: () {
+                              context.pop();
+                            },
                             style: OutlinedButton.styleFrom(
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(58),
@@ -202,7 +206,7 @@ class CardSelectDatabase extends StatelessWidget {
                 ),
                 const SizedBox(height: 2),
                 Text(
-                  DateTime.now().toString(),
+                  database?.role ?? "",
                   style: AppFont.large(context)!.copyWith(
                     fontSize: 14,
                     color: selected ? AppColor.appColor.primary : null,
