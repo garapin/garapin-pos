@@ -1,6 +1,6 @@
 {
-    "name": "armory",
-    "short_name": "armory",
+    "name": "pos",
+    "short_name": "pos",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",

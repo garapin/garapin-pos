@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:firebase_core/firebase_core.dart';
 
 Future<void> initializeFirebase() async {
@@ -17,7 +16,7 @@ Future<void> initializeFirebase() async {
         apiKey: 'AIzaSyANkol1urFuu3v1iJgnui9K6Xdg-rxlSmw',
         appId: '1:921694687850:ios:f2999ffed1cd3a25acb013',
         messagingSenderId: '921694687850',
-        projectId: 'armory-3c2be',
+        projectId: 'pos-3c2be',
       ),
     );
   } else {

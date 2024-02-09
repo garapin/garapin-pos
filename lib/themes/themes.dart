@@ -1,5 +1,5 @@
-import 'package:armory/engine/engine.dart';
-import 'package:armory/engine/engine.dart';
+import 'package:pos/engine/engine.dart';
+import 'package:pos/engine/engine.dart';
 import 'package:flutter/material.dart';
 
 part 'colors.dart';

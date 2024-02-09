@@ -1,6 +1,6 @@
-import 'package:armory/engine/base/app.dart';
-import 'package:armory/modules/auth/select_database/cubit/select_database_cubit.dart';
-import 'package:armory/routes/routes.dart';
+import 'package:pos/engine/base/app.dart';
+import 'package:pos/modules/auth/select_database/cubit/select_database_cubit.dart';
+import 'package:pos/routes/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -39,7 +39,8 @@ class SelectDatabasePage extends StatelessWidget {
                                 style: ElevatedButton.styleFrom(),
                                 onPressed: () {
                                   context
-                                      .pushNamed(RouteNames.createNewDatabase);
+                                      .pushNamed(RouteNames.createNewDatabase)
+                                      .then((value) => cubit.refreshData());
                                 },
                                 child: Text(
                                   "Create New Database",

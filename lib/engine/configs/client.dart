@@ -7,10 +7,10 @@ abstract class Development {
   static String baseUrl() {
     switch (Environment.mode) {
       case EnvironmentMode.dev:
-        return 'http://armory-be-dev.abditrack.com/api/v1/';
-      case EnvironmentMode.production:
-        return 'http://armory-be.abditrack.com/api/v1/';
+        return 'http://pos-be-dev.abditrack.com/api/v1/';
       case EnvironmentMode.test:
+        return 'http://192.168.20.154:4000/';
+      case EnvironmentMode.production:
         return 'http://192.168.100.18:4000/'; // real device
     }
   }
@@ -18,10 +18,10 @@ abstract class Development {
   static String urlImage() {
     switch (Environment.mode) {
       case EnvironmentMode.dev:
-        return 'http://armory-be-dev.abditrack.com/';
-      case EnvironmentMode.production:
-        return 'http://armory-be.abditrack.com/';
+        return 'http://pos-be-dev.abditrack.com/';
       case EnvironmentMode.test:
+        return 'http://192.168.20.154:4000/';
+      case EnvironmentMode.production:
         return 'http://192.168.100.18:4000/'; //
     }
   }

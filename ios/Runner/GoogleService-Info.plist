@@ -13,11 +13,11 @@
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>com.abditrack.armory</string>
+	<string>com.abditrack.pos</string>
 	<key>PROJECT_ID</key>
-	<string>armory-3c2be</string>
+	<string>pos-3c2be</string>
 	<key>STORAGE_BUCKET</key>
-	<string>armory-3c2be.appspot.com</string>
+	<string>pos-3c2be.appspot.com</string>
 	<key>IS_ADS_ENABLED</key>
 	<false></false>
 	<key>IS_ANALYTICS_ENABLED</key>

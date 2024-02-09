@@ -8,6 +8,46 @@
 // ignore_for_file: directives_ordering,unnecessary_import,implicit_dynamic_list_literal,deprecated_member_use
 
 import 'package:flutter/widgets.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:flutter/services.dart';
+
+class $AssetsIconsGen {
+  const $AssetsIconsGen();
+
+  /// File path: assets/icons/catalog_active.svg
+  SvgGenImage get catalogActive =>
+      const SvgGenImage('assets/icons/catalog_active.svg');
+
+  /// File path: assets/icons/catalog_inactive.svg
+  SvgGenImage get catalogInactive =>
+      const SvgGenImage('assets/icons/catalog_inactive.svg');
+
+  /// File path: assets/icons/profile_active.svg
+  SvgGenImage get profileActive =>
+      const SvgGenImage('assets/icons/profile_active.svg');
+
+  /// File path: assets/icons/profile_inactive.svg
+  SvgGenImage get profileInactive =>
+      const SvgGenImage('assets/icons/profile_inactive.svg');
+
+  /// File path: assets/icons/report_active.svg
+  SvgGenImage get reportActive =>
+      const SvgGenImage('assets/icons/report_active.svg');
+
+  /// File path: assets/icons/report_inactive.svg
+  SvgGenImage get reportInactive =>
+      const SvgGenImage('assets/icons/report_inactive.svg');
+
+  /// List of all assets
+  List<SvgGenImage> get values => [
+        catalogActive,
+        catalogInactive,
+        profileActive,
+        profileInactive,
+        reportActive,
+        reportInactive
+      ];
+}
 
 class $AssetsImagesGen {
   const $AssetsImagesGen();
@@ -26,17 +66,53 @@ class $AssetsImagesGen {
   /// File path: assets/images/box.png
   AssetGenImage get box => const AssetGenImage('assets/images/box.png');
 
+  /// File path: assets/images/catalog-active.png
+  AssetGenImage get catalogActive =>
+      const AssetGenImage('assets/images/catalog-active.png');
+
+  /// File path: assets/images/catalog-inactive.png
+  AssetGenImage get catalogInactive =>
+      const AssetGenImage('assets/images/catalog-inactive.png');
+
   /// File path: assets/images/google.png
   AssetGenImage get google => const AssetGenImage('assets/images/google.png');
 
+  /// File path: assets/images/profile_active.png
+  AssetGenImage get profileActive =>
+      const AssetGenImage('assets/images/profile_active.png');
+
+  /// File path: assets/images/profile_inactive.png
+  AssetGenImage get profileInactive =>
+      const AssetGenImage('assets/images/profile_inactive.png');
+
+  /// File path: assets/images/report-inactive.png
+  AssetGenImage get reportInactive =>
+      const AssetGenImage('assets/images/report-inactive.png');
+
+  /// File path: assets/images/report_active.png
+  AssetGenImage get reportActive =>
+      const AssetGenImage('assets/images/report_active.png');
+
   /// List of all assets
-  List<AssetGenImage> get values =>
-      [armorWithoutText, armor, bacgroundAuth, box, google];
+  List<AssetGenImage> get values => [
+        armorWithoutText,
+        armor,
+        bacgroundAuth,
+        box,
+        catalogActive,
+        catalogInactive,
+        google,
+        profileActive,
+        profileInactive,
+        reportInactive,
+        reportActive
+      ];
 }
 
 class Assets {
   Assets._();
 
+  static const $AssetsIconsGen icons = $AssetsIconsGen();
   static const $AssetsImagesGen images = $AssetsImagesGen();
 }
 
@@ -106,6 +182,59 @@ class AssetGenImage {
       _assetName,
       bundle: bundle,
       package: package,
+    );
+  }
+
+  String get path => _assetName;
+
+  String get keyName => _assetName;
+}
+
+class SvgGenImage {
+  const SvgGenImage(this._assetName);
+
+  final String _assetName;
+
+  SvgPicture svg({
+    Key? key,
+    bool matchTextDirection = false,
+    AssetBundle? bundle,
+    String? package,
+    double? width,
+    double? height,
+    BoxFit fit = BoxFit.contain,
+    AlignmentGeometry alignment = Alignment.center,
+    bool allowDrawingOutsideViewBox = false,
+    WidgetBuilder? placeholderBuilder,
+    String? semanticsLabel,
+    bool excludeFromSemantics = false,
+    SvgTheme theme = const SvgTheme(),
+    ColorFilter? colorFilter,
+    Clip clipBehavior = Clip.hardEdge,
+    @deprecated Color? color,
+    @deprecated BlendMode colorBlendMode = BlendMode.srcIn,
+    @deprecated bool cacheColorFilter = false,
+  }) {
+    return SvgPicture.asset(
+      _assetName,
+      key: key,
+      matchTextDirection: matchTextDirection,
+      bundle: bundle,
+      package: package,
+      width: width,
+      height: height,
+      fit: fit,
+      alignment: alignment,
+      allowDrawingOutsideViewBox: allowDrawingOutsideViewBox,
+      placeholderBuilder: placeholderBuilder,
+      semanticsLabel: semanticsLabel,
+      excludeFromSemantics: excludeFromSemantics,
+      theme: theme,
+      colorFilter: colorFilter,
+      color: color,
+      colorBlendMode: colorBlendMode,
+      clipBehavior: clipBehavior,
+      cacheColorFilter: cacheColorFilter,
     );
   }
 

@@ -1,12 +1,7 @@
-import 'package:armory/modules/auth/login/cubit/login_cubit.dart';
-import 'package:armory/routes/routes.dart';
-import 'package:armory/widgets/components/custom_button.dart';
-import 'package:armory/widgets/widgets.dart';
-import 'package:flutter/foundation.dart';
+import 'package:pos/modules/auth/login/cubit/login_cubit.dart';
+import 'package:pos/widgets/widgets.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:go_router/go_router.dart';
 
 import '../../../../resources/resources.dart';
 import '../../../../themes/themes.dart';
@@ -23,7 +18,7 @@ class LoginPage extends StatelessWidget {
         return BackgorundImageWidget(
             child: ContainerStateHandler(
           status: state.status,
-          loading: Center(
+          loading: const Center(
             child: CircularProgressIndicator(),
           ),
           child: Container(
@@ -48,16 +43,15 @@ class LoginPage extends StatelessWidget {
                   "Login",
                   style: AppFont.largeBold(context)!.copyWith(fontSize: 28),
                 ),
-                SizedBox(height: 32),
+                const SizedBox(height: 32),
                 Text(
                   "Silahkan login menggunakan akun google",
                   style: AppFont.medium(context)!.copyWith(fontSize: 16),
                 ),
-                SizedBox(height: 32),
+                const SizedBox(height: 32),
                 CustomButton(
                   onPressed: () {
                     cubit.signInWithGoogle();
-                    // context.pushNamed(RouteNames.selectDatababase);
                   },
                   child: Container(
                     height: 48,
@@ -78,7 +72,7 @@ class LoginPage extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Resources.images.google.image(height: 24),
-                          SizedBox(width: 12),
+                          const SizedBox(width: 12),
                           Text(
                             "Login With Google",
                             style:

@@ -1,6 +1,7 @@
-import 'package:armory/engine/base/app.dart';
-import 'package:armory/modules/dashboard/cubit/dashboard_cubit.dart';
-import 'package:armory/widgets/components/custom_button.dart';
+import 'package:pos/engine/base/app.dart';
+import 'package:pos/modules/dashboard/cubit/dashboard_cubit.dart';
+import 'package:pos/resources/resources.dart';
+import 'package:pos/widgets/components/custom_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../widgets/widgets.dart';
@@ -26,67 +27,48 @@ class DashboardPage extends StatelessWidget {
       body: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Container(
-            decoration: BoxDecoration(border: Border.all(color: Colors.grey)),
-            width: baseWidth * 0.09,
-            child: Column(
-              children: [
-                const SizedBox(height: 8),
-                CustomButton(
-                  onPressed: () {
-                    cubit.changePage(0);
-                  },
-                  child: Container(
-                    width: 77,
-                    height: 70,
-                    decoration: BoxDecoration(
-                        color: Theme.of(context).primaryColor,
-                        borderRadius: BorderRadius.circular(8)),
-                    child: const Icon(
-                      Icons.shop,
-                      size: 32,
-                      color: Colors.white,
-                    ),
+          BlocBuilder<DashboardCubit, DashboardState>(
+            builder: (context, state) {
+              return ContainerStateHandler(
+                status: state.status,
+                loading: Center(
+                  child: CircularProgressIndicator(),
+                ),
+                child: Container(
+                  decoration:
+                      BoxDecoration(border: Border.all(color: Colors.grey)),
+                  width: baseWidth * 0.09,
+                  child: Column(
+                    children: [
+                      const SizedBox(height: 8),
+                      CustomButton(
+                          onPressed: () {
+                            cubit.changePage(0);
+                          },
+                          child: state.index == 0
+                              ? Resources.images.catalogActive.image()
+                              : Resources.images.catalogInactive.image()),
+                      const SizedBox(height: 8),
+                      CustomButton(
+                          onPressed: () {
+                            cubit.changePage(1);
+                          },
+                          child: state.index == 1
+                              ? Resources.images.reportActive.image()
+                              : Resources.images.reportInactive.image()),
+                      const SizedBox(height: 8),
+                      CustomButton(
+                          onPressed: () {
+                            cubit.changePage(2);
+                          },
+                          child: state.index == 2
+                              ? Resources.images.profileActive.image()
+                              : Resources.images.profileInactive.image())
+                    ],
                   ),
                 ),
-                const SizedBox(height: 8),
-                CustomButton(
-                  onPressed: () {
-                    cubit.changePage(1);
-                  },
-                  child: Container(
-                    width: 77,
-                    height: 70,
-                    decoration: BoxDecoration(
-                        color: Theme.of(context).primaryColor,
-                        borderRadius: BorderRadius.circular(8)),
-                    child: const Icon(
-                      Icons.task,
-                      size: 32,
-                      color: Colors.white,
-                    ),
-                  ),
-                ),
-                const SizedBox(height: 8),
-                CustomButton(
-                  onPressed: () {
-                    cubit.changePage(2);
-                  },
-                  child: Container(
-                    width: 77,
-                    height: 70,
-                    decoration: BoxDecoration(
-                        color: Theme.of(context).primaryColor,
-                        borderRadius: BorderRadius.circular(8)),
-                    child: const Icon(
-                      Icons.person_2,
-                      size: 32,
-                      color: Colors.white,
-                    ),
-                  ),
-                )
-              ],
-            ),
+              );
+            },
           ),
           SizedBox(
             width: baseWidth * 0.91,

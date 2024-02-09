@@ -1,5 +1,5 @@
-import 'package:armory/data/api/services.dart';
-import 'package:armory/engine/engine.dart';
+import 'package:pos/data/api/services.dart';
+import 'package:pos/engine/engine.dart';
 import 'package:flutter/widgets.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 

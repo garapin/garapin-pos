@@ -19,7 +19,7 @@ class AppColorData {
   final Color special;
 
   AppColorData({
-    this.primary = const Color(0xFF750E21),
+    this.primary = const Color(0xFF713F97),
     this.secondary = const Color(0xFF016A70),
     this.gradient = const [Colors.blueAccent, Colors.blueGrey],
     this.error = Colors.red,

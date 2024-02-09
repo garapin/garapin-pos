@@ -1,8 +1,8 @@
 import 'dart:developer';
 import 'dart:io';
-import 'package:armory/data/api/error_handler.dart';
-import 'package:armory/data/models/base/store.dart';
-import 'package:armory/engine/engine.dart';
+import 'package:pos/data/api/error_handler.dart';
+import 'package:pos/data/models/base/store.dart';
+import 'package:pos/engine/engine.dart';
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';

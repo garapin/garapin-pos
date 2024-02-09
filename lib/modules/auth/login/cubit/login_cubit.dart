@@ -1,11 +1,13 @@
-import 'package:armory/engine/engine.dart';
-import 'package:armory/engine/helpers/options.dart';
+import 'dart:developer';
+
+import 'package:pos/engine/engine.dart';
+import 'package:pos/engine/helpers/options.dart';
 import 'package:bloc/bloc.dart';
 import 'package:flutter/widgets.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'dart:convert';
 
-import 'package:armory/data/api/services.dart';
+import 'package:pos/data/api/services.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -66,7 +68,7 @@ class LoginCubit extends BaseCubit<LoginState> {
         // Step 5: Move to the new page after successful sign-in
 
         Sessions.setUsers(jsonEncode(data.data!))
-            .then((value) => context.pushNamed(RouteNames.selectDatababase));
+            .then((value) => context.goNamed(RouteNames.selectDatababase));
       } else {
         // Step 6: Email not registered in API
         showError("Email tidak terdaftar");

@@ -15,7 +15,7 @@ class FilterButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(right: 12),
+      padding: const EdgeInsets.only(right: 8),
       child: TextButton(
           style: OutlinedButton.styleFrom(
             shape: RoundedRectangleBorder(
@@ -30,7 +30,7 @@ class FilterButton extends StatelessWidget {
           ),
           onPressed: onPressed,
           child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+            padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 4),
             child: Text(
               title,
               style: TextStyle(

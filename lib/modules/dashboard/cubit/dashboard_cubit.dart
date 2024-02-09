@@ -1,6 +1,7 @@
-import 'package:armory/engine/engine.dart';
+import 'package:pos/engine/engine.dart';
 import 'package:flutter/material.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:pos/modules/dashboard/profile/view/profile.dart';
 import '../catalog/view/catalog.dart';
 
 part 'dashboard_state.dart';
@@ -28,9 +29,13 @@ class DashboardCubit extends BaseCubit<DashboardState> {
         status: DataStateStatus.success, widget: page[index], index: index));
   }
 
+  int showIndex() {
+    return state.index;
+  }
+
   List<Widget> page = [
     CatalogPage(),
     SizedBox(),
-    SizedBox(),
+    ProfilePage(),
   ];
 }
