@@ -18,6 +18,8 @@ final _privateConstructorUsedError = UnsupportedError(
 mixin _$CatalogState {
   DataStateStatus get status => throw _privateConstructorUsedError;
   Store? get store => throw _privateConstructorUsedError;
+  String? get search => throw _privateConstructorUsedError;
+  String? get selectCategory => throw _privateConstructorUsedError;
   List<CategoryProduct> get category => throw _privateConstructorUsedError;
   List<Product> get product => throw _privateConstructorUsedError;
 
@@ -35,6 +37,8 @@ abstract class $CatalogStateCopyWith<$Res> {
   $Res call(
       {DataStateStatus status,
       Store? store,
+      String? search,
+      String? selectCategory,
       List<CategoryProduct> category,
       List<Product> product});
 }
@@ -54,6 +58,8 @@ class _$CatalogStateCopyWithImpl<$Res, $Val extends CatalogState>
   $Res call({
     Object? status = null,
     Object? store = freezed,
+    Object? search = freezed,
+    Object? selectCategory = freezed,
     Object? category = null,
     Object? product = null,
   }) {
@@ -66,6 +72,14 @@ class _$CatalogStateCopyWithImpl<$Res, $Val extends CatalogState>
           ? _value.store
           : store // ignore: cast_nullable_to_non_nullable
               as Store?,
+      search: freezed == search
+          ? _value.search
+          : search // ignore: cast_nullable_to_non_nullable
+              as String?,
+      selectCategory: freezed == selectCategory
+          ? _value.selectCategory
+          : selectCategory // ignore: cast_nullable_to_non_nullable
+              as String?,
       category: null == category
           ? _value.category
           : category // ignore: cast_nullable_to_non_nullable
@@ -89,6 +103,8 @@ abstract class _$$CatalogStateImplCopyWith<$Res>
   $Res call(
       {DataStateStatus status,
       Store? store,
+      String? search,
+      String? selectCategory,
       List<CategoryProduct> category,
       List<Product> product});
 }
@@ -106,6 +122,8 @@ class __$$CatalogStateImplCopyWithImpl<$Res>
   $Res call({
     Object? status = null,
     Object? store = freezed,
+    Object? search = freezed,
+    Object? selectCategory = freezed,
     Object? category = null,
     Object? product = null,
   }) {
@@ -118,6 +136,14 @@ class __$$CatalogStateImplCopyWithImpl<$Res>
           ? _value.store
           : store // ignore: cast_nullable_to_non_nullable
               as Store?,
+      search: freezed == search
+          ? _value.search
+          : search // ignore: cast_nullable_to_non_nullable
+              as String?,
+      selectCategory: freezed == selectCategory
+          ? _value.selectCategory
+          : selectCategory // ignore: cast_nullable_to_non_nullable
+              as String?,
       category: null == category
           ? _value._category
           : category // ignore: cast_nullable_to_non_nullable
@@ -136,6 +162,8 @@ class _$CatalogStateImpl implements _CatalogState {
   const _$CatalogStateImpl(
       {this.status = DataStateStatus.initial,
       this.store,
+      this.search,
+      this.selectCategory,
       final List<CategoryProduct> category = const [],
       final List<Product> product = const []})
       : _category = category,
@@ -146,6 +174,10 @@ class _$CatalogStateImpl implements _CatalogState {
   final DataStateStatus status;
   @override
   final Store? store;
+  @override
+  final String? search;
+  @override
+  final String? selectCategory;
   final List<CategoryProduct> _category;
   @override
   @JsonKey()
@@ -166,7 +198,7 @@ class _$CatalogStateImpl implements _CatalogState {
 
   @override
   String toString() {
-    return 'CatalogState(status: $status, store: $store, category: $category, product: $product)';
+    return 'CatalogState(status: $status, store: $store, search: $search, selectCategory: $selectCategory, category: $category, product: $product)';
   }
 
   @override
@@ -176,6 +208,9 @@ class _$CatalogStateImpl implements _CatalogState {
             other is _$CatalogStateImpl &&
             (identical(other.status, status) || other.status == status) &&
             (identical(other.store, store) || other.store == store) &&
+            (identical(other.search, search) || other.search == search) &&
+            (identical(other.selectCategory, selectCategory) ||
+                other.selectCategory == selectCategory) &&
             const DeepCollectionEquality().equals(other._category, _category) &&
             const DeepCollectionEquality().equals(other._product, _product));
   }
@@ -185,6 +220,8 @@ class _$CatalogStateImpl implements _CatalogState {
       runtimeType,
       status,
       store,
+      search,
+      selectCategory,
       const DeepCollectionEquality().hash(_category),
       const DeepCollectionEquality().hash(_product));
 
@@ -199,6 +236,8 @@ abstract class _CatalogState implements CatalogState {
   const factory _CatalogState(
       {final DataStateStatus status,
       final Store? store,
+      final String? search,
+      final String? selectCategory,
       final List<CategoryProduct> category,
       final List<Product> product}) = _$CatalogStateImpl;
 
@@ -206,6 +245,10 @@ abstract class _CatalogState implements CatalogState {
   DataStateStatus get status;
   @override
   Store? get store;
+  @override
+  String? get search;
+  @override
+  String? get selectCategory;
   @override
   List<CategoryProduct> get category;
   @override

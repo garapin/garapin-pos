@@ -105,10 +105,12 @@ class ApiService {
   }
 
   static Future<ApiResponseList<Product>> catalog(
-    BuildContext context,
-  ) async {
+    BuildContext context, {
+    required String search,
+    required String category,
+  }) async {
     return await ApiConfigure(context)
-        .get('store/product')
+        .get('store/product?search=$search&category=$category')
         .then((result) => ApiResponseList<Product>.fromJson(result.data))
         .handler((error) => ApiResponseList<Product>.onError(error));
   }

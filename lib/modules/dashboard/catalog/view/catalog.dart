@@ -1,18 +1,13 @@
-import 'package:flutter/widgets.dart';
 import 'package:pos/engine/engine.dart';
 import 'package:pos/modules/dashboard/catalog/cubit/catalog_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pos/themes/themes.dart';
-
-import '../../../../engine/base/app.dart';
 import '../../../../widgets/widgets.dart';
 import 'order_detail_view.dart';
 
 class CatalogPage extends StatelessWidget {
-  const CatalogPage({
-    super.key,
-  });
+  const CatalogPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -29,15 +24,24 @@ class CatalogPage extends StatelessWidget {
               child: Row(
                 children: [
                   const SizedBox(width: 12),
-                  Container(
+                  SizedBox(
                     width: 350,
                     height: 50,
                     child: TextFormField(
-                      onChanged: (value) {},
+                      controller: cubit.searchController,
+                      onChanged: (value) {
+                        cubit.searchProduct(value);
+                      },
                       decoration: InputDecoration(
-                          suffixIcon: const Icon(
-                            Icons.close,
-                            size: 16,
+                          suffixIcon: InkWell(
+                            onTap: () {
+                              cubit.searchController.clear();
+                              cubit.searchProduct("");
+                            },
+                            child: const Icon(
+                              Icons.close,
+                              size: 16,
+                            ),
                           ),
                           hintText: "Cari Barang kode product | Nama",
                           border: OutlineInputBorder(
@@ -67,8 +71,14 @@ class CatalogPage extends StatelessWidget {
                                 itemBuilder: (context, index) {
                                   var category = state.category[index];
                                   return FilterButton(
+                                      onPressed: () {
+                                        cubit.selectCategory(category.id ?? "");
+                                      },
                                       title: category.category ?? "",
-                                      isActive: true);
+                                      isActive:
+                                          (state.selectCategory == category.id)
+                                              ? true
+                                              : false);
                                 },
                               ),
                             ),

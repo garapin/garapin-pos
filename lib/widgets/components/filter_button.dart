@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pos/themes/themes.dart';
 
 class FilterButton extends StatelessWidget {
   final String title;
@@ -35,9 +36,11 @@ class FilterButton extends StatelessWidget {
               padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 0),
               child: Text(
                 title,
-                style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    color: Theme.of(context).primaryColor),
+                style: AppFont.largeBold(context)!.copyWith(
+                  color: isActive
+                      ? Theme.of(context).primaryColor
+                      : Colors.grey.withOpacity(1),
+                ),
               ),
             )),
       ),
