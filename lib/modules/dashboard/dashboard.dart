@@ -1,6 +1,10 @@
+import 'package:go_router/go_router.dart';
 import 'package:pos/engine/base/app.dart';
+import 'package:pos/engine/engine.dart';
 import 'package:pos/modules/dashboard/cubit/dashboard_cubit.dart';
 import 'package:pos/resources/resources.dart';
+import 'package:pos/routes/routes.dart';
+import 'package:pos/themes/themes.dart';
 import 'package:pos/widgets/components/custom_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -63,7 +67,19 @@ class DashboardPage extends StatelessWidget {
                           },
                           child: state.index == 2
                               ? Resources.images.profileActive.image()
-                              : Resources.images.profileInactive.image())
+                              : Resources.images.profileInactive.image()),
+                      Spacer(),
+                      CustomButton(
+                          onPressed: () {
+                            Sessions.clear()
+                                .then((value) => context.go(RouteNames.root));
+                          },
+                          child: Icon(
+                            Icons.logout,
+                            size: 40,
+                            color: Colors.red,
+                          )),
+                      SizedBox(height: 40)
                     ],
                   ),
                 ),
@@ -96,11 +112,18 @@ class LeadingAppBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Column(
+    return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        Text("Pipit Bakery"),
-        Text("Hidup nangis mulu pipit"),
+        Text(
+          "Store Name",
+          style: AppFont.whiteLarge(context)!.copyWith(fontSize: 20),
+        ),
+        Text(
+          "Moto Store",
+          style: AppFont.whiteMedium(context),
+        ),
       ],
     );
   }

@@ -18,6 +18,8 @@ final _privateConstructorUsedError = UnsupportedError(
 mixin _$CatalogState {
   DataStateStatus get status => throw _privateConstructorUsedError;
   Store? get store => throw _privateConstructorUsedError;
+  List<CategoryProduct> get category => throw _privateConstructorUsedError;
+  List<Product> get product => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $CatalogStateCopyWith<CatalogState> get copyWith =>
@@ -30,7 +32,11 @@ abstract class $CatalogStateCopyWith<$Res> {
           CatalogState value, $Res Function(CatalogState) then) =
       _$CatalogStateCopyWithImpl<$Res, CatalogState>;
   @useResult
-  $Res call({DataStateStatus status, Store? store});
+  $Res call(
+      {DataStateStatus status,
+      Store? store,
+      List<CategoryProduct> category,
+      List<Product> product});
 }
 
 /// @nodoc
@@ -48,6 +54,8 @@ class _$CatalogStateCopyWithImpl<$Res, $Val extends CatalogState>
   $Res call({
     Object? status = null,
     Object? store = freezed,
+    Object? category = null,
+    Object? product = null,
   }) {
     return _then(_value.copyWith(
       status: null == status
@@ -58,6 +66,14 @@ class _$CatalogStateCopyWithImpl<$Res, $Val extends CatalogState>
           ? _value.store
           : store // ignore: cast_nullable_to_non_nullable
               as Store?,
+      category: null == category
+          ? _value.category
+          : category // ignore: cast_nullable_to_non_nullable
+              as List<CategoryProduct>,
+      product: null == product
+          ? _value.product
+          : product // ignore: cast_nullable_to_non_nullable
+              as List<Product>,
     ) as $Val);
   }
 }
@@ -70,7 +86,11 @@ abstract class _$$CatalogStateImplCopyWith<$Res>
       __$$CatalogStateImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({DataStateStatus status, Store? store});
+  $Res call(
+      {DataStateStatus status,
+      Store? store,
+      List<CategoryProduct> category,
+      List<Product> product});
 }
 
 /// @nodoc
@@ -86,6 +106,8 @@ class __$$CatalogStateImplCopyWithImpl<$Res>
   $Res call({
     Object? status = null,
     Object? store = freezed,
+    Object? category = null,
+    Object? product = null,
   }) {
     return _then(_$CatalogStateImpl(
       status: null == status
@@ -96,6 +118,14 @@ class __$$CatalogStateImplCopyWithImpl<$Res>
           ? _value.store
           : store // ignore: cast_nullable_to_non_nullable
               as Store?,
+      category: null == category
+          ? _value._category
+          : category // ignore: cast_nullable_to_non_nullable
+              as List<CategoryProduct>,
+      product: null == product
+          ? _value._product
+          : product // ignore: cast_nullable_to_non_nullable
+              as List<Product>,
     ));
   }
 }
@@ -103,17 +133,40 @@ class __$$CatalogStateImplCopyWithImpl<$Res>
 /// @nodoc
 
 class _$CatalogStateImpl implements _CatalogState {
-  const _$CatalogStateImpl({this.status = DataStateStatus.initial, this.store});
+  const _$CatalogStateImpl(
+      {this.status = DataStateStatus.initial,
+      this.store,
+      final List<CategoryProduct> category = const [],
+      final List<Product> product = const []})
+      : _category = category,
+        _product = product;
 
   @override
   @JsonKey()
   final DataStateStatus status;
   @override
   final Store? store;
+  final List<CategoryProduct> _category;
+  @override
+  @JsonKey()
+  List<CategoryProduct> get category {
+    if (_category is EqualUnmodifiableListView) return _category;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_category);
+  }
+
+  final List<Product> _product;
+  @override
+  @JsonKey()
+  List<Product> get product {
+    if (_product is EqualUnmodifiableListView) return _product;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_product);
+  }
 
   @override
   String toString() {
-    return 'CatalogState(status: $status, store: $store)';
+    return 'CatalogState(status: $status, store: $store, category: $category, product: $product)';
   }
 
   @override
@@ -122,11 +175,18 @@ class _$CatalogStateImpl implements _CatalogState {
         (other.runtimeType == runtimeType &&
             other is _$CatalogStateImpl &&
             (identical(other.status, status) || other.status == status) &&
-            (identical(other.store, store) || other.store == store));
+            (identical(other.store, store) || other.store == store) &&
+            const DeepCollectionEquality().equals(other._category, _category) &&
+            const DeepCollectionEquality().equals(other._product, _product));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, status, store);
+  int get hashCode => Object.hash(
+      runtimeType,
+      status,
+      store,
+      const DeepCollectionEquality().hash(_category),
+      const DeepCollectionEquality().hash(_product));
 
   @JsonKey(ignore: true)
   @override
@@ -137,12 +197,19 @@ class _$CatalogStateImpl implements _CatalogState {
 
 abstract class _CatalogState implements CatalogState {
   const factory _CatalogState(
-      {final DataStateStatus status, final Store? store}) = _$CatalogStateImpl;
+      {final DataStateStatus status,
+      final Store? store,
+      final List<CategoryProduct> category,
+      final List<Product> product}) = _$CatalogStateImpl;
 
   @override
   DataStateStatus get status;
   @override
   Store? get store;
+  @override
+  List<CategoryProduct> get category;
+  @override
+  List<Product> get product;
   @override
   @JsonKey(ignore: true)
   _$$CatalogStateImplCopyWith<_$CatalogStateImpl> get copyWith =>

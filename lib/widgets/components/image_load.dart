@@ -44,7 +44,7 @@ class ImageLoad extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    String ph = placeholder ?? Resources.images.armor.path;
+    String ph = placeholder ?? Resources.images.google.path;
 
     Widget child = CachedNetworkImage(
       imageUrl: imageUrl,

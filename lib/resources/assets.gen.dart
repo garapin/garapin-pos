@@ -52,13 +52,6 @@ class $AssetsIconsGen {
 class $AssetsImagesGen {
   const $AssetsImagesGen();
 
-  /// File path: assets/images/armor-without-text.png
-  AssetGenImage get armorWithoutText =>
-      const AssetGenImage('assets/images/armor-without-text.png');
-
-  /// File path: assets/images/armor.png
-  AssetGenImage get armor => const AssetGenImage('assets/images/armor.png');
-
   /// File path: assets/images/bacground_auth.png
   AssetGenImage get bacgroundAuth =>
       const AssetGenImage('assets/images/bacground_auth.png');
@@ -95,8 +88,6 @@ class $AssetsImagesGen {
 
   /// List of all assets
   List<AssetGenImage> get values => [
-        armorWithoutText,
-        armor,
         bacgroundAuth,
         box,
         catalogActive,

@@ -1,6 +1,9 @@
+import 'package:flutter/widgets.dart';
+import 'package:pos/engine/engine.dart';
 import 'package:pos/modules/dashboard/catalog/cubit/catalog_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:pos/themes/themes.dart';
 
 import '../../../../engine/base/app.dart';
 import '../../../../widgets/widgets.dart';
@@ -47,19 +50,31 @@ class CatalogPage extends StatelessWidget {
                     width: 1,
                     color: Colors.grey,
                   ),
-                  const Expanded(
-                    child: SingleChildScrollView(
-                      scrollDirection: Axis.horizontal,
-                      child: Row(
-                        children: [
-                          SizedBox(width: 8),
-                          FilterButton(title: "All", isActive: true),
-                          FilterButton(title: "Mie", isActive: true),
-                          FilterButton(title: "Mie", isActive: true),
-                          FilterButton(title: "Mie", isActive: true),
-                          SizedBox(width: 8),
-                        ],
-                      ),
+                  Expanded(
+                    child: BlocBuilder<CatalogCubit, CatalogState>(
+                      builder: (context, state) {
+                        return ContainerStateHandler(
+                          status: state.status,
+                          loading: SizedBox(),
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 8),
+                            child: Align(
+                              alignment: Alignment.centerLeft,
+                              child: ListView.builder(
+                                scrollDirection: Axis.horizontal,
+                                shrinkWrap: true,
+                                itemCount: state.category.length,
+                                itemBuilder: (context, index) {
+                                  var category = state.category[index];
+                                  return FilterButton(
+                                      title: category.category ?? "",
+                                      isActive: true);
+                                },
+                              ),
+                            ),
+                          ),
+                        );
+                      },
                     ),
                   )
                 ],
@@ -69,16 +84,81 @@ class CatalogPage extends StatelessWidget {
                 BlocBuilder<CatalogCubit, CatalogState>(
                     builder: (context, state) {
               return ContainerStateHandler(
-                  refresherOptions: cubit.defaultRefresh,
-                  status: state.status,
-                  loading: const Center(
-                    child: CircularProgressIndicator(),
-                  ),
-                  child: Text(state.store?.storeName ?? ""));
+                refresherOptions: cubit.defaultRefresh,
+                status: state.status,
+                loading: const Center(
+                  child: CircularProgressIndicator(),
+                ),
+                child: GridView.builder(
+                  padding: const EdgeInsets.all(12),
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: MediaQuery.of(context).size.width ~/ 330,
+                      crossAxisSpacing: 12,
+                      mainAxisSpacing: 12,
+                      childAspectRatio: 219 / 272),
+                  itemBuilder: (BuildContext context, int index) {
+                    var product = state.product[index];
+                    return Container(
+                      width: 219, // Lebar tetap container
+                      height: 300, // Tinggi tetap container
+                      decoration: BoxDecoration(
+                        borderRadius:
+                            BorderRadius.circular(16), // Radius border
+                        color: Colors.white, // Warna latar belakang
+                        boxShadow: [
+                          BoxShadow(
+                            color:
+                                Colors.grey.withOpacity(0.5), // Warna bayangan
+                            spreadRadius: 0,
+                            blurRadius: 1,
+                            offset: const Offset(0, 0),
+                          ),
+                        ],
+                      ),
+                      padding: const EdgeInsets.fromLTRB(12, 12, 16, 12),
+                      child: Column(
+                        children: [
+                          Container(
+                            width: 202,
+                            height: 158,
+                            child: ImageLoad(
+                              imageUrl: Environment.showUrlImage(
+                                  path: product.image ?? ""),
+                              fit: BoxFit.contain,
+                            ),
+                          ),
+                          const SizedBox(height: 16),
+                          Text(
+                            product.name ?? "",
+                            style:
+                                AppFont.large(context)!.copyWith(fontSize: 16),
+                            maxLines: 2,
+                            overflow: TextOverflow.ellipsis,
+                            textAlign: TextAlign.center,
+                          ),
+                          const SizedBox(height: 8),
+                          Text(
+                            "SKU: ${product.sku}",
+                            style:
+                                AppFont.medium(context)!.copyWith(fontSize: 12),
+                          ),
+                          const SizedBox(height: 8),
+                          Text(
+                            "Rp.${product.price}",
+                            style: AppFont.largePrimary(context)!.copyWith(
+                                fontSize: 16, fontWeight: FontWeight.bold),
+                          ),
+                        ],
+                      ),
+                    );
+                  },
+                  itemCount: state.product.length, // Jumlah total item produk
+                ),
+              );
             })))
           ]),
         ),
-        Expanded(
+        const Expanded(
           flex: 1,
           child: OrderDetailView(),
         )

@@ -20,7 +20,7 @@ class SplashPage extends StatelessWidget {
               SizedBox(
                 width: width,
                 height: baseHeight,
-                child: Resources.images.armor.image(),
+                child: Resources.images.google.image(),
               ),
               Column(
                 children: [

@@ -1,10 +1,7 @@
 import 'dart:convert';
-
 import 'package:pos/data/api/services.dart';
 import 'package:pos/data/models/base/user.dart';
 import 'package:pos/engine/engine.dart';
-import 'package:pos/engine/helpers/options.dart';
-import 'package:bloc/bloc.dart';
 import 'package:flutter/widgets.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:go_router/go_router.dart';

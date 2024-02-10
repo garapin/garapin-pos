@@ -77,7 +77,7 @@ class LoginCubit extends BaseCubit<LoginState> {
     } catch (e) {
       // Handle exceptions
       print('Exception->$e');
-      showError("Gagal sign-in");
+      // showError("Gagal sign-in");
       final GoogleSignInAccount? s = await GoogleSignIn().signOut();
     }
     dismissLoading();

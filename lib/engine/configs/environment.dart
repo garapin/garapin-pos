@@ -17,7 +17,7 @@ abstract class Environment {
   static String showUrlImage({required String path}) => urlImage(path: path);
 
   static AssetGenImage appIcon() {
-    return Resources.images.armor;
+    return Resources.images.google;
   }
 
   static String baseUrl({String? url}) {

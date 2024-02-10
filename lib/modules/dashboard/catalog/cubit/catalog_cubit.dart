@@ -3,6 +3,8 @@ import 'package:pos/engine/engine.dart';
 import 'package:flutter/widgets.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
+import '../../../../data/models/base/category.dart';
+import '../../../../data/models/base/product.dart';
 import '../../../../data/models/base/store.dart';
 
 part 'catalog_state.dart';
@@ -14,8 +16,14 @@ class CatalogCubit extends BaseCubit<CatalogState> {
   @override
   Future<void> initData() async {
     final data = await ApiService.getStoreInfo(context);
+    final productAll = await ApiService.catalog(context);
+    final category = await ApiService.category(context);
     if (data.isSuccess) {
-      emit(state.copyWith(status: DataStateStatus.success, store: data.data));
+      emit(state.copyWith(
+          status: DataStateStatus.success,
+          store: data.data,
+          product: productAll.data,
+          category: category.data));
     } else {
       emit(state.copyWith(status: DataStateStatus.error));
     }

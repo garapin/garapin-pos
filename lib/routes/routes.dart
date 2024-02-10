@@ -4,6 +4,7 @@ import 'package:pos/modules/auth/login/cubit/login_cubit.dart';
 import 'package:pos/modules/auth/select_database/cubit/select_database_cubit.dart';
 import 'package:pos/modules/auth/select_database/view/select_database.dart';
 import 'package:pos/modules/dashboard/catalog/cubit/catalog_cubit.dart';
+import 'package:pos/modules/dashboard/profile/cubit/profile_cubit.dart';
 import 'package:pos/widgets/components/background_image.dart';
 import 'package:pos/modules/dashboard/cubit/dashboard_cubit.dart';
 import 'package:pos/modules/dashboard/dashboard.dart';
@@ -71,6 +72,9 @@ class Routes implements RouterInterface {
               ),
               BlocProvider(
                 create: (context) => CatalogCubit(ctx),
+              ),
+              BlocProvider(
+                create: (context) => ProfileCubit(ctx),
               )
             ],
             child: const DashboardPage(),

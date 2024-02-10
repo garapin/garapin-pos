@@ -1,11 +1,13 @@
 import 'dart:developer';
 import 'dart:io';
+import 'package:flutter/foundation.dart';
 import 'package:pos/data/api/error_handler.dart';
+import 'package:pos/data/models/base/product.dart';
 import 'package:pos/data/models/base/store.dart';
 import 'package:pos/engine/engine.dart';
 import 'package:device_info_plus/device_info_plus.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import '../models/base/category.dart';
 import '../models/base/user.dart';
 import 'configure.dart';
 import 'response.dart';
@@ -100,5 +102,24 @@ class ApiService {
         .get('store/get-info')
         .then((result) => ApiResponse<Store>.fromJson(result.data))
         .handler((error) => ApiResponse<Store>.onError(error));
+  }
+
+  static Future<ApiResponseList<Product>> catalog(
+    BuildContext context,
+  ) async {
+    return await ApiConfigure(context)
+        .get('store/product')
+        .then((result) => ApiResponseList<Product>.fromJson(result.data))
+        .handler((error) => ApiResponseList<Product>.onError(error));
+  }
+
+  static Future<ApiResponseList<CategoryProduct>> category(
+    BuildContext context,
+  ) async {
+    return await ApiConfigure(context)
+        .get('store/category')
+        .then(
+            (result) => ApiResponseList<CategoryProduct>.fromJson(result.data))
+        .handler((error) => ApiResponseList<CategoryProduct>.onError(error));
   }
 }
