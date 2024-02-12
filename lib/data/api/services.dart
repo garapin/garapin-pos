@@ -124,4 +124,50 @@ class ApiService {
             (result) => ApiResponseList<CategoryProduct>.fromJson(result.data))
         .handler((error) => ApiResponseList<CategoryProduct>.onError(error));
   }
+
+  static Future<ApiResponse> updateProfile(BuildContext context,
+      {required String storeName,
+      required String picName,
+      required String phonenumber,
+      required String address,
+      required String city,
+      required String country,
+      required String stateAddress,
+      required String postalCode,
+      required String base64}) async {
+    return await ApiConfigure(context)
+        .post('store/update', params: {
+          "store_name": storeName,
+          "pic_name": picName,
+          "phone_number": phonenumber,
+          "address": address,
+          "city": city,
+          "country": country,
+          "state": stateAddress,
+          "postal_code": postalCode,
+          "store_image": base64,
+        })
+        .then((result) => ApiResponse.fromJson(result.data))
+        .handler((error) => ApiResponse.onError(error));
+  }
+
+  static Future<ApiResponse> regiterCashier(
+    BuildContext context, {
+    required String email,
+  }) async {
+    return await ApiConfigure(context)
+        .post('store/register_cashier',
+            params: {"email": email, "connection_string": ""})
+        .then((result) => ApiResponse.fromJson(result.data))
+        .handler((error) => ApiResponse.onError(error));
+  }
+
+  static Future<ApiResponse> removeCashier(BuildContext context,
+      {required String idUser, required String idDatabaseName}) async {
+    return await ApiConfigure(context)
+        .post('store/remove_cashier',
+            params: {"id_user": idUser, "id_database": idDatabaseName})
+        .then((result) => ApiResponse.fromJson(result.data))
+        .handler((error) => ApiResponse.onError(error));
+  }
 }

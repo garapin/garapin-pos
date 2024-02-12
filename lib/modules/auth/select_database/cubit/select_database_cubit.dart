@@ -43,6 +43,7 @@ class SelectDatabaseCubit extends BaseCubit<SelectDatabaseState> {
     if (state.selectedDatabase == "") {
       showError("Belum memilih database");
     } else {
+      Sessions.setIsLogin("Y");
       Sessions.setDatabase(jsonEncode(userDatabase.storeDatabaseName
               ?.where(
                   (e) => e.name.toString() == state.selectedDatabase.toString())

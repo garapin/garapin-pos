@@ -35,7 +35,7 @@ class SplashPage extends StatelessWidget {
                   Padding(
                     padding: EdgeInsets.all(width * 0.07),
                     child: Text(
-                      'Powered by Abditrack',
+                      'Garapin POS',
                       style: AppFont.largeBold(context),
                       textAlign: TextAlign.center,
                     ),

@@ -13,9 +13,9 @@ Future<void> initializeFirebase() async {
   } else if (Platform.isIOS) {
     await Firebase.initializeApp(
       options: const FirebaseOptions(
-        apiKey: 'AIzaSyANkol1urFuu3v1iJgnui9K6Xdg-rxlSmw',
-        appId: '1:921694687850:ios:f2999ffed1cd3a25acb013',
-        messagingSenderId: '921694687850',
+        apiKey: 'AIzaSyCU6HiBa80eG-coDduyDXUlsSYZoILdb5E',
+        appId: '1:205261320352:ios:204ecb66f17f3e329dd9c5',
+        messagingSenderId: '205261320352',
         projectId: 'pos-3c2be',
       ),
     );

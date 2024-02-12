@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:csc_picker/csc_picker.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/foundation.dart';
@@ -5,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:pos/engine/engine.dart';
 import 'package:pos/modules/dashboard/profile/cubit/profile_cubit.dart';
 import 'package:pos/themes/themes.dart';
@@ -61,37 +64,70 @@ class ProfilePage extends StatelessWidget {
                             dashPattern: [6, 6],
                             borderType: BorderType.RRect,
                             color: Colors.grey,
-                            child: Container(
-                              height: 163,
-                              width: baseWidth,
-                              decoration: const BoxDecoration(
-                                color: Color(0xffF8F9FD),
+                            child: InkWell(
+                              onTap: () {
+                                cubit.pickImage(ImageSource.camera);
+                              },
+                              child: Container(
+                                height: 163,
+                                width: baseWidth,
+                                decoration: const BoxDecoration(
+                                  color: Color(0xffF8F9FD),
+                                ),
+                                child: (state.pickedImage != null)
+                                    ? Container(
+                                        decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(12),
+                                        ),
+                                        height: 260,
+                                        width: double.infinity,
+                                        child: Image.file(
+                                          File(state.pickedImage!.path),
+                                        ),
+                                      )
+                                    : state.store?.store?.storeImage != null
+                                        ? Column(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            children: [
+                                              ImageLoad(
+                                                  padding:
+                                                      const EdgeInsets.all(12),
+                                                  fit: BoxFit.cover,
+                                                  height: 100,
+                                                  imageUrl:
+                                                      Environment.showUrlImage(
+                                                          path: state
+                                                                  .store
+                                                                  ?.store
+                                                                  ?.storeImage ??
+                                                              "")),
+                                              const Text("Tap untuk ubah foto")
+                                            ],
+                                          )
+                                        : (state.pickedImage != null)
+                                            ? Container(
+                                                decoration: BoxDecoration(
+                                                  borderRadius:
+                                                      BorderRadius.circular(12),
+                                                ),
+                                                height: 260,
+                                                width: double.infinity,
+                                                child: Image.file(
+                                                  File(state.pickedImage!.path),
+                                                ),
+                                              )
+                                            : const Column(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.center,
+                                                children: [
+                                                  Icon(Icons.image, size: 70),
+                                                  SizedBox(height: 12),
+                                                  Text("Unggah Foto Toko"),
+                                                ],
+                                              ),
                               ),
-                              child: state.store?.store?.storeImage != null
-                                  ? Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        ImageLoad(
-                                            padding: const EdgeInsets.all(12),
-                                            fit: BoxFit.cover,
-                                            height: 100,
-                                            imageUrl: Environment.showUrlImage(
-                                                path: state.store?.store
-                                                        ?.storeImage ??
-                                                    "")),
-                                        const Text("Tap untuk ubah foto")
-                                      ],
-                                    )
-                                  : const Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        Icon(Icons.image, size: 70),
-                                        SizedBox(height: 12),
-                                        Text("Unggah Foto Toko"),
-                                      ],
-                                    ),
                             ),
                           ),
                           const SizedBox(height: 24),
@@ -115,6 +151,7 @@ class ProfilePage extends StatelessWidget {
                                 ),
                                 const SizedBox(height: 16),
                                 OutlineFormText(
+                                  keyboardType: TextInputType.phone,
                                   name: 'no_telepon',
                                   hintText: 'Masukan nomor telepon',
                                   label: 'NO Telepon',
@@ -129,6 +166,18 @@ class ProfilePage extends StatelessWidget {
                                 ),
                                 const SizedBox(height: 8),
                                 CSCPicker(
+                                  currentCity: store?.city ?? "",
+                                  currentCountry: store?.country ?? "",
+                                  currentState: store?.state,
+                                  onCountryChanged: (value) {
+                                    cubit.setCountry(value);
+                                  },
+                                  onStateChanged: (value) {
+                                    cubit.setAddressState(value ?? "");
+                                  },
+                                  onCityChanged: (value) {
+                                    cubit.setCity(value ?? "");
+                                  },
                                   dropdownDecoration: BoxDecoration(
                                       borderRadius: const BorderRadius.all(
                                           Radius.circular(58)),
@@ -144,12 +193,17 @@ class ProfilePage extends StatelessWidget {
                                           color: Colors.black.withOpacity(0.6),
                                           width: 1)),
                                   flagState: CountryFlag.DISABLE,
-                                  onCountryChanged: (String value) {},
-                                  onStateChanged: (value) {},
-                                  onCityChanged: (value) {},
                                 ),
                                 const SizedBox(height: 16),
                                 OutlineFormText(
+                                  name: 'address',
+                                  hintText: 'Masukan alamat lengkap',
+                                  label: 'Alamat lengkap',
+                                  initialValue: store?.noTelepon ?? "",
+                                ),
+                                const SizedBox(height: 16),
+                                OutlineFormText(
+                                  keyboardType: TextInputType.number,
                                   initialValue: store?.postalCode ?? "",
                                   name: 'postcal_code',
                                   hintText: 'Mauskan Kode Pos',
@@ -159,50 +213,90 @@ class ProfilePage extends StatelessWidget {
                                 Padding(
                                   padding:
                                       const EdgeInsets.symmetric(horizontal: 8),
-                                  child: Text("User Kasir",
+                                  child: Text("Users",
                                       style: AppFont.largeBold(context)),
                                 ),
                                 const SizedBox(height: 8),
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    const Expanded(
-                                      child: OutlineFormText(
-                                        name: 'user',
-                                        hintText:
-                                            'Mauskan Email untuk menambahkan',
-                                        initialValue: "",
-                                      ),
-                                    ),
-                                    const SizedBox(width: 32),
-                                    Container(
-                                      height: 30,
-                                      width: 30,
-                                      decoration: const BoxDecoration(
-                                          color: Colors.black,
-                                          shape: BoxShape.circle),
-                                      child: const Center(
-                                          child: Icon(
-                                        color: Colors.white,
-                                        Icons.add,
-                                        weight: 4,
-                                      )),
-                                    ),
-                                    const SizedBox(width: 16),
-                                    Container(
-                                      height: 30,
-                                      width: 30,
-                                      decoration: const BoxDecoration(
-                                          color: Color.fromARGB(
-                                              255, 219, 219, 219),
-                                          shape: BoxShape.circle),
-                                      child: const Center(
-                                          child: Icon(
-                                        Icons.remove,
-                                        weight: 4,
-                                      )),
-                                    ),
-                                  ],
+                                ListView.separated(
+                                  shrinkWrap: true,
+                                  physics: NeverScrollableScrollPhysics(),
+                                  itemCount:
+                                      state.store?.usersStore?.length ?? 0,
+                                  itemBuilder: (context, index) {
+                                    var user = state.store?.usersStore?[index];
+                                    return Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        Expanded(
+                                          child: OutlineFormText(
+                                            suffixText:
+                                                user?.storeDatabaseName?.role ??
+                                                    "unknown",
+                                            name: 'user${user?.id}',
+                                            hintText:
+                                                'Mauskan Email untuk menambahkan',
+                                            initialValue: user?.email,
+                                          ),
+                                        ),
+                                        const SizedBox(width: 32),
+                                        InkWell(
+                                          onTap: () {
+                                            cubit.addCashier();
+                                          },
+                                          child: Container(
+                                            height: 30,
+                                            width: 30,
+                                            decoration: const BoxDecoration(
+                                                color: Colors.black,
+                                                shape: BoxShape.circle),
+                                            child: const Center(
+                                                child: Icon(
+                                              color: Colors.white,
+                                              Icons.add,
+                                              weight: 4,
+                                            )),
+                                          ),
+                                        ),
+                                        const SizedBox(width: 16),
+                                        InkWell(
+                                          onTap: () {
+                                            if (user?.storeDatabaseName?.role ==
+                                                "ADMIN") {
+                                              ShowNotify.show(context,
+                                                  msg:
+                                                      "Tidak bisa hapus admin");
+                                            } else {
+                                              cubit.removeCashier(
+                                                  email: user?.email ?? "",
+                                                  idUser: user?.id ?? "",
+                                                  idDatabase: user
+                                                          ?.storeDatabaseName
+                                                          ?.id ??
+                                                      "");
+                                            }
+                                          },
+                                          child: Container(
+                                            height: 30,
+                                            width: 30,
+                                            decoration: const BoxDecoration(
+                                                color: Color.fromARGB(
+                                                    255, 219, 219, 219),
+                                                shape: BoxShape.circle),
+                                            child: const Center(
+                                                child: Icon(
+                                              Icons.remove,
+                                              weight: 4,
+                                            )),
+                                          ),
+                                        ),
+                                      ],
+                                    );
+                                  },
+                                  separatorBuilder:
+                                      (BuildContext context, int index) {
+                                    return SizedBox(height: 12);
+                                  },
                                 ),
                               ],
                             ),
@@ -238,7 +332,10 @@ class ProfilePage extends StatelessWidget {
                             child: SizedBox(
                               height: 50,
                               child: ElevatedButton(
-                                  onPressed: () {}, child: const Text("SAVE")),
+                                  onPressed: () {
+                                    cubit.updateProfile();
+                                  },
+                                  child: const Text("SAVE")),
                             ),
                           ))
                         ],
@@ -257,16 +354,20 @@ class ProfilePage extends StatelessWidget {
 }
 
 class OutlineFormText extends StatelessWidget {
+  final TextInputType? keyboardType;
   final String name;
   final String hintText;
   final String? initialValue;
   final String? label;
+  final String? suffixText;
   const OutlineFormText({
     super.key,
     required this.name,
     required this.hintText,
     this.label,
     required this.initialValue,
+    this.suffixText,
+    this.keyboardType,
   });
 
   @override
@@ -282,9 +383,11 @@ class OutlineFormText extends StatelessWidget {
             : const SizedBox(),
         label != null ? const SizedBox(height: 8) : const SizedBox(),
         FormBuilderTextField(
+          keyboardType: keyboardType,
           initialValue: initialValue,
           name: name,
           decoration: InputDecoration(
+            suffixText: suffixText,
             hintText: hintText,
             border: OutlineInputBorder(
               borderSide: const BorderSide(width: 1),

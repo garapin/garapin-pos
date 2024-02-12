@@ -19,6 +19,10 @@ mixin _$ProfileState {
   DataStateStatus get status => throw _privateConstructorUsedError;
   Store? get store => throw _privateConstructorUsedError;
   String? get err => throw _privateConstructorUsedError;
+  XFile? get pickedImage => throw _privateConstructorUsedError;
+  String? get country => throw _privateConstructorUsedError;
+  String? get stateAddress => throw _privateConstructorUsedError;
+  String? get city => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $ProfileStateCopyWith<ProfileState> get copyWith =>
@@ -31,7 +35,14 @@ abstract class $ProfileStateCopyWith<$Res> {
           ProfileState value, $Res Function(ProfileState) then) =
       _$ProfileStateCopyWithImpl<$Res, ProfileState>;
   @useResult
-  $Res call({DataStateStatus status, Store? store, String? err});
+  $Res call(
+      {DataStateStatus status,
+      Store? store,
+      String? err,
+      XFile? pickedImage,
+      String? country,
+      String? stateAddress,
+      String? city});
 }
 
 /// @nodoc
@@ -50,6 +61,10 @@ class _$ProfileStateCopyWithImpl<$Res, $Val extends ProfileState>
     Object? status = null,
     Object? store = freezed,
     Object? err = freezed,
+    Object? pickedImage = freezed,
+    Object? country = freezed,
+    Object? stateAddress = freezed,
+    Object? city = freezed,
   }) {
     return _then(_value.copyWith(
       status: null == status
@@ -64,6 +79,22 @@ class _$ProfileStateCopyWithImpl<$Res, $Val extends ProfileState>
           ? _value.err
           : err // ignore: cast_nullable_to_non_nullable
               as String?,
+      pickedImage: freezed == pickedImage
+          ? _value.pickedImage
+          : pickedImage // ignore: cast_nullable_to_non_nullable
+              as XFile?,
+      country: freezed == country
+          ? _value.country
+          : country // ignore: cast_nullable_to_non_nullable
+              as String?,
+      stateAddress: freezed == stateAddress
+          ? _value.stateAddress
+          : stateAddress // ignore: cast_nullable_to_non_nullable
+              as String?,
+      city: freezed == city
+          ? _value.city
+          : city // ignore: cast_nullable_to_non_nullable
+              as String?,
     ) as $Val);
   }
 }
@@ -76,7 +107,14 @@ abstract class _$$ProfileStateImplCopyWith<$Res>
       __$$ProfileStateImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({DataStateStatus status, Store? store, String? err});
+  $Res call(
+      {DataStateStatus status,
+      Store? store,
+      String? err,
+      XFile? pickedImage,
+      String? country,
+      String? stateAddress,
+      String? city});
 }
 
 /// @nodoc
@@ -93,6 +131,10 @@ class __$$ProfileStateImplCopyWithImpl<$Res>
     Object? status = null,
     Object? store = freezed,
     Object? err = freezed,
+    Object? pickedImage = freezed,
+    Object? country = freezed,
+    Object? stateAddress = freezed,
+    Object? city = freezed,
   }) {
     return _then(_$ProfileStateImpl(
       status: null == status
@@ -107,6 +149,22 @@ class __$$ProfileStateImplCopyWithImpl<$Res>
           ? _value.err
           : err // ignore: cast_nullable_to_non_nullable
               as String?,
+      pickedImage: freezed == pickedImage
+          ? _value.pickedImage
+          : pickedImage // ignore: cast_nullable_to_non_nullable
+              as XFile?,
+      country: freezed == country
+          ? _value.country
+          : country // ignore: cast_nullable_to_non_nullable
+              as String?,
+      stateAddress: freezed == stateAddress
+          ? _value.stateAddress
+          : stateAddress // ignore: cast_nullable_to_non_nullable
+              as String?,
+      city: freezed == city
+          ? _value.city
+          : city // ignore: cast_nullable_to_non_nullable
+              as String?,
     ));
   }
 }
@@ -115,7 +173,13 @@ class __$$ProfileStateImplCopyWithImpl<$Res>
 
 class _$ProfileStateImpl implements _ProfileState {
   const _$ProfileStateImpl(
-      {this.status = DataStateStatus.initial, this.store, this.err});
+      {this.status = DataStateStatus.initial,
+      this.store,
+      this.err,
+      this.pickedImage,
+      this.country,
+      this.stateAddress,
+      this.city});
 
   @override
   @JsonKey()
@@ -124,10 +188,18 @@ class _$ProfileStateImpl implements _ProfileState {
   final Store? store;
   @override
   final String? err;
+  @override
+  final XFile? pickedImage;
+  @override
+  final String? country;
+  @override
+  final String? stateAddress;
+  @override
+  final String? city;
 
   @override
   String toString() {
-    return 'ProfileState(status: $status, store: $store, err: $err)';
+    return 'ProfileState(status: $status, store: $store, err: $err, pickedImage: $pickedImage, country: $country, stateAddress: $stateAddress, city: $city)';
   }
 
   @override
@@ -137,11 +209,18 @@ class _$ProfileStateImpl implements _ProfileState {
             other is _$ProfileStateImpl &&
             (identical(other.status, status) || other.status == status) &&
             (identical(other.store, store) || other.store == store) &&
-            (identical(other.err, err) || other.err == err));
+            (identical(other.err, err) || other.err == err) &&
+            (identical(other.pickedImage, pickedImage) ||
+                other.pickedImage == pickedImage) &&
+            (identical(other.country, country) || other.country == country) &&
+            (identical(other.stateAddress, stateAddress) ||
+                other.stateAddress == stateAddress) &&
+            (identical(other.city, city) || other.city == city));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, status, store, err);
+  int get hashCode => Object.hash(runtimeType, status, store, err, pickedImage,
+      country, stateAddress, city);
 
   @JsonKey(ignore: true)
   @override
@@ -154,7 +233,11 @@ abstract class _ProfileState implements ProfileState {
   const factory _ProfileState(
       {final DataStateStatus status,
       final Store? store,
-      final String? err}) = _$ProfileStateImpl;
+      final String? err,
+      final XFile? pickedImage,
+      final String? country,
+      final String? stateAddress,
+      final String? city}) = _$ProfileStateImpl;
 
   @override
   DataStateStatus get status;
@@ -162,6 +245,14 @@ abstract class _ProfileState implements ProfileState {
   Store? get store;
   @override
   String? get err;
+  @override
+  XFile? get pickedImage;
+  @override
+  String? get country;
+  @override
+  String? get stateAddress;
+  @override
+  String? get city;
   @override
   @JsonKey(ignore: true)
   _$$ProfileStateImplCopyWith<_$ProfileStateImpl> get copyWith =>

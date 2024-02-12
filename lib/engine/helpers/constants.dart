@@ -7,5 +7,6 @@ abstract class APIResult {
 abstract class SessionKeys {
   static const String user = 'userData';
   static const String token = 'token';
+  static const String isLogin = 'islogin';
   static const String database = 'database';
 }

@@ -13,6 +13,8 @@ abstract class Sessions {
   ///SET
   static Future setToken(String token) async =>
       box.write(SessionKeys.token, token);
+  static Future setIsLogin(String isLogin) async =>
+      box.write(SessionKeys.isLogin, isLogin);
   static Future setUsers(String user) async =>
       box.write(SessionKeys.user, user);
   static Future setDatabase(String database) async =>
@@ -20,6 +22,7 @@ abstract class Sessions {
 
   ///GET
   static String? getUser() => box.read<String>(SessionKeys.user);
+  static String? getIsLogin() => box.read<String>(SessionKeys.isLogin);
   static String? getToken() => box.read<String>(SessionKeys.token);
   static String? getDatabase() => box.read<String>(SessionKeys.database);
 

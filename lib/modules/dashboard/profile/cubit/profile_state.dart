@@ -6,5 +6,9 @@ class ProfileState with _$ProfileState {
     @Default(DataStateStatus.initial) DataStateStatus status,
     Store? store,
     String? err,
+    XFile? pickedImage,
+    String? country,
+    String? stateAddress,
+    String? city,
   }) = _ProfileState;
 }
