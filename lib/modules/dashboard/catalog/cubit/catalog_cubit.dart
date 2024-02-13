@@ -26,8 +26,14 @@ class CatalogCubit extends BaseCubit<CatalogState> {
         await ApiService.catalog(context, search: search, category: category2);
     final category = await ApiService.category(context);
     if (data.isSuccess) {
+      DataStateStatus status;
+      if (productAll.data.isEmpty) {
+        status = DataStateStatus.empty;
+      } else {
+        status = DataStateStatus.success;
+      }
       emit(state.copyWith(
-          status: DataStateStatus.success,
+          status: status,
           store: data.data,
           search: search,
           selectCategory: category2,

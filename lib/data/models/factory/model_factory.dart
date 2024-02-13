@@ -1,8 +1,10 @@
 import 'dart:developer';
 
+import '../base/brand.dart';
 import '../base/category.dart';
 import '../base/product.dart';
 import '../base/store.dart';
+import '../base/unit.dart';
 import '../base/user.dart';
 
 Object factoryModel(String type, {Map<String, dynamic>? json}) {
@@ -15,6 +17,10 @@ Object factoryModel(String type, {Map<String, dynamic>? json}) {
       return json != null ? Product.fromJson(json) : Product();
     case 'CategoryProduct':
       return json != null ? CategoryProduct.fromJson(json) : CategoryProduct();
+    case 'Brand':
+      return json != null ? Brand.fromJson(json) : Brand();
+    case 'Unit':
+      return json != null ? Unit.fromJson(json) : Unit();
     case 'dynamic':
       return json != null ? DefaultModel(json) : DefaultModel({});
     default:

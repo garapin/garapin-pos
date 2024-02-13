@@ -22,7 +22,7 @@ abstract class Development {
       case EnvironmentMode.test:
         return 'http://192.168.20.154:4000/';
       case EnvironmentMode.production:
-        return 'http://192.168.28.113:4000/'; //
+        return 'http://192.168.100.18:4000/'; // real device
     }
   }
 }

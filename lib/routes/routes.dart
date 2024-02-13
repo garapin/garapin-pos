@@ -3,6 +3,8 @@ import 'package:pos/modules/auth/create_new_database/view/create_new_database.da
 import 'package:pos/modules/auth/login/cubit/login_cubit.dart';
 import 'package:pos/modules/auth/select_database/cubit/select_database_cubit.dart';
 import 'package:pos/modules/auth/select_database/view/select_database.dart';
+import 'package:pos/modules/create_product/cubit/create_product_cubit.dart';
+import 'package:pos/modules/create_product/view/create_product.dart';
 import 'package:pos/modules/dashboard/catalog/cubit/catalog_cubit.dart';
 import 'package:pos/modules/dashboard/profile/cubit/profile_cubit.dart';
 import 'package:pos/widgets/components/background_image.dart';
@@ -78,6 +80,16 @@ class Routes implements RouterInterface {
               )
             ],
             child: const DashboardPage(),
+          );
+        },
+      ),
+      GoRoute(
+        name: RouteNames.cretaeProduct,
+        path: RouteNames.cretaeProduct,
+        builder: (ctx, GoRouterState state) {
+          return BlocProvider(
+            create: (context) => CreateProductCubit(context),
+            child: const CreateProductPage(),
           );
         },
       ),

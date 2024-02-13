@@ -19,6 +19,7 @@ mixin _$DashboardState {
   DataStateStatus get status => throw _privateConstructorUsedError;
   int get index => throw _privateConstructorUsedError;
   Widget get widget => throw _privateConstructorUsedError;
+  dynamic get showCreateProduct => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $DashboardStateCopyWith<DashboardState> get copyWith =>
@@ -31,7 +32,11 @@ abstract class $DashboardStateCopyWith<$Res> {
           DashboardState value, $Res Function(DashboardState) then) =
       _$DashboardStateCopyWithImpl<$Res, DashboardState>;
   @useResult
-  $Res call({DataStateStatus status, int index, Widget widget});
+  $Res call(
+      {DataStateStatus status,
+      int index,
+      Widget widget,
+      dynamic showCreateProduct});
 }
 
 /// @nodoc
@@ -50,6 +55,7 @@ class _$DashboardStateCopyWithImpl<$Res, $Val extends DashboardState>
     Object? status = null,
     Object? index = null,
     Object? widget = null,
+    Object? showCreateProduct = freezed,
   }) {
     return _then(_value.copyWith(
       status: null == status
@@ -64,6 +70,10 @@ class _$DashboardStateCopyWithImpl<$Res, $Val extends DashboardState>
           ? _value.widget
           : widget // ignore: cast_nullable_to_non_nullable
               as Widget,
+      showCreateProduct: freezed == showCreateProduct
+          ? _value.showCreateProduct
+          : showCreateProduct // ignore: cast_nullable_to_non_nullable
+              as dynamic,
     ) as $Val);
   }
 }
@@ -76,7 +86,11 @@ abstract class _$$DashboardStateImplCopyWith<$Res>
       __$$DashboardStateImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({DataStateStatus status, int index, Widget widget});
+  $Res call(
+      {DataStateStatus status,
+      int index,
+      Widget widget,
+      dynamic showCreateProduct});
 }
 
 /// @nodoc
@@ -93,6 +107,7 @@ class __$$DashboardStateImplCopyWithImpl<$Res>
     Object? status = null,
     Object? index = null,
     Object? widget = null,
+    Object? showCreateProduct = freezed,
   }) {
     return _then(_$DashboardStateImpl(
       status: null == status
@@ -107,6 +122,9 @@ class __$$DashboardStateImplCopyWithImpl<$Res>
           ? _value.widget
           : widget // ignore: cast_nullable_to_non_nullable
               as Widget,
+      showCreateProduct: freezed == showCreateProduct
+          ? _value.showCreateProduct!
+          : showCreateProduct,
     ));
   }
 }
@@ -117,7 +135,8 @@ class _$DashboardStateImpl implements _DashboardState {
   const _$DashboardStateImpl(
       {this.status = DataStateStatus.initial,
       this.index = 0,
-      this.widget = const CatalogPage()});
+      this.widget = const CatalogPage(),
+      this.showCreateProduct = false});
 
   @override
   @JsonKey()
@@ -128,10 +147,13 @@ class _$DashboardStateImpl implements _DashboardState {
   @override
   @JsonKey()
   final Widget widget;
+  @override
+  @JsonKey()
+  final dynamic showCreateProduct;
 
   @override
   String toString() {
-    return 'DashboardState(status: $status, index: $index, widget: $widget)';
+    return 'DashboardState(status: $status, index: $index, widget: $widget, showCreateProduct: $showCreateProduct)';
   }
 
   @override
@@ -141,11 +163,14 @@ class _$DashboardStateImpl implements _DashboardState {
             other is _$DashboardStateImpl &&
             (identical(other.status, status) || other.status == status) &&
             (identical(other.index, index) || other.index == index) &&
-            (identical(other.widget, widget) || other.widget == widget));
+            (identical(other.widget, widget) || other.widget == widget) &&
+            const DeepCollectionEquality()
+                .equals(other.showCreateProduct, showCreateProduct));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, status, index, widget);
+  int get hashCode => Object.hash(runtimeType, status, index, widget,
+      const DeepCollectionEquality().hash(showCreateProduct));
 
   @JsonKey(ignore: true)
   @override
@@ -159,7 +184,8 @@ abstract class _DashboardState implements DashboardState {
   const factory _DashboardState(
       {final DataStateStatus status,
       final int index,
-      final Widget widget}) = _$DashboardStateImpl;
+      final Widget widget,
+      final dynamic showCreateProduct}) = _$DashboardStateImpl;
 
   @override
   DataStateStatus get status;
@@ -167,6 +193,8 @@ abstract class _DashboardState implements DashboardState {
   int get index;
   @override
   Widget get widget;
+  @override
+  dynamic get showCreateProduct;
   @override
   @JsonKey(ignore: true)
   _$$DashboardStateImplCopyWith<_$DashboardStateImpl> get copyWith =>

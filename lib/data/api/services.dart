@@ -2,8 +2,11 @@ import 'dart:developer';
 import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:pos/data/api/error_handler.dart';
+import 'package:pos/data/models/base/brand.dart';
 import 'package:pos/data/models/base/product.dart';
 import 'package:pos/data/models/base/store.dart';
+import 'package:pos/data/models/base/unit.dart';
+import 'package:pos/data/models/request/req_product.dart';
 import 'package:pos/engine/engine.dart';
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter/material.dart';
@@ -57,23 +60,6 @@ class ApiService {
         .handler((error) => ApiResponse<String>.onError(error));
   }
 
-  // static Future<ApiResponse> createUser(BuildContext context,
-  //     {required Map<String, dynamic> params}) async {
-  //   return await ApiConfigure(context)
-  //       .post('user/create', params: params)
-  //       .then((result) => ApiResponse.fromJson(result.data))
-  //       .handler((error) => ApiResponse.onError(error));
-  // }
-
-  // static Future<ApiResponse<User>> getUserId(
-  //   BuildContext context,
-  // ) async {
-  //   return await ApiConfigure(context)
-  //       .get('user/${Sessions.getUserModel()?.id}')
-  //       .then((result) => ApiResponse<User>.fromJson(result.data))
-  //       .handler((error) => ApiResponse<User>.onError(error));
-  // }
-
   static Future<ApiResponse<User>> signinWithGoogle(BuildContext context,
       {required String email}) async {
     return await ApiConfigure(context)
@@ -115,6 +101,42 @@ class ApiService {
         .handler((error) => ApiResponseList<Product>.onError(error));
   }
 
+  static Future<ApiResponse<Brand>> createBrand(BuildContext context,
+      {required String nameBrand}) async {
+    return await ApiConfigure(context)
+        .post('store/brand/create',
+            params: {"brand": nameBrand, "production": "-", "description": "-"})
+        .then((result) => ApiResponse<Brand>.fromJson(result.data))
+        .handler((error) => ApiResponse<Brand>.onError(error));
+  }
+
+  static Future<ApiResponseList<Brand>> brand(
+    BuildContext context,
+  ) async {
+    return await ApiConfigure(context)
+        .get('store/brand')
+        .then((result) => ApiResponseList<Brand>.fromJson(result.data))
+        .handler((error) => ApiResponseList<Brand>.onError(error));
+  }
+
+  static Future<ApiResponseList<Unit>> unit(
+    BuildContext context,
+  ) async {
+    return await ApiConfigure(context)
+        .get('store/unit')
+        .then((result) => ApiResponseList<Unit>.fromJson(result.data))
+        .handler((error) => ApiResponseList<Unit>.onError(error));
+  }
+
+  static Future<ApiResponse<Unit>> createUnit(BuildContext context,
+      {required String nameUnit}) async {
+    return await ApiConfigure(context)
+        .post('store/unit/create',
+            params: {"unit": nameUnit, "description": "-"})
+        .then((result) => ApiResponse<Unit>.fromJson(result.data))
+        .handler((error) => ApiResponse<Unit>.onError(error));
+  }
+
   static Future<ApiResponseList<CategoryProduct>> category(
     BuildContext context,
   ) async {
@@ -123,6 +145,15 @@ class ApiService {
         .then(
             (result) => ApiResponseList<CategoryProduct>.fromJson(result.data))
         .handler((error) => ApiResponseList<CategoryProduct>.onError(error));
+  }
+
+  static Future<ApiResponse> createCategory(BuildContext context,
+      {required String nameCategory}) async {
+    return await ApiConfigure(context)
+        .post('store/category/create',
+            params: {"category": nameCategory, "description": ""})
+        .then((result) => ApiResponse.fromJson(result.data))
+        .handler((error) => ApiResponse.onError(error));
   }
 
   static Future<ApiResponse> updateProfile(BuildContext context,
@@ -167,6 +198,14 @@ class ApiService {
     return await ApiConfigure(context)
         .post('store/remove_cashier',
             params: {"id_user": idUser, "id_database": idDatabaseName})
+        .then((result) => ApiResponse.fromJson(result.data))
+        .handler((error) => ApiResponse.onError(error));
+  }
+
+  static Future<ApiResponse> createProduct(BuildContext context,
+      {required ReqProduct product}) async {
+    return await ApiConfigure(context)
+        .post('store/product/create', params: product.toJson())
         .then((result) => ApiResponse.fromJson(result.data))
         .handler((error) => ApiResponse.onError(error));
   }

@@ -1,8 +1,12 @@
+import 'package:flutter/widgets.dart';
+import 'package:go_router/go_router.dart';
 import 'package:pos/engine/engine.dart';
 import 'package:pos/modules/dashboard/catalog/cubit/catalog_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:pos/routes/routes.dart';
 import 'package:pos/themes/themes.dart';
+import 'package:pos/widgets/components/empty_widget_image.dart';
 import '../../../../widgets/widgets.dart';
 import 'order_detail_view.dart';
 
@@ -58,31 +62,12 @@ class CatalogPage extends StatelessWidget {
                     child: BlocBuilder<CatalogCubit, CatalogState>(
                       builder: (context, state) {
                         return ContainerStateHandler(
-                          status: state.status,
+                          status: DataStateStatus.success,
                           loading: SizedBox(),
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 8),
-                            child: Align(
-                              alignment: Alignment.centerLeft,
-                              child: ListView.builder(
-                                scrollDirection: Axis.horizontal,
-                                shrinkWrap: true,
-                                itemCount: state.category.length,
-                                itemBuilder: (context, index) {
-                                  var category = state.category[index];
-                                  return FilterButton(
-                                      onPressed: () {
-                                        cubit.selectCategory(category.id ?? "");
-                                      },
-                                      title: category.category ?? "",
-                                      isActive:
-                                          (state.selectCategory == category.id)
-                                              ? true
-                                              : false);
-                                },
-                              ),
-                            ),
+                          emptyOptions: EmptyOptions(
+                            customEmpty: CategoryWidget(cubit: cubit),
                           ),
+                          child: CategoryWidget(cubit: cubit),
                         );
                       },
                     ),
@@ -90,82 +75,124 @@ class CatalogPage extends StatelessWidget {
                 ],
               ),
             ),
-            Expanded(child: Scaffold(body:
-                BlocBuilder<CatalogCubit, CatalogState>(
-                    builder: (context, state) {
-              return ContainerStateHandler(
-                refresherOptions: cubit.defaultRefresh,
-                status: state.status,
-                loading: const Center(
-                  child: CircularProgressIndicator(),
-                ),
-                child: GridView.builder(
-                  padding: const EdgeInsets.all(12),
-                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: MediaQuery.of(context).size.width ~/ 330,
-                      crossAxisSpacing: 12,
-                      mainAxisSpacing: 12,
-                      childAspectRatio: 219 / 272),
-                  itemBuilder: (BuildContext context, int index) {
-                    var product = state.product[index];
-                    return Container(
-                      width: 219, // Lebar tetap container
-                      height: 300, // Tinggi tetap container
-                      decoration: BoxDecoration(
-                        borderRadius:
-                            BorderRadius.circular(16), // Radius border
-                        color: Colors.white, // Warna latar belakang
-                        boxShadow: [
-                          BoxShadow(
-                            color:
-                                Colors.grey.withOpacity(0.5), // Warna bayangan
-                            spreadRadius: 0,
-                            blurRadius: 1,
-                            offset: const Offset(0, 0),
-                          ),
-                        ],
-                      ),
-                      padding: const EdgeInsets.fromLTRB(12, 12, 16, 12),
-                      child: Column(
-                        children: [
-                          Container(
-                            width: 202,
-                            height: 158,
-                            child: ImageLoad(
-                              imageUrl: Environment.showUrlImage(
-                                  path: product.image ?? ""),
-                              fit: BoxFit.contain,
-                            ),
-                          ),
-                          const SizedBox(height: 16),
-                          Text(
-                            product.name ?? "",
-                            style:
-                                AppFont.large(context)!.copyWith(fontSize: 16),
-                            maxLines: 2,
-                            overflow: TextOverflow.ellipsis,
-                            textAlign: TextAlign.center,
-                          ),
-                          const SizedBox(height: 8),
-                          Text(
-                            "SKU: ${product.sku}",
-                            style:
-                                AppFont.medium(context)!.copyWith(fontSize: 12),
-                          ),
-                          const SizedBox(height: 8),
-                          Text(
-                            "Rp.${product.price}",
-                            style: AppFont.largePrimary(context)!.copyWith(
-                                fontSize: 16, fontWeight: FontWeight.bold),
-                          ),
-                        ],
-                      ),
-                    );
-                  },
-                  itemCount: state.product.length, // Jumlah total item produk
-                ),
-              );
-            })))
+            Expanded(
+                child: Scaffold(
+                    floatingActionButton: FloatingActionButton.extended(
+                        onPressed: () {
+                          context
+                              .pushNamed(RouteNames.cretaeProduct)
+                              .then((value) => cubit.refreshData());
+                        },
+                        label: Text(
+                          "+ Tambah Produk",
+                          style: AppFont.whiteLarge(context),
+                        )),
+                    body: BlocBuilder<CatalogCubit, CatalogState>(
+                        builder: (context, state) {
+                      return ContainerStateHandler(
+                        refresherOptions: cubit.defaultRefresh,
+                        status: state.status,
+                        loading: const Center(
+                          child: CircularProgressIndicator(),
+                        ),
+                        emptyOptions: EmptyOptions(
+                            customEmpty: EmptyImageData(
+                          text: "Produk Kosong",
+                        )),
+                        child: GridView.builder(
+                          padding: const EdgeInsets.all(12),
+                          gridDelegate:
+                              SliverGridDelegateWithFixedCrossAxisCount(
+                                  crossAxisCount:
+                                      MediaQuery.of(context).size.width ~/ 330,
+                                  crossAxisSpacing: 12,
+                                  mainAxisSpacing: 12,
+                                  childAspectRatio: 219 / 272),
+                          itemBuilder: (BuildContext context, int index) {
+                            var product = state.product[index];
+                            return Container(
+                              width: 219,
+                              height: 300,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(16),
+                                color: Colors.white,
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.grey.withOpacity(0.5),
+                                    spreadRadius: 0,
+                                    blurRadius: 1,
+                                    offset: const Offset(0, 0),
+                                  ),
+                                ],
+                              ),
+                              padding:
+                                  const EdgeInsets.fromLTRB(12, 12, 16, 12),
+                              child: Column(
+                                children: [
+                                  Container(
+                                    width: 202,
+                                    height: 158,
+                                    child: ImageLoad(
+                                      imageUrl: Environment.showUrlImage(
+                                          path: product.image ?? ""),
+                                      fit: BoxFit.contain,
+                                    ),
+                                  ),
+                                  const SizedBox(height: 16),
+                                  Text(
+                                    product.name ?? "",
+                                    style: AppFont.large(context)!
+                                        .copyWith(fontSize: 16),
+                                    maxLines: 2,
+                                    overflow: TextOverflow.ellipsis,
+                                    textAlign: TextAlign.center,
+                                  ),
+                                  const SizedBox(height: 8),
+                                  Text(
+                                    "SKU: ${product.sku}",
+                                    style: AppFont.medium(context)!
+                                        .copyWith(fontSize: 12),
+                                  ),
+                                  const SizedBox(height: 8),
+                                  (product.discount == 0)
+                                      ? SizedBox()
+                                      : Stack(
+                                          alignment: Alignment.center,
+                                          children: [
+                                            Text(
+                                              "Rp.${product.price?.toInt()}",
+                                              style:
+                                                  AppFont.largePrimary(context)!
+                                                      .copyWith(
+                                                          fontSize: 14,
+                                                          fontWeight:
+                                                              FontWeight.bold),
+                                            ),
+                                            Divider(
+                                              thickness: 1,
+                                              color: Colors.black,
+                                              indent: 80,
+                                              endIndent: 80,
+                                            )
+                                          ],
+                                        ),
+                                  Text(
+                                    "Rp. ${(product.price! - product.discount!).toInt()}"
+                                        .toString(),
+                                    style: AppFont.largePrimary(context)!
+                                        .copyWith(
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.bold),
+                                  ),
+                                ],
+                              ),
+                            );
+                          },
+                          itemCount:
+                              state.product.length, // Jumlah total item produk
+                        ),
+                      );
+                    })))
           ]),
         ),
         const Expanded(
@@ -173,6 +200,40 @@ class CatalogPage extends StatelessWidget {
           child: OrderDetailView(),
         )
       ],
+    );
+  }
+}
+
+class CategoryWidget extends StatelessWidget {
+  const CategoryWidget({
+    super.key,
+    required this.cubit,
+  });
+
+  final CatalogCubit cubit;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 8),
+      child: Align(
+        alignment: Alignment.centerLeft,
+        child: ListView.builder(
+          scrollDirection: Axis.horizontal,
+          shrinkWrap: true,
+          itemCount: cubit.state.category.length,
+          itemBuilder: (context, index) {
+            var category = cubit.state.category[index];
+            return FilterButton(
+                onPressed: () {
+                  cubit.selectCategory(category.id ?? "");
+                },
+                title: category.category ?? "",
+                isActive:
+                    (cubit.state.selectCategory == category.id) ? true : false);
+          },
+        ),
+      ),
     );
   }
 }
