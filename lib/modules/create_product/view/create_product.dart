@@ -392,7 +392,7 @@ class CreateProductPage extends StatelessWidget {
                                         cubit.createProduct();
                                       } else {
                                         ShowNotify.error(context,
-                                            msg: "Lengkapi form");
+                                            msg: "Lengkapi form invalid");
                                       }
                                     },
                                     child: const Text("SAVE")),

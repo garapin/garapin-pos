@@ -1,7 +1,10 @@
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:pos/data/api/services.dart';
 import 'package:pos/engine/engine.dart';
 import 'package:flutter/widgets.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:pos/modules/cart/cubit/cart_cubit.dart';
 
 import '../../../../data/models/base/category.dart';
 import '../../../../data/models/base/product.dart';
@@ -11,6 +14,8 @@ part 'catalog_state.dart';
 part 'catalog_cubit.freezed.dart';
 
 class CatalogCubit extends BaseCubit<CatalogState> {
+  final TextEditingController quantityController =
+      TextEditingController(text: "1");
   final TextEditingController searchController = TextEditingController();
   CatalogCubit(BuildContext context) : super(context, const CatalogState());
 
@@ -58,5 +63,19 @@ class CatalogCubit extends BaseCubit<CatalogState> {
 
   selectCategory(String categoryId) {
     initData(search: state.search ?? "", category2: categoryId);
+  }
+
+  Future<void> addToCart(
+      {required String idProduct, required int quantity}) async {
+    showLoading();
+    final data = await ApiService.addToCart(context,
+        idProduct: idProduct, quantity: quantity);
+    if (data.isSuccess) {
+      context.pop();
+      showSuccess(data.message);
+    } else {
+      showError(data.message);
+    }
+    dismissLoading();
   }
 }

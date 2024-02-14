@@ -1,4 +1,11 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:pos/data/models/base/cart.dart';
+import 'package:pos/engine/engine.dart';
+import 'package:pos/modules/cart/cubit/cart_cubit.dart';
+import 'package:pos/widgets/widgets.dart';
 
 import '../../../../engine/base/app.dart';
 import '../../../../resources/resources.dart';
@@ -11,113 +18,147 @@ class OrderDetailView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final cubit = context.read<CartCubit>();
     return Scaffold(
-      body: SingleChildScrollView(
-        child: Container(
-          height: baseHeight,
-          decoration: BoxDecoration(border: Border.all(color: Colors.grey)),
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  "Orders Details",
-                  style: AppFont.largeBold(context)!.copyWith(fontSize: 20),
-                ),
-                Text(
-                  "Swipe kanan untuk hapus pesanan",
-                  style: AppFont.medium(context)!.copyWith(
-                      fontSize: 12, color: Colors.black.withOpacity(0.7)),
-                ),
-                const SizedBox(height: 20),
-                ListView.builder(
-                  shrinkWrap: true,
-                  physics: NeverScrollableScrollPhysics(),
-                  itemCount: 2,
-                  itemBuilder: (context, index) {
-                    return Column(
-                      children: [
-                        InkWell(
-                          onTap: () {},
-                          child: Row(
+      body: BlocBuilder<CartCubit, CartState>(
+        builder: (context, state) {
+          return SingleChildScrollView(
+            child: ContainerStateHandler(
+              loading: SizedBox(),
+              status: state.status,
+              child: Container(
+                height: baseHeight,
+                decoration:
+                    BoxDecoration(border: Border.all(color: Colors.grey)),
+                child: Padding(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        "Orders Details",
+                        style:
+                            AppFont.largeBold(context)!.copyWith(fontSize: 20),
+                      ),
+                      Text(
+                        "Swipe kanan untuk hapus pesanan",
+                        style: AppFont.medium(context)!.copyWith(
+                            fontSize: 12, color: Colors.black.withOpacity(0.7)),
+                      ),
+                      const SizedBox(height: 20),
+                      ListView.builder(
+                        shrinkWrap: true,
+                        physics: NeverScrollableScrollPhysics(),
+                        itemCount: state.cart?.items?.length,
+                        itemBuilder: (context, index) {
+                          var product = state.cart?.items?[index];
+                          return Column(
                             children: [
-                              Resources.images.google.image(height: 50),
-                              const SizedBox(width: 6),
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    "Google food",
-                                    style: AppFont.largeBold(context),
-                                  ),
-                                  const SizedBox(height: 2),
-                                  Text(
-                                    "price",
-                                    style: AppFont.small(context)!
-                                        .copyWith(color: Colors.grey),
-                                  ),
-                                  Text(
-                                    "12000",
-                                    style: AppFont.largePrimary(context),
-                                  ),
-                                ],
-                              ),
-                              Spacer(),
                               Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceEvenly,
-                                children: <Widget>[
-                                  Container(
-                                    height: 30,
-                                    width: 30,
-                                    decoration: const BoxDecoration(
-                                        color:
-                                            Color.fromARGB(255, 219, 219, 219),
-                                        shape: BoxShape.circle),
-                                    child: const Center(
-                                        child: Icon(
-                                      Icons.remove,
-                                      weight: 4,
-                                    )),
+                                children: [
+                                  ImageLoad(
+                                    imageUrl: Environment.showUrlImage(
+                                        path: product?.product?.image ?? ""),
+                                    height: 50,
                                   ),
                                   const SizedBox(width: 6),
-                                  const Text(
-                                    "1",
-                                    style: TextStyle(
-                                        fontSize: 20,
-                                        fontWeight: FontWeight.bold),
+                                  Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        product?.product?.name ?? "",
+                                        style: AppFont.largeBold(context),
+                                      ),
+                                      const SizedBox(height: 2),
+                                      Text(
+                                        "Harga",
+                                        style: AppFont.small(context)!
+                                            .copyWith(color: Colors.grey),
+                                      ),
+                                      Text(
+                                        (int.parse(product?.product?.price
+                                                        .toString() ??
+                                                    "0") -
+                                                int.parse(product
+                                                        ?.product?.discount
+                                                        .toString() ??
+                                                    "0"))
+                                            .toString(),
+                                        style: AppFont.largePrimary(context),
+                                      ),
+                                    ],
                                   ),
-                                  const SizedBox(width: 6),
-                                  Container(
-                                    height: 30,
-                                    width: 30,
-                                    decoration: const BoxDecoration(
-                                        color: Colors.black,
-                                        shape: BoxShape.circle),
-                                    child: const Center(
-                                        child: Icon(
-                                      color: Colors.white,
-                                      Icons.add,
-                                      weight: 4,
-                                    )),
+                                  Spacer(),
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceEvenly,
+                                    children: <Widget>[
+                                      InkWell(
+                                        onTap: () {
+                                          cubit.removeFromCart(
+                                              idProduct: product!.product!.id!);
+                                        },
+                                        child: Container(
+                                          height: 45,
+                                          width: 45,
+                                          decoration: const BoxDecoration(
+                                              color: Color.fromARGB(
+                                                  255, 219, 219, 219),
+                                              shape: BoxShape.circle),
+                                          child: const Center(
+                                              child: Icon(
+                                            Icons.remove,
+                                            weight: 4,
+                                          )),
+                                        ),
+                                      ),
+                                      const SizedBox(width: 12),
+                                      Text(
+                                        product?.quantity.toString() ?? "0",
+                                        style: TextStyle(
+                                            fontSize: 20,
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                      const SizedBox(width: 12),
+                                      InkWell(
+                                        onTap: () {
+                                          cubit.addToCart(
+                                              idProduct: product!.product!.id!);
+                                        },
+                                        child: Container(
+                                          height: 45,
+                                          width: 45,
+                                          decoration: const BoxDecoration(
+                                              color: Colors.black,
+                                              shape: BoxShape.circle),
+                                          child: const Center(
+                                              child: Icon(
+                                            color: Colors.white,
+                                            Icons.add,
+                                            weight: 4,
+                                          )),
+                                        ),
+                                      ),
+                                    ],
                                   ),
                                 ],
                               ),
+                              const SizedBox(height: 4),
+                              const Divider(thickness: 2),
+                              const SizedBox(height: 4),
                             ],
-                          ),
-                        ),
-                        const SizedBox(height: 4),
-                        const Divider(thickness: 2),
-                        const SizedBox(height: 4),
-                      ],
-                    );
-                  },
+                          );
+                        },
+                      ),
+                    ],
+                  ),
                 ),
-              ],
+              ),
             ),
-          ),
-        ),
+          );
+        },
       ),
     );
   }

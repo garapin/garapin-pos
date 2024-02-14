@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:pos/data/api/error_handler.dart';
 import 'package:pos/data/models/base/brand.dart';
+import 'package:pos/data/models/base/cart.dart';
 import 'package:pos/data/models/base/product.dart';
 import 'package:pos/data/models/base/store.dart';
 import 'package:pos/data/models/base/unit.dart';
@@ -208,5 +209,25 @@ class ApiService {
         .post('store/product/create', params: product.toJson())
         .then((result) => ApiResponse.fromJson(result.data))
         .handler((error) => ApiResponse.onError(error));
+  }
+
+  static Future<ApiResponse<Cart>> getCart(BuildContext context,
+      {required String idUser}) async {
+    return await ApiConfigure(context)
+        .get('store/cart/$idUser')
+        .then((result) => ApiResponse<Cart>.fromJson(result.data))
+        .handler((error) => ApiResponse<Cart>.onError(error));
+  }
+
+  static Future<ApiResponse<Cart>> addToCart(BuildContext context,
+      {required String idProduct, required int quantity}) async {
+    return await ApiConfigure(context)
+        .post('store/cart/create', params: {
+          "id_user": Sessions.getUserModel()!.id,
+          "id_product": idProduct,
+          "quantity": quantity
+        })
+        .then((result) => ApiResponse<Cart>.fromJson(result.data))
+        .handler((error) => ApiResponse<Cart>.onError(error));
   }
 }

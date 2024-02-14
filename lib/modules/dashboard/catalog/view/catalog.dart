@@ -1,6 +1,6 @@
-import 'package:flutter/widgets.dart';
 import 'package:go_router/go_router.dart';
 import 'package:pos/engine/engine.dart';
+import 'package:pos/modules/cart/view/modal_add_to_cart.dart';
 import 'package:pos/modules/dashboard/catalog/cubit/catalog_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -8,6 +8,7 @@ import 'package:pos/routes/routes.dart';
 import 'package:pos/themes/themes.dart';
 import 'package:pos/widgets/components/empty_widget_image.dart';
 import '../../../../widgets/widgets.dart';
+import '../../../cart/cubit/cart_cubit.dart';
 import 'order_detail_view.dart';
 
 class CatalogPage extends StatelessWidget {
@@ -63,7 +64,7 @@ class CatalogPage extends StatelessWidget {
                       builder: (context, state) {
                         return ContainerStateHandler(
                           status: DataStateStatus.success,
-                          loading: SizedBox(),
+                          loading: const SizedBox(),
                           emptyOptions: EmptyOptions(
                             customEmpty: CategoryWidget(cubit: cubit),
                           ),
@@ -96,7 +97,7 @@ class CatalogPage extends StatelessWidget {
                           child: CircularProgressIndicator(),
                         ),
                         emptyOptions: EmptyOptions(
-                            customEmpty: EmptyImageData(
+                            customEmpty: const EmptyImageData(
                           text: "Produk Kosong",
                         )),
                         child: GridView.builder(
@@ -110,81 +111,103 @@ class CatalogPage extends StatelessWidget {
                                   childAspectRatio: 219 / 272),
                           itemBuilder: (BuildContext context, int index) {
                             var product = state.product[index];
-                            return Container(
-                              width: 219,
-                              height: 300,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(16),
-                                color: Colors.white,
-                                boxShadow: [
-                                  BoxShadow(
-                                    color: Colors.grey.withOpacity(0.5),
-                                    spreadRadius: 0,
-                                    blurRadius: 1,
-                                    offset: const Offset(0, 0),
-                                  ),
-                                ],
-                              ),
-                              padding:
-                                  const EdgeInsets.fromLTRB(12, 12, 16, 12),
-                              child: Column(
-                                children: [
-                                  Container(
-                                    width: 202,
-                                    height: 158,
-                                    child: ImageLoad(
-                                      imageUrl: Environment.showUrlImage(
-                                          path: product.image ?? ""),
-                                      fit: BoxFit.contain,
+                            return CustomButton(
+                              onPressed: () {
+                                modalAddToCart(
+                                  context,
+                                  controller: cubit.quantityController,
+                                  onSubmit: () {
+                                    cubit
+                                        .addToCart(
+                                            idProduct: product.id!,
+                                            quantity: int.parse(
+                                                cubit.quantityController.text))
+                                        .then((value) => context
+                                            .read<CartCubit>()
+                                            .refreshData());
+                                  },
+                                  onCancel: () {
+                                    context.pop();
+                                  },
+                                ).then((value) =>
+                                    context.read<CartCubit>().refreshData());
+                              },
+                              child: Container(
+                                width: 219,
+                                height: 300,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(16),
+                                  color: Colors.white,
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: Colors.grey.withOpacity(0.5),
+                                      spreadRadius: 0,
+                                      blurRadius: 1,
+                                      offset: const Offset(0, 0),
                                     ),
-                                  ),
-                                  const SizedBox(height: 16),
-                                  Text(
-                                    product.name ?? "",
-                                    style: AppFont.large(context)!
-                                        .copyWith(fontSize: 16),
-                                    maxLines: 2,
-                                    overflow: TextOverflow.ellipsis,
-                                    textAlign: TextAlign.center,
-                                  ),
-                                  const SizedBox(height: 8),
-                                  Text(
-                                    "SKU: ${product.sku}",
-                                    style: AppFont.medium(context)!
-                                        .copyWith(fontSize: 12),
-                                  ),
-                                  const SizedBox(height: 8),
-                                  (product.discount == 0)
-                                      ? SizedBox()
-                                      : Stack(
-                                          alignment: Alignment.center,
-                                          children: [
-                                            Text(
-                                              "Rp.${product.price?.toInt()}",
-                                              style:
-                                                  AppFont.largePrimary(context)!
-                                                      .copyWith(
-                                                          fontSize: 14,
-                                                          fontWeight:
-                                                              FontWeight.bold),
-                                            ),
-                                            Divider(
-                                              thickness: 1,
-                                              color: Colors.black,
-                                              indent: 80,
-                                              endIndent: 80,
-                                            )
-                                          ],
-                                        ),
-                                  Text(
-                                    "Rp. ${(product.price! - product.discount!).toInt()}"
-                                        .toString(),
-                                    style: AppFont.largePrimary(context)!
-                                        .copyWith(
-                                            fontSize: 16,
-                                            fontWeight: FontWeight.bold),
-                                  ),
-                                ],
+                                  ],
+                                ),
+                                padding:
+                                    const EdgeInsets.fromLTRB(12, 12, 16, 12),
+                                child: Column(
+                                  children: [
+                                    Container(
+                                      width: 202,
+                                      height: 158,
+                                      child: ImageLoad(
+                                        imageUrl: Environment.showUrlImage(
+                                            path: product.image ?? ""),
+                                        fit: BoxFit.contain,
+                                      ),
+                                    ),
+                                    const SizedBox(height: 16),
+                                    Text(
+                                      product.name ?? "",
+                                      style: AppFont.large(context)!
+                                          .copyWith(fontSize: 16),
+                                      maxLines: 2,
+                                      overflow: TextOverflow.ellipsis,
+                                      textAlign: TextAlign.center,
+                                    ),
+                                    const SizedBox(height: 8),
+                                    Text(
+                                      "SKU: ${product.sku}",
+                                      style: AppFont.medium(context)!
+                                          .copyWith(fontSize: 12),
+                                    ),
+                                    const SizedBox(height: 8),
+                                    (product.discount == 0)
+                                        ? const SizedBox()
+                                        : Stack(
+                                            alignment: Alignment.center,
+                                            children: [
+                                              Text(
+                                                "Rp.${product.price?.toInt()}",
+                                                style: AppFont.largePrimary(
+                                                        context)!
+                                                    .copyWith(
+                                                        fontSize: 14,
+                                                        fontWeight:
+                                                            FontWeight.bold),
+                                              ),
+                                              const Divider(
+                                                thickness: 1,
+                                                color: Colors.black,
+                                                indent: 80,
+                                                endIndent: 80,
+                                              )
+                                            ],
+                                          ),
+                                    Text(
+                                      "Rp. ${(product.price! - product.discount!).toInt()}"
+                                          .toString(),
+                                      style: AppFont.largePrimary(context)!
+                                          .copyWith(
+                                              fontSize: 16,
+                                              fontWeight: FontWeight.bold),
+                                    ),
+                                  ],
+                                ),
                               ),
                             );
                           },
