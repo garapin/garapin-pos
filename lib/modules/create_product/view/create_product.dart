@@ -122,7 +122,7 @@ class CreateProductPage extends StatelessWidget {
                                   OutlineFormText(
                                     name: 'name_product',
                                     hintText: 'Masukan Nama Produk',
-                                    label: 'Nama Toko',
+                                    label: 'Nama Produk',
                                     validator: (v) {
                                       if (v != null) {
                                         return null;
@@ -179,23 +179,28 @@ class CreateProductPage extends StatelessWidget {
                                                 .toList()),
                                       ),
                                       const SizedBox(width: 32),
-                                      InkWell(
-                                        onTap: () {
-                                          cubit.addBrand();
-                                        },
-                                        child: Container(
-                                          height: 30,
-                                          width: 30,
-                                          decoration: const BoxDecoration(
-                                              color: Colors.black,
-                                              shape: BoxShape.circle),
-                                          child: const Center(
-                                              child: Icon(
-                                            color: Colors.white,
-                                            Icons.add,
-                                            weight: 4,
-                                          )),
-                                        ),
+                                      Column(
+                                        children: [
+                                          SizedBox(height: 16),
+                                          InkWell(
+                                            onTap: () {
+                                              cubit.addBrand();
+                                            },
+                                            child: Container(
+                                              height: 30,
+                                              width: 30,
+                                              decoration: const BoxDecoration(
+                                                  color: Colors.black,
+                                                  shape: BoxShape.circle),
+                                              child: const Center(
+                                                  child: Icon(
+                                                color: Colors.white,
+                                                Icons.add,
+                                                weight: 4,
+                                              )),
+                                            ),
+                                          ),
+                                        ],
                                       ),
                                       const SizedBox(width: 16),
                                     ],
@@ -241,23 +246,28 @@ class CreateProductPage extends StatelessWidget {
                                                 .toList()),
                                       ),
                                       const SizedBox(width: 32),
-                                      InkWell(
-                                        onTap: () {
-                                          cubit.addCategory();
-                                        },
-                                        child: Container(
-                                          height: 30,
-                                          width: 30,
-                                          decoration: const BoxDecoration(
-                                              color: Colors.black,
-                                              shape: BoxShape.circle),
-                                          child: const Center(
-                                              child: Icon(
-                                            color: Colors.white,
-                                            Icons.add,
-                                            weight: 4,
-                                          )),
-                                        ),
+                                      Column(
+                                        children: [
+                                          SizedBox(height: 16),
+                                          InkWell(
+                                            onTap: () {
+                                              cubit.addCategory();
+                                            },
+                                            child: Container(
+                                              height: 30,
+                                              width: 30,
+                                              decoration: const BoxDecoration(
+                                                  color: Colors.black,
+                                                  shape: BoxShape.circle),
+                                              child: const Center(
+                                                  child: Icon(
+                                                color: Colors.white,
+                                                Icons.add,
+                                                weight: 4,
+                                              )),
+                                            ),
+                                          ),
+                                        ],
                                       ),
                                       const SizedBox(width: 16),
                                     ],
@@ -265,8 +275,6 @@ class CreateProductPage extends StatelessWidget {
                                   const SizedBox(height: 16),
                                   Row(
                                     mainAxisAlignment: MainAxisAlignment.center,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.center,
                                     children: [
                                       Expanded(
                                         child: OutlineFormDropdown(
@@ -295,23 +303,28 @@ class CreateProductPage extends StatelessWidget {
                                                 .toList()),
                                       ),
                                       const SizedBox(width: 32),
-                                      InkWell(
-                                        onTap: () {
-                                          cubit.addUnit();
-                                        },
-                                        child: Container(
-                                          height: 30,
-                                          width: 30,
-                                          decoration: const BoxDecoration(
-                                              color: Colors.black,
-                                              shape: BoxShape.circle),
-                                          child: const Center(
-                                              child: Icon(
-                                            color: Colors.white,
-                                            Icons.add,
-                                            weight: 4,
-                                          )),
-                                        ),
+                                      Column(
+                                        children: [
+                                          SizedBox(height: 16),
+                                          InkWell(
+                                            onTap: () {
+                                              cubit.addUnit();
+                                            },
+                                            child: Container(
+                                              height: 30,
+                                              width: 30,
+                                              decoration: const BoxDecoration(
+                                                  color: Colors.black,
+                                                  shape: BoxShape.circle),
+                                              child: const Center(
+                                                  child: Icon(
+                                                color: Colors.white,
+                                                Icons.add,
+                                                weight: 4,
+                                              )),
+                                            ),
+                                          ),
+                                        ],
                                       ),
                                       const SizedBox(width: 16),
                                     ],

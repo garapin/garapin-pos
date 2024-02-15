@@ -9,6 +9,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:pos/engine/engine.dart';
+import 'package:pos/modules/dashboard/cubit/dashboard_cubit.dart';
 import 'package:pos/modules/dashboard/profile/cubit/profile_cubit.dart';
 import 'package:pos/themes/themes.dart';
 import 'package:pos/widgets/widgets.dart';
@@ -18,6 +19,7 @@ class ProfilePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final cubitDashboard = context.read<DashboardCubit>();
     final cubit = context.read<ProfileCubit>();
     return Scaffold(
       backgroundColor: const Color(0xffF8F9FD),
@@ -333,7 +335,9 @@ class ProfilePage extends StatelessWidget {
                               height: 50,
                               child: ElevatedButton(
                                   onPressed: () {
-                                    cubit.updateProfile();
+                                    cubit.updateProfile().then((value) {
+                                      cubitDashboard.changePage(0);
+                                    });
                                   },
                                   child: const Text("SAVE")),
                             ),

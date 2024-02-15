@@ -1,3 +1,4 @@
+import 'package:flutter/widgets.dart';
 import 'package:pos/engine/base/app.dart';
 import 'package:pos/modules/auth/select_database/cubit/select_database_cubit.dart';
 import 'package:pos/routes/routes.dart';
@@ -49,7 +50,6 @@ class SelectDatabasePage extends StatelessWidget {
                           )),
                       const SizedBox(height: 32),
                       Container(
-                        height: 518,
                         width: 623,
                         padding: const EdgeInsets.symmetric(
                             horizontal: 90, vertical: 32),
@@ -80,8 +80,9 @@ class SelectDatabasePage extends StatelessWidget {
                                   .copyWith(fontSize: 16),
                             ),
                             const SizedBox(height: 24),
-                            SizedBox(
-                              height: 260,
+                            ConstrainedBox(
+                              constraints:
+                                  BoxConstraints(minHeight: 0, maxHeight: 260),
                               child: ListView.builder(
                                 padding: const EdgeInsets.symmetric(
                                     horizontal: 2, vertical: 2),

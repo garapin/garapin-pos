@@ -61,7 +61,7 @@ class ProfileCubit extends BaseCubit<ProfileState> {
     emit(state.copyWith(city: city));
   }
 
-  updateProfile() async {
+  Future updateProfile() async {
     showLoading();
     formKey.currentState?.save();
     String? base64Image;

@@ -4,6 +4,7 @@ import 'package:pos/modules/cart/view/modal_add_to_cart.dart';
 import 'package:pos/modules/dashboard/catalog/cubit/catalog_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:pos/modules/dashboard/profile/cubit/profile_cubit.dart';
 import 'package:pos/routes/routes.dart';
 import 'package:pos/themes/themes.dart';
 import 'package:pos/widgets/components/empty_widget_image.dart';
@@ -128,9 +129,12 @@ class CatalogPage extends StatelessWidget {
                                   },
                                   onCancel: () {
                                     context.pop();
+                                    cubit.quantityController.clear();
                                   },
-                                ).then((value) =>
-                                    context.read<CartCubit>().refreshData());
+                                ).then((value) {
+                                  cubit.quantityController.clear();
+                                  context.read<CartCubit>().refreshData();
+                                });
                               },
                               child: Container(
                                 width: 219,
@@ -182,7 +186,7 @@ class CatalogPage extends StatelessWidget {
                                             alignment: Alignment.center,
                                             children: [
                                               Text(
-                                                "Rp.${product.price?.toInt()}",
+                                                "Rp.${product.price?.toInt().currencyFormat()}",
                                                 style: AppFont.largePrimary(
                                                         context)!
                                                     .copyWith(
@@ -199,7 +203,7 @@ class CatalogPage extends StatelessWidget {
                                             ],
                                           ),
                                     Text(
-                                      "Rp. ${(product.price! - product.discount!).toInt()}"
+                                      "Rp. ${(product.price! - product.discount!).toInt().currencyFormat()}"
                                           .toString(),
                                       style: AppFont.largePrimary(context)!
                                           .copyWith(
@@ -268,34 +272,42 @@ class ActionAppBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Align(
-      alignment: Alignment.centerRight,
-      child: SizedBox(
-        width: 400,
-        height: 44,
-        child: Row(
-          children: [
-            const Row(
-              children: [
-                Icon(Icons.history),
-                SizedBox(
-                  width: 8,
-                ),
-                Text("History")
-              ],
+    return BlocBuilder<ProfileCubit, ProfileState>(
+      builder: (context, state) {
+        return ContainerStateHandler(
+          status: DataStateStatus.success,
+          loading: SizedBox(),
+          child: Align(
+            alignment: Alignment.centerRight,
+            child: SizedBox(
+              width: 400,
+              height: 44,
+              child: Row(
+                children: [
+                  const Row(
+                    children: [
+                      Icon(Icons.history),
+                      SizedBox(
+                        width: 8,
+                      ),
+                      Text("History")
+                    ],
+                  ),
+                  const SizedBox(width: 20),
+                  Text(DateTime.now().toString()),
+                  const SizedBox(width: 20),
+                  Container(
+                    height: 50,
+                    width: 50,
+                    decoration: const BoxDecoration(
+                        shape: BoxShape.circle, color: Colors.black),
+                  )
+                ],
+              ),
             ),
-            const SizedBox(width: 20),
-            Text(DateTime.now().toString()),
-            const SizedBox(width: 20),
-            Container(
-              height: 50,
-              width: 50,
-              decoration: const BoxDecoration(
-                  shape: BoxShape.circle, color: Colors.black),
-            )
-          ],
-        ),
-      ),
+          ),
+        );
+      },
     );
   }
 }

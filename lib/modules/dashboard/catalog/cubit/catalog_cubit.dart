@@ -14,8 +14,7 @@ part 'catalog_state.dart';
 part 'catalog_cubit.freezed.dart';
 
 class CatalogCubit extends BaseCubit<CatalogState> {
-  final TextEditingController quantityController =
-      TextEditingController(text: "1");
+  final TextEditingController quantityController = TextEditingController();
   final TextEditingController searchController = TextEditingController();
   CatalogCubit(BuildContext context) : super(context, const CatalogState());
 
@@ -51,7 +50,7 @@ class CatalogCubit extends BaseCubit<CatalogState> {
   }
 
   @override
-  void loadingState() => emit(state.copyWith(status: DataStateStatus.initial));
+  void loadingState() => emit(state.copyWith(status: DataStateStatus.loading));
 
   @override
   Future<void> refreshData() => initData(

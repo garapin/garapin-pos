@@ -42,9 +42,9 @@ class CartCubit extends BaseCubit<CartState> {
     }
   }
 
-  void removeFromCart({required String idProduct}) async {
-    final data =
-        await ApiService.addToCart(context, idProduct: idProduct, quantity: -1);
+  void removeFromCart({required String idProduct, int qty = -1}) async {
+    final data = await ApiService.addToCart(context,
+        idProduct: idProduct, quantity: qty);
     if (data.isSuccess) {
       refreshData();
     } else {
