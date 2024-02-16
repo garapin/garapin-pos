@@ -12,6 +12,7 @@ Cart _$CartFromJson(Map<String, dynamic> json) => Cart(
           ?.map((e) => Item.fromJson(e as Map<String, dynamic>))
           .toList(),
       user: json['user'] as String?,
+      totalPrice: json['total_price'] as int?,
       createdAt: json['createdAt'] == null
           ? null
           : DateTime.parse(json['createdAt'] as String),
@@ -25,6 +26,7 @@ Map<String, dynamic> _$CartToJson(Cart instance) => <String, dynamic>{
       '_id': instance.id,
       'items': instance.items,
       'user': instance.user,
+      'total_price': instance.totalPrice,
       'createdAt': instance.createdAt?.toIso8601String(),
       'updatedAt': instance.updatedAt?.toIso8601String(),
       '__v': instance.v,

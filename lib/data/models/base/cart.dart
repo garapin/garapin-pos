@@ -10,6 +10,8 @@ class Cart {
   List<Item>? items;
   @JsonKey(name: "user")
   String? user;
+  @JsonKey(name: "total_price")
+  int? totalPrice;
   @JsonKey(name: "createdAt")
   DateTime? createdAt;
   @JsonKey(name: "updatedAt")
@@ -21,6 +23,7 @@ class Cart {
     this.id,
     this.items,
     this.user,
+    this.totalPrice,
     this.createdAt,
     this.updatedAt,
     this.v,

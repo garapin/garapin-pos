@@ -22,7 +22,7 @@ class DashboardPage extends StatelessWidget {
       builder: (context, state) {
         return ContainerStateHandler(
           status: DataStateStatus.success,
-          loading: SizedBox(),
+          loading: const SizedBox(),
           child: Scaffold(
             appBar: AppBar(
               title: Text(state.store?.store?.storeName ?? ""),
@@ -37,7 +37,7 @@ class DashboardPage extends StatelessWidget {
                   builder: (context, state) {
                     return ContainerStateHandler(
                       status: state.status,
-                      loading: Center(
+                      loading: const Center(
                         child: CircularProgressIndicator(),
                       ),
                       child: Container(
@@ -70,18 +70,18 @@ class DashboardPage extends StatelessWidget {
                                 child: state.index == 2
                                     ? Resources.images.profileActive.image()
                                     : Resources.images.profileInactive.image()),
-                            Spacer(),
+                            const Spacer(),
                             CustomButton(
                                 onPressed: () {
                                   Sessions.clear().then(
                                       (value) => context.go(RouteNames.root));
                                 },
-                                child: Icon(
+                                child: const Icon(
                                   Icons.logout,
                                   size: 40,
                                   color: Colors.red,
                                 )),
-                            SizedBox(height: 40)
+                            const SizedBox(height: 40)
                           ],
                         ),
                       ),
@@ -93,7 +93,7 @@ class DashboardPage extends StatelessWidget {
                   child: BlocBuilder<DashboardCubit, DashboardState>(
                     builder: (context, state) {
                       return ContainerStateHandler(
-                          loading: Center(
+                          loading: const Center(
                             child: CircularProgressIndicator(),
                           ),
                           status: state.status,

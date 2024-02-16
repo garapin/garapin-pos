@@ -53,19 +53,19 @@ class LoginCubit extends BaseCubit<LoginState> {
         );
         await FirebaseAuth.instance.signInWithCredential(credential);
 
-        final GoogleSignInAccount? s = await GoogleSignIn().signOut();
+        // final GoogleSignInAccount? s = await GoogleSignIn().signOut();
 
         Sessions.setUsers(jsonEncode(data.data!))
             .then((value) => context.pushNamed(RouteNames.selectDatababase));
       } else {
         showError("Email tidak terdaftar");
-        final GoogleSignInAccount? s = await GoogleSignIn().signOut();
+        // final GoogleSignInAccount? s = await GoogleSignIn().signOut();
       }
     } catch (e) {
       // Handle exceptions
       print('Exception->$e');
       // showError("Gagal sign-in");
-      final GoogleSignInAccount? s = await GoogleSignIn().signOut();
+      // final GoogleSignInAccount? s = await GoogleSignIn().signOut();
     }
     dismissLoading();
   }

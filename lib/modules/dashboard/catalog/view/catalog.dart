@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:go_router/go_router.dart';
 import 'package:pos/engine/engine.dart';
 import 'package:pos/modules/cart/view/modal_add_to_cart.dart';
@@ -10,7 +11,7 @@ import 'package:pos/themes/themes.dart';
 import 'package:pos/widgets/components/empty_widget_image.dart';
 import '../../../../widgets/widgets.dart';
 import '../../../cart/cubit/cart_cubit.dart';
-import 'order_detail_view.dart';
+import '../../../cart/view/order_detail_view.dart';
 
 class CatalogPage extends StatelessWidget {
   const CatalogPage({super.key});
@@ -272,6 +273,7 @@ class ActionAppBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final FirebaseAuth auth = FirebaseAuth.instance;
     return BlocBuilder<ProfileCubit, ProfileState>(
       builder: (context, state) {
         return ContainerStateHandler(
@@ -294,13 +296,15 @@ class ActionAppBar extends StatelessWidget {
                     ],
                   ),
                   const SizedBox(width: 20),
-                  Text(DateTime.now().toString()),
+                  Text(DateTime.now().toddMMMyyyyHHmmss()),
                   const SizedBox(width: 20),
                   Container(
-                    height: 50,
-                    width: 50,
                     decoration: const BoxDecoration(
                         shape: BoxShape.circle, color: Colors.black),
+                    child: ImageLoad(
+                        fit: BoxFit.cover,
+                        isCircle: true,
+                        imageUrl: auth.currentUser?.photoURL ?? ""),
                   )
                 ],
               ),
