@@ -20,7 +20,7 @@ class SplashPage extends StatelessWidget {
               SizedBox(
                 width: width,
                 height: baseHeight,
-                child: Resources.images.google.image(),
+                child: Resources.images.gems.image(),
               ),
               Column(
                 children: [
@@ -35,7 +35,7 @@ class SplashPage extends StatelessWidget {
                   Padding(
                     padding: EdgeInsets.all(width * 0.07),
                     child: Text(
-                      'Garapin POS',
+                      '',
                       style: AppFont.largeBold(context),
                       textAlign: TextAlign.center,
                     ),

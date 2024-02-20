@@ -7,6 +7,7 @@ part of 'req_product.dart';
 // **************************************************************************
 
 ReqProduct _$ReqProductFromJson(Map<String, dynamic> json) => ReqProduct(
+      id: json['id'] as String?,
       name: json['name'] as String?,
       sku: json['sku'] as String?,
       brandRef: json['brand_ref'] as String?,
@@ -15,10 +16,12 @@ ReqProduct _$ReqProductFromJson(Map<String, dynamic> json) => ReqProduct(
       discount: json['discount'] as int?,
       price: json['price'] as int?,
       image: json['image'] as String?,
+      icon: json['icon'] as String?,
     );
 
 Map<String, dynamic> _$ReqProductToJson(ReqProduct instance) =>
     <String, dynamic>{
+      'id': instance.id,
       'name': instance.name,
       'sku': instance.sku,
       'brand_ref': instance.brandRef,
@@ -27,4 +30,5 @@ Map<String, dynamic> _$ReqProductToJson(ReqProduct instance) =>
       'discount': instance.discount,
       'price': instance.price,
       'image': instance.image,
+      'icon': instance.icon,
     };

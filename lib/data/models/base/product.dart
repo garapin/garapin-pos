@@ -16,6 +16,8 @@ class Product {
   String? sku;
   @JsonKey(name: "image")
   String? image;
+  @JsonKey(name: "icon")
+  String? icon;
   @JsonKey(name: "discount")
   int? discount;
   @JsonKey(name: "price")
@@ -25,7 +27,7 @@ class Product {
   @JsonKey(name: "category_ref")
   CategoryRef? categoryRef;
   @JsonKey(name: "unit_ref")
-  dynamic unitRef;
+  UnitRef? unitRef;
   @JsonKey(name: "createdAt")
   DateTime? createdAt;
   @JsonKey(name: "updatedAt")
@@ -38,6 +40,7 @@ class Product {
     this.name,
     this.sku,
     this.image,
+    this.icon,
     this.discount,
     this.price,
     this.brandRef,
@@ -115,4 +118,34 @@ class CategoryRef {
       _$CategoryRefFromJson(json);
 
   Map<String, dynamic> toJson() => _$CategoryRefToJson(this);
+}
+
+@JsonSerializable()
+class UnitRef {
+  @JsonKey(name: "_id")
+  String? id;
+  @JsonKey(name: "unit")
+  String? unit;
+  @JsonKey(name: "description")
+  String? description;
+  @JsonKey(name: "createdAt")
+  DateTime? createdAt;
+  @JsonKey(name: "updatedAt")
+  DateTime? updatedAt;
+  @JsonKey(name: "__v")
+  int? v;
+
+  UnitRef({
+    this.id,
+    this.unit,
+    this.description,
+    this.createdAt,
+    this.updatedAt,
+    this.v,
+  });
+
+  factory UnitRef.fromJson(Map<String, dynamic> json) =>
+      _$UnitRefFromJson(json);
+
+  Map<String, dynamic> toJson() => _$UnitRefToJson(this);
 }

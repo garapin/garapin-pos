@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/widgets.dart';
 import 'package:pos/engine/base/app.dart';
 import 'package:pos/modules/auth/select_database/cubit/select_database_cubit.dart';
@@ -105,6 +106,7 @@ class SelectDatabasePage extends StatelessWidget {
                                             ? true
                                             : false,
                                         database: database,
+                                        username: state.user?.username ?? "",
                                       ),
                                     ),
                                   );
@@ -164,11 +166,13 @@ class SelectDatabasePage extends StatelessWidget {
 class CardSelectDatabase extends StatelessWidget {
   final bool selected;
   final StoreDatabaseName? database;
+  final String? username;
 
   const CardSelectDatabase({
     super.key,
     required this.selected,
     this.database,
+    required this.username,
   });
 
   @override
@@ -208,7 +212,7 @@ class CardSelectDatabase extends StatelessWidget {
                 ),
                 const SizedBox(height: 2),
                 Text(
-                  database?.role ?? "",
+                  "${FirebaseAuth.instance.currentUser?.displayName ?? ""} - ${database?.role}",
                   style: AppFont.large(context)!.copyWith(
                     fontSize: 14,
                     color: selected ? AppColor.appColor.primary : null,

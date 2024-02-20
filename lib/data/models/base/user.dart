@@ -7,7 +7,7 @@ class User {
   @JsonKey(name: "_id")
   String? id;
   @JsonKey(name: "username")
-  dynamic username;
+  String? username;
   @JsonKey(name: "email")
   String? email;
   @JsonKey(name: "store_database_name")

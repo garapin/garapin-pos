@@ -25,7 +25,8 @@ class DashboardPage extends StatelessWidget {
           loading: const SizedBox(),
           child: Scaffold(
             appBar: AppBar(
-              title: Text(state.store?.store?.storeName ?? ""),
+              title:
+                  Text(state.store?.store?.storeName ?? "Lengkapin profile!"),
               actions: const [
                 ActionAppBar(),
               ],

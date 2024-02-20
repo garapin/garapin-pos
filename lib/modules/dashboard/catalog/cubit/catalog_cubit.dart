@@ -70,11 +70,18 @@ class CatalogCubit extends BaseCubit<CatalogState> {
     final data = await ApiService.addToCart(context,
         idProduct: idProduct, quantity: quantity);
     if (data.isSuccess) {
-      context.pop();
       showSuccess(data.message);
     } else {
       showError(data.message);
     }
     dismissLoading();
+  }
+
+  changeMode() {
+    if (state.modeCatalog == ModeCatalog.cashier) {
+      emit(state.copyWith(modeCatalog: ModeCatalog.edit));
+    } else {
+      emit(state.copyWith(modeCatalog: ModeCatalog.cashier));
+    }
   }
 }

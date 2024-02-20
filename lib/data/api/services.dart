@@ -11,6 +11,7 @@ import 'package:pos/data/models/request/req_product.dart';
 import 'package:pos/engine/engine.dart';
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter/material.dart';
+import 'package:pos/modules/product/edit_product/cubit/edit_product_cubit.dart';
 import '../models/base/category.dart';
 import '../models/base/user.dart';
 import 'configure.dart';
@@ -102,6 +103,16 @@ class ApiService {
         .handler((error) => ApiResponseList<Product>.onError(error));
   }
 
+  static Future<ApiResponse<Product>> singleCatalog(
+    BuildContext context, {
+    required String id,
+  }) async {
+    return await ApiConfigure(context)
+        .get('store/product/$id')
+        .then((result) => ApiResponse<Product>.fromJson(result.data))
+        .handler((error) => ApiResponse<Product>.onError(error));
+  }
+
   static Future<ApiResponse<Brand>> createBrand(BuildContext context,
       {required String nameBrand}) async {
     return await ApiConfigure(context)
@@ -109,6 +120,31 @@ class ApiService {
             params: {"brand": nameBrand, "production": "-", "description": "-"})
         .then((result) => ApiResponse<Brand>.fromJson(result.data))
         .handler((error) => ApiResponse<Brand>.onError(error));
+  }
+
+  static Future<ApiResponse<Brand>> deleteBrand(BuildContext context,
+      {required String id}) async {
+    return await ApiConfigure(context)
+        .post('store/brand/delete/$id')
+        .then((result) => ApiResponse<Brand>.fromJson(result.data))
+        .handler((error) => ApiResponse<Brand>.onError(error));
+  }
+
+  static Future<ApiResponse<CategoryProduct>> deleteCategory(
+      BuildContext context,
+      {required String id}) async {
+    return await ApiConfigure(context)
+        .post('store/category/delete/$id')
+        .then((result) => ApiResponse<CategoryProduct>.fromJson(result.data))
+        .handler((error) => ApiResponse<CategoryProduct>.onError(error));
+  }
+
+  static Future<ApiResponse<Unit>> deleteUnit(BuildContext context,
+      {required String id}) async {
+    return await ApiConfigure(context)
+        .post('store/unit/delete/$id')
+        .then((result) => ApiResponse<Unit>.fromJson(result.data))
+        .handler((error) => ApiResponse<Unit>.onError(error));
   }
 
   static Future<ApiResponseList<Brand>> brand(
@@ -211,6 +247,14 @@ class ApiService {
         .handler((error) => ApiResponse.onError(error));
   }
 
+  static Future<ApiResponse> editProduct(BuildContext context,
+      {required ReqProduct product}) async {
+    return await ApiConfigure(context)
+        .post('store/product/edit', params: product.toJson())
+        .then((result) => ApiResponse.fromJson(result.data))
+        .handler((error) => ApiResponse.onError(error));
+  }
+
   static Future<ApiResponse<Cart>> getCart(BuildContext context,
       {required String idUser}) async {
     return await ApiConfigure(context)
@@ -229,5 +273,16 @@ class ApiService {
         })
         .then((result) => ApiResponse<Cart>.fromJson(result.data))
         .handler((error) => ApiResponse<Cart>.onError(error));
+  }
+
+  static Future<ApiResponseList<String>> getIconProduct(
+    BuildContext context,
+  ) async {
+    return await ApiConfigure(context)
+        .get(
+          'store/product/icon',
+        )
+        .then((result) => ApiResponseList<String>.fromJson(result.data))
+        .handler((error) => ApiResponseList<String>.onError(error));
   }
 }

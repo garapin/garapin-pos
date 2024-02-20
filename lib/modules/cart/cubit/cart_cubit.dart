@@ -1,6 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:go_router/go_router.dart';
 import 'package:pos/data/api/services.dart';
 import 'package:pos/data/models/base/cart.dart';
 import 'package:pos/engine/engine.dart';
@@ -9,6 +10,7 @@ part 'cart_state.dart';
 part 'cart_cubit.freezed.dart';
 
 class CartCubit extends BaseCubit<CartState> {
+  final TextEditingController quantityController = TextEditingController();
   CartCubit(BuildContext context) : super(context, CartState());
 
   @override
@@ -40,6 +42,20 @@ class CartCubit extends BaseCubit<CartState> {
     } else {
       showError(data.message);
     }
+  }
+
+  setQuantity(
+      {required String idProduct,
+      required int quantity,
+      required int newQuantity}) async {
+    final data = await ApiService.addToCart(context,
+        idProduct: idProduct, quantity: -quantity + newQuantity);
+    if (data.isSuccess) {
+      refreshData();
+    } else {
+      showError(data.message);
+    }
+    context.pop();
   }
 
   void removeFromCart({required String idProduct, int qty = -1}) async {

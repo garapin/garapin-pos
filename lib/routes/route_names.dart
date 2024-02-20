@@ -9,4 +9,5 @@ class RouteNames {
   static const String createNewDatabase = "/create_new_database";
   static const String dashboard = "/dashboard";
   static const String cretaeProduct = "/create_product";
+  static const String editProduct = "/edit_product";
 }

@@ -79,7 +79,75 @@ class CreateProductPage extends StatelessWidget {
                               color: Colors.grey,
                               child: InkWell(
                                 onTap: () {
-                                  cubit.pickImage(ImageSource.camera);
+                                  showDialog(
+                                    context: context,
+                                    builder: (context) {
+                                      return AlertDialog(
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(24),
+                                        ),
+                                        title: Text(
+                                            "Pilih gambar yang akan ditampilkan"),
+                                        actions: [
+                                          Row(
+                                            children: [
+                                              Expanded(
+                                                  child: ClipRRect(
+                                                borderRadius:
+                                                    BorderRadius.circular(38),
+                                                child: SizedBox(
+                                                    height: 50,
+                                                    child: OutlinedButton(
+                                                      onPressed: () {
+                                                        cubit
+                                                            .pickImage(
+                                                                ImageSource
+                                                                    .gallery)
+                                                            .then((value) =>
+                                                                context.pop());
+                                                      },
+                                                      style: OutlinedButton
+                                                          .styleFrom(
+                                                        side:
+                                                            const BorderSide(),
+                                                        shape:
+                                                            RoundedRectangleBorder(
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(38),
+                                                        ),
+                                                      ),
+                                                      child: const Text(
+                                                          'Ambil dari galeri'),
+                                                    )),
+                                              )),
+                                              const SizedBox(width: 12),
+                                              Expanded(
+                                                  child: ClipRRect(
+                                                borderRadius:
+                                                    BorderRadius.circular(38),
+                                                child: SizedBox(
+                                                  height: 50,
+                                                  child: ElevatedButton(
+                                                      onPressed: () {
+                                                        cubit
+                                                            .pickImage(
+                                                                ImageSource
+                                                                    .camera)
+                                                            .then((value) =>
+                                                                context.pop());
+                                                      },
+                                                      child: const Text(
+                                                          "Ambil foto")),
+                                                ),
+                                              ))
+                                            ],
+                                          ),
+                                        ],
+                                      );
+                                    },
+                                  );
                                 },
                                 child: Container(
                                   height: 163,
@@ -103,7 +171,7 @@ class CreateProductPage extends StatelessWidget {
                                           mainAxisAlignment:
                                               MainAxisAlignment.center,
                                           children: [
-                                            Icon(Icons.image, size: 70),
+                                            Icon(Icons.image, size: 80),
                                             SizedBox(height: 12),
                                             Text(
                                                 "Unggah Foto Thumbnail produk"),
@@ -112,7 +180,49 @@ class CreateProductPage extends StatelessWidget {
                                 ),
                               ),
                             ),
-                            const SizedBox(height: 24),
+                            const SizedBox(height: 40),
+                            SizedBox(
+                              height: 80,
+                              width: baseWidth,
+                              child: ListView.builder(
+                                shrinkWrap: true,
+                                scrollDirection: Axis.horizontal,
+                                itemCount: state.listIcon.length,
+                                itemBuilder: (context, index) {
+                                  return CustomButton(
+                                    onPressed: () {
+                                      cubit.selectedIcon(state.listIcon[index]);
+                                    },
+                                    child: Padding(
+                                      padding:
+                                          const EdgeInsets.only(left: 20.0),
+                                      child: Container(
+                                        height: 80,
+                                        width: 80,
+                                        decoration: BoxDecoration(
+                                            borderRadius:
+                                                BorderRadius.circular(12),
+                                            border: Border.all(
+                                                color: state.selectedIcon ==
+                                                        state.listIcon[index]
+                                                    ? AppColor.appColor.primary
+                                                    : Colors.grey,
+                                                width: 3)),
+                                        child: Padding(
+                                          padding: const EdgeInsets.all(12.0),
+                                          child: ImageLoad(
+                                            imageUrl: Environment.showUrlImage(
+                                                path: state.listIcon[index]),
+                                            fit: BoxFit.contain,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  );
+                                },
+                              ),
+                            ),
+                            const SizedBox(height: 20),
                             FormBuilder(
                               key: cubit.formKey,
                               child: Column(
@@ -179,26 +289,18 @@ class CreateProductPage extends StatelessWidget {
                                                 .toList()),
                                       ),
                                       const SizedBox(width: 32),
-                                      Column(
+                                      Row(
                                         children: [
-                                          SizedBox(height: 16),
-                                          InkWell(
+                                          MinButton(
+                                            onTap: () {
+                                              cubit.deleteBrand();
+                                            },
+                                          ),
+                                          SizedBox(width: 24),
+                                          PlusButton(
                                             onTap: () {
                                               cubit.addBrand();
                                             },
-                                            child: Container(
-                                              height: 30,
-                                              width: 30,
-                                              decoration: const BoxDecoration(
-                                                  color: Colors.black,
-                                                  shape: BoxShape.circle),
-                                              child: const Center(
-                                                  child: Icon(
-                                                color: Colors.white,
-                                                Icons.add,
-                                                weight: 4,
-                                              )),
-                                            ),
                                           ),
                                         ],
                                       ),
@@ -225,14 +327,9 @@ class CreateProductPage extends StatelessWidget {
                                             label: 'Kategori',
                                             items: state.category
                                                 .map((e) => DropdownMenuItem(
-                                                    enabled: e.id == "Semua"
-                                                        ? false
-                                                        : true,
                                                     value: e.id,
                                                     child: Text(
-                                                      e.id == "Semua"
-                                                          ? "-- Pilih --"
-                                                          : e.category ?? "",
+                                                      e.category ?? "",
                                                       style: AppFont.large(
                                                               context)!
                                                           .copyWith(
@@ -246,26 +343,18 @@ class CreateProductPage extends StatelessWidget {
                                                 .toList()),
                                       ),
                                       const SizedBox(width: 32),
-                                      Column(
+                                      Row(
                                         children: [
-                                          SizedBox(height: 16),
-                                          InkWell(
+                                          MinButton(
+                                            onTap: () {
+                                              cubit.deleteCategory();
+                                            },
+                                          ),
+                                          SizedBox(width: 24),
+                                          PlusButton(
                                             onTap: () {
                                               cubit.addCategory();
                                             },
-                                            child: Container(
-                                              height: 30,
-                                              width: 30,
-                                              decoration: const BoxDecoration(
-                                                  color: Colors.black,
-                                                  shape: BoxShape.circle),
-                                              child: const Center(
-                                                  child: Icon(
-                                                color: Colors.white,
-                                                Icons.add,
-                                                weight: 4,
-                                              )),
-                                            ),
                                           ),
                                         ],
                                       ),
@@ -303,26 +392,18 @@ class CreateProductPage extends StatelessWidget {
                                                 .toList()),
                                       ),
                                       const SizedBox(width: 32),
-                                      Column(
+                                      Row(
                                         children: [
-                                          SizedBox(height: 16),
-                                          InkWell(
+                                          MinButton(
+                                            onTap: () {
+                                              cubit.deleteUnit();
+                                            },
+                                          ),
+                                          SizedBox(width: 24),
+                                          PlusButton(
                                             onTap: () {
                                               cubit.addUnit();
                                             },
-                                            child: Container(
-                                              height: 30,
-                                              width: 30,
-                                              decoration: const BoxDecoration(
-                                                  color: Colors.black,
-                                                  shape: BoxShape.circle),
-                                              child: const Center(
-                                                  child: Icon(
-                                                color: Colors.white,
-                                                Icons.add,
-                                                weight: 4,
-                                              )),
-                                            ),
                                           ),
                                         ],
                                       ),
@@ -349,13 +430,6 @@ class CreateProductPage extends StatelessWidget {
                                       const SizedBox(width: 16),
                                       Expanded(
                                         child: OutlineFormText(
-                                          validator: (v) {
-                                            if (v != null) {
-                                              return null;
-                                            } else {
-                                              return 'Diskon produk tidak boleh kosong';
-                                            }
-                                          },
                                           name: 'discount',
                                           hintText: 'Masukan Potongan Harga',
                                           label: 'Harga Diskon',
@@ -423,6 +497,70 @@ class CreateProductPage extends StatelessWidget {
           );
         },
       ),
+    );
+  }
+}
+
+class PlusButton extends StatelessWidget {
+  const PlusButton({
+    super.key,
+    required this.onTap,
+  });
+  final void Function() onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        SizedBox(height: 16),
+        InkWell(
+          onTap: onTap,
+          child: Container(
+            height: 30,
+            width: 30,
+            decoration: const BoxDecoration(
+                color: Colors.black, shape: BoxShape.circle),
+            child: const Center(
+                child: Icon(
+              color: Colors.white,
+              Icons.add,
+              weight: 4,
+            )),
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+class MinButton extends StatelessWidget {
+  const MinButton({
+    super.key,
+    required this.onTap,
+  });
+  final void Function() onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        SizedBox(height: 16),
+        InkWell(
+          onTap: onTap,
+          child: Container(
+            height: 30,
+            width: 30,
+            decoration: const BoxDecoration(
+                color: Color.fromARGB(255, 219, 219, 219),
+                shape: BoxShape.circle),
+            child: const Center(
+                child: Icon(
+              Icons.remove,
+              weight: 4,
+            )),
+          ),
+        ),
+      ],
     );
   }
 }

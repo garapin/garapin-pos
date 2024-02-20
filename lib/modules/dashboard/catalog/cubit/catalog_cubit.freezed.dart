@@ -20,6 +20,7 @@ mixin _$CatalogState {
   Store? get store => throw _privateConstructorUsedError;
   String? get search => throw _privateConstructorUsedError;
   String? get selectCategory => throw _privateConstructorUsedError;
+  ModeCatalog get modeCatalog => throw _privateConstructorUsedError;
   List<CategoryProduct> get category => throw _privateConstructorUsedError;
   List<Product> get product => throw _privateConstructorUsedError;
 
@@ -39,6 +40,7 @@ abstract class $CatalogStateCopyWith<$Res> {
       Store? store,
       String? search,
       String? selectCategory,
+      ModeCatalog modeCatalog,
       List<CategoryProduct> category,
       List<Product> product});
 }
@@ -60,6 +62,7 @@ class _$CatalogStateCopyWithImpl<$Res, $Val extends CatalogState>
     Object? store = freezed,
     Object? search = freezed,
     Object? selectCategory = freezed,
+    Object? modeCatalog = null,
     Object? category = null,
     Object? product = null,
   }) {
@@ -80,6 +83,10 @@ class _$CatalogStateCopyWithImpl<$Res, $Val extends CatalogState>
           ? _value.selectCategory
           : selectCategory // ignore: cast_nullable_to_non_nullable
               as String?,
+      modeCatalog: null == modeCatalog
+          ? _value.modeCatalog
+          : modeCatalog // ignore: cast_nullable_to_non_nullable
+              as ModeCatalog,
       category: null == category
           ? _value.category
           : category // ignore: cast_nullable_to_non_nullable
@@ -105,6 +112,7 @@ abstract class _$$CatalogStateImplCopyWith<$Res>
       Store? store,
       String? search,
       String? selectCategory,
+      ModeCatalog modeCatalog,
       List<CategoryProduct> category,
       List<Product> product});
 }
@@ -124,6 +132,7 @@ class __$$CatalogStateImplCopyWithImpl<$Res>
     Object? store = freezed,
     Object? search = freezed,
     Object? selectCategory = freezed,
+    Object? modeCatalog = null,
     Object? category = null,
     Object? product = null,
   }) {
@@ -144,6 +153,10 @@ class __$$CatalogStateImplCopyWithImpl<$Res>
           ? _value.selectCategory
           : selectCategory // ignore: cast_nullable_to_non_nullable
               as String?,
+      modeCatalog: null == modeCatalog
+          ? _value.modeCatalog
+          : modeCatalog // ignore: cast_nullable_to_non_nullable
+              as ModeCatalog,
       category: null == category
           ? _value._category
           : category // ignore: cast_nullable_to_non_nullable
@@ -164,6 +177,7 @@ class _$CatalogStateImpl implements _CatalogState {
       this.store,
       this.search,
       this.selectCategory,
+      this.modeCatalog = ModeCatalog.cashier,
       final List<CategoryProduct> category = const [],
       final List<Product> product = const []})
       : _category = category,
@@ -178,6 +192,9 @@ class _$CatalogStateImpl implements _CatalogState {
   final String? search;
   @override
   final String? selectCategory;
+  @override
+  @JsonKey()
+  final ModeCatalog modeCatalog;
   final List<CategoryProduct> _category;
   @override
   @JsonKey()
@@ -198,7 +215,7 @@ class _$CatalogStateImpl implements _CatalogState {
 
   @override
   String toString() {
-    return 'CatalogState(status: $status, store: $store, search: $search, selectCategory: $selectCategory, category: $category, product: $product)';
+    return 'CatalogState(status: $status, store: $store, search: $search, selectCategory: $selectCategory, modeCatalog: $modeCatalog, category: $category, product: $product)';
   }
 
   @override
@@ -211,6 +228,8 @@ class _$CatalogStateImpl implements _CatalogState {
             (identical(other.search, search) || other.search == search) &&
             (identical(other.selectCategory, selectCategory) ||
                 other.selectCategory == selectCategory) &&
+            (identical(other.modeCatalog, modeCatalog) ||
+                other.modeCatalog == modeCatalog) &&
             const DeepCollectionEquality().equals(other._category, _category) &&
             const DeepCollectionEquality().equals(other._product, _product));
   }
@@ -222,6 +241,7 @@ class _$CatalogStateImpl implements _CatalogState {
       store,
       search,
       selectCategory,
+      modeCatalog,
       const DeepCollectionEquality().hash(_category),
       const DeepCollectionEquality().hash(_product));
 
@@ -238,6 +258,7 @@ abstract class _CatalogState implements CatalogState {
       final Store? store,
       final String? search,
       final String? selectCategory,
+      final ModeCatalog modeCatalog,
       final List<CategoryProduct> category,
       final List<Product> product}) = _$CatalogStateImpl;
 
@@ -249,6 +270,8 @@ abstract class _CatalogState implements CatalogState {
   String? get search;
   @override
   String? get selectCategory;
+  @override
+  ModeCatalog get modeCatalog;
   @override
   List<CategoryProduct> get category;
   @override

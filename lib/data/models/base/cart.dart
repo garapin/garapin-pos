@@ -64,6 +64,8 @@ class ProductCart {
   String? sku;
   @JsonKey(name: "image")
   String? image;
+  @JsonKey(name: "icon")
+  String? icon;
   @JsonKey(name: "discount")
   int? discount;
   @JsonKey(name: "price")
@@ -86,6 +88,7 @@ class ProductCart {
     this.name,
     this.sku,
     this.image,
+    this.icon,
     this.discount,
     this.price,
     this.brandRef,

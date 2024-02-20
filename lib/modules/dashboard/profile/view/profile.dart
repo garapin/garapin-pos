@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
+import 'package:go_router/go_router.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:pos/engine/engine.dart';
 import 'package:pos/modules/dashboard/cubit/dashboard_cubit.dart';
@@ -68,7 +69,71 @@ class ProfilePage extends StatelessWidget {
                             color: Colors.grey,
                             child: InkWell(
                               onTap: () {
-                                cubit.pickImage(ImageSource.camera);
+                                showDialog(
+                                  context: context,
+                                  builder: (context) {
+                                    return AlertDialog(
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(24),
+                                      ),
+                                      title: Text(
+                                          "Pilih gambar yang akan ditampilkan"),
+                                      actions: [
+                                        Row(
+                                          children: [
+                                            Expanded(
+                                                child: ClipRRect(
+                                              borderRadius:
+                                                  BorderRadius.circular(38),
+                                              child: SizedBox(
+                                                  height: 50,
+                                                  child: OutlinedButton(
+                                                    onPressed: () {
+                                                      cubit
+                                                          .pickImage(ImageSource
+                                                              .gallery)
+                                                          .then((value) =>
+                                                              context.pop());
+                                                    },
+                                                    style: OutlinedButton
+                                                        .styleFrom(
+                                                      side: const BorderSide(),
+                                                      shape:
+                                                          RoundedRectangleBorder(
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(38),
+                                                      ),
+                                                    ),
+                                                    child: const Text(
+                                                        'Ambil dari galeri'),
+                                                  )),
+                                            )),
+                                            const SizedBox(width: 12),
+                                            Expanded(
+                                                child: ClipRRect(
+                                              borderRadius:
+                                                  BorderRadius.circular(38),
+                                              child: SizedBox(
+                                                height: 50,
+                                                child: ElevatedButton(
+                                                    onPressed: () {
+                                                      cubit
+                                                          .pickImage(ImageSource
+                                                              .camera)
+                                                          .then((value) =>
+                                                              context.pop());
+                                                    },
+                                                    child: const Text(
+                                                        "Ambil foto")),
+                                              ),
+                                            ))
+                                          ],
+                                        ),
+                                      ],
+                                    );
+                                  },
+                                );
                               },
                               child: Container(
                                 height: 163,
@@ -336,7 +401,9 @@ class ProfilePage extends StatelessWidget {
                               child: ElevatedButton(
                                   onPressed: () {
                                     cubit.updateProfile().then((value) {
-                                      cubitDashboard.changePage(0);
+                                      if (value.isSuccess) {
+                                        cubitDashboard.changePage(0);
+                                      }
                                     });
                                   },
                                   child: const Text("SAVE")),

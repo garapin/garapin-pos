@@ -4,15 +4,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:go_router/go_router.dart';
 import 'package:pos/data/models/base/cart.dart';
 import 'package:pos/engine/engine.dart';
 import 'package:pos/modules/cart/cubit/cart_cubit.dart';
 import 'package:pos/modules/cart/view/summary_order_widget.dart';
+import 'package:pos/widgets/components/custom_button.dart';
 import 'package:pos/widgets/widgets.dart';
 
-import '../../../engine/base/app.dart';
-import '../../../resources/resources.dart';
 import '../../../themes/themes.dart';
+import 'modal_add_to_cart.dart';
 
 class OrderDetailView extends StatelessWidget {
   const OrderDetailView({
@@ -23,8 +24,7 @@ class OrderDetailView extends StatelessWidget {
   Widget build(BuildContext context) {
     final cubit = context.read<CartCubit>();
     return Scaffold(
-      bottomNavigationBar:
-          SummaryOrderWidget(),
+      bottomNavigationBar: SummaryOrderWidget(),
       body: BlocBuilder<CartCubit, CartState>(
         builder: (context, state) {
           return SingleChildScrollView(
@@ -75,20 +75,18 @@ class OrderDetailView extends StatelessWidget {
                           var product = state.cart?.items?[index];
                           return Slidable(
                             endActionPane: ActionPane(
-                              motion: ScrollMotion(),
-                              children: [
-                                IconButton(
-                                    onPressed: () {
-                                      cubit.removeFromCart(
-                                          qty: -product!.quantity!,
-                                          idProduct: product.product!.id!);
-                                    },
-                                    icon: Icon(
-                                      Icons.delete,
-                                      color: Colors.red,
-                                      size: 24,
-                                    )),
-                              ],
+                              motion: IconButton(
+                                  onPressed: () {
+                                    cubit.removeFromCart(
+                                        qty: -product!.quantity!,
+                                        idProduct: product.product!.id!);
+                                  },
+                                  icon: Icon(
+                                    Icons.delete,
+                                    color: Colors.red,
+                                    size: 40,
+                                  )),
+                              children: [],
                             ),
                             child: Column(
                               children: [
@@ -97,6 +95,13 @@ class OrderDetailView extends StatelessWidget {
                                     ImageLoad(
                                       imageUrl: Environment.showUrlImage(
                                           path: product?.product?.image ?? ""),
+                                      errorWidget: ImageLoad(
+                                        imageUrl: Environment.showUrlImage(
+                                            path: product?.product?.icon ?? ""),
+                                        height: 50,
+                                        width: 80,
+                                        fit: BoxFit.contain,
+                                      ),
                                       height: 50,
                                       width: 80,
                                       fit: BoxFit.contain,
@@ -142,8 +147,8 @@ class OrderDetailView extends StatelessWidget {
                                                     product!.product!.id!);
                                           },
                                           child: Container(
-                                            height: 45,
-                                            width: 45,
+                                            height: 35,
+                                            width: 35,
                                             decoration: const BoxDecoration(
                                                 color: Color.fromARGB(
                                                     255, 219, 219, 219),
@@ -155,12 +160,46 @@ class OrderDetailView extends StatelessWidget {
                                             )),
                                           ),
                                         ),
-                                        const SizedBox(width: 12),
-                                        Text(
-                                          product?.quantity.toString() ?? "0",
-                                          style: TextStyle(
-                                              fontSize: 20,
-                                              fontWeight: FontWeight.bold),
+                                        const SizedBox(width: 10),
+                                        CustomButton(
+                                          onPressed: () {
+                                            modalAddToCart(
+                                              context,
+                                              controller:
+                                                  cubit.quantityController,
+                                              onSubmit: () {
+                                                cubit
+                                                    .setQuantity(
+                                                        idProduct: product!
+                                                            .product!.id!,
+                                                        quantity:
+                                                            product.quantity!,
+                                                        newQuantity: int.parse(
+                                                            cubit
+                                                                .quantityController
+                                                                .text))
+                                                    .then((value) => context
+                                                        .read<CartCubit>()
+                                                        .refreshData());
+                                              },
+                                              onCancel: () {
+                                                context.pop();
+                                                cubit.quantityController
+                                                    .clear();
+                                              },
+                                            ).then((value) {
+                                              cubit.quantityController.clear();
+                                              context
+                                                  .read<CartCubit>()
+                                                  .refreshData();
+                                            });
+                                          },
+                                          child: Text(
+                                            product?.quantity.toString() ?? "0",
+                                            style: TextStyle(
+                                                fontSize: 20,
+                                                fontWeight: FontWeight.bold),
+                                          ),
                                         ),
                                         const SizedBox(width: 12),
                                         InkWell(
@@ -170,8 +209,8 @@ class OrderDetailView extends StatelessWidget {
                                                     product!.product!.id!);
                                           },
                                           child: Container(
-                                            height: 45,
-                                            width: 45,
+                                            height: 35,
+                                            width: 35,
                                             decoration: const BoxDecoration(
                                                 color: Colors.black,
                                                 shape: BoxShape.circle),

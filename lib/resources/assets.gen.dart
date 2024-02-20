@@ -67,6 +67,9 @@ class $AssetsImagesGen {
   AssetGenImage get catalogInactive =>
       const AssetGenImage('assets/images/catalog-inactive.png');
 
+  /// File path: assets/images/gems.png
+  AssetGenImage get gems => const AssetGenImage('assets/images/gems.png');
+
   /// File path: assets/images/google.png
   AssetGenImage get google => const AssetGenImage('assets/images/google.png');
 
@@ -92,6 +95,7 @@ class $AssetsImagesGen {
         box,
         catalogActive,
         catalogInactive,
+        gems,
         google,
         profileActive,
         profileInactive,

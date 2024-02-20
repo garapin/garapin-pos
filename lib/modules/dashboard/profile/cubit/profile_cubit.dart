@@ -12,6 +12,8 @@ import 'package:pos/data/models/base/store.dart';
 import 'package:pos/engine/engine.dart';
 import 'package:pos/engine/helpers/options.dart';
 
+import '../../../../data/api/response.dart';
+
 part 'profile_state.dart';
 part 'profile_cubit.freezed.dart';
 
@@ -61,7 +63,7 @@ class ProfileCubit extends BaseCubit<ProfileState> {
     emit(state.copyWith(city: city));
   }
 
-  Future updateProfile() async {
+  Future<ApiResponse<dynamic>> updateProfile() async {
     showLoading();
     formKey.currentState?.save();
     String? base64Image;
@@ -93,6 +95,7 @@ class ProfileCubit extends BaseCubit<ProfileState> {
     }
     refreshData();
     dismissLoading();
+    return data;
   }
 
   addCashier() {

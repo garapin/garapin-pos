@@ -14,6 +14,8 @@ String reqProductToJson(ReqProduct data) => json.encode(data.toJson());
 
 @JsonSerializable()
 class ReqProduct {
+  @JsonKey(name: "id")
+  String? id;
   @JsonKey(name: "name")
   String? name;
   @JsonKey(name: "sku")
@@ -30,17 +32,20 @@ class ReqProduct {
   int? price;
   @JsonKey(name: "image")
   String? image;
+  @JsonKey(name: "icon")
+  String? icon;
 
-  ReqProduct({
-    this.name,
-    this.sku,
-    this.brandRef,
-    this.categoryRef,
-    this.unitRef,
-    this.discount,
-    this.price,
-    this.image,
-  });
+  ReqProduct(
+      {this.id,
+      this.name,
+      this.sku,
+      this.brandRef,
+      this.categoryRef,
+      this.unitRef,
+      this.discount,
+      this.price,
+      this.image,
+      this.icon});
 
   factory ReqProduct.fromJson(Map<String, dynamic> json) =>
       _$ReqProductFromJson(json);

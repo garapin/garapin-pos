@@ -21,11 +21,18 @@ class SelectDatabaseCubit extends BaseCubit<SelectDatabaseState> {
     final data = await ApiService.signinWithGoogle(context,
         email: Sessions.getUserModel()!.email!);
     if (data.isSuccess) {
-      String firstSelected = data.data?.storeDatabaseName?.first.name ?? "";
-      emit(state.copyWith(
+      if (data.data!.storeDatabaseName!.isNotEmpty) {
+        String firstSelected = data.data?.storeDatabaseName?.first.name ?? "";
+        emit(state.copyWith(
+            status: DataStateStatus.success,
+            user: data.data,
+            selectedDatabase: firstSelected));
+      } else {
+        emit(state.copyWith(
           status: DataStateStatus.success,
           user: data.data,
-          selectedDatabase: firstSelected));
+        ));
+      }
     } else {
       emit(state.copyWith(
           status: DataStateStatus.error, user: data.data, err: data.message));
