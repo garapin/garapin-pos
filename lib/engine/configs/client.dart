@@ -7,22 +7,22 @@ abstract class Development {
   static String baseUrl() {
     switch (Environment.mode) {
       case EnvironmentMode.dev:
-        return 'http://pos-be-dev.abditrack.com/api/v1/';
+        return 'http://192.168.8.209:4000/';
       case EnvironmentMode.test:
-        return 'http://192.168.20.154:4000/';
+        return 'http://192.168.8.209:4000/';
       case EnvironmentMode.production:
-        return 'http://192.168.100.18:4000/'; // real device
+        return 'http://192.168.8.209:4000/'; // real device
     }
   }
 
   static String urlImage() {
     switch (Environment.mode) {
       case EnvironmentMode.dev:
-        return 'http://pos-be-dev.abditrack.com/';
+        return 'http://192.168.8.209:4000/';
       case EnvironmentMode.test:
-        return 'http://192.168.20.154:4000/';
+        return 'http://192.168.8.209:4000/';
       case EnvironmentMode.production:
-        return 'http://192.168.100.18:4000/'; // real device
+        return 'http://192.168.8.209:4000/'; // real device
     }
   }
 }
