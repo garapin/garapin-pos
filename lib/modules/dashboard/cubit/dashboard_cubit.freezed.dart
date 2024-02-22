@@ -20,6 +20,7 @@ mixin _$DashboardState {
   int get index => throw _privateConstructorUsedError;
   Widget get widget => throw _privateConstructorUsedError;
   dynamic get showCreateProduct => throw _privateConstructorUsedError;
+  User? get user => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $DashboardStateCopyWith<DashboardState> get copyWith =>
@@ -36,7 +37,8 @@ abstract class $DashboardStateCopyWith<$Res> {
       {DataStateStatus status,
       int index,
       Widget widget,
-      dynamic showCreateProduct});
+      dynamic showCreateProduct,
+      User? user});
 }
 
 /// @nodoc
@@ -56,6 +58,7 @@ class _$DashboardStateCopyWithImpl<$Res, $Val extends DashboardState>
     Object? index = null,
     Object? widget = null,
     Object? showCreateProduct = freezed,
+    Object? user = freezed,
   }) {
     return _then(_value.copyWith(
       status: null == status
@@ -74,6 +77,10 @@ class _$DashboardStateCopyWithImpl<$Res, $Val extends DashboardState>
           ? _value.showCreateProduct
           : showCreateProduct // ignore: cast_nullable_to_non_nullable
               as dynamic,
+      user: freezed == user
+          ? _value.user
+          : user // ignore: cast_nullable_to_non_nullable
+              as User?,
     ) as $Val);
   }
 }
@@ -90,7 +97,8 @@ abstract class _$$DashboardStateImplCopyWith<$Res>
       {DataStateStatus status,
       int index,
       Widget widget,
-      dynamic showCreateProduct});
+      dynamic showCreateProduct,
+      User? user});
 }
 
 /// @nodoc
@@ -108,6 +116,7 @@ class __$$DashboardStateImplCopyWithImpl<$Res>
     Object? index = null,
     Object? widget = null,
     Object? showCreateProduct = freezed,
+    Object? user = freezed,
   }) {
     return _then(_$DashboardStateImpl(
       status: null == status
@@ -125,6 +134,10 @@ class __$$DashboardStateImplCopyWithImpl<$Res>
       showCreateProduct: freezed == showCreateProduct
           ? _value.showCreateProduct!
           : showCreateProduct,
+      user: freezed == user
+          ? _value.user
+          : user // ignore: cast_nullable_to_non_nullable
+              as User?,
     ));
   }
 }
@@ -136,7 +149,8 @@ class _$DashboardStateImpl implements _DashboardState {
       {this.status = DataStateStatus.initial,
       this.index = 0,
       this.widget = const CatalogPage(),
-      this.showCreateProduct = false});
+      this.showCreateProduct = false,
+      this.user});
 
   @override
   @JsonKey()
@@ -150,10 +164,12 @@ class _$DashboardStateImpl implements _DashboardState {
   @override
   @JsonKey()
   final dynamic showCreateProduct;
+  @override
+  final User? user;
 
   @override
   String toString() {
-    return 'DashboardState(status: $status, index: $index, widget: $widget, showCreateProduct: $showCreateProduct)';
+    return 'DashboardState(status: $status, index: $index, widget: $widget, showCreateProduct: $showCreateProduct, user: $user)';
   }
 
   @override
@@ -165,12 +181,13 @@ class _$DashboardStateImpl implements _DashboardState {
             (identical(other.index, index) || other.index == index) &&
             (identical(other.widget, widget) || other.widget == widget) &&
             const DeepCollectionEquality()
-                .equals(other.showCreateProduct, showCreateProduct));
+                .equals(other.showCreateProduct, showCreateProduct) &&
+            (identical(other.user, user) || other.user == user));
   }
 
   @override
   int get hashCode => Object.hash(runtimeType, status, index, widget,
-      const DeepCollectionEquality().hash(showCreateProduct));
+      const DeepCollectionEquality().hash(showCreateProduct), user);
 
   @JsonKey(ignore: true)
   @override
@@ -185,7 +202,8 @@ abstract class _DashboardState implements DashboardState {
       {final DataStateStatus status,
       final int index,
       final Widget widget,
-      final dynamic showCreateProduct}) = _$DashboardStateImpl;
+      final dynamic showCreateProduct,
+      final User? user}) = _$DashboardStateImpl;
 
   @override
   DataStateStatus get status;
@@ -195,6 +213,8 @@ abstract class _DashboardState implements DashboardState {
   Widget get widget;
   @override
   dynamic get showCreateProduct;
+  @override
+  User? get user;
   @override
   @JsonKey(ignore: true)
   _$$DashboardStateImplCopyWith<_$DashboardStateImpl> get copyWith =>

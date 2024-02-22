@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -92,137 +93,143 @@ class OrderDetailView extends StatelessWidget {
                               children: [
                                 Row(
                                   children: [
-                                    ImageLoad(
-                                      imageUrl: Environment.showUrlImage(
-                                          path: product?.product?.image ?? ""),
-                                      errorWidget: ImageLoad(
+                                    Expanded(
+                                      flex: 2,
+                                      child: ImageLoad(
                                         imageUrl: Environment.showUrlImage(
-                                            path: product?.product?.icon ?? ""),
-                                        height: 50,
-                                        width: 80,
+                                            path:
+                                                product?.product?.image ?? ""),
+                                        errorWidget: ImageLoad(
+                                          imageUrl: Environment.showUrlImage(
+                                              path:
+                                                  product?.product?.icon ?? ""),
+                                          height: 40,
+                                          width: 40,
+                                          fit: BoxFit.contain,
+                                        ),
                                         fit: BoxFit.contain,
                                       ),
-                                      height: 50,
-                                      width: 80,
-                                      fit: BoxFit.contain,
                                     ),
                                     const SizedBox(width: 6),
-                                    Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                          product?.product?.name ?? "",
-                                          style: AppFont.largeBold(context),
-                                        ),
-                                        const SizedBox(height: 2),
-                                        Text(
-                                          "Harga",
-                                          style: AppFont.small(context)!
-                                              .copyWith(color: Colors.grey),
-                                        ),
-                                        Text(
-                                          (int.parse(product?.product?.price
-                                                          .toString() ??
-                                                      "0") -
-                                                  int.parse(product
-                                                          ?.product?.discount
-                                                          .toString() ??
-                                                      "0"))
-                                              .currencyFormat()
-                                              .toString(),
-                                          style: AppFont.largePrimary(context),
-                                        ),
-                                      ],
-                                    ),
-                                    Spacer(),
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceEvenly,
-                                      children: <Widget>[
-                                        InkWell(
-                                          onTap: () {
-                                            cubit.removeFromCart(
-                                                idProduct:
-                                                    product!.product!.id!);
-                                          },
-                                          child: Container(
-                                            height: 35,
-                                            width: 35,
-                                            decoration: const BoxDecoration(
-                                                color: Color.fromARGB(
-                                                    255, 219, 219, 219),
-                                                shape: BoxShape.circle),
-                                            child: const Center(
-                                                child: Icon(
-                                              Icons.remove,
-                                              weight: 4,
-                                            )),
+                                    Expanded(
+                                      flex: 5,
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            product?.product?.name ?? "",
+                                            style: AppFont.medium(context),
+                                            maxLines: 2,
+                                            overflow: TextOverflow.ellipsis,
                                           ),
-                                        ),
-                                        const SizedBox(width: 10),
-                                        CustomButton(
-                                          onPressed: () {
-                                            modalAddToCart(
-                                              context,
-                                              controller:
-                                                  cubit.quantityController,
-                                              onSubmit: () {
-                                                cubit
-                                                    .setQuantity(
-                                                        idProduct: product!
-                                                            .product!.id!,
-                                                        quantity:
-                                                            product.quantity!,
-                                                        newQuantity: int.parse(
-                                                            cubit
-                                                                .quantityController
-                                                                .text))
-                                                    .then((value) => context
-                                                        .read<CartCubit>()
-                                                        .refreshData());
-                                              },
-                                              onCancel: () {
-                                                context.pop();
+                                          const SizedBox(height: 2),
+                                          Text(
+                                            "Harga",
+                                            style: AppFont.small(context)!
+                                                .copyWith(color: Colors.grey),
+                                          ),
+                                          Text(
+                                            "${((int.parse(product?.product?.price.toString() ?? "0") - int.parse(product?.product?.discount.toString() ?? "0")) * int.parse(product?.quantity.toString() ?? "0")).currencyFormat(symbol: "Rp.").toString()}",
+                                            style:
+                                                AppFont.largePrimary(context)!
+                                                    .copyWith(fontSize: 14),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                    Expanded(
+                                      flex: 4,
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.end,
+                                        children: <Widget>[
+                                          InkWell(
+                                            onTap: () {
+                                              cubit.removeFromCart(
+                                                  idProduct:
+                                                      product!.product!.id!);
+                                            },
+                                            child: Container(
+                                              height: 26,
+                                              width: 26,
+                                              decoration: const BoxDecoration(
+                                                  color: Color.fromARGB(
+                                                      255, 219, 219, 219),
+                                                  shape: BoxShape.circle),
+                                              child: const Center(
+                                                  child: Icon(
+                                                Icons.remove,
+                                                weight: 4,
+                                              )),
+                                            ),
+                                          ),
+                                          const SizedBox(width: 8),
+                                          CustomButton(
+                                            onPressed: () {
+                                              modalAddToCart(
+                                                context,
+                                                controller:
+                                                    cubit.quantityController,
+                                                onSubmit: () {
+                                                  cubit
+                                                      .setQuantity(
+                                                          idProduct: product!
+                                                              .product!.id!,
+                                                          quantity:
+                                                              product.quantity!,
+                                                          newQuantity:
+                                                              int.parse(cubit
+                                                                  .quantityController
+                                                                  .text))
+                                                      .then((value) => context
+                                                          .read<CartCubit>()
+                                                          .refreshData());
+                                                },
+                                                onCancel: () {
+                                                  context.pop();
+                                                  cubit.quantityController
+                                                      .clear();
+                                                },
+                                              ).then((value) {
                                                 cubit.quantityController
                                                     .clear();
-                                              },
-                                            ).then((value) {
-                                              cubit.quantityController.clear();
-                                              context
-                                                  .read<CartCubit>()
-                                                  .refreshData();
-                                            });
-                                          },
-                                          child: Text(
-                                            product?.quantity.toString() ?? "0",
-                                            style: TextStyle(
-                                                fontSize: 20,
-                                                fontWeight: FontWeight.bold),
+                                                context
+                                                    .read<CartCubit>()
+                                                    .refreshData();
+                                              });
+                                            },
+                                            child: Text(
+                                              product?.quantity.toString() ??
+                                                  "0",
+                                              style: TextStyle(
+                                                  fontSize: 14,
+                                                  fontWeight: FontWeight.bold),
+                                            ),
                                           ),
-                                        ),
-                                        const SizedBox(width: 12),
-                                        InkWell(
-                                          onTap: () {
-                                            cubit.addToCart(
-                                                idProduct:
-                                                    product!.product!.id!);
-                                          },
-                                          child: Container(
-                                            height: 35,
-                                            width: 35,
-                                            decoration: const BoxDecoration(
-                                                color: Colors.black,
-                                                shape: BoxShape.circle),
-                                            child: const Center(
-                                                child: Icon(
-                                              color: Colors.white,
-                                              Icons.add,
-                                              weight: 4,
-                                            )),
+                                          const SizedBox(width: 8),
+                                          InkWell(
+                                            onTap: () {
+                                              cubit.addToCart(
+                                                  idProduct:
+                                                      product!.product!.id!);
+                                            },
+                                            child: Container(
+                                              height: 26,
+                                              width: 26,
+                                              decoration: const BoxDecoration(
+                                                  color: Colors.black,
+                                                  shape: BoxShape.circle),
+                                              child: const Center(
+                                                  child: Icon(
+                                                color: Colors.white,
+                                                Icons.add,
+                                                weight: 4,
+                                              )),
+                                            ),
                                           ),
-                                        ),
-                                      ],
+                                        ],
+                                      ),
                                     ),
                                   ],
                                 ),

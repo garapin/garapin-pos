@@ -18,7 +18,7 @@ class SummaryOrderWidget extends StatelessWidget {
           status: state.status,
           loading: SizedBox(),
           child: Container(
-            height: 150,
+            height: 100,
             padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
             decoration: BoxDecoration(
               color: Colors.white,
@@ -33,7 +33,7 @@ class SummaryOrderWidget extends StatelessWidget {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                SizedBox(height: 20),
+                SizedBox(height: 8),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -50,9 +50,9 @@ class SummaryOrderWidget extends StatelessWidget {
                     ),
                   ],
                 ),
-                SizedBox(height: 20),
+                SizedBox(height: 12),
                 SizedBox(
-                  height: 50,
+                  height: 40,
                   width: baseWidth,
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(60),

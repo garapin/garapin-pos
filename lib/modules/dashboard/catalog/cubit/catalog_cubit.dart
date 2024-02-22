@@ -77,6 +77,10 @@ class CatalogCubit extends BaseCubit<CatalogState> {
     dismissLoading();
   }
 
+  setMode(ModeCatalog mode) {
+    emit(state.copyWith(modeCatalog: mode));
+  }
+
   changeMode() {
     if (state.modeCatalog == ModeCatalog.cashier) {
       emit(state.copyWith(modeCatalog: ModeCatalog.edit));

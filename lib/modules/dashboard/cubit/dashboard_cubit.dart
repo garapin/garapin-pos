@@ -1,6 +1,9 @@
+import 'package:pos/data/api/services.dart';
+import 'package:pos/data/models/base/user.dart';
 import 'package:pos/engine/engine.dart';
 import 'package:flutter/material.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:pos/modules/dashboard/catalog/cubit/catalog_cubit.dart';
 import 'package:pos/modules/dashboard/profile/view/profile.dart';
 import '../catalog/view/catalog.dart';
 
@@ -14,6 +17,7 @@ class DashboardCubit extends BaseCubit<DashboardState> {
   @override
   Future<void> initData() async {
     loadingState();
+
     emit(state.copyWith(
         status: DataStateStatus.success, widget: CatalogPage(), index: 0));
   }
@@ -34,7 +38,12 @@ class DashboardCubit extends BaseCubit<DashboardState> {
   }
 
   List<Widget> page = [
-    CatalogPage(),
+    CatalogPage(
+      modeCatalog: ModeCatalog.cashier,
+    ),
+    CatalogPage(
+      modeCatalog: ModeCatalog.edit,
+    ),
     SizedBox(),
     ProfilePage(),
   ];

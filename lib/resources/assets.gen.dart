@@ -52,6 +52,14 @@ class $AssetsIconsGen {
 class $AssetsImagesGen {
   const $AssetsImagesGen();
 
+  /// File path: assets/images/Appetizercashier-active.png
+  AssetGenImage get appetizercashierActive =>
+      const AssetGenImage('assets/images/Appetizercashier-active.png');
+
+  /// File path: assets/images/Appetizercashier-inactive.png
+  AssetGenImage get appetizercashierInactive =>
+      const AssetGenImage('assets/images/Appetizercashier-inactive.png');
+
   /// File path: assets/images/bacground_auth.png
   AssetGenImage get bacgroundAuth =>
       const AssetGenImage('assets/images/bacground_auth.png');
@@ -91,6 +99,8 @@ class $AssetsImagesGen {
 
   /// List of all assets
   List<AssetGenImage> get values => [
+        appetizercashierActive,
+        appetizercashierInactive,
         bacgroundAuth,
         box,
         catalogActive,

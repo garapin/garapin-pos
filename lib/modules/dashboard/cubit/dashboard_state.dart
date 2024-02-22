@@ -7,5 +7,6 @@ class DashboardState with _$DashboardState {
     @Default(0) int index,
     @Default(CatalogPage()) Widget widget,
     @Default(false) showCreateProduct,
+    User? user,
   }) = _DashboardState;
 }

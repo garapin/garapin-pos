@@ -15,9 +15,9 @@ class EmptyImageData extends StatelessWidget {
         Text(
           text ?? "Data Kosong",
           style: AppFont.largeBold(context)!
-              .copyWith(color: Colors.grey, fontSize: 22),
+              .copyWith(color: Colors.grey, fontSize: 18),
         ),
-        Center(child: Resources.images.box.image(height: 150)),
+        Center(child: Resources.images.box.image(height: 100)),
       ],
     );
   }

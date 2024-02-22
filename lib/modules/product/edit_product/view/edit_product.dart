@@ -1,7 +1,6 @@
 import 'dart:io';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:go_router/go_router.dart';
@@ -9,6 +8,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:pos/engine/engine.dart';
 import 'package:pos/modules/product/edit_product/cubit/edit_product_cubit.dart';
 import 'package:pos/themes/themes.dart';
+import 'package:pos/widgets/components/custom_button.dart';
 import 'package:pos/widgets/widgets.dart';
 
 import '../../create_product/view/create_product.dart';
@@ -49,18 +49,44 @@ class EditProductPage extends StatelessWidget {
                           children: [
                             const SizedBox(height: 24),
                             Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                IconButton(
-                                    onPressed: () {
-                                      context.pop();
-                                    },
-                                    icon: const Icon(
-                                      Icons.arrow_back,
-                                      size: 26,
-                                    )),
-                                Text(
-                                  "Tambah Produk",
-                                  style: AppFont.largeBold(context),
+                                Row(
+                                  children: [
+                                    IconButton(
+                                        onPressed: () {
+                                          context.pop();
+                                        },
+                                        icon: const Icon(
+                                          Icons.arrow_back,
+                                          size: 26,
+                                        )),
+                                    Text(
+                                      "Tambah Produk",
+                                      style: AppFont.largeBold(context),
+                                    ),
+                                  ],
+                                ),
+                                CustomButton(
+                                  onPressed: () {
+                                    cubit.deleteProduct(state.product!.id!);
+                                  },
+                                  child: Row(
+                                    children: [
+                                      Icon(
+                                        Icons.delete,
+                                        size: 26,
+                                        color: AppColor.appColor.error,
+                                      ),
+                                      Text(
+                                        "Hapus Produk",
+                                        style: AppFont.largeBold(context)!
+                                            .copyWith(
+                                          color: AppColor.appColor.error,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
                                 ),
                               ],
                             ),
@@ -246,6 +272,7 @@ class EditProductPage extends StatelessWidget {
                                 children: [
                                   const SizedBox(height: 16),
                                   OutlineFormText(
+                                    maxLength: 30,
                                     name: 'name_product',
                                     initialValue: state.product?.name ?? "",
                                     hintText: 'Masukan Nama Produk',
@@ -439,6 +466,7 @@ class EditProductPage extends StatelessWidget {
                                     children: [
                                       Expanded(
                                         child: OutlineFormText(
+                                          keyboardType: TextInputType.number,
                                           initialValue:
                                               (state.product?.price?.toInt() ??
                                                       "")
@@ -458,6 +486,7 @@ class EditProductPage extends StatelessWidget {
                                       const SizedBox(width: 16),
                                       Expanded(
                                         child: OutlineFormText(
+                                          keyboardType: TextInputType.number,
                                           initialValue:
                                               (state.product?.discount ?? "")
                                                   .toString(),
@@ -528,117 +557,6 @@ class EditProductPage extends StatelessWidget {
           );
         },
       ),
-    );
-  }
-}
-
-class OutlineFormText extends StatelessWidget {
-  final TextInputType? keyboardType;
-  final String name;
-  final String hintText;
-  final String? initialValue;
-  final String? label;
-  final String? suffixText;
-  final String? Function(String?)? validator;
-  const OutlineFormText({
-    super.key,
-    required this.name,
-    required this.hintText,
-    this.label,
-    this.initialValue,
-    this.suffixText,
-    this.keyboardType,
-    this.validator,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        label != null
-            ? Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 8),
-                child: Text("${label}", style: AppFont.largeBold(context)),
-              )
-            : const SizedBox(),
-        label != null ? const SizedBox(height: 8) : const SizedBox(),
-        FormBuilderTextField(
-          keyboardType: keyboardType,
-          initialValue: initialValue,
-          validator: validator,
-          name: name,
-          decoration: InputDecoration(
-            suffixText: suffixText,
-            hintText: hintText,
-            border: OutlineInputBorder(
-              borderSide: const BorderSide(width: 1),
-              borderRadius: BorderRadius.circular(58),
-            ),
-            contentPadding:
-                const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
-            hintStyle: const TextStyle(fontSize: 16),
-            filled: true,
-            fillColor: const Color(0xffffffff),
-          ),
-        ),
-      ],
-    );
-  }
-}
-
-class OutlineFormDropdown extends StatelessWidget {
-  final String name;
-  final String hintText;
-  final String? initialValue;
-  final String? label;
-  final String? suffixText;
-  final String? Function(dynamic)? validator;
-  final List<DropdownMenuItem<dynamic>> items;
-  const OutlineFormDropdown({
-    Key? key,
-    required this.name,
-    required this.hintText,
-    required this.items,
-    this.label,
-    this.initialValue,
-    this.suffixText,
-    this.validator,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        label != null
-            ? Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 8),
-                child: Text("${label}", style: AppFont.largeBold(context)),
-              )
-            : const SizedBox(),
-        label != null ? const SizedBox(height: 8) : const SizedBox(),
-        FormBuilderDropdown(
-          key: UniqueKey(),
-          validator: validator,
-          initialValue: initialValue,
-          name: name,
-          items: items,
-          decoration: InputDecoration(
-            suffixText: suffixText,
-            hintText: hintText,
-            border: OutlineInputBorder(
-              borderSide: const BorderSide(width: 1),
-              borderRadius: BorderRadius.circular(58),
-            ),
-            contentPadding:
-                const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
-            hintStyle: const TextStyle(fontSize: 16),
-            filled: true,
-            fillColor: const Color(0xffffffff),
-          ),
-        ),
-      ],
     );
   }
 }

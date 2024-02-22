@@ -230,6 +230,7 @@ class CreateProductPage extends StatelessWidget {
                                 children: [
                                   const SizedBox(height: 16),
                                   OutlineFormText(
+                                    maxLength: 30,
                                     name: 'name_product',
                                     hintText: 'Masukan Nama Produk',
                                     label: 'Nama Produk',
@@ -415,6 +416,7 @@ class CreateProductPage extends StatelessWidget {
                                     children: [
                                       Expanded(
                                         child: OutlineFormText(
+                                          keyboardType: TextInputType.number,
                                           validator: (v) {
                                             if (v != null) {
                                               return null;
@@ -430,6 +432,7 @@ class CreateProductPage extends StatelessWidget {
                                       const SizedBox(width: 16),
                                       Expanded(
                                         child: OutlineFormText(
+                                          keyboardType: TextInputType.number,
                                           name: 'discount',
                                           hintText: 'Masukan Potongan Harga',
                                           label: 'Harga Diskon',
@@ -573,6 +576,7 @@ class OutlineFormText extends StatelessWidget {
   final String? label;
   final String? suffixText;
   final String? Function(String?)? validator;
+  final int? maxLength;
   const OutlineFormText({
     super.key,
     required this.name,
@@ -582,6 +586,7 @@ class OutlineFormText extends StatelessWidget {
     this.suffixText,
     this.keyboardType,
     this.validator,
+    this.maxLength,
   });
 
   @override
@@ -597,6 +602,7 @@ class OutlineFormText extends StatelessWidget {
             : const SizedBox(),
         label != null ? const SizedBox(height: 8) : const SizedBox(),
         FormBuilderTextField(
+          maxLength: maxLength,
           keyboardType: keyboardType,
           initialValue: initialValue,
           validator: validator,

@@ -1,3 +1,4 @@
+import 'package:flutter/widgets.dart';
 import 'package:go_router/go_router.dart';
 import 'package:pos/engine/base/app.dart';
 import 'package:pos/engine/engine.dart';
@@ -44,53 +45,80 @@ class DashboardPage extends StatelessWidget {
                       child: Container(
                         decoration: BoxDecoration(
                             border: Border.all(color: Colors.grey)),
-                        width: baseWidth * 0.09,
-                        child: Column(
-                          children: [
-                            const SizedBox(height: 8),
-                            CustomButton(
-                                onPressed: () {
-                                  cubit.changePage(0);
-                                },
-                                child: state.index == 0
-                                    ? Resources.images.catalogActive.image()
-                                    : Resources.images.catalogInactive.image()),
-                            const SizedBox(height: 8),
-                            CustomButton(
-                                onPressed: () {
-                                  cubit.changePage(1);
-                                },
-                                child: state.index == 1
-                                    ? Resources.images.reportActive.image()
-                                    : Resources.images.reportInactive.image()),
-                            const SizedBox(height: 8),
-                            CustomButton(
-                                onPressed: () {
-                                  cubit.changePage(2);
-                                },
-                                child: state.index == 2
-                                    ? Resources.images.profileActive.image()
-                                    : Resources.images.profileInactive.image()),
-                            const Spacer(),
-                            CustomButton(
-                                onPressed: () {
-                                  Sessions.clear().then(
-                                      (value) => context.go(RouteNames.root));
-                                },
-                                child: const Icon(
-                                  Icons.logout,
-                                  size: 40,
-                                  color: Colors.red,
-                                )),
-                            const SizedBox(height: 40)
-                          ],
+                        width: baseWidth * 0.075,
+                        height: baseHeight,
+                        child: SingleChildScrollView(
+                          child: Column(
+                            children: [
+                              const SizedBox(height: 8),
+                              CustomButton(
+                                  onPressed: () {
+                                    cubit.changePage(0);
+                                  },
+                                  child: state.index == 0
+                                      ? Resources.images.appetizercashierActive
+                                          .image(height: 65, width: 60)
+                                      : Resources
+                                          .images.appetizercashierInactive
+                                          .image(height: 65, width: 60)),
+                              const SizedBox(height: 8),
+                              (Sessions.getDatabaseModel()?.role != "ADMIN")
+                                  ? SizedBox()
+                                  : CustomButton(
+                                      onPressed: () {
+                                        cubit.changePage(1);
+                                      },
+                                      child: state.index == 1
+                                          ? Resources.images.catalogActive
+                                              .image(height: 65, width: 60)
+                                          : Resources.images.catalogInactive
+                                              .image(height: 65, width: 60)),
+                              const SizedBox(height: 8),
+                              CustomButton(
+                                  onPressed: () {
+                                    cubit.changePage(2);
+                                  },
+                                  child: state.index == 2
+                                      ? Resources.images.reportActive
+                                          .image(height: 65, width: 60)
+                                      : Resources.images.reportInactive
+                                          .image(height: 65, width: 60)),
+                              const SizedBox(height: 8),
+                              (Sessions.getDatabaseModel()?.role != "ADMIN")
+                                  ? SizedBox()
+                                  : CustomButton(
+                                      onPressed: () {
+                                        cubit.changePage(3);
+                                      },
+                                      child: state.index == 3
+                                          ? Resources.images.profileActive
+                                              .image(height: 65, width: 60)
+                                          : Resources.images.profileInactive
+                                              .image(height: 65, width: 60)),
+                              SizedBox(height: baseHeight / 2.5),
+                              Align(
+                                alignment: Alignment.bottomCenter,
+                                child: CustomButton(
+                                    onPressed: () {
+                                      Sessions.clear().then((value) =>
+                                          context.go(RouteNames.root));
+                                    },
+                                    child: const Icon(
+                                      Icons.logout,
+                                      size: 30,
+                                      color: Colors.red,
+                                    )),
+                              ),
+                              const SizedBox(height: 40)
+                            ],
+                          ),
                         ),
                       ),
                     );
                   },
                 ),
                 SizedBox(
-                  width: baseWidth * 0.91,
+                  width: baseWidth * 0.925,
                   child: BlocBuilder<DashboardCubit, DashboardState>(
                     builder: (context, state) {
                       return ContainerStateHandler(

@@ -31,6 +31,9 @@ class CreateProductCubit extends BaseCubit<CreateProductState> {
 
   @override
   Future<void> initData({bool force = true}) async {
+    addBrandController.clear();
+    addCategoryController.clear();
+    addUnitController.clear();
     loadingState(force: force);
     final category = await ApiService.category(context);
     final icon = await ApiService.getIconProduct(context);
@@ -187,7 +190,7 @@ class CreateProductCubit extends BaseCubit<CreateProductState> {
   }
 
   Future<void> deleteBrandMethod(String id) async {
-    final data = await ApiService.deleteUnit(context, id: id);
+    final data = await ApiService.deleteBrand(context, id: id);
     if (data.isSuccess) {
       showSuccess(data.message);
     } else {
@@ -248,6 +251,19 @@ class CreateProductCubit extends BaseCubit<CreateProductState> {
               },
             ),
           ),
+          actions: [
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20),
+              child: SizedBox(
+                width: double.infinity,
+                child: ElevatedButton(
+                    onPressed: () {
+                      context.pop();
+                    },
+                    child: Text("Close")),
+              ),
+            )
+          ],
         );
       },
     );
@@ -285,6 +301,19 @@ class CreateProductCubit extends BaseCubit<CreateProductState> {
               },
             ),
           ),
+          actions: [
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20),
+              child: SizedBox(
+                width: double.infinity,
+                child: ElevatedButton(
+                    onPressed: () {
+                      context.pop();
+                    },
+                    child: Text("Close")),
+              ),
+            )
+          ],
         );
       },
     );
@@ -354,7 +383,7 @@ class CreateProductCubit extends BaseCubit<CreateProductState> {
                   ),
                   trailing: IconButton(
                       onPressed: () {
-                        deleteBrandMethod(unit.id!)
+                        deleteUnitMehtod(unit.id!)
                             .then((value) => refreshData());
                       },
                       icon: const Icon(
@@ -365,6 +394,19 @@ class CreateProductCubit extends BaseCubit<CreateProductState> {
               },
             ),
           ),
+          actions: [
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20),
+              child: SizedBox(
+                width: double.infinity,
+                child: ElevatedButton(
+                    onPressed: () {
+                      context.pop();
+                    },
+                    child: Text("Close")),
+              ),
+            )
+          ],
         );
       },
     );

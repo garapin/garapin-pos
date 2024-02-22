@@ -113,6 +113,16 @@ class ApiService {
         .handler((error) => ApiResponse<Product>.onError(error));
   }
 
+  static Future<ApiResponse<Product>> deleteProduct(
+    BuildContext context, {
+    required String id,
+  }) async {
+    return await ApiConfigure(context)
+        .post('store/product/delete/$id')
+        .then((result) => ApiResponse<Product>.fromJson(result.data))
+        .handler((error) => ApiResponse<Product>.onError(error));
+  }
+
   static Future<ApiResponse<Brand>> createBrand(BuildContext context,
       {required String nameBrand}) async {
     return await ApiConfigure(context)

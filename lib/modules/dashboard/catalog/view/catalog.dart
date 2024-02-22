@@ -18,11 +18,13 @@ import '../../../cart/cubit/cart_cubit.dart';
 import '../../../cart/view/order_detail_view.dart';
 
 class CatalogPage extends StatelessWidget {
-  const CatalogPage({super.key});
+  const CatalogPage({super.key, this.modeCatalog});
 
+  final ModeCatalog? modeCatalog;
   @override
   Widget build(BuildContext context) {
     final cubit = context.read<CatalogCubit>();
+    cubit.setMode(modeCatalog ?? ModeCatalog.cashier);
     return Row(
       children: [
         Expanded(
@@ -127,38 +129,10 @@ class CatalogPage extends StatelessWidget {
                                   ),
                                 )),
                           ),
-                          SizedBox(width: 20),
-                          SizedBox(
-                            height: 40,
-                            width: 200,
-                            child: TextButton(
-                                style: OutlinedButton.styleFrom(
-                                  backgroundColor: AppColor.appColor.primary,
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(40),
-                                    side: BorderSide(
-                                      width: 1.5,
-                                      color: AppColor.appColor.primary,
-                                    ),
-                                  ),
-                                ),
-                                onPressed: () {
-                                  cubit.changeMode();
-                                },
-                                child: Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 24, vertical: 0),
-                                  child: Text(
-                                    "Mode : ${state.modeCatalog.name}",
-                                    style: AppFont.largeBold(context)!
-                                        .copyWith(color: Colors.white),
-                                  ),
-                                )),
-                          ),
                         ],
                       ),
                     ),
-                    SizedBox(height: 200),
+                    SizedBox(height: 60),
                     const EmptyImageData(
                       text: "Produk Kosong",
                     ),
@@ -166,7 +140,7 @@ class CatalogPage extends StatelessWidget {
                 )),
                 child: ListView(
                   children: [
-                    SizedBox(height: 12),
+                    const SizedBox(height: 12),
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 12),
                       child: Row(
@@ -200,48 +174,20 @@ class CatalogPage extends StatelessWidget {
                                   ),
                                 )),
                           ),
-                          SizedBox(width: 20),
-                          SizedBox(
-                            height: 40,
-                            width: 200,
-                            child: TextButton(
-                                style: OutlinedButton.styleFrom(
-                                  backgroundColor: AppColor.appColor.primary,
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(40),
-                                    side: BorderSide(
-                                      width: 1.5,
-                                      color: AppColor.appColor.primary,
-                                    ),
-                                  ),
-                                ),
-                                onPressed: () {
-                                  cubit.changeMode();
-                                },
-                                child: Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 24, vertical: 0),
-                                  child: Text(
-                                    "Mode : ${state.modeCatalog.name}",
-                                    style: AppFont.largeBold(context)!
-                                        .copyWith(color: Colors.white),
-                                  ),
-                                )),
-                          ),
                         ],
                       ),
                     ),
                     Expanded(
                       child: GridView.builder(
                         shrinkWrap: true,
-                        physics: NeverScrollableScrollPhysics(),
+                        physics: const NeverScrollableScrollPhysics(),
                         padding: const EdgeInsets.all(12),
                         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                             crossAxisCount:
-                                MediaQuery.of(context).size.width ~/ 330,
-                            crossAxisSpacing: 12,
-                            mainAxisSpacing: 12,
-                            childAspectRatio: 219 / 272),
+                                MediaQuery.of(context).size.width ~/ 259,
+                            crossAxisSpacing: 8,
+                            mainAxisSpacing: 8,
+                            childAspectRatio: 200 / 272),
                         itemBuilder: (BuildContext context, int index) {
                           var product = state.product[index];
                           return InkWell(
@@ -298,12 +244,12 @@ class CatalogPage extends StatelessWidget {
                                                     AppColor.appColor.primary,
                                               )),
                                         )
-                                      : SizedBox(),
+                                      : const SizedBox(),
                                   Column(
                                     children: [
                                       Container(
                                         width: 202,
-                                        height: 158,
+                                        height: 100,
                                         child: ImageLoad(
                                           imageUrl: Environment.showUrlImage(
                                               path: product.image ?? ""),
@@ -320,8 +266,8 @@ class CatalogPage extends StatelessWidget {
                                       const SizedBox(height: 16),
                                       Text(
                                         product.name ?? "",
-                                        style: AppFont.large(context)!
-                                            .copyWith(fontSize: 16),
+                                        style: AppFont.largeBold(context)!
+                                            .copyWith(fontSize: 14),
                                         maxLines: 2,
                                         overflow: TextOverflow.ellipsis,
                                         textAlign: TextAlign.center,
@@ -332,7 +278,7 @@ class CatalogPage extends StatelessWidget {
                                         style: AppFont.medium(context)!
                                             .copyWith(fontSize: 12),
                                       ),
-                                      const SizedBox(height: 8),
+                                      const SizedBox(height: 4),
                                       (product.discount == 0)
                                           ? const SizedBox()
                                           : Stack(
@@ -343,15 +289,16 @@ class CatalogPage extends StatelessWidget {
                                                   style: AppFont.largePrimary(
                                                           context)!
                                                       .copyWith(
-                                                          fontSize: 14,
+                                                          fontSize: 12,
                                                           fontWeight:
                                                               FontWeight.bold),
                                                 ),
-                                                const Divider(
-                                                  thickness: 1,
-                                                  color: Colors.black,
-                                                  indent: 80,
-                                                  endIndent: 80,
+                                                Container(
+                                                  height: 1,
+                                                  width: 100,
+                                                  decoration: BoxDecoration(
+                                                    color: Colors.black,
+                                                  ),
                                                 )
                                               ],
                                             ),
@@ -360,7 +307,7 @@ class CatalogPage extends StatelessWidget {
                                             .toString(),
                                         style: AppFont.largePrimary(context)!
                                             .copyWith(
-                                                fontSize: 16,
+                                                fontSize: 14,
                                                 fontWeight: FontWeight.bold),
                                       ),
                                     ],
@@ -435,7 +382,7 @@ class ActionAppBar extends StatelessWidget {
       builder: (context, state) {
         return ContainerStateHandler(
           status: state.status,
-          loading: SizedBox(),
+          loading: const SizedBox(),
           child: Align(
             alignment: Alignment.centerRight,
             child: SizedBox(
@@ -453,7 +400,7 @@ class ActionAppBar extends StatelessWidget {
                     ],
                   ),
                   const SizedBox(width: 20),
-                  RealTimeClock(),
+                  const RealTimeClock(),
                   const SizedBox(width: 20),
                   Container(
                     width: 50,
@@ -489,7 +436,7 @@ class _RealTimeClockState extends State<RealTimeClock> {
   void initState() {
     super.initState();
     _dateTimeStream = Stream<DateTime>.periodic(
-        Duration(seconds: 1), (index) => DateTime.now());
+        const Duration(seconds: 1), (index) => DateTime.now());
   }
 
   @override
@@ -499,10 +446,10 @@ class _RealTimeClockState extends State<RealTimeClock> {
       builder: (context, snapshot) {
         if (snapshot.hasData) {
           return Text(
-            snapshot.data!.toddMMMyyyyHHmmss(),
+            snapshot.data?.toddMMMyyyyHHmmss() ?? "                   ",
           );
         } else {
-          return SizedBox();
+          return const SizedBox();
         }
       },
     );
