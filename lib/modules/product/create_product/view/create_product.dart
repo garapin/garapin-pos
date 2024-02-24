@@ -435,7 +435,7 @@ class CreateProductPage extends StatelessWidget {
                                           keyboardType: TextInputType.number,
                                           name: 'discount',
                                           hintText: 'Masukan Potongan Harga',
-                                          label: 'Harga Diskon',
+                                          label: 'Diskon (Rupiah)',
                                         ),
                                       ),
                                     ],
@@ -658,6 +658,7 @@ class OutlineFormDropdown extends StatelessWidget {
             : const SizedBox(),
         label != null ? const SizedBox(height: 8) : const SizedBox(),
         FormBuilderDropdown(
+          key: UniqueKey(),
           validator: validator,
           initialValue: initialValue,
           name: name,

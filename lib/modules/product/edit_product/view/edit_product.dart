@@ -8,7 +8,6 @@ import 'package:image_picker/image_picker.dart';
 import 'package:pos/engine/engine.dart';
 import 'package:pos/modules/product/edit_product/cubit/edit_product_cubit.dart';
 import 'package:pos/themes/themes.dart';
-import 'package:pos/widgets/components/custom_button.dart';
 import 'package:pos/widgets/widgets.dart';
 
 import '../../create_product/view/create_product.dart';
@@ -492,7 +491,7 @@ class EditProductPage extends StatelessWidget {
                                                   .toString(),
                                           name: 'discount',
                                           hintText: 'Masukan Potongan Harga',
-                                          label: 'Harga Diskon',
+                                          label: 'Diskon (Rupiah)',
                                         ),
                                       ),
                                     ],

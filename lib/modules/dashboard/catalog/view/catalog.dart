@@ -4,6 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/widgets.dart';
 import 'package:go_router/go_router.dart';
+import 'package:pos/data/models/base/product.dart';
 import 'package:pos/engine/engine.dart';
 import 'package:pos/modules/cart/view/modal_add_to_cart.dart';
 import 'package:pos/modules/dashboard/catalog/cubit/catalog_cubit.dart';
@@ -140,43 +141,50 @@ class CatalogPage extends StatelessWidget {
                 )),
                 child: ListView(
                   children: [
-                    const SizedBox(height: 12),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 12),
-                      child: Row(
-                        children: [
-                          SizedBox(
-                            height: 40,
-                            width: 200,
-                            child: TextButton(
-                                style: OutlinedButton.styleFrom(
-                                  backgroundColor: AppColor.appColor.primary,
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(40),
-                                    side: BorderSide(
-                                      width: 1.5,
-                                      color: AppColor.appColor.primary,
-                                    ),
-                                  ),
+                    (state.modeCatalog == ModeCatalog.cashier)
+                        ? const SizedBox(height: 0)
+                        : SizedBox(height: 12),
+                    (state.modeCatalog == ModeCatalog.cashier)
+                        ? SizedBox()
+                        : Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 12),
+                            child: Row(
+                              children: [
+                                SizedBox(
+                                  height: 40,
+                                  width: 200,
+                                  child: TextButton(
+                                      style: OutlinedButton.styleFrom(
+                                        backgroundColor:
+                                            AppColor.appColor.primary,
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(40),
+                                          side: BorderSide(
+                                            width: 1.5,
+                                            color: AppColor.appColor.primary,
+                                          ),
+                                        ),
+                                      ),
+                                      onPressed: () {
+                                        context
+                                            .pushNamed(RouteNames.cretaeProduct)
+                                            .then(
+                                                (value) => cubit.refreshData());
+                                      },
+                                      child: Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: 24, vertical: 0),
+                                        child: Text(
+                                          "Buat Produk",
+                                          style: AppFont.largeBold(context)!
+                                              .copyWith(color: Colors.white),
+                                        ),
+                                      )),
                                 ),
-                                onPressed: () {
-                                  context
-                                      .pushNamed(RouteNames.cretaeProduct)
-                                      .then((value) => cubit.refreshData());
-                                },
-                                child: Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 24, vertical: 0),
-                                  child: Text(
-                                    "Buat Produk",
-                                    style: AppFont.largeBold(context)!
-                                        .copyWith(color: Colors.white),
-                                  ),
-                                )),
+                              ],
+                            ),
                           ),
-                        ],
-                      ),
-                    ),
                     Expanded(
                       child: GridView.builder(
                         shrinkWrap: true,
@@ -206,115 +214,11 @@ class CatalogPage extends StatelessWidget {
                                         .refreshData());
                               }
                             },
-                            child: Container(
-                              width: 219,
-                              height: 300,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(16),
-                                color: Colors.white,
-                                boxShadow: [
-                                  BoxShadow(
-                                    color: Colors.grey.withOpacity(0.5),
-                                    spreadRadius: 0,
-                                    blurRadius: 1,
-                                    offset: const Offset(0, 0),
-                                  ),
-                                ],
-                              ),
-                              padding:
-                                  const EdgeInsets.fromLTRB(12, 12, 16, 12),
-                              child: Stack(
-                                children: [
-                                  (state.modeCatalog == ModeCatalog.edit)
-                                      ? Positioned(
-                                          right: 0,
-                                          child: IconButton(
-                                              onPressed: () {
-                                                context
-                                                    .pushNamed(
-                                                        RouteNames.editProduct,
-                                                        extra: product.id)
-                                                    .then((value) =>
-                                                        cubit.refreshData());
-                                              },
-                                              icon: Icon(
-                                                Icons.edit,
-                                                size: 40,
-                                                color:
-                                                    AppColor.appColor.primary,
-                                              )),
-                                        )
-                                      : const SizedBox(),
-                                  Column(
-                                    children: [
-                                      Container(
-                                        width: 202,
-                                        height: 100,
-                                        child: ImageLoad(
-                                          imageUrl: Environment.showUrlImage(
-                                              path: product.image ?? ""),
-                                          fit: BoxFit.contain,
-                                          errorWidget: ImageLoad(
-                                            imageUrl: Environment.showUrlImage(
-                                                path: product.icon ?? ""),
-                                            height: 10,
-                                            width: 10,
-                                            fit: BoxFit.none,
-                                          ),
-                                        ),
-                                      ),
-                                      const SizedBox(height: 16),
-                                      Text(
-                                        product.name ?? "",
-                                        style: AppFont.largeBold(context)!
-                                            .copyWith(fontSize: 14),
-                                        maxLines: 2,
-                                        overflow: TextOverflow.ellipsis,
-                                        textAlign: TextAlign.center,
-                                      ),
-                                      const SizedBox(height: 8),
-                                      Text(
-                                        "SKU: ${product.sku}",
-                                        style: AppFont.medium(context)!
-                                            .copyWith(fontSize: 12),
-                                      ),
-                                      const SizedBox(height: 4),
-                                      (product.discount == 0)
-                                          ? const SizedBox()
-                                          : Stack(
-                                              alignment: Alignment.center,
-                                              children: [
-                                                Text(
-                                                  "Rp.${product.price?.toInt().currencyFormat()}",
-                                                  style: AppFont.largePrimary(
-                                                          context)!
-                                                      .copyWith(
-                                                          fontSize: 12,
-                                                          fontWeight:
-                                                              FontWeight.bold),
-                                                ),
-                                                Container(
-                                                  height: 1,
-                                                  width: 100,
-                                                  decoration: BoxDecoration(
-                                                    color: Colors.black,
-                                                  ),
-                                                )
-                                              ],
-                                            ),
-                                      Text(
-                                        "Rp. ${(product.price! - product.discount!).toInt().currencyFormat()}"
-                                            .toString(),
-                                        style: AppFont.largePrimary(context)!
-                                            .copyWith(
-                                                fontSize: 14,
-                                                fontWeight: FontWeight.bold),
-                                      ),
-                                    ],
-                                  ),
-                                ],
-                              ),
-                            ),
+                            child: (product.image == "")
+                                ? catalogWithIcon(
+                                    state, context, product, cubit)
+                                : catalogWithImage(
+                                    state, context, product, cubit),
                           );
                         },
                         itemCount:
@@ -334,6 +238,207 @@ class CatalogPage extends StatelessWidget {
       ],
     );
   }
+
+  Container catalogWithIcon(CatalogState state, BuildContext context,
+      Product product, CatalogCubit cubit) {
+    return Container(
+      width: 219,
+      height: 300,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(16),
+        color: AppColor.appColor.primary,
+        boxShadow: [
+          BoxShadow(
+            color: Colors.grey.withOpacity(0.5),
+            spreadRadius: 0,
+            blurRadius: 1,
+            offset: const Offset(0, 0),
+          ),
+        ],
+      ),
+      padding: const EdgeInsets.fromLTRB(12, 12, 16, 12),
+      child: Stack(
+        children: [
+          (state.modeCatalog == ModeCatalog.edit)
+              ? Positioned(
+                  right: 0,
+                  child: IconButton(
+                      onPressed: () {
+                        context
+                            .pushNamed(RouteNames.editProduct,
+                                extra: product.id)
+                            .then((value) => cubit.refreshData());
+                      },
+                      icon: Icon(
+                        Icons.edit,
+                        size: 40,
+                        color: AppColor.appColor.primary,
+                      )),
+                )
+              : const SizedBox(),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 8),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                SizedBox(height: 50),
+                Container(
+                  padding: EdgeInsets.all(8),
+                  width: 60,
+                  height: 60,
+                  decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(12)),
+                  child: ImageLoad(
+                    imageUrl:
+                        Environment.showUrlImage(path: product.icon ?? ""),
+                    fit: BoxFit.contain,
+                  ),
+                ),
+                const SizedBox(height: 16),
+                Text(
+                  product.name ?? "",
+                  style: AppFont.whiteLarge(context)!.copyWith(fontSize: 14),
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                  textAlign: TextAlign.start,
+                ),
+                const SizedBox(height: 8),
+                Text(
+                  "SKU: ${product.sku}",
+                  style: AppFont.whiteMedium(context)!.copyWith(fontSize: 12),
+                ),
+                const SizedBox(height: 4),
+                (product.discount == 0)
+                    ? const SizedBox()
+                    : Stack(
+                        alignment: Alignment.centerLeft,
+                        children: [
+                          Text(
+                            "Rp.${product.price?.toInt().currencyFormat()}",
+                            style: AppFont.whiteLarge(context)!.copyWith(
+                                fontSize: 12, fontWeight: FontWeight.bold),
+                          ),
+                          Container(
+                            height: 1,
+                            width: 100,
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                            ),
+                          )
+                        ],
+                      ),
+                Text(
+                  "Rp. ${(product.price! - product.discount!).toInt().currencyFormat()}"
+                      .toString(),
+                  style: AppFont.whiteLarge(context)!
+                      .copyWith(fontSize: 14, fontWeight: FontWeight.bold),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+Container catalogWithImage(CatalogState state, BuildContext context,
+    Product product, CatalogCubit cubit) {
+  return Container(
+    width: 219,
+    height: 300,
+    decoration: BoxDecoration(
+      borderRadius: BorderRadius.circular(16),
+      color: Colors.white,
+      boxShadow: [
+        BoxShadow(
+          color: Colors.grey.withOpacity(0.5),
+          spreadRadius: 0,
+          blurRadius: 1,
+          offset: const Offset(0, 0),
+        ),
+      ],
+    ),
+    padding: const EdgeInsets.fromLTRB(12, 12, 16, 12),
+    child: Stack(
+      children: [
+        (state.modeCatalog == ModeCatalog.edit)
+            ? Positioned(
+                right: 0,
+                child: IconButton(
+                    onPressed: () {
+                      context
+                          .pushNamed(RouteNames.editProduct, extra: product.id)
+                          .then((value) => cubit.refreshData());
+                    },
+                    icon: Icon(
+                      Icons.edit,
+                      size: 40,
+                      color: AppColor.appColor.primary,
+                    )),
+              )
+            : const SizedBox(),
+        Column(
+          children: [
+            Container(
+              width: 202,
+              height: 100,
+              child: ImageLoad(
+                imageUrl: Environment.showUrlImage(path: product.image ?? ""),
+                fit: BoxFit.contain,
+                errorWidget: ImageLoad(
+                  imageUrl: Environment.showUrlImage(path: product.icon ?? ""),
+                  height: 10,
+                  width: 10,
+                  fit: BoxFit.none,
+                ),
+              ),
+            ),
+            const SizedBox(height: 16),
+            Text(
+              product.name ?? "",
+              style: AppFont.largeBold(context)!.copyWith(fontSize: 14),
+              maxLines: 2,
+              overflow: TextOverflow.ellipsis,
+              textAlign: TextAlign.center,
+            ),
+            const SizedBox(height: 8),
+            Text(
+              "SKU: ${product.sku}",
+              style: AppFont.medium(context)!.copyWith(fontSize: 12),
+            ),
+            const SizedBox(height: 4),
+            (product.discount == 0)
+                ? const SizedBox()
+                : Stack(
+                    alignment: Alignment.center,
+                    children: [
+                      Text(
+                        "Rp.${product.price?.toInt().currencyFormat()}",
+                        style: AppFont.largePrimary(context)!.copyWith(
+                            fontSize: 12, fontWeight: FontWeight.bold),
+                      ),
+                      Container(
+                        height: 1,
+                        width: 100,
+                        decoration: BoxDecoration(
+                          color: Colors.black,
+                        ),
+                      )
+                    ],
+                  ),
+            Text(
+              "Rp. ${(product.price! - product.discount!).toInt().currencyFormat()}"
+                  .toString(),
+              style: AppFont.largePrimary(context)!
+                  .copyWith(fontSize: 14, fontWeight: FontWeight.bold),
+            ),
+          ],
+        ),
+      ],
+    ),
+  );
 }
 
 class CategoryWidget extends StatelessWidget {
