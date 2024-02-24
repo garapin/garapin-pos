@@ -436,6 +436,15 @@ class CreateProductPage extends StatelessWidget {
                                           name: 'discount',
                                           hintText: 'Masukan Potongan Harga',
                                           label: 'Diskon (Rupiah)',
+                                          validator: (v) {
+                                            if (cubit.formKey.currentState
+                                                    ?.value["price"] !=
+                                                null) {
+                                              return null;
+                                            } else {
+                                              return 'Harga produk tidak boleh kosong';
+                                            }
+                                          },
                                         ),
                                       ),
                                     ],

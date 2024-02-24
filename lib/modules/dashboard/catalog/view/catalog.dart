@@ -194,7 +194,7 @@ class CatalogPage extends StatelessWidget {
                             crossAxisCount:
                                 MediaQuery.of(context).size.width ~/ 259,
                             crossAxisSpacing: 8,
-                            mainAxisSpacing: 8,
+                            mainAxisSpacing: 20,
                             childAspectRatio: 200 / 272),
                         itemBuilder: (BuildContext context, int index) {
                           var product = state.product[index];
