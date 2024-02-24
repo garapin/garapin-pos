@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:go_router/go_router.dart';
@@ -13,6 +14,8 @@ import 'package:pos/engine/engine.dart';
 import 'package:pos/engine/helpers/options.dart';
 
 import '../../../../data/api/response.dart';
+import '../../../../routes/routes.dart';
+import '../../cubit/dashboard_cubit.dart';
 
 part 'profile_state.dart';
 part 'profile_cubit.freezed.dart';
@@ -63,7 +66,7 @@ class ProfileCubit extends BaseCubit<ProfileState> {
     emit(state.copyWith(city: city));
   }
 
-  Future<ApiResponse<dynamic>> updateProfile() async {
+  updateProfile() async {
     showLoading();
     formKey.currentState?.save();
     String? base64Image;
@@ -90,6 +93,13 @@ class ProfileCubit extends BaseCubit<ProfileState> {
         base64: base64Image);
     if (data.isSuccess) {
       showSuccess(data.message);
+      final data2 = await ApiService.getStoreInfo(context);
+      if (data2.data?.store?.storeName != null) {
+        context.go(RouteNames.dashboard);
+      } else {
+        final cubitDashboard = context.read<DashboardCubit>();
+        cubitDashboard.changePage(0);
+      }
     } else {
       showError(data.message);
     }

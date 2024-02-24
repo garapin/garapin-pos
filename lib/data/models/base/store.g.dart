@@ -10,26 +10,29 @@ Store _$StoreFromJson(Map<String, dynamic> json) => Store(
       store: json['store'] == null
           ? null
           : StoreClass.fromJson(json['store'] as Map<String, dynamic>),
-      usersStore: (json['users'] as List<dynamic>?)
-          ?.map((e) => UsersStore.fromJson(e as Map<String, dynamic>))
+      users: (json['users'] as List<dynamic>?)
+          ?.map((e) => UserStore.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
 
 Map<String, dynamic> _$StoreToJson(Store instance) => <String, dynamic>{
       'store': instance.store,
-      'users': instance.usersStore,
+      'users': instance.users,
     };
 
 StoreClass _$StoreClassFromJson(Map<String, dynamic> json) => StoreClass(
-      state: json['state'] as String?,
+      accountHolder: json['account_holder'] == null
+          ? null
+          : AccountHolder.fromJson(
+              json['account_holder'] as Map<String, dynamic>),
       id: json['_id'] as String?,
-      storeName: json['store_name'] as String?,
       picName: json['pic_name'] as String?,
       address: json['address'] as String?,
+      state: json['state'] as String?,
       city: json['city'] as String?,
       country: json['country'] as String?,
       postalCode: json['postal_code'] as String?,
-      storeImage: json['store_image'] as String?,
+      storeImage: json['store_image'],
       createdAt: json['createdAt'] == null
           ? null
           : DateTime.parse(json['createdAt'] as String),
@@ -37,28 +40,72 @@ StoreClass _$StoreClassFromJson(Map<String, dynamic> json) => StoreClass(
           ? null
           : DateTime.parse(json['updatedAt'] as String),
       v: json['__v'] as int?,
-    )..noTelepon = json['phone_number'] as String?;
+      phoneNumber: json['phone_number'] as String?,
+      storeName: json['store_name'] as String?,
+    );
 
 Map<String, dynamic> _$StoreClassToJson(StoreClass instance) =>
     <String, dynamic>{
-      'state': instance.state,
+      'account_holder': instance.accountHolder,
       '_id': instance.id,
-      'store_name': instance.storeName,
       'pic_name': instance.picName,
       'address': instance.address,
+      'state': instance.state,
       'city': instance.city,
       'country': instance.country,
       'postal_code': instance.postalCode,
       'store_image': instance.storeImage,
-      'phone_number': instance.noTelepon,
       'createdAt': instance.createdAt?.toIso8601String(),
       'updatedAt': instance.updatedAt?.toIso8601String(),
       '__v': instance.v,
+      'phone_number': instance.phoneNumber,
+      'store_name': instance.storeName,
     };
 
-UsersStore _$UsersStoreFromJson(Map<String, dynamic> json) => UsersStore(
+AccountHolder _$AccountHolderFromJson(Map<String, dynamic> json) =>
+    AccountHolder(
+      publicProfile: json['public_profile'] == null
+          ? null
+          : PublicProfile.fromJson(
+              json['public_profile'] as Map<String, dynamic>),
+      id: json['id'] as String?,
+      created: json['created'] == null
+          ? null
+          : DateTime.parse(json['created'] as String),
+      updated: json['updated'] == null
+          ? null
+          : DateTime.parse(json['updated'] as String),
+      email: json['email'] as String?,
+      type: json['type'] as String?,
+      country: json['country'] as String?,
+      status: json['status'] as String?,
+    );
+
+Map<String, dynamic> _$AccountHolderToJson(AccountHolder instance) =>
+    <String, dynamic>{
+      'public_profile': instance.publicProfile,
+      'id': instance.id,
+      'created': instance.created?.toIso8601String(),
+      'updated': instance.updated?.toIso8601String(),
+      'email': instance.email,
+      'type': instance.type,
+      'country': instance.country,
+      'status': instance.status,
+    };
+
+PublicProfile _$PublicProfileFromJson(Map<String, dynamic> json) =>
+    PublicProfile(
+      businessName: json['business_name'] as String?,
+    );
+
+Map<String, dynamic> _$PublicProfileToJson(PublicProfile instance) =>
+    <String, dynamic>{
+      'business_name': instance.businessName,
+    };
+
+UserStore _$UserStoreFromJson(Map<String, dynamic> json) => UserStore(
       id: json['_id'] as String?,
-      username: json['username'] as String?,
+      username: json['username'],
       email: json['email'] as String?,
       storeDatabaseName: json['store_database_name'] == null
           ? null
@@ -73,8 +120,7 @@ UsersStore _$UsersStoreFromJson(Map<String, dynamic> json) => UsersStore(
       v: json['__v'] as int?,
     );
 
-Map<String, dynamic> _$UsersStoreToJson(UsersStore instance) =>
-    <String, dynamic>{
+Map<String, dynamic> _$UserStoreToJson(UserStore instance) => <String, dynamic>{
       '_id': instance.id,
       'username': instance.username,
       'email': instance.email,

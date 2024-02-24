@@ -203,7 +203,7 @@ class ApiService {
         .handler((error) => ApiResponse.onError(error));
   }
 
-  static Future<ApiResponse> updateProfile(BuildContext context,
+  static Future<ApiResponse<Store>> updateProfile(BuildContext context,
       {required String storeName,
       required String picName,
       required String phonenumber,
@@ -224,9 +224,14 @@ class ApiService {
           "state": stateAddress,
           "postal_code": postalCode,
           "store_image": base64,
+          "account_holder": {
+            "email": Sessions.getUserModel()!.email,
+            "type": "OWNED",
+            "public_profile": {"business_name": storeName}
+          }
         })
-        .then((result) => ApiResponse.fromJson(result.data))
-        .handler((error) => ApiResponse.onError(error));
+        .then((result) => ApiResponse<Store>.fromJson(result.data))
+        .handler((error) => ApiResponse<Store>.onError(error));
   }
 
   static Future<ApiResponse> regiterCashier(

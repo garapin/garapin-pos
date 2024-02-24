@@ -1,3 +1,6 @@
+// To parse this JSON data, do
+//
+//     final store = storeFromJson(jsonString);
 import 'package:json_annotation/json_annotation.dart';
 
 part 'store.g.dart';
@@ -7,11 +10,11 @@ class Store {
   @JsonKey(name: "store")
   StoreClass? store;
   @JsonKey(name: "users")
-  List<UsersStore>? usersStore;
+  List<UserStore>? users;
 
   Store({
     this.store,
-    this.usersStore,
+    this.users,
   });
 
   factory Store.fromJson(Map<String, dynamic> json) => _$StoreFromJson(json);
@@ -21,16 +24,16 @@ class Store {
 
 @JsonSerializable()
 class StoreClass {
-  @JsonKey(name: "state")
-  String? state;
+  @JsonKey(name: "account_holder")
+  AccountHolder? accountHolder;
   @JsonKey(name: "_id")
   String? id;
-  @JsonKey(name: "store_name")
-  String? storeName;
   @JsonKey(name: "pic_name")
   String? picName;
   @JsonKey(name: "address")
   String? address;
+  @JsonKey(name: "state")
+  String? state;
   @JsonKey(name: "city")
   String? city;
   @JsonKey(name: "country")
@@ -38,22 +41,24 @@ class StoreClass {
   @JsonKey(name: "postal_code")
   String? postalCode;
   @JsonKey(name: "store_image")
-  String? storeImage;
-  @JsonKey(name: "phone_number")
-  String? noTelepon;
+  dynamic storeImage;
   @JsonKey(name: "createdAt")
   DateTime? createdAt;
   @JsonKey(name: "updatedAt")
   DateTime? updatedAt;
   @JsonKey(name: "__v")
   int? v;
+  @JsonKey(name: "phone_number")
+  String? phoneNumber;
+  @JsonKey(name: "store_name")
+  String? storeName;
 
   StoreClass({
-    this.state,
+    this.accountHolder,
     this.id,
-    this.storeName,
     this.picName,
     this.address,
+    this.state,
     this.city,
     this.country,
     this.postalCode,
@@ -61,6 +66,8 @@ class StoreClass {
     this.createdAt,
     this.updatedAt,
     this.v,
+    this.phoneNumber,
+    this.storeName,
   });
 
   factory StoreClass.fromJson(Map<String, dynamic> json) =>
@@ -70,11 +77,62 @@ class StoreClass {
 }
 
 @JsonSerializable()
-class UsersStore {
+class AccountHolder {
+  @JsonKey(name: "public_profile")
+  PublicProfile? publicProfile;
+  @JsonKey(name: "id")
+  String? id;
+  @JsonKey(name: "created")
+  DateTime? created;
+  @JsonKey(name: "updated")
+  DateTime? updated;
+  @JsonKey(name: "email")
+  String? email;
+  @JsonKey(name: "type")
+  String? type;
+  @JsonKey(name: "country")
+  String? country;
+  @JsonKey(name: "status")
+  String? status;
+
+  AccountHolder({
+    this.publicProfile,
+    this.id,
+    this.created,
+    this.updated,
+    this.email,
+    this.type,
+    this.country,
+    this.status,
+  });
+
+  factory AccountHolder.fromJson(Map<String, dynamic> json) =>
+      _$AccountHolderFromJson(json);
+
+  Map<String, dynamic> toJson() => _$AccountHolderToJson(this);
+}
+
+@JsonSerializable()
+class PublicProfile {
+  @JsonKey(name: "business_name")
+  String? businessName;
+
+  PublicProfile({
+    this.businessName,
+  });
+
+  factory PublicProfile.fromJson(Map<String, dynamic> json) =>
+      _$PublicProfileFromJson(json);
+
+  Map<String, dynamic> toJson() => _$PublicProfileToJson(this);
+}
+
+@JsonSerializable()
+class UserStore {
   @JsonKey(name: "_id")
   String? id;
   @JsonKey(name: "username")
-  String? username;
+  dynamic username;
   @JsonKey(name: "email")
   String? email;
   @JsonKey(name: "store_database_name")
@@ -86,7 +144,7 @@ class UsersStore {
   @JsonKey(name: "__v")
   int? v;
 
-  UsersStore({
+  UserStore({
     this.id,
     this.username,
     this.email,
@@ -96,10 +154,10 @@ class UsersStore {
     this.v,
   });
 
-  factory UsersStore.fromJson(Map<String, dynamic> json) =>
-      _$UsersStoreFromJson(json);
+  factory UserStore.fromJson(Map<String, dynamic> json) =>
+      _$UserStoreFromJson(json);
 
-  Map<String, dynamic> toJson() => _$UsersStoreToJson(this);
+  Map<String, dynamic> toJson() => _$UserStoreToJson(this);
 }
 
 @JsonSerializable()

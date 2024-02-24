@@ -12,6 +12,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:pos/engine/engine.dart';
 import 'package:pos/modules/dashboard/cubit/dashboard_cubit.dart';
 import 'package:pos/modules/dashboard/profile/cubit/profile_cubit.dart';
+import 'package:pos/routes/routes.dart';
 import 'package:pos/themes/themes.dart';
 import 'package:pos/widgets/widgets.dart';
 
@@ -204,9 +205,12 @@ class ProfilePage extends StatelessWidget {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 OutlineFormText(
+                                  readOnly:
+                                      store?.storeName != null ? true : false,
                                   name: 'name_store',
                                   hintText: 'Masukan nama toko',
-                                  label: 'Nama Toko',
+                                  label:
+                                      'Nama Toko (Nama toko tidak bisa diubah)',
                                   initialValue: store?.storeName ?? "",
                                 ),
                                 const SizedBox(height: 16),
@@ -222,7 +226,7 @@ class ProfilePage extends StatelessWidget {
                                   name: 'no_telepon',
                                   hintText: 'Masukan nomor telepon',
                                   label: 'NO Telepon',
-                                  initialValue: store?.noTelepon ?? "",
+                                  initialValue: store?.phoneNumber ?? "",
                                 ),
                                 const SizedBox(height: 16),
                                 Padding(
@@ -266,7 +270,7 @@ class ProfilePage extends StatelessWidget {
                                   name: 'address',
                                   hintText: 'Masukan alamat lengkap',
                                   label: 'Alamat lengkap',
-                                  initialValue: store?.noTelepon ?? "",
+                                  initialValue: store?.phoneNumber ?? "",
                                 ),
                                 const SizedBox(height: 16),
                                 OutlineFormText(
@@ -287,10 +291,9 @@ class ProfilePage extends StatelessWidget {
                                 ListView.separated(
                                   shrinkWrap: true,
                                   physics: NeverScrollableScrollPhysics(),
-                                  itemCount:
-                                      state.store?.usersStore?.length ?? 0,
+                                  itemCount: state.store?.users?.length ?? 0,
                                   itemBuilder: (context, index) {
-                                    var user = state.store?.usersStore?[index];
+                                    var user = state.store?.users?[index];
                                     return Row(
                                       mainAxisAlignment:
                                           MainAxisAlignment.center,
@@ -382,7 +385,13 @@ class ProfilePage extends StatelessWidget {
                             child: SizedBox(
                                 height: 50,
                                 child: OutlinedButton(
-                                  onPressed: () {},
+                                  onPressed: () {
+                                    if (store?.storeName == null) {
+                                      context.pop();
+                                    } else {
+                                      cubitDashboard.changePage(0);
+                                    }
+                                  },
                                   style: OutlinedButton.styleFrom(
                                     side: const BorderSide(),
                                     shape: RoundedRectangleBorder(
@@ -400,11 +409,7 @@ class ProfilePage extends StatelessWidget {
                               height: 50,
                               child: ElevatedButton(
                                   onPressed: () {
-                                    cubit.updateProfile().then((value) {
-                                      if (value.isSuccess) {
-                                        cubitDashboard.changePage(0);
-                                      }
-                                    });
+                                    cubit.updateProfile();
                                   },
                                   child: const Text("SAVE")),
                             ),
@@ -431,6 +436,7 @@ class OutlineFormText extends StatelessWidget {
   final String? initialValue;
   final String? label;
   final String? suffixText;
+  final bool readOnly;
   const OutlineFormText({
     super.key,
     required this.name,
@@ -439,6 +445,7 @@ class OutlineFormText extends StatelessWidget {
     required this.initialValue,
     this.suffixText,
     this.keyboardType,
+    this.readOnly = false,
   });
 
   @override
@@ -454,6 +461,7 @@ class OutlineFormText extends StatelessWidget {
             : const SizedBox(),
         label != null ? const SizedBox(height: 8) : const SizedBox(),
         FormBuilderTextField(
+          readOnly: readOnly,
           keyboardType: keyboardType,
           initialValue: initialValue,
           name: name,

@@ -59,7 +59,14 @@ class SelectDatabaseCubit extends BaseCubit<SelectDatabaseState> {
               ?.where(
                   (e) => e.name.toString() == state.selectedDatabase.toString())
               .first))
-          .then((value) => context.go(RouteNames.dashboard));
+          .then((value) async {
+        final data = await ApiService.getStoreInfo(context);
+        if (data.isSuccess) {
+          (data.data?.store?.storeName == null)
+              ? context.pushNamed(RouteNames.profile)
+              : context.go(RouteNames.dashboard);
+        }
+      });
     }
   }
 }

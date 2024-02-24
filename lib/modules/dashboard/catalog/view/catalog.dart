@@ -271,7 +271,7 @@ class CatalogPage extends StatelessWidget {
                       },
                       icon: Icon(
                         Icons.edit,
-                        size: 40,
+                        size: 30,
                         color: AppColor.appColor.background,
                       )),
                 )
@@ -363,22 +363,6 @@ Container catalogWithImage(CatalogState state, BuildContext context,
     padding: const EdgeInsets.fromLTRB(12, 12, 16, 12),
     child: Stack(
       children: [
-        (state.modeCatalog == ModeCatalog.edit)
-            ? Positioned(
-                right: 0,
-                child: IconButton(
-                    onPressed: () {
-                      context
-                          .pushNamed(RouteNames.editProduct, extra: product.id)
-                          .then((value) => cubit.refreshData());
-                    },
-                    icon: Icon(
-                      Icons.edit,
-                      size: 40,
-                      color: AppColor.appColor.primary,
-                    )),
-              )
-            : const SizedBox(),
         Column(
           children: [
             Container(
@@ -436,6 +420,22 @@ Container catalogWithImage(CatalogState state, BuildContext context,
             ),
           ],
         ),
+        (state.modeCatalog == ModeCatalog.edit)
+            ? Positioned(
+                right: 0,
+                child: IconButton(
+                    onPressed: () {
+                      context
+                          .pushNamed(RouteNames.editProduct, extra: product.id)
+                          .then((value) => cubit.refreshData());
+                    },
+                    icon: Icon(
+                      Icons.edit,
+                      size: 30,
+                      color: AppColor.appColor.primary,
+                    )),
+              )
+            : const SizedBox(),
       ],
     ),
   );
