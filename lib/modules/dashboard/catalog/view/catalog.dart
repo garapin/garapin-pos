@@ -272,7 +272,7 @@ class CatalogPage extends StatelessWidget {
                       icon: Icon(
                         Icons.edit,
                         size: 40,
-                        color: AppColor.appColor.primary,
+                        color: AppColor.appColor.background,
                       )),
                 )
               : const SizedBox(),
