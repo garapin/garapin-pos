@@ -43,3 +43,5 @@ app.*.map.json
 /android/app/release
 
 /lib/engine/config
+ios/Runner.xcodeproj/project.pbxproj
+ios/Runner.xcodeproj/xcshareddata/xcschemes/Runner.xcscheme
