@@ -66,7 +66,7 @@ class ProfileCubit extends BaseCubit<ProfileState> {
     emit(state.copyWith(city: city));
   }
 
-  updateProfile() async {
+  Future updateProfile() async {
     showLoading();
     formKey.currentState?.save();
     String? base64Image;
@@ -96,10 +96,7 @@ class ProfileCubit extends BaseCubit<ProfileState> {
       final data2 = await ApiService.getStoreInfo(context);
       if (data2.data?.store?.storeName != null) {
         context.go(RouteNames.dashboard);
-      } else {
-        final cubitDashboard = context.read<DashboardCubit>();
-        cubitDashboard.changePage(0);
-      }
+      } else {}
     } else {
       showError(data.message);
     }

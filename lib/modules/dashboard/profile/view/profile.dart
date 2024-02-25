@@ -409,7 +409,8 @@ class ProfilePage extends StatelessWidget {
                               height: 50,
                               child: ElevatedButton(
                                   onPressed: () {
-                                    cubit.updateProfile();
+                                    cubit.updateProfile().then((value) =>
+                                        cubitDashboard.changePage(0));
                                   },
                                   child: const Text("SAVE")),
                             ),
