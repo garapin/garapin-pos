@@ -51,6 +51,7 @@ dependencies:
   dotted_border: ^2.1.0
   csc_picker: ^0.2.7
   flutter_slidable: ^3.0.1
+  qr_flutter: ^4.1.0
 
 dev_dependencies:
   flutter_test:

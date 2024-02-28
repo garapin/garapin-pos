@@ -20,15 +20,22 @@ class ApiConfigure {
         receiveTimeout: const Duration(seconds: 8000),
         headers: {
           'Content-Type': 'application/json',
-          'target-database': Sessions.getDatabaseModel()?.name ?? ""
+          'target-database': Sessions.getDatabaseModel()?.name ?? "",
         },
       ),
     );
     _dio.interceptors.add(ApiInterceptors(_dio, context));
   }
 
-  void config() {
+  void config(String path) {
     String? token = Sessions.getToken();
+    if (path.startsWith("store/transcation/")) {
+      print("askjdbaibsdiuabuosd");
+      Map<String, dynamic> headers = {
+        'for-user-id': Sessions.getAccountHolderModel()!.id
+      };
+      _dio.options.headers.addAll(headers);
+    }
     if (token != null) {
       Map<String, dynamic> headers = {
         // 'Authorization': ": UGaW5kNkjhA782GBNS1616KbswQYa5372bsdexVNT16"
@@ -52,7 +59,7 @@ class ApiConfigure {
     Map<String, dynamic>? params,
     bool isDownload = false,
   }) async {
-    config();
+    config(path);
     return await _dio.get(path, queryParameters: params);
   }
 
@@ -61,7 +68,7 @@ class ApiConfigure {
     Map<String, dynamic>? params,
     ParamType paramType = ParamType.jsonBody,
   }) async {
-    config();
+    config(path);
     if (params != null) {
       switch (paramType) {
         case ParamType.formData:
@@ -80,7 +87,7 @@ class ApiConfigure {
     Map<String, dynamic>? params,
     ParamType paramType = ParamType.jsonBody,
   }) async {
-    config();
+    config(path);
     if (params != null) {
       switch (paramType) {
         case ParamType.formData:
@@ -100,7 +107,7 @@ class ApiConfigure {
     Map<String, dynamic>? params,
     ParamType paramType = ParamType.jsonBody,
   }) async {
-    config();
+    config(path);
     if (params != null) {
       switch (paramType) {
         case ParamType.formData:
@@ -120,7 +127,7 @@ class ApiConfigure {
     Map<String, dynamic>? params,
     ParamType paramType = ParamType.jsonBody,
   }) async {
-    config();
+    config(path);
     if (params != null) {
       switch (paramType) {
         case ParamType.formData:
@@ -142,7 +149,7 @@ class ApiConfigure {
     ParamType paramType = ParamType.jsonBody,
     ProgressCallback? onReceiveProgress,
   }) async {
-    config();
+    config(path);
     if (params != null) {
       switch (paramType) {
         case ParamType.formData:

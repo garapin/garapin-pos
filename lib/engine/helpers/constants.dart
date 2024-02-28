@@ -9,4 +9,5 @@ abstract class SessionKeys {
   static const String token = 'token';
   static const String isLogin = 'islogin';
   static const String database = 'database';
+  static const String accountHolder = 'account_holder';
 }

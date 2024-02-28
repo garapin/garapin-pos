@@ -18,6 +18,8 @@ final _privateConstructorUsedError = UnsupportedError(
 mixin _$CartState {
   DataStateStatus get status => throw _privateConstructorUsedError;
   Cart? get cart => throw _privateConstructorUsedError;
+  String? get invoces => throw _privateConstructorUsedError;
+  bool get isCheckout => throw _privateConstructorUsedError;
   String? get err => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
@@ -30,7 +32,12 @@ abstract class $CartStateCopyWith<$Res> {
   factory $CartStateCopyWith(CartState value, $Res Function(CartState) then) =
       _$CartStateCopyWithImpl<$Res, CartState>;
   @useResult
-  $Res call({DataStateStatus status, Cart? cart, String? err});
+  $Res call(
+      {DataStateStatus status,
+      Cart? cart,
+      String? invoces,
+      bool isCheckout,
+      String? err});
 }
 
 /// @nodoc
@@ -48,6 +55,8 @@ class _$CartStateCopyWithImpl<$Res, $Val extends CartState>
   $Res call({
     Object? status = null,
     Object? cart = freezed,
+    Object? invoces = freezed,
+    Object? isCheckout = null,
     Object? err = freezed,
   }) {
     return _then(_value.copyWith(
@@ -59,6 +68,14 @@ class _$CartStateCopyWithImpl<$Res, $Val extends CartState>
           ? _value.cart
           : cart // ignore: cast_nullable_to_non_nullable
               as Cart?,
+      invoces: freezed == invoces
+          ? _value.invoces
+          : invoces // ignore: cast_nullable_to_non_nullable
+              as String?,
+      isCheckout: null == isCheckout
+          ? _value.isCheckout
+          : isCheckout // ignore: cast_nullable_to_non_nullable
+              as bool,
       err: freezed == err
           ? _value.err
           : err // ignore: cast_nullable_to_non_nullable
@@ -75,7 +92,12 @@ abstract class _$$CartStateImplCopyWith<$Res>
       __$$CartStateImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({DataStateStatus status, Cart? cart, String? err});
+  $Res call(
+      {DataStateStatus status,
+      Cart? cart,
+      String? invoces,
+      bool isCheckout,
+      String? err});
 }
 
 /// @nodoc
@@ -91,6 +113,8 @@ class __$$CartStateImplCopyWithImpl<$Res>
   $Res call({
     Object? status = null,
     Object? cart = freezed,
+    Object? invoces = freezed,
+    Object? isCheckout = null,
     Object? err = freezed,
   }) {
     return _then(_$CartStateImpl(
@@ -102,6 +126,14 @@ class __$$CartStateImplCopyWithImpl<$Res>
           ? _value.cart
           : cart // ignore: cast_nullable_to_non_nullable
               as Cart?,
+      invoces: freezed == invoces
+          ? _value.invoces
+          : invoces // ignore: cast_nullable_to_non_nullable
+              as String?,
+      isCheckout: null == isCheckout
+          ? _value.isCheckout
+          : isCheckout // ignore: cast_nullable_to_non_nullable
+              as bool,
       err: freezed == err
           ? _value.err
           : err // ignore: cast_nullable_to_non_nullable
@@ -114,7 +146,11 @@ class __$$CartStateImplCopyWithImpl<$Res>
 
 class _$CartStateImpl implements _CartState {
   const _$CartStateImpl(
-      {this.status = DataStateStatus.initial, this.cart, this.err});
+      {this.status = DataStateStatus.initial,
+      this.cart,
+      this.invoces,
+      this.isCheckout = false,
+      this.err});
 
   @override
   @JsonKey()
@@ -122,11 +158,16 @@ class _$CartStateImpl implements _CartState {
   @override
   final Cart? cart;
   @override
+  final String? invoces;
+  @override
+  @JsonKey()
+  final bool isCheckout;
+  @override
   final String? err;
 
   @override
   String toString() {
-    return 'CartState(status: $status, cart: $cart, err: $err)';
+    return 'CartState(status: $status, cart: $cart, invoces: $invoces, isCheckout: $isCheckout, err: $err)';
   }
 
   @override
@@ -136,11 +177,15 @@ class _$CartStateImpl implements _CartState {
             other is _$CartStateImpl &&
             (identical(other.status, status) || other.status == status) &&
             (identical(other.cart, cart) || other.cart == cart) &&
+            (identical(other.invoces, invoces) || other.invoces == invoces) &&
+            (identical(other.isCheckout, isCheckout) ||
+                other.isCheckout == isCheckout) &&
             (identical(other.err, err) || other.err == err));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, status, cart, err);
+  int get hashCode =>
+      Object.hash(runtimeType, status, cart, invoces, isCheckout, err);
 
   @JsonKey(ignore: true)
   @override
@@ -153,12 +198,18 @@ abstract class _CartState implements CartState {
   const factory _CartState(
       {final DataStateStatus status,
       final Cart? cart,
+      final String? invoces,
+      final bool isCheckout,
       final String? err}) = _$CartStateImpl;
 
   @override
   DataStateStatus get status;
   @override
   Cart? get cart;
+  @override
+  String? get invoces;
+  @override
+  bool get isCheckout;
   @override
   String? get err;
   @override

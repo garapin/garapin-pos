@@ -81,6 +81,14 @@ class $AssetsImagesGen {
   /// File path: assets/images/google.png
   AssetGenImage get google => const AssetGenImage('assets/images/google.png');
 
+  /// File path: assets/images/payment-qris.png
+  AssetGenImage get paymentQris =>
+      const AssetGenImage('assets/images/payment-qris.png');
+
+  /// File path: assets/images/payment-success.png
+  AssetGenImage get paymentSuccess =>
+      const AssetGenImage('assets/images/payment-success.png');
+
   /// File path: assets/images/profile_active.png
   AssetGenImage get profileActive =>
       const AssetGenImage('assets/images/profile_active.png');
@@ -107,6 +115,8 @@ class $AssetsImagesGen {
         catalogInactive,
         gems,
         google,
+        paymentQris,
+        paymentSuccess,
         profileActive,
         profileInactive,
         reportInactive,

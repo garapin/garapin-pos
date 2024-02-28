@@ -67,4 +67,27 @@ class CartCubit extends BaseCubit<CartState> {
       showError(data.message);
     }
   }
+
+  createInvoice() async {
+    final data = await ApiService.createInvoice(context,
+        idCart: state.cart!.id!,
+        amount: state.cart!.totalPrice!,
+        payerEmail: Sessions.getUserModel()?.email ?? "");
+    if (data.isSuccess) {
+      emit(state.copyWith(invoces: data.data!.invoice));
+      goToCheckout(isCheckout: true);
+      showSuccess(data.message);
+    } else {
+      goToCheckout(isCheckout: false);
+      showError(data.message);
+    }
+  }
+
+  goToCheckout({bool isCheckout = false}) {
+    emit(state.copyWith(isCheckout: isCheckout));
+  }
+
+  bool isCheckout() {
+    return state.isCheckout;
+  }
 }

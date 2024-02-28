@@ -5,6 +5,7 @@ import 'package:pos/engine/engine.dart';
 import 'package:flutter/widgets.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:go_router/go_router.dart';
+import 'package:pos/engine/helpers/sessions.dart';
 
 import '../../../../routes/routes.dart';
 
@@ -62,6 +63,8 @@ class SelectDatabaseCubit extends BaseCubit<SelectDatabaseState> {
           .then((value) async {
         final data = await ApiService.getStoreInfo(context);
         if (data.isSuccess) {
+          Sessions.setAccountHolder(
+              jsonEncode(data.data!.store!.accountHolder));
           (data.data?.store?.storeName == null)
               ? context.pushNamed(RouteNames.profile)
               : context.go(RouteNames.dashboard);

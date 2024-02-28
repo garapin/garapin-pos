@@ -4,7 +4,9 @@ import 'package:flutter/foundation.dart';
 import 'package:pos/data/api/error_handler.dart';
 import 'package:pos/data/models/base/brand.dart';
 import 'package:pos/data/models/base/cart.dart';
+import 'package:pos/data/models/base/invoices.dart';
 import 'package:pos/data/models/base/product.dart';
+import 'package:pos/data/models/base/qrcode.dart';
 import 'package:pos/data/models/base/store.dart';
 import 'package:pos/data/models/base/unit.dart';
 import 'package:pos/data/models/request/req_product.dart';
@@ -299,5 +301,48 @@ class ApiService {
         )
         .then((result) => ApiResponseList<String>.fromJson(result.data))
         .handler((error) => ApiResponseList<String>.onError(error));
+  }
+
+  static Future<ApiResponse<Invoices>> createInvoice(
+    BuildContext context, {
+    required String idCart,
+    required int amount,
+    required String payerEmail,
+  }) async {
+    return await ApiConfigure(context)
+        .post('store/transcation/create-invoices', params: {
+          "cart_id": idCart,
+          "amount": amount,
+          "payer_email": payerEmail,
+        })
+        .then((result) => ApiResponse<Invoices>.fromJson(result.data))
+        .handler((error) => ApiResponse<Invoices>.onError(error));
+  }
+
+  static Future<ApiResponse<Invoices>> getSingleInvoices(
+    BuildContext context, {
+    required String invoices,
+  }) async {
+    return await ApiConfigure(context)
+        .get('store/transcation/invoces/$invoices')
+        .then((result) => ApiResponse<Invoices>.fromJson(result.data))
+        .handler((error) => ApiResponse<Invoices>.onError(error));
+  }
+
+  static Future<ApiResponse<QrCode>> createQrcode(BuildContext context,
+      {required String invoices, required int amount}) async {
+    return await ApiConfigure(context)
+        .post('store/transcation/create-qrcode',
+            params: {"reference_id": invoices, "amount": amount})
+        .then((result) => ApiResponse<QrCode>.fromJson(result.data))
+        .handler((error) => ApiResponse<QrCode>.onError(error));
+  }
+
+  static Future<ApiResponse<QrCode>> getQrCode(BuildContext context,
+      {required String idQr}) async {
+    return await ApiConfigure(context)
+        .get('store/transcation/qrcode/$idQr')
+        .then((result) => ApiResponse<QrCode>.fromJson(result.data))
+        .handler((error) => ApiResponse<QrCode>.onError(error));
   }
 }

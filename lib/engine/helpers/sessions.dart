@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:pos/data/models/base/database.dart';
+import 'package:pos/data/models/base/store.dart';
 import 'package:pos/data/models/base/user.dart';
 import 'package:get_storage/get_storage.dart';
 
@@ -19,12 +20,16 @@ abstract class Sessions {
       box.write(SessionKeys.user, user);
   static Future setDatabase(String database) async =>
       box.write(SessionKeys.database, database);
+  static Future setAccountHolder(String accountHolder) async =>
+      box.write(SessionKeys.accountHolder, accountHolder);
 
   ///GET
   static String? getUser() => box.read<String>(SessionKeys.user);
   static String? getIsLogin() => box.read<String>(SessionKeys.isLogin);
   static String? getToken() => box.read<String>(SessionKeys.token);
   static String? getDatabase() => box.read<String>(SessionKeys.database);
+  static String? getAccountHolder() =>
+      box.read<String>(SessionKeys.accountHolder);
 
   static User? getUserModel() {
     String? data = getUser();
@@ -40,6 +45,16 @@ abstract class Sessions {
     String? data = getDatabase();
     if (data != null) {
       Database db = Database.fromJson(jsonDecode(data));
+      return db;
+    } else {
+      return null;
+    }
+  }
+
+  static AccountHolder? getAccountHolderModel() {
+    String? data = getAccountHolder();
+    if (data != null) {
+      AccountHolder db = AccountHolder.fromJson(jsonDecode(data));
       return db;
     } else {
       return null;
