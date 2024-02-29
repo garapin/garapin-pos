@@ -329,6 +329,16 @@ class ApiService {
         .handler((error) => ApiResponse<Invoices>.onError(error));
   }
 
+  static Future<ApiResponse<Invoices>> cancelOrder(
+    BuildContext context, {
+    required String invoices,
+  }) async {
+    return await ApiConfigure(context)
+        .get('store/transcation/invoces/cancel/$invoices')
+        .then((result) => ApiResponse<Invoices>.fromJson(result.data))
+        .handler((error) => ApiResponse<Invoices>.onError(error));
+  }
+
   static Future<ApiResponse<QrCode>> createQrcode(BuildContext context,
       {required String invoices, required int amount}) async {
     return await ApiConfigure(context)

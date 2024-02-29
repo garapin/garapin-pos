@@ -13,10 +13,11 @@ part 'checkout_state.dart';
 part 'checkout_cubit.freezed.dart';
 
 class CheckoutCubit extends BaseCubit<CheckoutState> {
+  Timer? timer;
   final CartCubit cartCubit;
   CheckoutCubit(BuildContext context, this.cartCubit)
       : super(context, CheckoutState());
-  Timer? timer;
+
   @override
   Future<void> initData() async {
     loadingState();
@@ -27,17 +28,18 @@ class CheckoutCubit extends BaseCubit<CheckoutState> {
   doSelectPayment(
       PaymentMethod paymentMethod, String invoices, int amount) async {
     if (paymentMethod == PaymentMethod.qris) {
-      final data = await ApiService.createQrcode(context,
-          invoices: invoices, amount: amount);
-      if (data.isSuccess) {
-        getDataInterval(data.data!.referenceId!);
-        emit(state.copyWith(paymentMethod: paymentMethod, qrData: data.data));
+      if (state.qrData == null) {
+        final data = await ApiService.createQrcode(context,
+            invoices: invoices, amount: amount);
+        if (data.isSuccess) {
+          getInvoicesInterval(data.data!.referenceId!);
+          emit(state.copyWith(paymentMethod: paymentMethod, qrData: data.data));
+        }
       }
     }
   }
 
-  getDataInterval(String invoices) {
-    timer?.cancel();
+  void getInvoicesInterval(String invoices) {
     timer = Timer.periodic(Duration(seconds: 3), (timer) async {
       try {
         final data =
@@ -49,6 +51,13 @@ class CheckoutCubit extends BaseCubit<CheckoutState> {
                 paymentStatus: PaymentStatus.success,
                 paymentMethod: PaymentMethod.none));
             showSuccess("Sukses Terbayar");
+          } else if (data.data?.status == "CANCELLED") {
+            timer.cancel();
+            print("batal woy");
+            emit(state.copyWith(
+                paymentStatus: PaymentStatus.pending,
+                paymentMethod: PaymentMethod.none));
+            showSuccess("Sukses Terbayar");
           }
         }
       } catch (error) {
@@ -56,6 +65,13 @@ class CheckoutCubit extends BaseCubit<CheckoutState> {
         print('Error: $error');
       }
     });
+  }
+
+  cancelCheckout(String invoices) async {
+    final data = await ApiService.cancelOrder(context, invoices: invoices);
+    if (data.isSuccess) {
+      showInfo("Order $invoices Dibatalkan");
+    }
   }
 
   @override

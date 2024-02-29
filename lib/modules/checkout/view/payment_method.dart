@@ -118,6 +118,8 @@ class PaymentMethodsPage extends StatelessWidget {
                       children: [
                         InkWell(
                           onTap: () {
+                            cubit.timer?.cancel();
+                            cubit.cancelCheckout(cartCubit.state.invoces!);
                             cartCubit.goToCheckout(isCheckout: false);
                           },
                           child: Align(
@@ -283,22 +285,26 @@ class PaymentMethodsPage extends StatelessWidget {
                         SizedBox(height: 20),
                         (state.paymentMethod != PaymentMethod.qris)
                             ? SizedBox()
-                            : Align(
-                                alignment: Alignment.center,
-                                child: QrImageView(
-                                  data: state.qrData!.qrString!,
-                                  version: QrVersions.auto,
-                                  size: 200.0,
-                                ),
+                            : Column(
+                                children: [
+                                  Align(
+                                    alignment: Alignment.center,
+                                    child: QrImageView(
+                                      data: state.qrData!.qrString!,
+                                      version: QrVersions.auto,
+                                      size: 200.0,
+                                    ),
+                                  ),
+                                  SizedBox(height: 12),
+                                  Align(
+                                      alignment: Alignment.center,
+                                      child: Text(
+                                        "Scan untuk lakukan pembayaran",
+                                        style: AppFont.large(context)!
+                                            .copyWith(fontSize: 18),
+                                      ))
+                                ],
                               ),
-                        SizedBox(height: 12),
-                        Align(
-                            alignment: Alignment.center,
-                            child: Text(
-                              "Scan untuk lakukan pembayaran",
-                              style: AppFont.large(context)!
-                                  .copyWith(fontSize: 18),
-                            ))
                       ],
                     ),
                   ),
