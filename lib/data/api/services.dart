@@ -292,6 +292,17 @@ class ApiService {
         .handler((error) => ApiResponse<Cart>.onError(error));
   }
 
+  static Future<ApiResponse<Cart>> clearCart(
+    BuildContext context,
+  ) async {
+    return await ApiConfigure(context)
+        .post('store/cart/clear_all', params: {
+          "id_user": Sessions.getUserModel()!.id,
+        })
+        .then((result) => ApiResponse<Cart>.fromJson(result.data))
+        .handler((error) => ApiResponse<Cart>.onError(error));
+  }
+
   static Future<ApiResponseList<String>> getIconProduct(
     BuildContext context,
   ) async {

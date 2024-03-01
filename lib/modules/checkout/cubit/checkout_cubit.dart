@@ -50,6 +50,7 @@ class CheckoutCubit extends BaseCubit<CheckoutState> {
             emit(state.copyWith(
                 paymentStatus: PaymentStatus.success,
                 paymentMethod: PaymentMethod.none));
+            cartCubit.clearCart();
             showSuccess("Sukses Terbayar");
           } else if (data.data?.status == "CANCELLED") {
             timer.cancel();

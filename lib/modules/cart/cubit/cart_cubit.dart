@@ -68,6 +68,15 @@ class CartCubit extends BaseCubit<CartState> {
     }
   }
 
+  void clearCart() async {
+    final data = await ApiService.clearCart(context);
+    if (data.isSuccess) {
+      refreshData();
+    } else {
+      showError(data.message);
+    }
+  }
+
   createInvoice() async {
     final data = await ApiService.createInvoice(context,
         idCart: state.cart!.id!,
