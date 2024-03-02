@@ -183,7 +183,7 @@ class PaymentMethodsPage extends StatelessWidget {
                                       style: AppFont.largeBold(context),
                                     ),
                                     Text(
-                                      state.qrData?.amount
+                                      state.invoices?.product?.totalPrice
                                               .currencyFormat(symbol: 'Rp.')
                                               .toString() ??
                                           "",

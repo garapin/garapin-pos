@@ -9,6 +9,8 @@ import 'package:pos/engine/engine.dart';
 import 'package:pos/engine/helpers/options.dart';
 import 'package:pos/modules/cart/cubit/cart_cubit.dart';
 
+import '../../../data/models/base/invoices.dart';
+
 part 'checkout_state.dart';
 part 'checkout_cubit.freezed.dart';
 
@@ -21,8 +23,18 @@ class CheckoutCubit extends BaseCubit<CheckoutState> {
   @override
   Future<void> initData() async {
     loadingState();
+    getInvoices();
     emit(state.copyWith(status: DataStateStatus.success));
+
     finishRefresh(state.status);
+  }
+
+  getInvoices() async {
+    final data = await ApiService.getSingleInvoices(context,
+        invoices: cartCubit.state.invoces!);
+    if (data.isSuccess) {
+      emit(state.copyWith(invoices: data.data));
+    }
   }
 
   doSelectPayment(
@@ -45,6 +57,7 @@ class CheckoutCubit extends BaseCubit<CheckoutState> {
         final data =
             await ApiService.getSingleInvoices(context, invoices: invoices);
         if (data.isSuccess) {
+          emit(state.copyWith(invoices: data.data));
           if (data.data?.status == "SUCCEEDED") {
             timer.cancel();
             emit(state.copyWith(

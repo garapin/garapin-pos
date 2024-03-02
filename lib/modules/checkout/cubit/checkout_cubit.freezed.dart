@@ -19,6 +19,7 @@ mixin _$CheckoutState {
   DataStateStatus get status => throw _privateConstructorUsedError;
   String? get error => throw _privateConstructorUsedError;
   QrCode? get qrData => throw _privateConstructorUsedError;
+  Invoices? get invoices => throw _privateConstructorUsedError;
   PaymentStatus get paymentStatus => throw _privateConstructorUsedError;
   PaymentMethod get paymentMethod => throw _privateConstructorUsedError;
 
@@ -37,6 +38,7 @@ abstract class $CheckoutStateCopyWith<$Res> {
       {DataStateStatus status,
       String? error,
       QrCode? qrData,
+      Invoices? invoices,
       PaymentStatus paymentStatus,
       PaymentMethod paymentMethod});
 }
@@ -57,6 +59,7 @@ class _$CheckoutStateCopyWithImpl<$Res, $Val extends CheckoutState>
     Object? status = null,
     Object? error = freezed,
     Object? qrData = freezed,
+    Object? invoices = freezed,
     Object? paymentStatus = null,
     Object? paymentMethod = null,
   }) {
@@ -73,6 +76,10 @@ class _$CheckoutStateCopyWithImpl<$Res, $Val extends CheckoutState>
           ? _value.qrData
           : qrData // ignore: cast_nullable_to_non_nullable
               as QrCode?,
+      invoices: freezed == invoices
+          ? _value.invoices
+          : invoices // ignore: cast_nullable_to_non_nullable
+              as Invoices?,
       paymentStatus: null == paymentStatus
           ? _value.paymentStatus
           : paymentStatus // ignore: cast_nullable_to_non_nullable
@@ -97,6 +104,7 @@ abstract class _$$CheckoutStateImplCopyWith<$Res>
       {DataStateStatus status,
       String? error,
       QrCode? qrData,
+      Invoices? invoices,
       PaymentStatus paymentStatus,
       PaymentMethod paymentMethod});
 }
@@ -115,6 +123,7 @@ class __$$CheckoutStateImplCopyWithImpl<$Res>
     Object? status = null,
     Object? error = freezed,
     Object? qrData = freezed,
+    Object? invoices = freezed,
     Object? paymentStatus = null,
     Object? paymentMethod = null,
   }) {
@@ -131,6 +140,10 @@ class __$$CheckoutStateImplCopyWithImpl<$Res>
           ? _value.qrData
           : qrData // ignore: cast_nullable_to_non_nullable
               as QrCode?,
+      invoices: freezed == invoices
+          ? _value.invoices
+          : invoices // ignore: cast_nullable_to_non_nullable
+              as Invoices?,
       paymentStatus: null == paymentStatus
           ? _value.paymentStatus
           : paymentStatus // ignore: cast_nullable_to_non_nullable
@@ -150,6 +163,7 @@ class _$CheckoutStateImpl implements _CheckoutState {
       {this.status = DataStateStatus.initial,
       this.error,
       this.qrData,
+      this.invoices,
       this.paymentStatus = PaymentStatus.pending,
       this.paymentMethod = PaymentMethod.none});
 
@@ -161,6 +175,8 @@ class _$CheckoutStateImpl implements _CheckoutState {
   @override
   final QrCode? qrData;
   @override
+  final Invoices? invoices;
+  @override
   @JsonKey()
   final PaymentStatus paymentStatus;
   @override
@@ -169,7 +185,7 @@ class _$CheckoutStateImpl implements _CheckoutState {
 
   @override
   String toString() {
-    return 'CheckoutState(status: $status, error: $error, qrData: $qrData, paymentStatus: $paymentStatus, paymentMethod: $paymentMethod)';
+    return 'CheckoutState(status: $status, error: $error, qrData: $qrData, invoices: $invoices, paymentStatus: $paymentStatus, paymentMethod: $paymentMethod)';
   }
 
   @override
@@ -180,6 +196,8 @@ class _$CheckoutStateImpl implements _CheckoutState {
             (identical(other.status, status) || other.status == status) &&
             (identical(other.error, error) || other.error == error) &&
             (identical(other.qrData, qrData) || other.qrData == qrData) &&
+            (identical(other.invoices, invoices) ||
+                other.invoices == invoices) &&
             (identical(other.paymentStatus, paymentStatus) ||
                 other.paymentStatus == paymentStatus) &&
             (identical(other.paymentMethod, paymentMethod) ||
@@ -187,8 +205,8 @@ class _$CheckoutStateImpl implements _CheckoutState {
   }
 
   @override
-  int get hashCode => Object.hash(
-      runtimeType, status, error, qrData, paymentStatus, paymentMethod);
+  int get hashCode => Object.hash(runtimeType, status, error, qrData, invoices,
+      paymentStatus, paymentMethod);
 
   @JsonKey(ignore: true)
   @override
@@ -202,6 +220,7 @@ abstract class _CheckoutState implements CheckoutState {
       {final DataStateStatus status,
       final String? error,
       final QrCode? qrData,
+      final Invoices? invoices,
       final PaymentStatus paymentStatus,
       final PaymentMethod paymentMethod}) = _$CheckoutStateImpl;
 
@@ -211,6 +230,8 @@ abstract class _CheckoutState implements CheckoutState {
   String? get error;
   @override
   QrCode? get qrData;
+  @override
+  Invoices? get invoices;
   @override
   PaymentStatus get paymentStatus;
   @override
