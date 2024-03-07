@@ -20,6 +20,10 @@ mixin _$CheckoutState {
   String? get error => throw _privateConstructorUsedError;
   QrCode? get qrData => throw _privateConstructorUsedError;
   Invoices? get invoices => throw _privateConstructorUsedError;
+  VirtualAccount? get virtualAccountResponse =>
+      throw _privateConstructorUsedError;
+  List<AvailablePayment> get availablePayment =>
+      throw _privateConstructorUsedError;
   PaymentStatus get paymentStatus => throw _privateConstructorUsedError;
   PaymentMethod get paymentMethod => throw _privateConstructorUsedError;
 
@@ -39,6 +43,8 @@ abstract class $CheckoutStateCopyWith<$Res> {
       String? error,
       QrCode? qrData,
       Invoices? invoices,
+      VirtualAccount? virtualAccountResponse,
+      List<AvailablePayment> availablePayment,
       PaymentStatus paymentStatus,
       PaymentMethod paymentMethod});
 }
@@ -60,6 +66,8 @@ class _$CheckoutStateCopyWithImpl<$Res, $Val extends CheckoutState>
     Object? error = freezed,
     Object? qrData = freezed,
     Object? invoices = freezed,
+    Object? virtualAccountResponse = freezed,
+    Object? availablePayment = null,
     Object? paymentStatus = null,
     Object? paymentMethod = null,
   }) {
@@ -80,6 +88,14 @@ class _$CheckoutStateCopyWithImpl<$Res, $Val extends CheckoutState>
           ? _value.invoices
           : invoices // ignore: cast_nullable_to_non_nullable
               as Invoices?,
+      virtualAccountResponse: freezed == virtualAccountResponse
+          ? _value.virtualAccountResponse
+          : virtualAccountResponse // ignore: cast_nullable_to_non_nullable
+              as VirtualAccount?,
+      availablePayment: null == availablePayment
+          ? _value.availablePayment
+          : availablePayment // ignore: cast_nullable_to_non_nullable
+              as List<AvailablePayment>,
       paymentStatus: null == paymentStatus
           ? _value.paymentStatus
           : paymentStatus // ignore: cast_nullable_to_non_nullable
@@ -105,6 +121,8 @@ abstract class _$$CheckoutStateImplCopyWith<$Res>
       String? error,
       QrCode? qrData,
       Invoices? invoices,
+      VirtualAccount? virtualAccountResponse,
+      List<AvailablePayment> availablePayment,
       PaymentStatus paymentStatus,
       PaymentMethod paymentMethod});
 }
@@ -124,6 +142,8 @@ class __$$CheckoutStateImplCopyWithImpl<$Res>
     Object? error = freezed,
     Object? qrData = freezed,
     Object? invoices = freezed,
+    Object? virtualAccountResponse = freezed,
+    Object? availablePayment = null,
     Object? paymentStatus = null,
     Object? paymentMethod = null,
   }) {
@@ -144,6 +164,14 @@ class __$$CheckoutStateImplCopyWithImpl<$Res>
           ? _value.invoices
           : invoices // ignore: cast_nullable_to_non_nullable
               as Invoices?,
+      virtualAccountResponse: freezed == virtualAccountResponse
+          ? _value.virtualAccountResponse
+          : virtualAccountResponse // ignore: cast_nullable_to_non_nullable
+              as VirtualAccount?,
+      availablePayment: null == availablePayment
+          ? _value._availablePayment
+          : availablePayment // ignore: cast_nullable_to_non_nullable
+              as List<AvailablePayment>,
       paymentStatus: null == paymentStatus
           ? _value.paymentStatus
           : paymentStatus // ignore: cast_nullable_to_non_nullable
@@ -164,8 +192,11 @@ class _$CheckoutStateImpl implements _CheckoutState {
       this.error,
       this.qrData,
       this.invoices,
+      this.virtualAccountResponse,
+      final List<AvailablePayment> availablePayment = const [],
       this.paymentStatus = PaymentStatus.pending,
-      this.paymentMethod = PaymentMethod.none});
+      this.paymentMethod = PaymentMethod.none})
+      : _availablePayment = availablePayment;
 
   @override
   @JsonKey()
@@ -177,6 +208,18 @@ class _$CheckoutStateImpl implements _CheckoutState {
   @override
   final Invoices? invoices;
   @override
+  final VirtualAccount? virtualAccountResponse;
+  final List<AvailablePayment> _availablePayment;
+  @override
+  @JsonKey()
+  List<AvailablePayment> get availablePayment {
+    if (_availablePayment is EqualUnmodifiableListView)
+      return _availablePayment;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_availablePayment);
+  }
+
+  @override
   @JsonKey()
   final PaymentStatus paymentStatus;
   @override
@@ -185,7 +228,7 @@ class _$CheckoutStateImpl implements _CheckoutState {
 
   @override
   String toString() {
-    return 'CheckoutState(status: $status, error: $error, qrData: $qrData, invoices: $invoices, paymentStatus: $paymentStatus, paymentMethod: $paymentMethod)';
+    return 'CheckoutState(status: $status, error: $error, qrData: $qrData, invoices: $invoices, virtualAccountResponse: $virtualAccountResponse, availablePayment: $availablePayment, paymentStatus: $paymentStatus, paymentMethod: $paymentMethod)';
   }
 
   @override
@@ -198,6 +241,10 @@ class _$CheckoutStateImpl implements _CheckoutState {
             (identical(other.qrData, qrData) || other.qrData == qrData) &&
             (identical(other.invoices, invoices) ||
                 other.invoices == invoices) &&
+            (identical(other.virtualAccountResponse, virtualAccountResponse) ||
+                other.virtualAccountResponse == virtualAccountResponse) &&
+            const DeepCollectionEquality()
+                .equals(other._availablePayment, _availablePayment) &&
             (identical(other.paymentStatus, paymentStatus) ||
                 other.paymentStatus == paymentStatus) &&
             (identical(other.paymentMethod, paymentMethod) ||
@@ -205,8 +252,16 @@ class _$CheckoutStateImpl implements _CheckoutState {
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, status, error, qrData, invoices,
-      paymentStatus, paymentMethod);
+  int get hashCode => Object.hash(
+      runtimeType,
+      status,
+      error,
+      qrData,
+      invoices,
+      virtualAccountResponse,
+      const DeepCollectionEquality().hash(_availablePayment),
+      paymentStatus,
+      paymentMethod);
 
   @JsonKey(ignore: true)
   @override
@@ -221,6 +276,8 @@ abstract class _CheckoutState implements CheckoutState {
       final String? error,
       final QrCode? qrData,
       final Invoices? invoices,
+      final VirtualAccount? virtualAccountResponse,
+      final List<AvailablePayment> availablePayment,
       final PaymentStatus paymentStatus,
       final PaymentMethod paymentMethod}) = _$CheckoutStateImpl;
 
@@ -232,6 +289,10 @@ abstract class _CheckoutState implements CheckoutState {
   QrCode? get qrData;
   @override
   Invoices? get invoices;
+  @override
+  VirtualAccount? get virtualAccountResponse;
+  @override
+  List<AvailablePayment> get availablePayment;
   @override
   PaymentStatus get paymentStatus;
   @override

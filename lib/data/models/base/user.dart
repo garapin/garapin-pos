@@ -18,16 +18,18 @@ class User {
   DateTime? updatedAt;
   @JsonKey(name: "__v")
   int? v;
+  @JsonKey(name: "token")
+  String? token;
 
-  User({
-    this.id,
-    this.username,
-    this.email,
-    this.storeDatabaseName,
-    this.createdAt,
-    this.updatedAt,
-    this.v,
-  });
+  User(
+      {this.id,
+      this.username,
+      this.email,
+      this.storeDatabaseName,
+      this.createdAt,
+      this.updatedAt,
+      this.v,
+      this.token});
 
   factory User.fromJson(Map<String, dynamic> json) => _$UserFromJson(json);
 

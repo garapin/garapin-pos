@@ -54,7 +54,7 @@ class LoginCubit extends BaseCubit<LoginState> {
         await FirebaseAuth.instance.signInWithCredential(credential);
 
         // final GoogleSignInAccount? s = await GoogleSignIn().signOut();
-
+        Sessions.setToken(data.data!.token!);
         Sessions.setUsers(jsonEncode(data.data!))
             .then((value) => context.pushNamed(RouteNames.selectDatababase));
       } else {

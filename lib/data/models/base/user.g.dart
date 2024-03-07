@@ -20,6 +20,7 @@ User _$UserFromJson(Map<String, dynamic> json) => User(
           ? null
           : DateTime.parse(json['updatedAt'] as String),
       v: json['__v'] as int?,
+      token: json['token'] as String?,
     );
 
 Map<String, dynamic> _$UserToJson(User instance) => <String, dynamic>{
@@ -30,6 +31,7 @@ Map<String, dynamic> _$UserToJson(User instance) => <String, dynamic>{
       'createdAt': instance.createdAt?.toIso8601String(),
       'updatedAt': instance.updatedAt?.toIso8601String(),
       '__v': instance.v,
+      'token': instance.token,
     };
 
 StoreDatabaseName _$StoreDatabaseNameFromJson(Map<String, dynamic> json) =>

@@ -85,7 +85,6 @@ class CartCubit extends BaseCubit<CartState> {
     if (data.isSuccess) {
       emit(state.copyWith(invoces: data.data!.invoice));
       goToCheckout(isCheckout: true);
-      showSuccess(data.message);
     } else {
       goToCheckout(isCheckout: false);
       showError(data.message);

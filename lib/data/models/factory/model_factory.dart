@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import '../base/available_payment.dart';
 import '../base/brand.dart';
 import '../base/cart.dart';
 import '../base/category.dart';
@@ -9,6 +10,7 @@ import '../base/qrcode.dart';
 import '../base/store.dart';
 import '../base/unit.dart';
 import '../base/user.dart';
+import '../base/virtual_account.dart';
 
 Object factoryModel(String type, {Map<String, dynamic>? json}) {
   switch (type) {
@@ -30,6 +32,12 @@ Object factoryModel(String type, {Map<String, dynamic>? json}) {
       return json != null ? Invoices.fromJson(json) : Invoices();
     case 'QrCode':
       return json != null ? QrCode.fromJson(json) : QrCode();
+    case 'VirtualAccount':
+      return json != null ? VirtualAccount.fromJson(json) : VirtualAccount();
+    case 'AvailablePayment':
+      return json != null
+          ? AvailablePayment.fromJson(json)
+          : AvailablePayment();
     case 'dynamic':
       return json != null ? DefaultModel(json) : DefaultModel({});
     default:

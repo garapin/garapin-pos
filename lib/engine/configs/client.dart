@@ -7,7 +7,7 @@ abstract class Development {
   static String baseUrl() {
     switch (Environment.mode) {
       case EnvironmentMode.dev:
-        return 'http://192.168.20.12:4000/';
+        return 'http://192.168.18.235:4000/';
       case EnvironmentMode.test:
         return 'http://192.168.20.12:4000/';
       case EnvironmentMode.production:
@@ -18,7 +18,8 @@ abstract class Development {
   static String urlImage() {
     switch (Environment.mode) {
       case EnvironmentMode.dev:
-        return 'http://192.168.20.12:4000/';
+        //kantor
+        return 'http://192.168.18.235:4000/';
       case EnvironmentMode.test:
         return 'http://192.168.20.12:4000/';
       case EnvironmentMode.production:

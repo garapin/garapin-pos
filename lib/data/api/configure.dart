@@ -30,16 +30,13 @@ class ApiConfigure {
   void config(String path) {
     String? token = Sessions.getToken();
     if (path.startsWith("store/transcation/")) {
-      print("askjdbaibsdiuabuosd");
       Map<String, dynamic> headers = {
         'for-user-id': Sessions.getAccountHolderModel()!.id
       };
       _dio.options.headers.addAll(headers);
     }
     if (token != null) {
-      Map<String, dynamic> headers = {
-        // 'Authorization': ": UGaW5kNkjhA782GBNS1616KbswQYa5372bsdexVNT16"
-      };
+      Map<String, dynamic> headers = {'Authorization': token};
       _dio.options.headers.addAll(headers);
     }
   }

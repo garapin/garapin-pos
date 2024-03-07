@@ -2,6 +2,7 @@ import 'dart:developer';
 import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:pos/data/api/error_handler.dart';
+import 'package:pos/data/models/base/available_payment.dart';
 import 'package:pos/data/models/base/brand.dart';
 import 'package:pos/data/models/base/cart.dart';
 import 'package:pos/data/models/base/invoices.dart';
@@ -9,6 +10,7 @@ import 'package:pos/data/models/base/product.dart';
 import 'package:pos/data/models/base/qrcode.dart';
 import 'package:pos/data/models/base/store.dart';
 import 'package:pos/data/models/base/unit.dart';
+import 'package:pos/data/models/base/virtual_account.dart';
 import 'package:pos/data/models/request/req_product.dart';
 import 'package:pos/engine/engine.dart';
 import 'package:device_info_plus/device_info_plus.dart';
@@ -359,11 +361,32 @@ class ApiService {
         .handler((error) => ApiResponse<QrCode>.onError(error));
   }
 
+  static Future<ApiResponse<VirtualAccount>> createVirtualAccount(
+      BuildContext context,
+      {required String invoice,
+      required String bankCode}) async {
+    return await ApiConfigure(context)
+        .post('store/transcation/create-va',
+            params: {"external_id": invoice, "bank_code": bankCode})
+        .then((result) => ApiResponse<VirtualAccount>.fromJson(result.data))
+        .handler((error) => ApiResponse<VirtualAccount>.onError(error));
+  }
+
   static Future<ApiResponse<QrCode>> getQrCode(BuildContext context,
       {required String idQr}) async {
     return await ApiConfigure(context)
         .get('store/transcation/qrcode/$idQr')
         .then((result) => ApiResponse<QrCode>.fromJson(result.data))
         .handler((error) => ApiResponse<QrCode>.onError(error));
+  }
+
+  static Future<ApiResponseList<AvailablePayment>> paymentAvailable(
+    BuildContext context,
+  ) async {
+    return await ApiConfigure(context)
+        .get('store/transcation/payment_available')
+        .then(
+            (result) => ApiResponseList<AvailablePayment>.fromJson(result.data))
+        .handler((error) => ApiResponseList<AvailablePayment>.onError(error));
   }
 }

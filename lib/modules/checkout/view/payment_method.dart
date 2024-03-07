@@ -3,96 +3,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:pos/engine/engine.dart';
 import 'package:pos/engine/extensions/int.dart';
 import 'package:pos/modules/cart/cubit/cart_cubit.dart';
 import 'package:pos/modules/checkout/cubit/checkout_cubit.dart';
 import 'package:pos/resources/resources.dart';
 import 'package:pos/themes/themes.dart';
 import 'package:pos/widgets/components/container_state_handler.dart';
+import 'package:pos/widgets/widgets.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 
 import '../../../engine/base/app.dart';
-
-class PaymentMethodCard extends StatelessWidget {
-  final String title;
-  final String image;
-  final String description;
-  final List<String> subMethods;
-
-  const PaymentMethodCard({
-    Key? key,
-    required this.title,
-    required this.image,
-    required this.description,
-    required this.subMethods,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Card(
-      elevation: 4,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(12),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Padding(
-            padding: const EdgeInsets.all(16),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  title,
-                  style: TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                SizedBox(height: 8),
-
-                Align(
-                  alignment: Alignment.center,
-                  child: QrImageView(
-                    data: '1234567890',
-                    version: QrVersions.auto,
-                    size: 200.0,
-                  ),
-                ),
-                // Image.asset(
-                //   image,
-                //   width: 100,
-                //   height: 100,
-                // ),
-                // SizedBox(height: 8),
-                Text(
-                  description,
-                  style: TextStyle(
-                    fontSize: 14,
-                    color: Colors.grey,
-                  ),
-                ),
-              ],
-            ),
-          ),
-          if (subMethods.isNotEmpty)
-            ListView.builder(
-              shrinkWrap: true,
-              itemCount: subMethods.length,
-              itemBuilder: (context, index) {
-                return ListTile(
-                  title: Text(subMethods[index]),
-                  onTap: () {
-                    // Navigate to selected sub-method
-                  },
-                );
-              },
-            ),
-        ],
-      ),
-    );
-  }
-}
 
 class PaymentMethodsPage extends StatelessWidget {
   const PaymentMethodsPage({super.key, required this.cartCubit});
@@ -112,6 +33,7 @@ class PaymentMethodsPage extends StatelessWidget {
               height: baseHeight,
               decoration: BoxDecoration(border: Border.all(color: Colors.grey)),
               child: ListView(
+                controller: cubit.scrollController,
                 children: [
                   Padding(
                     padding: const EdgeInsets.all(16.0),
@@ -168,7 +90,7 @@ class PaymentMethodsPage extends StatelessWidget {
                                       style: AppFont.largeBold(context),
                                     ),
                                     Text(
-                                      cartCubit.state.invoces ?? "",
+                                      state.invoices?.invoiceLabel ?? "",
                                       style: AppFont.largeBold(context),
                                     ),
                                   ],
@@ -198,36 +120,110 @@ class PaymentMethodsPage extends StatelessWidget {
                         SizedBox(height: 20),
                         (state.paymentStatus == PaymentStatus.pending)
                             ? Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Text("Payment Method",
-                                      style: AppFont.largeBold(context)),
-                                  SizedBox(height: 10),
-                                  InkWell(
-                                    onTap: () {
-                                      cubit.doSelectPayment(
-                                          PaymentMethod.qris,
-                                          cartCubit.state.invoces!,
-                                          cartCubit.state.cart!.totalPrice!);
+                                  ExpansionTile(
+                                    onExpansionChanged: (value) {
+                                      print("print ini");
+                                      print(value);
                                     },
-                                    child: Container(
-                                      padding: EdgeInsets.symmetric(
-                                          horizontal: 20, vertical: 8),
-                                      decoration: BoxDecoration(
-                                        border: Border.all(
-                                          color: (state.paymentMethod !=
-                                                  PaymentMethod.qris)
-                                              ? Colors.grey
-                                              : AppColor.appColor
-                                                  .primary, // Warna border berdasarkan status (checked/unchecked)
-                                          width: 4.0, // Ketebalan border
-                                        ),
-                                        borderRadius: BorderRadius.circular(
-                                            10.0), // Mengatur border radius
-                                      ),
-                                      child: Resources.images.paymentQris
-                                          .image(), // Widget untuk menampilkan gambar
+                                    title: Text(
+                                      "QRIS",
+                                      style: AppFont.largeBold(context),
                                     ),
+                                    children: [
+                                      Align(
+                                        alignment: Alignment.topLeft,
+                                        child: InkWell(
+                                          onTap: () {
+                                            cubit.doSelectPayment(
+                                                PaymentMethod.qris,
+                                                cartCubit.state.invoces!,
+                                                cartCubit
+                                                    .state.cart!.totalPrice!);
+                                          },
+                                          child: Container(
+                                            padding: EdgeInsets.symmetric(
+                                                horizontal: 20, vertical: 8),
+                                            decoration: BoxDecoration(
+                                              border: Border.all(
+                                                color: (state.paymentMethod !=
+                                                        PaymentMethod.qris)
+                                                    ? Color.fromARGB(
+                                                        255, 220, 220, 220)
+                                                    : AppColor.appColor
+                                                        .primary, // Warna border berdasarkan status (checked/unchecked)
+                                                width: 4.0, // Ketebalan border
+                                              ),
+                                              borderRadius: BorderRadius.circular(
+                                                  10.0), // Mengatur border radius
+                                            ),
+                                            child: Resources.images.paymentQris
+                                                .image(
+                                                    height:
+                                                        30), // Widget untuk menampilkan gambar
+                                          ),
+                                        ),
+                                      ),
+                                      SizedBox(height: 20),
+                                    ],
                                   ),
+                                  ExpansionTile(
+                                      title: Text(
+                                        "Virtual Account",
+                                        style: AppFont.largeBold(context),
+                                      ),
+                                      children: [
+                                        Wrap(
+                                          spacing: 12,
+                                          runSpacing: 12,
+                                          alignment: WrapAlignment.start,
+                                          children:
+                                              state.availablePayment.map((e) {
+                                            return InkWell(
+                                              onTap: () {
+                                                cubit.doSelectPayment(
+                                                    PaymentMethod.va,
+                                                    cartCubit.state.invoces!,
+                                                    cartCubit.state.cart!
+                                                        .totalPrice!,
+                                                    bankCode: e.bank);
+                                              },
+                                              child: Container(
+                                                decoration: BoxDecoration(
+                                                  border: Border.all(
+                                                    color: (state.paymentMethod ==
+                                                                PaymentMethod
+                                                                    .va &&
+                                                            state.virtualAccountResponse
+                                                                    ?.bankCode ==
+                                                                e.bank)
+                                                        ? AppColor
+                                                            .appColor.primary
+                                                        : Color.fromARGB(
+                                                            255,
+                                                            220,
+                                                            220,
+                                                            220), // Warna border berdasarkan status (checked/unchecked)
+                                                    width:
+                                                        4.0, // Ketebalan border
+                                                  ),
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          10.0), // Mengatur border radius
+                                                ),
+                                                child: ImageLoad(
+                                                    height: 50,
+                                                    imageUrl: Environment
+                                                        .showUrlImage(
+                                                            path: e.image ??
+                                                                "")), // Widget untuk menampilkan gambar
+                                              ),
+                                            );
+                                          }).toList(),
+                                        ),
+                                        SizedBox(height: 20),
+                                      ])
                                 ],
                               )
                             : Column(
@@ -285,9 +281,10 @@ class PaymentMethodsPage extends StatelessWidget {
                                 ],
                               ),
                         SizedBox(height: 20),
-                        (state.paymentMethod != PaymentMethod.qris)
-                            ? SizedBox()
-                            : Column(
+                        Builder(
+                          builder: (context) {
+                            if (state.paymentMethod == PaymentMethod.qris) {
+                              return Column(
                                 children: [
                                   Align(
                                     alignment: Alignment.center,
@@ -306,7 +303,46 @@ class PaymentMethodsPage extends StatelessWidget {
                                             .copyWith(fontSize: 18),
                                       ))
                                 ],
-                              ),
+                              );
+                            } else if (state.paymentMethod ==
+                                PaymentMethod.va) {
+                              return Container(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      state.virtualAccountResponse?.bankCode ??
+                                          "",
+                                      style: AppFont.large(context)!
+                                          .copyWith(fontSize: 16),
+                                    ),
+                                    Text(
+                                      state.virtualAccountResponse
+                                              ?.accountNumber ??
+                                          "",
+                                      style: AppFont.largeBold(context)!
+                                          .copyWith(fontSize: 20),
+                                    ),
+                                    SizedBox(height: 4),
+                                    Text(
+                                      "Merchant: ${state.virtualAccountResponse?.name ?? ""}",
+                                      style: AppFont.medium(context),
+                                    ),
+                                    Text(
+                                      "Expired at ${state.virtualAccountResponse?.expirationDate!.toddMMMyyyyHHmmss() ?? ""}",
+                                      style: AppFont.medium(context),
+                                    ),
+                                    SizedBox(
+                                      height: 150,
+                                    )
+                                  ],
+                                ),
+                              );
+                            } else {
+                              return SizedBox();
+                            }
+                          },
+                        ),
                       ],
                     ),
                   ),

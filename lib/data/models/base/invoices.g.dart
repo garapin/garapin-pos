@@ -11,6 +11,7 @@ Invoices _$InvoicesFromJson(Map<String, dynamic> json) => Invoices(
           ? null
           : InvoicesProduct.fromJson(json['product'] as Map<String, dynamic>),
       invoice: json['invoice'] as String?,
+      invoiceLabel: json['invoice_label'] as String?,
       status: json['status'] as String?,
       paymentMethod: json['payment_method'],
       paymentDate: json['payment_date'],
@@ -28,6 +29,7 @@ Invoices _$InvoicesFromJson(Map<String, dynamic> json) => Invoices(
 Map<String, dynamic> _$InvoicesToJson(Invoices instance) => <String, dynamic>{
       'product': instance.product,
       'invoice': instance.invoice,
+      'invoice_label': instance.invoiceLabel,
       'status': instance.status,
       'payment_method': instance.paymentMethod,
       'payment_date': instance.paymentDate,

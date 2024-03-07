@@ -12,6 +12,8 @@ class Invoices {
   InvoicesProduct? product;
   @JsonKey(name: "invoice")
   String? invoice;
+  @JsonKey(name: "invoice_label")
+  String? invoiceLabel;
   @JsonKey(name: "status")
   String? status;
   @JsonKey(name: "payment_method")
@@ -32,6 +34,7 @@ class Invoices {
   Invoices({
     this.product,
     this.invoice,
+    this.invoiceLabel,
     this.status,
     this.paymentMethod,
     this.paymentDate,
