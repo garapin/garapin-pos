@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:pos/data/api/services.dart';
 import 'package:pos/data/models/base/available_payment.dart';
+import 'package:pos/data/models/base/payment_cash.dart';
 import 'package:pos/data/models/base/qrcode.dart';
 import 'package:pos/data/models/base/virtual_account.dart';
 import 'package:pos/engine/engine.dart';
@@ -18,6 +19,7 @@ part 'checkout_cubit.freezed.dart';
 
 class CheckoutCubit extends BaseCubit<CheckoutState> {
   Timer? timer;
+  final TextEditingController amountCashController = TextEditingController();
   final ScrollController scrollController = ScrollController();
   final CartCubit cartCubit;
   CheckoutCubit(BuildContext context, this.cartCubit)
@@ -67,8 +69,22 @@ class CheckoutCubit extends BaseCubit<CheckoutState> {
             paymentMethod: PaymentMethod.va,
             virtualAccountResponse: data.data));
       }
+    } else if (paymentMethod == PaymentMethod.cash) {
+      final data = await ApiService.paymentCash(context,
+          invoice: invoices, amount: amount);
+      if (data.isSuccess) {
+        // getInvoicesInterval(data.data!.externalId!);
+        emit(state.copyWith(
+            paymentMethod: PaymentMethod.cash, cashResponse: data.data));
+      } else {
+        showError(data.message);
+      }
     }
     scrollBottom();
+  }
+
+  changePaymentMethod(PaymentMethod paymentMethod) {
+    emit(state.copyWith(paymentMethod: paymentMethod));
   }
 
   void getInvoicesInterval(String invoices) {

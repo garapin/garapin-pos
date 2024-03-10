@@ -22,6 +22,7 @@ mixin _$CheckoutState {
   Invoices? get invoices => throw _privateConstructorUsedError;
   VirtualAccount? get virtualAccountResponse =>
       throw _privateConstructorUsedError;
+  PaymentCash? get cashResponse => throw _privateConstructorUsedError;
   List<AvailablePayment> get availablePayment =>
       throw _privateConstructorUsedError;
   PaymentStatus get paymentStatus => throw _privateConstructorUsedError;
@@ -44,6 +45,7 @@ abstract class $CheckoutStateCopyWith<$Res> {
       QrCode? qrData,
       Invoices? invoices,
       VirtualAccount? virtualAccountResponse,
+      PaymentCash? cashResponse,
       List<AvailablePayment> availablePayment,
       PaymentStatus paymentStatus,
       PaymentMethod paymentMethod});
@@ -67,6 +69,7 @@ class _$CheckoutStateCopyWithImpl<$Res, $Val extends CheckoutState>
     Object? qrData = freezed,
     Object? invoices = freezed,
     Object? virtualAccountResponse = freezed,
+    Object? cashResponse = freezed,
     Object? availablePayment = null,
     Object? paymentStatus = null,
     Object? paymentMethod = null,
@@ -92,6 +95,10 @@ class _$CheckoutStateCopyWithImpl<$Res, $Val extends CheckoutState>
           ? _value.virtualAccountResponse
           : virtualAccountResponse // ignore: cast_nullable_to_non_nullable
               as VirtualAccount?,
+      cashResponse: freezed == cashResponse
+          ? _value.cashResponse
+          : cashResponse // ignore: cast_nullable_to_non_nullable
+              as PaymentCash?,
       availablePayment: null == availablePayment
           ? _value.availablePayment
           : availablePayment // ignore: cast_nullable_to_non_nullable
@@ -122,6 +129,7 @@ abstract class _$$CheckoutStateImplCopyWith<$Res>
       QrCode? qrData,
       Invoices? invoices,
       VirtualAccount? virtualAccountResponse,
+      PaymentCash? cashResponse,
       List<AvailablePayment> availablePayment,
       PaymentStatus paymentStatus,
       PaymentMethod paymentMethod});
@@ -143,6 +151,7 @@ class __$$CheckoutStateImplCopyWithImpl<$Res>
     Object? qrData = freezed,
     Object? invoices = freezed,
     Object? virtualAccountResponse = freezed,
+    Object? cashResponse = freezed,
     Object? availablePayment = null,
     Object? paymentStatus = null,
     Object? paymentMethod = null,
@@ -168,6 +177,10 @@ class __$$CheckoutStateImplCopyWithImpl<$Res>
           ? _value.virtualAccountResponse
           : virtualAccountResponse // ignore: cast_nullable_to_non_nullable
               as VirtualAccount?,
+      cashResponse: freezed == cashResponse
+          ? _value.cashResponse
+          : cashResponse // ignore: cast_nullable_to_non_nullable
+              as PaymentCash?,
       availablePayment: null == availablePayment
           ? _value._availablePayment
           : availablePayment // ignore: cast_nullable_to_non_nullable
@@ -193,6 +206,7 @@ class _$CheckoutStateImpl implements _CheckoutState {
       this.qrData,
       this.invoices,
       this.virtualAccountResponse,
+      this.cashResponse,
       final List<AvailablePayment> availablePayment = const [],
       this.paymentStatus = PaymentStatus.pending,
       this.paymentMethod = PaymentMethod.none})
@@ -209,6 +223,8 @@ class _$CheckoutStateImpl implements _CheckoutState {
   final Invoices? invoices;
   @override
   final VirtualAccount? virtualAccountResponse;
+  @override
+  final PaymentCash? cashResponse;
   final List<AvailablePayment> _availablePayment;
   @override
   @JsonKey()
@@ -228,7 +244,7 @@ class _$CheckoutStateImpl implements _CheckoutState {
 
   @override
   String toString() {
-    return 'CheckoutState(status: $status, error: $error, qrData: $qrData, invoices: $invoices, virtualAccountResponse: $virtualAccountResponse, availablePayment: $availablePayment, paymentStatus: $paymentStatus, paymentMethod: $paymentMethod)';
+    return 'CheckoutState(status: $status, error: $error, qrData: $qrData, invoices: $invoices, virtualAccountResponse: $virtualAccountResponse, cashResponse: $cashResponse, availablePayment: $availablePayment, paymentStatus: $paymentStatus, paymentMethod: $paymentMethod)';
   }
 
   @override
@@ -243,6 +259,8 @@ class _$CheckoutStateImpl implements _CheckoutState {
                 other.invoices == invoices) &&
             (identical(other.virtualAccountResponse, virtualAccountResponse) ||
                 other.virtualAccountResponse == virtualAccountResponse) &&
+            (identical(other.cashResponse, cashResponse) ||
+                other.cashResponse == cashResponse) &&
             const DeepCollectionEquality()
                 .equals(other._availablePayment, _availablePayment) &&
             (identical(other.paymentStatus, paymentStatus) ||
@@ -259,6 +277,7 @@ class _$CheckoutStateImpl implements _CheckoutState {
       qrData,
       invoices,
       virtualAccountResponse,
+      cashResponse,
       const DeepCollectionEquality().hash(_availablePayment),
       paymentStatus,
       paymentMethod);
@@ -277,6 +296,7 @@ abstract class _CheckoutState implements CheckoutState {
       final QrCode? qrData,
       final Invoices? invoices,
       final VirtualAccount? virtualAccountResponse,
+      final PaymentCash? cashResponse,
       final List<AvailablePayment> availablePayment,
       final PaymentStatus paymentStatus,
       final PaymentMethod paymentMethod}) = _$CheckoutStateImpl;
@@ -291,6 +311,8 @@ abstract class _CheckoutState implements CheckoutState {
   Invoices? get invoices;
   @override
   VirtualAccount? get virtualAccountResponse;
+  @override
+  PaymentCash? get cashResponse;
   @override
   List<AvailablePayment> get availablePayment;
   @override

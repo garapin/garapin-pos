@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pos/engine/engine.dart';
@@ -28,7 +29,7 @@ class PaymentMethodsPage extends StatelessWidget {
           final cubit = context.read<CheckoutCubit>();
           return ContainerStateHandler(
             status: state.status,
-            loading: SizedBox(),
+            loading: const SizedBox(),
             child: Container(
               height: baseHeight,
               decoration: BoxDecoration(border: Border.all(color: Colors.grey)),
@@ -45,7 +46,7 @@ class PaymentMethodsPage extends StatelessWidget {
                             cubit.cancelCheckout(cartCubit.state.invoces!);
                             cartCubit.goToCheckout(isCheckout: false);
                           },
-                          child: Align(
+                          child: const Align(
                             alignment: Alignment.centerLeft,
                             child: Icon(Icons.arrow_back_ios),
                           ),
@@ -66,8 +67,8 @@ class PaymentMethodsPage extends StatelessWidget {
                         Container(
                           width: baseWidth,
                           height: 80,
-                          padding:
-                              EdgeInsets.symmetric(horizontal: 20, vertical: 8),
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 20, vertical: 8),
                           decoration: BoxDecoration(
                             border: Border.all(
                               color: AppColor.appColor
@@ -95,7 +96,7 @@ class PaymentMethodsPage extends StatelessWidget {
                                     ),
                                   ],
                                 ),
-                                SizedBox(height: 8),
+                                const SizedBox(height: 8),
                                 Row(
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceBetween,
@@ -117,7 +118,7 @@ class PaymentMethodsPage extends StatelessWidget {
                             ),
                           ),
                         ),
-                        SizedBox(height: 20),
+                        const SizedBox(height: 20),
                         (state.paymentStatus == PaymentStatus.pending)
                             ? Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -143,13 +144,13 @@ class PaymentMethodsPage extends StatelessWidget {
                                                     .state.cart!.totalPrice!);
                                           },
                                           child: Container(
-                                            padding: EdgeInsets.symmetric(
+                                            padding: const EdgeInsets.symmetric(
                                                 horizontal: 20, vertical: 8),
                                             decoration: BoxDecoration(
                                               border: Border.all(
                                                 color: (state.paymentMethod !=
                                                         PaymentMethod.qris)
-                                                    ? Color.fromARGB(
+                                                    ? const Color.fromARGB(
                                                         255, 220, 220, 220)
                                                     : AppColor.appColor
                                                         .primary, // Warna border berdasarkan status (checked/unchecked)
@@ -165,7 +166,7 @@ class PaymentMethodsPage extends StatelessWidget {
                                           ),
                                         ),
                                       ),
-                                      SizedBox(height: 20),
+                                      const SizedBox(height: 20),
                                     ],
                                   ),
                                   ExpansionTile(
@@ -200,7 +201,7 @@ class PaymentMethodsPage extends StatelessWidget {
                                                                 e.bank)
                                                         ? AppColor
                                                             .appColor.primary
-                                                        : Color.fromARGB(
+                                                        : const Color.fromARGB(
                                                             255,
                                                             220,
                                                             220,
@@ -222,8 +223,17 @@ class PaymentMethodsPage extends StatelessWidget {
                                             );
                                           }).toList(),
                                         ),
-                                        SizedBox(height: 20),
-                                      ])
+                                        const SizedBox(height: 20),
+                                      ]),
+                                  TextButton(
+                                      onPressed: () {
+                                        cubit.changePaymentMethod(
+                                            PaymentMethod.cash);
+                                      },
+                                      child: Text(
+                                        "Cash",
+                                        style: AppFont.largeBold(context),
+                                      )),
                                 ],
                               )
                             : Column(
@@ -239,7 +249,17 @@ class PaymentMethodsPage extends StatelessWidget {
                                               color: AppColor.appColor.success),
                                     ),
                                   ),
-                                  SizedBox(height: 60),
+                                  state.cashResponse?.refund != null &&
+                                          state.cashResponse?.refund != 0
+                                      ? Text(
+                                          state.cashResponse!.refund
+                                              .currencyFormat(
+                                                  symbol: "Kembalian Rp."),
+                                          style: AppFont.largePrimary(context)!
+                                              .copyWith(fontSize: 20),
+                                        )
+                                      : SizedBox(),
+                                  const SizedBox(height: 60),
                                   Row(
                                     children: [
                                       Expanded(
@@ -253,11 +273,12 @@ class PaymentMethodsPage extends StatelessWidget {
                                                     backgroundColor:
                                                         Colors.black),
                                                 onPressed: () {},
-                                                child: Text("Print Receipt")),
+                                                child: const Text(
+                                                    "Print Receipt")),
                                           ),
                                         ),
                                       ),
-                                      SizedBox(width: 4),
+                                      const SizedBox(width: 4),
                                       Expanded(
                                         child: ClipRRect(
                                           borderRadius:
@@ -272,7 +293,7 @@ class PaymentMethodsPage extends StatelessWidget {
                                                   cartCubit.goToCheckout(
                                                       isCheckout: false);
                                                 },
-                                                child: Text("Done")),
+                                                child: const Text("Done")),
                                           ),
                                         ),
                                       ),
@@ -280,7 +301,7 @@ class PaymentMethodsPage extends StatelessWidget {
                                   )
                                 ],
                               ),
-                        SizedBox(height: 20),
+                        const SizedBox(height: 20),
                         Builder(
                           builder: (context) {
                             if (state.paymentMethod == PaymentMethod.qris) {
@@ -294,7 +315,7 @@ class PaymentMethodsPage extends StatelessWidget {
                                       size: 200.0,
                                     ),
                                   ),
-                                  SizedBox(height: 12),
+                                  const SizedBox(height: 12),
                                   Align(
                                       alignment: Alignment.center,
                                       child: Text(
@@ -323,7 +344,7 @@ class PaymentMethodsPage extends StatelessWidget {
                                       style: AppFont.largeBold(context)!
                                           .copyWith(fontSize: 20),
                                     ),
-                                    SizedBox(height: 4),
+                                    const SizedBox(height: 4),
                                     Text(
                                       "Merchant: ${state.virtualAccountResponse?.name ?? ""}",
                                       style: AppFont.medium(context),
@@ -332,14 +353,74 @@ class PaymentMethodsPage extends StatelessWidget {
                                       "Expired at ${state.virtualAccountResponse?.expirationDate!.toddMMMyyyyHHmmss() ?? ""}",
                                       style: AppFont.medium(context),
                                     ),
-                                    SizedBox(
+                                    const SizedBox(
                                       height: 150,
                                     )
                                   ],
                                 ),
                               );
+                            } else if (state.paymentMethod ==
+                                PaymentMethod.cash) {
+                              return Column(children: [
+                                Padding(
+                                  padding: EdgeInsets.symmetric(horizontal: 12),
+                                  child: TextField(
+                                    inputFormatters: [
+                                      FilteringTextInputFormatter.allow(
+                                          RegExp(r'[0-9]')),
+                                      TextInputFormatter.withFunction(
+                                          (oldValue, newValue) {
+                                        final text = newValue.text;
+                                        final newText =
+                                            (int.parse(text).currencyFormat());
+                                        return TextEditingValue(
+                                          text: newText,
+                                          selection: TextSelection.collapsed(
+                                              offset: newText.length),
+                                        );
+                                      }),
+                                    ],
+                                    keyboardType: TextInputType.number,
+                                    controller: cubit.amountCashController,
+                                    decoration: InputDecoration(
+                                        border: OutlineInputBorder(
+                                            borderRadius: BorderRadius.all(
+                                                Radius.circular(26))),
+                                        label: Text(
+                                          "Masukan jumlah uang",
+                                        )),
+                                  ),
+                                ),
+                                const SizedBox(height: 24),
+                                Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 12),
+                                  child: ClipRRect(
+                                    borderRadius: BorderRadius.circular(26),
+                                    child: SizedBox(
+                                      width: baseWidth,
+                                      height: 50,
+                                      child: ElevatedButton(
+                                          onPressed: () {
+                                            String removeCurrency = cubit
+                                                .amountCashController.text
+                                                .replaceAll(
+                                                    RegExp(r'[^\d]'), '');
+                                            cubit.doSelectPayment(
+                                              PaymentMethod.cash,
+                                              cartCubit.state.invoces!,
+                                              int.parse(removeCurrency),
+                                            );
+                                          },
+                                          child: const Text(
+                                              "Konfirmasi Bayar Cash")),
+                                    ),
+                                  ),
+                                ),
+                                const SizedBox(height: 20),
+                              ]);
                             } else {
-                              return SizedBox();
+                              return const SizedBox();
                             }
                           },
                         ),

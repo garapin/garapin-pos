@@ -6,6 +6,7 @@ import 'package:pos/data/models/base/available_payment.dart';
 import 'package:pos/data/models/base/brand.dart';
 import 'package:pos/data/models/base/cart.dart';
 import 'package:pos/data/models/base/invoices.dart';
+import 'package:pos/data/models/base/payment_cash.dart';
 import 'package:pos/data/models/base/product.dart';
 import 'package:pos/data/models/base/qrcode.dart';
 import 'package:pos/data/models/base/store.dart';
@@ -388,5 +389,14 @@ class ApiService {
         .then(
             (result) => ApiResponseList<AvailablePayment>.fromJson(result.data))
         .handler((error) => ApiResponseList<AvailablePayment>.onError(error));
+  }
+
+  static Future<ApiResponse<PaymentCash>> paymentCash(BuildContext context,
+      {required String invoice, required int amount}) async {
+    return await ApiConfigure(context)
+        .post('store/transcation/payment-cash',
+            params: {"reference_id": invoice, "amount": amount})
+        .then((result) => ApiResponse<PaymentCash>.fromJson(result.data))
+        .handler((error) => ApiResponse<PaymentCash>.onError(error));
   }
 }
