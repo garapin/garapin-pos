@@ -52,6 +52,8 @@ dependencies:
   csc_picker: ^0.2.7
   flutter_slidable: ^3.0.1
   qr_flutter: ^4.1.0
+  flutter_blue_plus: ^1.31.16
+  bluetooth_print: ^4.3.0
 
 dev_dependencies:
   flutter_test:

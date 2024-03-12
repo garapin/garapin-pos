@@ -13,6 +13,7 @@ import 'package:pos/engine/helpers/options.dart';
 import 'package:pos/modules/cart/cubit/cart_cubit.dart';
 
 import '../../../data/models/base/invoices.dart';
+import '../../../data/models/base/store.dart';
 
 part 'checkout_state.dart';
 part 'checkout_cubit.freezed.dart';
@@ -31,9 +32,19 @@ class CheckoutCubit extends BaseCubit<CheckoutState> {
     getInvoices();
     getInvoicesInterval(cartCubit.state.invoces!);
     getAvailablePayment();
+    getStoreInfo();
     emit(state.copyWith(status: DataStateStatus.success));
 
     finishRefresh(state.status);
+  }
+
+  Future<void> getStoreInfo() async {
+    loadingState();
+    final data = await ApiService.getStoreInfo(context);
+
+    if (data.isSuccess) {
+      emit(state.copyWith(store: data.data));
+    }
   }
 
   getAvailablePayment() async {

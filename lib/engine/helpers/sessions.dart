@@ -22,6 +22,8 @@ abstract class Sessions {
       box.write(SessionKeys.database, database);
   static Future setAccountHolder(String accountHolder) async =>
       box.write(SessionKeys.accountHolder, accountHolder);
+  static Future setDeviceBluethooth(String deviceBluethooth) async =>
+      box.write(SessionKeys.bluetooth, deviceBluethooth);
 
   ///GET
   static String? getUser() => box.read<String>(SessionKeys.user);
@@ -30,6 +32,8 @@ abstract class Sessions {
   static String? getDatabase() => box.read<String>(SessionKeys.database);
   static String? getAccountHolder() =>
       box.read<String>(SessionKeys.accountHolder);
+  static String? getDeviceBluethooth() =>
+      box.read<String>(SessionKeys.bluetooth);
 
   static User? getUserModel() {
     String? data = getUser();

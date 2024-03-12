@@ -10,6 +10,7 @@ class CheckoutState with _$CheckoutState {
     @Default(DataStateStatus.initial) DataStateStatus status,
     String? error,
     QrCode? qrData,
+    Store? store,
     Invoices? invoices,
     VirtualAccount? virtualAccountResponse,
     PaymentCash? cashResponse,

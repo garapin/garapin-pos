@@ -19,6 +19,7 @@ mixin _$CheckoutState {
   DataStateStatus get status => throw _privateConstructorUsedError;
   String? get error => throw _privateConstructorUsedError;
   QrCode? get qrData => throw _privateConstructorUsedError;
+  Store? get store => throw _privateConstructorUsedError;
   Invoices? get invoices => throw _privateConstructorUsedError;
   VirtualAccount? get virtualAccountResponse =>
       throw _privateConstructorUsedError;
@@ -43,6 +44,7 @@ abstract class $CheckoutStateCopyWith<$Res> {
       {DataStateStatus status,
       String? error,
       QrCode? qrData,
+      Store? store,
       Invoices? invoices,
       VirtualAccount? virtualAccountResponse,
       PaymentCash? cashResponse,
@@ -67,6 +69,7 @@ class _$CheckoutStateCopyWithImpl<$Res, $Val extends CheckoutState>
     Object? status = null,
     Object? error = freezed,
     Object? qrData = freezed,
+    Object? store = freezed,
     Object? invoices = freezed,
     Object? virtualAccountResponse = freezed,
     Object? cashResponse = freezed,
@@ -87,6 +90,10 @@ class _$CheckoutStateCopyWithImpl<$Res, $Val extends CheckoutState>
           ? _value.qrData
           : qrData // ignore: cast_nullable_to_non_nullable
               as QrCode?,
+      store: freezed == store
+          ? _value.store
+          : store // ignore: cast_nullable_to_non_nullable
+              as Store?,
       invoices: freezed == invoices
           ? _value.invoices
           : invoices // ignore: cast_nullable_to_non_nullable
@@ -127,6 +134,7 @@ abstract class _$$CheckoutStateImplCopyWith<$Res>
       {DataStateStatus status,
       String? error,
       QrCode? qrData,
+      Store? store,
       Invoices? invoices,
       VirtualAccount? virtualAccountResponse,
       PaymentCash? cashResponse,
@@ -149,6 +157,7 @@ class __$$CheckoutStateImplCopyWithImpl<$Res>
     Object? status = null,
     Object? error = freezed,
     Object? qrData = freezed,
+    Object? store = freezed,
     Object? invoices = freezed,
     Object? virtualAccountResponse = freezed,
     Object? cashResponse = freezed,
@@ -169,6 +178,10 @@ class __$$CheckoutStateImplCopyWithImpl<$Res>
           ? _value.qrData
           : qrData // ignore: cast_nullable_to_non_nullable
               as QrCode?,
+      store: freezed == store
+          ? _value.store
+          : store // ignore: cast_nullable_to_non_nullable
+              as Store?,
       invoices: freezed == invoices
           ? _value.invoices
           : invoices // ignore: cast_nullable_to_non_nullable
@@ -204,6 +217,7 @@ class _$CheckoutStateImpl implements _CheckoutState {
       {this.status = DataStateStatus.initial,
       this.error,
       this.qrData,
+      this.store,
       this.invoices,
       this.virtualAccountResponse,
       this.cashResponse,
@@ -219,6 +233,8 @@ class _$CheckoutStateImpl implements _CheckoutState {
   final String? error;
   @override
   final QrCode? qrData;
+  @override
+  final Store? store;
   @override
   final Invoices? invoices;
   @override
@@ -244,7 +260,7 @@ class _$CheckoutStateImpl implements _CheckoutState {
 
   @override
   String toString() {
-    return 'CheckoutState(status: $status, error: $error, qrData: $qrData, invoices: $invoices, virtualAccountResponse: $virtualAccountResponse, cashResponse: $cashResponse, availablePayment: $availablePayment, paymentStatus: $paymentStatus, paymentMethod: $paymentMethod)';
+    return 'CheckoutState(status: $status, error: $error, qrData: $qrData, store: $store, invoices: $invoices, virtualAccountResponse: $virtualAccountResponse, cashResponse: $cashResponse, availablePayment: $availablePayment, paymentStatus: $paymentStatus, paymentMethod: $paymentMethod)';
   }
 
   @override
@@ -255,6 +271,7 @@ class _$CheckoutStateImpl implements _CheckoutState {
             (identical(other.status, status) || other.status == status) &&
             (identical(other.error, error) || other.error == error) &&
             (identical(other.qrData, qrData) || other.qrData == qrData) &&
+            (identical(other.store, store) || other.store == store) &&
             (identical(other.invoices, invoices) ||
                 other.invoices == invoices) &&
             (identical(other.virtualAccountResponse, virtualAccountResponse) ||
@@ -275,6 +292,7 @@ class _$CheckoutStateImpl implements _CheckoutState {
       status,
       error,
       qrData,
+      store,
       invoices,
       virtualAccountResponse,
       cashResponse,
@@ -294,6 +312,7 @@ abstract class _CheckoutState implements CheckoutState {
       {final DataStateStatus status,
       final String? error,
       final QrCode? qrData,
+      final Store? store,
       final Invoices? invoices,
       final VirtualAccount? virtualAccountResponse,
       final PaymentCash? cashResponse,
@@ -307,6 +326,8 @@ abstract class _CheckoutState implements CheckoutState {
   String? get error;
   @override
   QrCode? get qrData;
+  @override
+  Store? get store;
   @override
   Invoices? get invoices;
   @override

@@ -4,6 +4,7 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:pos/data/models/base/cart.dart';
 import 'package:pos/engine/engine.dart';
 import 'package:pos/engine/extensions/int.dart';
 import 'package:pos/modules/cart/cubit/cart_cubit.dart';
@@ -15,6 +16,7 @@ import 'package:pos/widgets/widgets.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 
 import '../../../engine/base/app.dart';
+import '../../../widgets/components/pair_bluethooth.dart';
 
 class PaymentMethodsPage extends StatelessWidget {
   const PaymentMethodsPage({super.key, required this.cartCubit});
@@ -260,45 +262,40 @@ class PaymentMethodsPage extends StatelessWidget {
                                         )
                                       : SizedBox(),
                                   const SizedBox(height: 60),
-                                  Row(
-                                    children: [
-                                      Expanded(
-                                        child: ClipRRect(
-                                          borderRadius:
-                                              BorderRadius.circular(24),
-                                          child: Container(
-                                            height: 50,
-                                            child: ElevatedButton(
-                                                style: ElevatedButton.styleFrom(
-                                                    backgroundColor:
-                                                        Colors.black),
-                                                onPressed: () {},
-                                                child: const Text(
-                                                    "Print Receipt")),
-                                          ),
-                                        ),
-                                      ),
-                                      const SizedBox(width: 4),
-                                      Expanded(
-                                        child: ClipRRect(
-                                          borderRadius:
-                                              BorderRadius.circular(24),
-                                          child: Container(
-                                            height: 50,
-                                            child: ElevatedButton(
-                                                style: ElevatedButton.styleFrom(
-                                                    backgroundColor: AppColor
-                                                        .appColor.primary),
-                                                onPressed: () {
-                                                  cartCubit.goToCheckout(
-                                                      isCheckout: false);
-                                                },
-                                                child: const Text("Done")),
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  )
+                                  BluetoothPrintExample(
+                                    logoUrl:
+                                        state.store?.store?.storeName ?? "",
+                                    noInvoices:
+                                        state.invoices?.invoiceLabel ?? "",
+                                    item: state.invoices?.product?.items ?? [],
+                                    date: DateTime.parse(
+                                            state.invoices!.paymentDate!)
+                                        .toddMMMyyyyHHmmss(),
+                                    nameMerchant:
+                                        state.store?.store?.storeName ?? "",
+                                    totalPrice: state
+                                        .invoices!.product!.totalPrice
+                                        .currencyFormat(symbol: "Rp."),
+                                    paymentMethod:
+                                        state.invoices?.paymentMethod,
+                                  ),
+                                  SizedBox(height: 12),
+                                  ClipRRect(
+                                    borderRadius: BorderRadius.circular(24),
+                                    child: Container(
+                                      height: 50,
+                                      width: baseWidth,
+                                      child: ElevatedButton(
+                                          style: ElevatedButton.styleFrom(
+                                              backgroundColor:
+                                                  AppColor.appColor.primary),
+                                          onPressed: () {
+                                            cartCubit.goToCheckout(
+                                                isCheckout: false);
+                                          },
+                                          child: const Text("Done")),
+                                    ),
+                                  ),
                                 ],
                               ),
                         const SizedBox(height: 20),
