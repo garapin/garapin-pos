@@ -1,14 +1,18 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:developer';
+import 'dart:io';
 
 import 'package:bluetooth_print/bluetooth_print.dart';
 import 'package:bluetooth_print/bluetooth_print_model.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:go_router/go_router.dart';
 import 'package:pos/data/models/base/invoices.dart';
 import 'package:pos/engine/engine.dart';
+import 'package:http/http.dart' as http;
 
 class BluetoothPrintExample extends StatefulWidget {
   final String logoUrl;
@@ -84,6 +88,15 @@ class _BluetoothPrintExampleState extends State<BluetoothPrintExample> {
     }
   }
 
+  Future<String> convertImageUrlToBase64(String imageUrl) async {
+    HttpClient httpClient = HttpClient();
+    log(imageUrl);
+    var request = await httpClient.getUrl(Uri.parse(imageUrl));
+    var response = await request.close();
+    Uint8List bytes = await consolidateHttpClientResponseBytes(response);
+    return base64Encode(bytes);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Row(
@@ -101,8 +114,28 @@ class _BluetoothPrintExampleState extends State<BluetoothPrintExample> {
                   onPressed: _connected
                       ? () async {
                           Map<String, dynamic> config = Map();
+                          config['width'] = 60;
+                          config['height'] = 70;
+                          config['gap'] = 1;
+                          config['fontSize'] = 10;
 
                           List<LineText> list = [];
+                          String base64Image = await convertImageUrlToBase64(
+                              Environment.showUrlImage(path: widget.logoUrl));
+                          log(base64Image);
+                          list.add(LineText(
+                              type: LineText.TYPE_TEXT,
+                              content: '--------------------------------',
+                              weight: 1,
+                              align: LineText.ALIGN_CENTER,
+                              linefeed: 1));
+                          list.add(LineText(
+                            width: 100,
+                            height: 100,
+                            type: LineText.TYPE_IMAGE,
+                            content: base64Image,
+                            align: LineText.ALIGN_CENTER,
+                          ));
                           list.add(LineText(
                               type: LineText.TYPE_TEXT,
                               content: '--------------------------------',
@@ -111,19 +144,7 @@ class _BluetoothPrintExampleState extends State<BluetoothPrintExample> {
                               linefeed: 1));
                           list.add(LineText(
                               type: LineText.TYPE_TEXT,
-                              content: widget.logoUrl,
-                              weight: 1,
-                              align: LineText.ALIGN_CENTER,
-                              linefeed: 1));
-                          list.add(LineText(
-                              type: LineText.TYPE_TEXT,
-                              content: '--------------------------------',
-                              weight: 1,
-                              align: LineText.ALIGN_CENTER,
-                              linefeed: 1));
-                          list.add(LineText(
-                              type: LineText.TYPE_TEXT,
-                              content: 'Merhcant name: ${widget.nameMerchant}',
+                              content: 'Merhcant : ${widget.nameMerchant}',
                               weight: 1,
                               align: LineText.ALIGN_LEFT,
                               fontZoom: 2,
@@ -131,14 +152,14 @@ class _BluetoothPrintExampleState extends State<BluetoothPrintExample> {
                           list.add(LineText(linefeed: 1));
                           list.add(LineText(
                               type: LineText.TYPE_TEXT,
-                              content: "Invoice: ${widget.noInvoices}",
+                              content: "Invoice : ${widget.noInvoices}",
                               weight: 1,
                               align: LineText.ALIGN_LEFT,
                               linefeed: 1));
                           list.add(LineText(linefeed: 1));
                           list.add(LineText(
                               type: LineText.TYPE_TEXT,
-                              content: "date: ${widget.date}",
+                              content: "Ru Date & Time : ${widget.date}",
                               weight: 1,
                               align: LineText.ALIGN_LEFT,
                               linefeed: 1));
@@ -151,8 +172,8 @@ class _BluetoothPrintExampleState extends State<BluetoothPrintExample> {
                               linefeed: 1));
                           list.add(LineText(
                               type: LineText.TYPE_TEXT,
-                              content: 'Product',
-                              weight: 1,
+                              content: 'Items',
+                              weight: 0,
                               align: LineText.ALIGN_LEFT,
                               x: 0,
                               relativeX: 0,
@@ -160,17 +181,17 @@ class _BluetoothPrintExampleState extends State<BluetoothPrintExample> {
                           list.add(LineText(
                               type: LineText.TYPE_TEXT,
                               content: 'Qty',
-                              weight: 1,
+                              weight: 0,
                               align: LineText.ALIGN_LEFT,
-                              x: 230,
+                              x: 200,
                               relativeX: 0,
                               linefeed: 0));
                           list.add(LineText(
                               type: LineText.TYPE_TEXT,
                               content: 'Price',
-                              weight: 1,
+                              weight: 0,
                               align: LineText.ALIGN_LEFT,
-                              x: 300,
+                              x: 250,
                               relativeX: 0,
                               linefeed: 1));
                           list.add(LineText(linefeed: 1));
@@ -183,21 +204,23 @@ class _BluetoothPrintExampleState extends State<BluetoothPrintExample> {
                                 weight: 1,
                                 align: LineText.ALIGN_LEFT,
                                 relativeX: 0,
+                                y: 200,
                                 linefeed: 0));
                             list.add(LineText(
                                 type: LineText.TYPE_TEXT,
-                                content: "x${e.quantity}",
+                                content: "${e.quantity}",
                                 align: LineText.ALIGN_LEFT,
                                 weight: 1,
-                                x: 230,
+                                x: 200,
                                 relativeX: 0,
                                 linefeed: 0));
                             list.add(LineText(
                                 type: LineText.TYPE_TEXT,
-                                content: "${e.product?.price}",
+                                content:
+                                    "${e.product?.price.currencyFormat(symbol: "Rp.")}",
                                 align: LineText.ALIGN_LEFT,
                                 weight: 1,
-                                x: 300,
+                                x: 250,
                                 relativeX: 0,
                                 linefeed: 0));
                             list.add(LineText(linefeed: 1));
@@ -211,7 +234,7 @@ class _BluetoothPrintExampleState extends State<BluetoothPrintExample> {
                               linefeed: 1));
                           list.add(LineText(
                               type: LineText.TYPE_TEXT,
-                              content: "Total Price:",
+                              content: "Total Transaksi",
                               align: LineText.ALIGN_LEFT,
                               weight: 1,
                               x: 0,
@@ -320,5 +343,14 @@ class _BluetoothPrintExampleState extends State<BluetoothPrintExample> {
         ),
       ],
     );
+  }
+
+  Future<Uint8List> _getLogoBytes(String logoUrl) async {
+    final response = await http.get(Uri.parse(logoUrl));
+    if (response.statusCode == 200) {
+      return response.bodyBytes;
+    } else {
+      throw Exception('Failed to load logo');
+    }
   }
 }
