@@ -264,7 +264,7 @@ class PaymentMethodsPage extends StatelessWidget {
                                   const SizedBox(height: 60),
                                   BluetoothPrintExample(
                                     logoUrl:
-                                        state.store?.store?.storeName ?? "",
+                                        state.store?.store?.storeImage ?? "",
                                     noInvoices:
                                         state.invoices?.invoiceLabel ?? "",
                                     item: state.invoices?.product?.items ?? [],
