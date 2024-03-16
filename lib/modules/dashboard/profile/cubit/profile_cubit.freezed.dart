@@ -20,9 +20,14 @@ mixin _$ProfileState {
   Store? get store => throw _privateConstructorUsedError;
   String? get err => throw _privateConstructorUsedError;
   XFile? get pickedImage => throw _privateConstructorUsedError;
+  XFile? get npwpImage => throw _privateConstructorUsedError;
+  XFile? get nibImage => throw _privateConstructorUsedError;
+  XFile? get aktaImage => throw _privateConstructorUsedError;
   String? get country => throw _privateConstructorUsedError;
   String? get stateAddress => throw _privateConstructorUsedError;
   String? get city => throw _privateConstructorUsedError;
+  List<AvailablePayment> get availablePayment =>
+      throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $ProfileStateCopyWith<ProfileState> get copyWith =>
@@ -40,9 +45,13 @@ abstract class $ProfileStateCopyWith<$Res> {
       Store? store,
       String? err,
       XFile? pickedImage,
+      XFile? npwpImage,
+      XFile? nibImage,
+      XFile? aktaImage,
       String? country,
       String? stateAddress,
-      String? city});
+      String? city,
+      List<AvailablePayment> availablePayment});
 }
 
 /// @nodoc
@@ -62,9 +71,13 @@ class _$ProfileStateCopyWithImpl<$Res, $Val extends ProfileState>
     Object? store = freezed,
     Object? err = freezed,
     Object? pickedImage = freezed,
+    Object? npwpImage = freezed,
+    Object? nibImage = freezed,
+    Object? aktaImage = freezed,
     Object? country = freezed,
     Object? stateAddress = freezed,
     Object? city = freezed,
+    Object? availablePayment = null,
   }) {
     return _then(_value.copyWith(
       status: null == status
@@ -83,6 +96,18 @@ class _$ProfileStateCopyWithImpl<$Res, $Val extends ProfileState>
           ? _value.pickedImage
           : pickedImage // ignore: cast_nullable_to_non_nullable
               as XFile?,
+      npwpImage: freezed == npwpImage
+          ? _value.npwpImage
+          : npwpImage // ignore: cast_nullable_to_non_nullable
+              as XFile?,
+      nibImage: freezed == nibImage
+          ? _value.nibImage
+          : nibImage // ignore: cast_nullable_to_non_nullable
+              as XFile?,
+      aktaImage: freezed == aktaImage
+          ? _value.aktaImage
+          : aktaImage // ignore: cast_nullable_to_non_nullable
+              as XFile?,
       country: freezed == country
           ? _value.country
           : country // ignore: cast_nullable_to_non_nullable
@@ -95,6 +120,10 @@ class _$ProfileStateCopyWithImpl<$Res, $Val extends ProfileState>
           ? _value.city
           : city // ignore: cast_nullable_to_non_nullable
               as String?,
+      availablePayment: null == availablePayment
+          ? _value.availablePayment
+          : availablePayment // ignore: cast_nullable_to_non_nullable
+              as List<AvailablePayment>,
     ) as $Val);
   }
 }
@@ -112,9 +141,13 @@ abstract class _$$ProfileStateImplCopyWith<$Res>
       Store? store,
       String? err,
       XFile? pickedImage,
+      XFile? npwpImage,
+      XFile? nibImage,
+      XFile? aktaImage,
       String? country,
       String? stateAddress,
-      String? city});
+      String? city,
+      List<AvailablePayment> availablePayment});
 }
 
 /// @nodoc
@@ -132,9 +165,13 @@ class __$$ProfileStateImplCopyWithImpl<$Res>
     Object? store = freezed,
     Object? err = freezed,
     Object? pickedImage = freezed,
+    Object? npwpImage = freezed,
+    Object? nibImage = freezed,
+    Object? aktaImage = freezed,
     Object? country = freezed,
     Object? stateAddress = freezed,
     Object? city = freezed,
+    Object? availablePayment = null,
   }) {
     return _then(_$ProfileStateImpl(
       status: null == status
@@ -153,6 +190,18 @@ class __$$ProfileStateImplCopyWithImpl<$Res>
           ? _value.pickedImage
           : pickedImage // ignore: cast_nullable_to_non_nullable
               as XFile?,
+      npwpImage: freezed == npwpImage
+          ? _value.npwpImage
+          : npwpImage // ignore: cast_nullable_to_non_nullable
+              as XFile?,
+      nibImage: freezed == nibImage
+          ? _value.nibImage
+          : nibImage // ignore: cast_nullable_to_non_nullable
+              as XFile?,
+      aktaImage: freezed == aktaImage
+          ? _value.aktaImage
+          : aktaImage // ignore: cast_nullable_to_non_nullable
+              as XFile?,
       country: freezed == country
           ? _value.country
           : country // ignore: cast_nullable_to_non_nullable
@@ -165,6 +214,10 @@ class __$$ProfileStateImplCopyWithImpl<$Res>
           ? _value.city
           : city // ignore: cast_nullable_to_non_nullable
               as String?,
+      availablePayment: null == availablePayment
+          ? _value._availablePayment
+          : availablePayment // ignore: cast_nullable_to_non_nullable
+              as List<AvailablePayment>,
     ));
   }
 }
@@ -177,9 +230,14 @@ class _$ProfileStateImpl implements _ProfileState {
       this.store,
       this.err,
       this.pickedImage,
+      this.npwpImage,
+      this.nibImage,
+      this.aktaImage,
       this.country,
       this.stateAddress,
-      this.city});
+      this.city,
+      final List<AvailablePayment> availablePayment = const []})
+      : _availablePayment = availablePayment;
 
   @override
   @JsonKey()
@@ -191,15 +249,30 @@ class _$ProfileStateImpl implements _ProfileState {
   @override
   final XFile? pickedImage;
   @override
+  final XFile? npwpImage;
+  @override
+  final XFile? nibImage;
+  @override
+  final XFile? aktaImage;
+  @override
   final String? country;
   @override
   final String? stateAddress;
   @override
   final String? city;
+  final List<AvailablePayment> _availablePayment;
+  @override
+  @JsonKey()
+  List<AvailablePayment> get availablePayment {
+    if (_availablePayment is EqualUnmodifiableListView)
+      return _availablePayment;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_availablePayment);
+  }
 
   @override
   String toString() {
-    return 'ProfileState(status: $status, store: $store, err: $err, pickedImage: $pickedImage, country: $country, stateAddress: $stateAddress, city: $city)';
+    return 'ProfileState(status: $status, store: $store, err: $err, pickedImage: $pickedImage, npwpImage: $npwpImage, nibImage: $nibImage, aktaImage: $aktaImage, country: $country, stateAddress: $stateAddress, city: $city, availablePayment: $availablePayment)';
   }
 
   @override
@@ -212,15 +285,34 @@ class _$ProfileStateImpl implements _ProfileState {
             (identical(other.err, err) || other.err == err) &&
             (identical(other.pickedImage, pickedImage) ||
                 other.pickedImage == pickedImage) &&
+            (identical(other.npwpImage, npwpImage) ||
+                other.npwpImage == npwpImage) &&
+            (identical(other.nibImage, nibImage) ||
+                other.nibImage == nibImage) &&
+            (identical(other.aktaImage, aktaImage) ||
+                other.aktaImage == aktaImage) &&
             (identical(other.country, country) || other.country == country) &&
             (identical(other.stateAddress, stateAddress) ||
                 other.stateAddress == stateAddress) &&
-            (identical(other.city, city) || other.city == city));
+            (identical(other.city, city) || other.city == city) &&
+            const DeepCollectionEquality()
+                .equals(other._availablePayment, _availablePayment));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, status, store, err, pickedImage,
-      country, stateAddress, city);
+  int get hashCode => Object.hash(
+      runtimeType,
+      status,
+      store,
+      err,
+      pickedImage,
+      npwpImage,
+      nibImage,
+      aktaImage,
+      country,
+      stateAddress,
+      city,
+      const DeepCollectionEquality().hash(_availablePayment));
 
   @JsonKey(ignore: true)
   @override
@@ -235,9 +327,13 @@ abstract class _ProfileState implements ProfileState {
       final Store? store,
       final String? err,
       final XFile? pickedImage,
+      final XFile? npwpImage,
+      final XFile? nibImage,
+      final XFile? aktaImage,
       final String? country,
       final String? stateAddress,
-      final String? city}) = _$ProfileStateImpl;
+      final String? city,
+      final List<AvailablePayment> availablePayment}) = _$ProfileStateImpl;
 
   @override
   DataStateStatus get status;
@@ -248,11 +344,19 @@ abstract class _ProfileState implements ProfileState {
   @override
   XFile? get pickedImage;
   @override
+  XFile? get npwpImage;
+  @override
+  XFile? get nibImage;
+  @override
+  XFile? get aktaImage;
+  @override
   String? get country;
   @override
   String? get stateAddress;
   @override
   String? get city;
+  @override
+  List<AvailablePayment> get availablePayment;
   @override
   @JsonKey(ignore: true)
   _$$ProfileStateImplCopyWith<_$ProfileStateImpl> get copyWith =>

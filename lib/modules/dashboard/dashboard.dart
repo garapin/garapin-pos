@@ -1,5 +1,7 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/widgets.dart';
 import 'package:go_router/go_router.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:pos/engine/base/app.dart';
 import 'package:pos/engine/engine.dart';
 import 'package:pos/modules/dashboard/cubit/dashboard_cubit.dart';
@@ -12,12 +14,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../widgets/widgets.dart';
 import 'catalog/view/catalog.dart';
+import 'master/cubit/master_cubit.dart';
 
 class DashboardPage extends StatelessWidget {
   const DashboardPage({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final masterCubit = context.read<MasterCubit>();
     final cubit = context.read<DashboardCubit>();
     return BlocBuilder<ProfileCubit, ProfileState>(
       builder: (context, state) {
@@ -66,6 +70,7 @@ class DashboardPage extends StatelessWidget {
                                   ? SizedBox()
                                   : CustomButton(
                                       onPressed: () {
+                                        masterCubit.showPage(true);
                                         cubit.changePage(1);
                                       },
                                       child: state.index == 1
@@ -99,7 +104,9 @@ class DashboardPage extends StatelessWidget {
                               Align(
                                 alignment: Alignment.bottomCenter,
                                 child: CustomButton(
-                                    onPressed: () {
+                                    onPressed: () async {
+                                      final GoogleSignInAccount? s =
+                                          await GoogleSignIn().signOut();
                                       Sessions.clear().then((value) =>
                                           context.go(RouteNames.root));
                                     },

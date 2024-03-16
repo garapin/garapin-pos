@@ -1,9 +1,11 @@
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pos/data/api/services.dart';
 import 'package:pos/data/models/base/user.dart';
 import 'package:pos/engine/engine.dart';
 import 'package:flutter/material.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:pos/modules/dashboard/catalog/cubit/catalog_cubit.dart';
+import 'package:pos/modules/dashboard/master/view/master.dart';
 import 'package:pos/modules/dashboard/profile/view/profile.dart';
 import '../catalog/view/catalog.dart';
 
@@ -41,9 +43,13 @@ class DashboardCubit extends BaseCubit<DashboardState> {
     CatalogPage(
       modeCatalog: ModeCatalog.cashier,
     ),
-    CatalogPage(
-      modeCatalog: ModeCatalog.edit,
+    BlocProvider(
+      create: (context) => CatalogCubit(context),
+      child: MasterPage(),
     ),
+    // CatalogPage(
+    //   modeCatalog: ModeCatalog.edit,
+    // ),
     SizedBox(),
     ProfilePage(),
   ];

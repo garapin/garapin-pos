@@ -10,6 +10,8 @@ import 'package:pos/engine/engine.dart';
 import 'package:pos/themes/themes.dart';
 import 'package:pos/widgets/widgets.dart';
 
+import '../../../../widgets/components/outline_form_dropdown.dart';
+import '../../../../widgets/components/outline_form_text.dart';
 import '../cubit/create_product_cubit.dart';
 
 class CreateProductPage extends StatelessWidget {
@@ -265,6 +267,7 @@ class CreateProductPage extends StatelessWidget {
                                     children: [
                                       Expanded(
                                         child: OutlineFormDropdown(
+                                            uniqueKey: Key("1"),
                                             validator: (v) {
                                               if (v != null) {
                                                 return null;
@@ -316,32 +319,33 @@ class CreateProductPage extends StatelessWidget {
                                     children: [
                                       Expanded(
                                         child: OutlineFormDropdown(
-                                            validator: (v) {
-                                              if (v != null) {
-                                                return null;
-                                              } else {
-                                                return 'Kategori produk tidak boleh kosong';
-                                              }
-                                            },
-                                            name: 'category',
-                                            hintText: 'Pilih Kategori',
-                                            label: 'Kategori',
-                                            items: state.category
-                                                .map((e) => DropdownMenuItem(
-                                                    value: e.id,
-                                                    child: Text(
-                                                      e.category ?? "",
-                                                      style: AppFont.large(
-                                                              context)!
-                                                          .copyWith(
-                                                              fontSize: 14,
-                                                              color: e.id ==
-                                                                      "Semua"
-                                                                  ? Colors.grey
-                                                                  : Colors
-                                                                      .black),
-                                                    )))
-                                                .toList()),
+                                          validator: (v) {
+                                            if (v != null) {
+                                              return null;
+                                            } else {
+                                              return 'Kategori produk tidak boleh kosong';
+                                            }
+                                          },
+                                          name: 'category',
+                                          hintText: 'Pilih Kategori',
+                                          label: 'Kategori',
+                                          items: state.category
+                                              .map((e) => DropdownMenuItem(
+                                                  value: e.id,
+                                                  child: Text(
+                                                    e.category ?? "",
+                                                    style: AppFont.large(
+                                                            context)!
+                                                        .copyWith(
+                                                            fontSize: 14,
+                                                            color: e.id ==
+                                                                    "Semua"
+                                                                ? Colors.grey
+                                                                : Colors.black),
+                                                  )))
+                                              .toList(),
+                                          uniqueKey: Key("2"),
+                                        ),
                                       ),
                                       const SizedBox(width: 32),
                                       Row(
@@ -368,29 +372,31 @@ class CreateProductPage extends StatelessWidget {
                                     children: [
                                       Expanded(
                                         child: OutlineFormDropdown(
-                                            validator: (v) {
-                                              if (v != null) {
-                                                return null;
-                                              } else {
-                                                return 'Unit tidak boleh kosong';
-                                              }
-                                            },
-                                            name: 'unit',
-                                            hintText: 'Pilih Unit',
-                                            label: 'Unit (pcs, lusin, kg)',
-                                            items: state.unit
-                                                .map((e) => DropdownMenuItem(
-                                                    value: e.id,
-                                                    child: Text(
-                                                      e.unit ?? "",
-                                                      style: AppFont.large(
-                                                              context)!
-                                                          .copyWith(
-                                                              fontSize: 14,
-                                                              color:
-                                                                  Colors.black),
-                                                    )))
-                                                .toList()),
+                                          validator: (v) {
+                                            if (v != null) {
+                                              return null;
+                                            } else {
+                                              return 'Unit tidak boleh kosong';
+                                            }
+                                          },
+                                          name: 'unit',
+                                          hintText: 'Pilih Unit',
+                                          label: 'Unit (pcs, lusin, kg)',
+                                          items: state.unit
+                                              .map((e) => DropdownMenuItem(
+                                                  value: e.id,
+                                                  child: Text(
+                                                    e.unit ?? "",
+                                                    style:
+                                                        AppFont.large(context)!
+                                                            .copyWith(
+                                                                fontSize: 14,
+                                                                color: Colors
+                                                                    .black),
+                                                  )))
+                                              .toList(),
+                                          uniqueKey: Key("3"),
+                                        ),
                                       ),
                                       const SizedBox(width: 32),
                                       Row(
@@ -577,116 +583,62 @@ class MinButton extends StatelessWidget {
   }
 }
 
-class OutlineFormText extends StatelessWidget {
-  final TextInputType? keyboardType;
-  final String name;
-  final String hintText;
-  final String? initialValue;
-  final String? label;
-  final String? suffixText;
-  final String? Function(String?)? validator;
-  final int? maxLength;
-  const OutlineFormText({
-    super.key,
-    required this.name,
-    required this.hintText,
-    this.label,
-    this.initialValue,
-    this.suffixText,
-    this.keyboardType,
-    this.validator,
-    this.maxLength,
-  });
+// class OutlineFormText extends StatelessWidget {
+//   final TextInputType? keyboardType;
+//   final String name;
+//   final String hintText;
+//   final String? initialValue;
+//   final String? label;
+//   final String? suffixText;
+//   final String? Function(String?)? validator;
+//   final int? maxLength;
+//   const OutlineFormText({
+//     super.key,
+//     required this.name,
+//     required this.hintText,
+//     this.label,
+//     this.initialValue,
+//     this.suffixText,
+//     this.keyboardType,
+//     this.validator,
+//     this.maxLength,
+//   });
 
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        label != null
-            ? Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 8),
-                child: Text("${label}", style: AppFont.largeBold(context)),
-              )
-            : const SizedBox(),
-        label != null ? const SizedBox(height: 8) : const SizedBox(),
-        FormBuilderTextField(
-          maxLength: maxLength,
-          keyboardType: keyboardType,
-          initialValue: initialValue,
-          validator: validator,
-          name: name,
-          decoration: InputDecoration(
-            suffixText: suffixText,
-            hintText: hintText,
-            border: OutlineInputBorder(
-              borderSide: const BorderSide(width: 1),
-              borderRadius: BorderRadius.circular(58),
-            ),
-            contentPadding:
-                const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
-            hintStyle: const TextStyle(fontSize: 16),
-            filled: true,
-            fillColor: const Color(0xffffffff),
-          ),
-        ),
-      ],
-    );
-  }
-}
+//   @override
+//   Widget build(BuildContext context) {
+//     return Column(
+//       crossAxisAlignment: CrossAxisAlignment.start,
+//       children: [
+//         label != null
+//             ? Padding(
+//                 padding: const EdgeInsets.symmetric(horizontal: 8),
+//                 child: Text("${label}", style: AppFont.largeBold(context)),
+//               )
+//             : const SizedBox(),
+//         label != null ? const SizedBox(height: 8) : const SizedBox(),
+//         FormBuilderTextField(
+//           maxLength: maxLength,
+//           keyboardType: keyboardType,
+//           initialValue: initialValue,
+//           validator: validator,
+//           name: name,
+//           decoration: InputDecoration(
+//             suffixText: suffixText,
+//             hintText: hintText,
+//             border: OutlineInputBorder(
+//               borderSide: const BorderSide(width: 1),
+//               borderRadius: BorderRadius.circular(58),
+//             ),
+//             contentPadding:
+//                 const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+//             hintStyle: const TextStyle(fontSize: 16),
+//             filled: true,
+//             fillColor: const Color(0xffffffff),
+//           ),
+//         ),
+//       ],
+//     );
+//   }
+// }
 
-class OutlineFormDropdown extends StatelessWidget {
-  final String name;
-  final String hintText;
-  final String? initialValue;
-  final String? label;
-  final String? suffixText;
-  final String? Function(dynamic)? validator;
-  final List<DropdownMenuItem<dynamic>> items;
-  const OutlineFormDropdown({
-    Key? key,
-    required this.name,
-    required this.hintText,
-    required this.items,
-    this.label,
-    this.initialValue,
-    this.suffixText,
-    this.validator,
-  }) : super(key: key);
 
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        label != null
-            ? Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 8),
-                child: Text("${label}", style: AppFont.largeBold(context)),
-              )
-            : const SizedBox(),
-        label != null ? const SizedBox(height: 8) : const SizedBox(),
-        FormBuilderDropdown(
-          key: UniqueKey(),
-          validator: validator,
-          initialValue: initialValue,
-          name: name,
-          items: items,
-          decoration: InputDecoration(
-            suffixText: suffixText,
-            hintText: hintText,
-            border: OutlineInputBorder(
-              borderSide: const BorderSide(width: 1),
-              borderRadius: BorderRadius.circular(58),
-            ),
-            contentPadding:
-                const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
-            hintStyle: const TextStyle(fontSize: 16),
-            filled: true,
-            fillColor: const Color(0xffffffff),
-          ),
-        ),
-      ],
-    );
-  }
-}

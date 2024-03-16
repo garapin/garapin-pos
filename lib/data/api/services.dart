@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:pos/data/api/error_handler.dart';
 import 'package:pos/data/models/base/available_payment.dart';
+import 'package:pos/data/models/base/bank_account.dart';
 import 'package:pos/data/models/base/brand.dart';
 import 'package:pos/data/models/base/cart.dart';
 import 'package:pos/data/models/base/invoices.dart';
@@ -398,5 +399,15 @@ class ApiService {
             params: {"reference_id": invoice, "amount": amount})
         .then((result) => ApiResponse<PaymentCash>.fromJson(result.data))
         .handler((error) => ApiResponse<PaymentCash>.onError(error));
+  }
+
+  static Future<ApiResponse<Store>> addBankAccountInProfile(
+    BuildContext context, {
+    required BankAccount bankAccount,
+  }) async {
+    return await ApiConfigure(context)
+        .post('store/update/add_bank_account', params: bankAccount.toJson())
+        .then((result) => ApiResponse<Store>.fromJson(result.data))
+        .handler((error) => ApiResponse<Store>.onError(error));
   }
 }

@@ -2,6 +2,7 @@
 //
 //     final store = storeFromJson(jsonString);
 import 'package:json_annotation/json_annotation.dart';
+import 'package:pos/data/models/base/bank_account.dart';
 
 part 'store.g.dart';
 
@@ -24,6 +25,8 @@ class Store {
 
 @JsonSerializable()
 class StoreClass {
+  @JsonKey(name: "bank_account")
+  BankAccount? bankAccount;
   @JsonKey(name: "account_holder")
   AccountHolder? accountHolder;
   @JsonKey(name: "_id")

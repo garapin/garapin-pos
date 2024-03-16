@@ -9,7 +9,7 @@ abstract class Development {
       case EnvironmentMode.dev:
         return 'http://192.168.18.235:4000/';
       case EnvironmentMode.test:
-        return 'http://192.168.20.12:4000/';
+        return 'http://192.168.253.113:4000/';
       case EnvironmentMode.production:
         return 'http://192.168.100.18:4000/'; // real device
     }
@@ -21,7 +21,7 @@ abstract class Development {
         //kantor
         return 'http://192.168.18.235:4000/';
       case EnvironmentMode.test:
-        return 'http://192.168.20.12:4000/';
+        return 'http://192.168.253.113:4000/';
       case EnvironmentMode.production:
         return 'http://192.168.100.18:4000/'; // real device
     }

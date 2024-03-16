@@ -10,6 +10,8 @@ import 'package:pos/modules/product/edit_product/cubit/edit_product_cubit.dart';
 import 'package:pos/themes/themes.dart';
 import 'package:pos/widgets/widgets.dart';
 
+import '../../../../widgets/components/outline_form_dropdown.dart';
+import '../../../../widgets/components/outline_form_text.dart';
 import '../../create_product/view/create_product.dart';
 
 class EditProductPage extends StatelessWidget {
@@ -113,7 +115,7 @@ class EditProductPage extends StatelessWidget {
                                           borderRadius:
                                               BorderRadius.circular(24),
                                         ),
-                                        title: Text(
+                                        title: const Text(
                                             "Pilih gambar yang akan ditampilkan"),
                                         actions: [
                                           Row(
@@ -308,6 +310,7 @@ class EditProductPage extends StatelessWidget {
                                     children: [
                                       Expanded(
                                         child: OutlineFormDropdown(
+                                            uniqueKey: const Key("edit_merek"),
                                             validator: (v) {
                                               if (v != null) {
                                                 return null;
@@ -342,7 +345,7 @@ class EditProductPage extends StatelessWidget {
                                               cubit.deleteBrand();
                                             },
                                           ),
-                                          SizedBox(width: 24),
+                                          const SizedBox(width: 24),
                                           PlusButton(
                                             onTap: () {
                                               cubit.addBrand();
@@ -361,6 +364,8 @@ class EditProductPage extends StatelessWidget {
                                     children: [
                                       Expanded(
                                         child: OutlineFormDropdown(
+                                            uniqueKey:
+                                                const Key("edit_category"),
                                             initialValue:
                                                 state.product?.categoryRef?.id,
                                             validator: (v) {
@@ -398,7 +403,7 @@ class EditProductPage extends StatelessWidget {
                                               cubit.deleteCategory();
                                             },
                                           ),
-                                          SizedBox(width: 24),
+                                          const SizedBox(width: 24),
                                           PlusButton(
                                             onTap: () {
                                               cubit.addCategory();
@@ -415,6 +420,7 @@ class EditProductPage extends StatelessWidget {
                                     children: [
                                       Expanded(
                                         child: OutlineFormDropdown(
+                                            uniqueKey: const Key("edit_unit"),
                                             initialValue:
                                                 state.product?.unitRef?.id,
                                             validator: (v) {
@@ -449,7 +455,7 @@ class EditProductPage extends StatelessWidget {
                                               cubit.deleteUnit();
                                             },
                                           ),
-                                          SizedBox(width: 24),
+                                          const SizedBox(width: 24),
                                           PlusButton(
                                             onTap: () {
                                               cubit.addUnit();

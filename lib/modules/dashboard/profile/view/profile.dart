@@ -1,10 +1,5 @@
-import 'dart:io';
-
 import 'package:csc_picker/csc_picker.dart';
-import 'package:dotted_border/dotted_border.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:go_router/go_router.dart';
@@ -12,9 +7,11 @@ import 'package:image_picker/image_picker.dart';
 import 'package:pos/engine/engine.dart';
 import 'package:pos/modules/dashboard/cubit/dashboard_cubit.dart';
 import 'package:pos/modules/dashboard/profile/cubit/profile_cubit.dart';
-import 'package:pos/routes/routes.dart';
+import 'package:pos/widgets/components/outline_form_text.dart';
 import 'package:pos/themes/themes.dart';
 import 'package:pos/widgets/widgets.dart';
+import '../../../../widgets/components/image_picker_widget.dart';
+import 'regiter_bank_account.dart';
 
 class ProfilePage extends StatelessWidget {
   const ProfilePage({super.key});
@@ -64,139 +61,20 @@ class ProfilePage extends StatelessWidget {
                       padding: const EdgeInsets.symmetric(horizontal: 24),
                       child: Column(
                         children: [
-                          DottedBorder(
-                            dashPattern: [6, 6],
-                            borderType: BorderType.RRect,
-                            color: Colors.grey,
-                            child: InkWell(
-                              onTap: () {
-                                showDialog(
-                                  context: context,
-                                  builder: (context) {
-                                    return AlertDialog(
-                                      shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(24),
-                                      ),
-                                      title: Text(
-                                          "Pilih gambar yang akan ditampilkan"),
-                                      actions: [
-                                        Row(
-                                          children: [
-                                            Expanded(
-                                                child: ClipRRect(
-                                              borderRadius:
-                                                  BorderRadius.circular(38),
-                                              child: SizedBox(
-                                                  height: 50,
-                                                  child: OutlinedButton(
-                                                    onPressed: () {
-                                                      cubit
-                                                          .pickImage(ImageSource
-                                                              .gallery)
-                                                          .then((value) =>
-                                                              context.pop());
-                                                    },
-                                                    style: OutlinedButton
-                                                        .styleFrom(
-                                                      side: const BorderSide(),
-                                                      shape:
-                                                          RoundedRectangleBorder(
-                                                        borderRadius:
-                                                            BorderRadius
-                                                                .circular(38),
-                                                      ),
-                                                    ),
-                                                    child: const Text(
-                                                        'Ambil dari galeri'),
-                                                  )),
-                                            )),
-                                            const SizedBox(width: 12),
-                                            Expanded(
-                                                child: ClipRRect(
-                                              borderRadius:
-                                                  BorderRadius.circular(38),
-                                              child: SizedBox(
-                                                height: 50,
-                                                child: ElevatedButton(
-                                                    onPressed: () {
-                                                      cubit
-                                                          .pickImage(ImageSource
-                                                              .camera)
-                                                          .then((value) =>
-                                                              context.pop());
-                                                    },
-                                                    child: const Text(
-                                                        "Ambil foto")),
-                                              ),
-                                            ))
-                                          ],
-                                        ),
-                                      ],
-                                    );
-                                  },
-                                );
-                              },
-                              child: Container(
-                                height: 163,
-                                width: baseWidth,
-                                decoration: const BoxDecoration(
-                                  color: Color(0xffF8F9FD),
-                                ),
-                                child: (state.pickedImage != null)
-                                    ? Container(
-                                        decoration: BoxDecoration(
-                                          borderRadius:
-                                              BorderRadius.circular(12),
-                                        ),
-                                        height: 260,
-                                        width: double.infinity,
-                                        child: Image.file(
-                                          File(state.pickedImage!.path),
-                                        ),
-                                      )
-                                    : state.store?.store?.storeImage != null
-                                        ? Column(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.center,
-                                            children: [
-                                              ImageLoad(
-                                                  padding:
-                                                      const EdgeInsets.all(12),
-                                                  fit: BoxFit.cover,
-                                                  height: 100,
-                                                  imageUrl:
-                                                      Environment.showUrlImage(
-                                                          path: state
-                                                                  .store
-                                                                  ?.store
-                                                                  ?.storeImage ??
-                                                              "")),
-                                              const Text("Tap untuk ubah foto")
-                                            ],
-                                          )
-                                        : (state.pickedImage != null)
-                                            ? Container(
-                                                decoration: BoxDecoration(
-                                                  borderRadius:
-                                                      BorderRadius.circular(12),
-                                                ),
-                                                height: 260,
-                                                width: double.infinity,
-                                                child: Image.file(
-                                                  File(state.pickedImage!.path),
-                                                ),
-                                              )
-                                            : const Column(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.center,
-                                                children: [
-                                                  Icon(Icons.image, size: 70),
-                                                  SizedBox(height: 12),
-                                                  Text("Unggah Foto Toko"),
-                                                ],
-                                              ),
-                              ),
-                            ),
+                          ImagePickerWidget(
+                            cubit: cubit,
+                            imageUrl: store?.storeImage,
+                            pickedImage: state.pickedImage,
+                            pickGaleryPressed: () {
+                              cubit
+                                  .pickImage(ImageSource.gallery)
+                                  .then((value) => context.pop());
+                            },
+                            pickCameraPressed: () {
+                              cubit
+                                  .pickImage(ImageSource.camera)
+                                  .then((value) => context.pop());
+                            },
                           ),
                           const SizedBox(height: 24),
                           FormBuilder(
@@ -281,6 +159,12 @@ class ProfilePage extends StatelessWidget {
                                   label: 'Kode POS',
                                 ),
                                 const SizedBox(height: 16),
+                                RegisterBankAccountWidget(
+                                  cubit: cubit,
+                                  store: store,
+                                  state: state,
+                                ),
+                                const SizedBox(height: 50),
                                 Padding(
                                   padding:
                                       const EdgeInsets.symmetric(horizontal: 8),
@@ -418,7 +302,7 @@ class ProfilePage extends StatelessWidget {
                         ],
                       ),
                     ),
-                    const SizedBox(height: 40)
+                    const SizedBox(height: 40),
                   ],
                 ),
               ),
@@ -426,61 +310,6 @@ class ProfilePage extends StatelessWidget {
           );
         },
       ),
-    );
-  }
-}
-
-class OutlineFormText extends StatelessWidget {
-  final TextInputType? keyboardType;
-  final String name;
-  final String hintText;
-  final String? initialValue;
-  final String? label;
-  final String? suffixText;
-  final bool readOnly;
-  const OutlineFormText({
-    super.key,
-    required this.name,
-    required this.hintText,
-    this.label,
-    required this.initialValue,
-    this.suffixText,
-    this.keyboardType,
-    this.readOnly = false,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        label != null
-            ? Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 8),
-                child: Text("${label}", style: AppFont.largeBold(context)),
-              )
-            : const SizedBox(),
-        label != null ? const SizedBox(height: 8) : const SizedBox(),
-        FormBuilderTextField(
-          readOnly: readOnly,
-          keyboardType: keyboardType,
-          initialValue: initialValue,
-          name: name,
-          decoration: InputDecoration(
-            suffixText: suffixText,
-            hintText: hintText,
-            border: OutlineInputBorder(
-              borderSide: const BorderSide(width: 1),
-              borderRadius: BorderRadius.circular(58),
-            ),
-            contentPadding:
-                const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
-            hintStyle: const TextStyle(fontSize: 16),
-            filled: true,
-            fillColor: const Color(0xffffffff),
-          ),
-        ),
-      ],
     );
   }
 }
