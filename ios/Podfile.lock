@@ -5,6 +5,8 @@ PODS:
   - AppAuth/Core (1.6.2)
   - AppAuth/ExternalUserAgent (1.6.2):
     - AppAuth/Core
+  - bluetooth_print (0.0.1):
+    - Flutter
   - device_info_plus (0.0.1):
     - Flutter
   - Firebase/Analytics (10.20.0):
@@ -66,6 +68,8 @@ PODS:
     - GoogleUtilities/UserDefaults (~> 7.8)
     - PromisesObjC (~> 2.1)
   - Flutter (1.0.0)
+  - flutter_blue_plus (0.0.1):
+    - Flutter
   - geolocator_apple (1.2.0):
     - Flutter
   - google_maps_flutter_ios (0.0.1):
@@ -196,11 +200,13 @@ PODS:
     - Flutter
 
 DEPENDENCIES:
+  - bluetooth_print (from `.symlinks/plugins/bluetooth_print/ios`)
   - device_info_plus (from `.symlinks/plugins/device_info_plus/ios`)
   - firebase_analytics (from `.symlinks/plugins/firebase_analytics/ios`)
   - firebase_auth (from `.symlinks/plugins/firebase_auth/ios`)
   - firebase_core (from `.symlinks/plugins/firebase_core/ios`)
   - Flutter (from `Flutter`)
+  - flutter_blue_plus (from `.symlinks/plugins/flutter_blue_plus/ios`)
   - geolocator_apple (from `.symlinks/plugins/geolocator_apple/ios`)
   - google_maps_flutter_ios (from `.symlinks/plugins/google_maps_flutter_ios/ios`)
   - google_sign_in_ios (from `.symlinks/plugins/google_sign_in_ios/darwin`)
@@ -242,6 +248,8 @@ SPEC REPOS:
     - RecaptchaInterop
 
 EXTERNAL SOURCES:
+  bluetooth_print:
+    :path: ".symlinks/plugins/bluetooth_print/ios"
   device_info_plus:
     :path: ".symlinks/plugins/device_info_plus/ios"
   firebase_analytics:
@@ -252,6 +260,8 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/firebase_core/ios"
   Flutter:
     :path: Flutter
+  flutter_blue_plus:
+    :path: ".symlinks/plugins/flutter_blue_plus/ios"
   geolocator_apple:
     :path: ".symlinks/plugins/geolocator_apple/ios"
   google_maps_flutter_ios:
@@ -277,6 +287,7 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   AppAuth: 3bb1d1cd9340bd09f5ed189fb00b1cc28e1e8570
+  bluetooth_print: da8f47e8881a0b1f0fd8d73cd6fa84c9bd41ac28
   device_info_plus: c6fb39579d0f423935b0c9ce7ee2f44b71b9fce6
   Firebase: 10c8cb12fb7ad2ae0c09ffc86cd9c1ab392a0031
   firebase_analytics: 6c4873e8164677423b57f44172fb20c202310d7a
@@ -289,6 +300,7 @@ SPEC CHECKSUMS:
   FirebaseCoreInternal: efeeb171ac02d623bdaefe121539939821e10811
   FirebaseInstallations: 558b1da7d65afeb996fd5c814332f013234ece4e
   Flutter: e0871f40cf51350855a761d2e70bf5af5b9b5de7
+  flutter_blue_plus: 4837da7d00cf5d441fdd6635b3a57f936778ea96
   geolocator_apple: 9157311f654584b9bb72686c55fc02a97b73f461
   google_maps_flutter_ios: d1318b4ff711612cab16862d7a87e31a7403d458
   google_sign_in_ios: 1bfaf6607b44cd1b24c4d4bc39719870440f9ce1

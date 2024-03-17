@@ -3,21 +3,23 @@
 <plist version="1.0">
 <dict>
 	<key>CLIENT_ID</key>
-	<string>921694687850-4vhgnddajd19eeae1hlida28quu0ta6b.apps.googleusercontent.com</string>
+	<string>205261320352-47jk9stp00e1pd564fa7t8ehhgstvkn4.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.921694687850-4vhgnddajd19eeae1hlida28quu0ta6b</string>
+	<string>com.googleusercontent.apps.205261320352-47jk9stp00e1pd564fa7t8ehhgstvkn4</string>
+	<key>ANDROID_CLIENT_ID</key>
+	<string>205261320352-3q5uj3qpgu7uf3fnkkaglkt87ps6kpfo.apps.googleusercontent.com</string>
 	<key>API_KEY</key>
-	<string>AIzaSyANkol1urFuu3v1iJgnui9K6Xdg-rxlSmw</string>
+	<string>AIzaSyBqiPAO8yWb_Gy3RqNB5F9Ryow0TZPMp1k</string>
 	<key>GCM_SENDER_ID</key>
-	<string>921694687850</string>
+	<string>205261320352</string>
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>com.pos.app.pos</string>
+	<string>com.garapinpos.app</string>
 	<key>PROJECT_ID</key>
-	<string>pos-3c2be</string>
+	<string>garapin-pos</string>
 	<key>STORAGE_BUCKET</key>
-	<string>pos-3c2be.appspot.com</string>
+	<string>garapin-pos.appspot.com</string>
 	<key>IS_ADS_ENABLED</key>
 	<false></false>
 	<key>IS_ANALYTICS_ENABLED</key>
@@ -29,6 +31,6 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:921694687850:ios:f2999ffed1cd3a25acb013</string>
+	<string>1:205261320352:ios:baba5bb454c83c6b9dd9c5</string>
 </dict>
 </plist>

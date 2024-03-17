@@ -22,20 +22,43 @@
 	<string>$(FLUTTER_BUILD_NAME)</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>com.googleusercontent.apps.205261320352-47jk9stp00e1pd564fa7t8ehhgstvkn4</string>
+			</array>
+		</dict>
+	</array>
 	<key>CFBundleVersion</key>
 	<string>$(FLUTTER_BUILD_NUMBER)</string>
+	<key>GIDClientID</key>
+	<string>205261320352-47jk9stp00e1pd564fa7t8ehhgstvkn4.apps.googleusercontent.com</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>NSBluetoothAlwaysUsageDescription</key>
+	<string>Need BLE permission</string>
+	<key>NSBluetoothPeripheralUsageDescription</key>
+	<string>Need BLE permission</string>
+	<key>NSCameraUsageDescription</key>
+	<string>Use for photo / get a product from gallery</string>
+	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+	<string>Need Location permission</string>
+	<key>NSLocationAlwaysUsageDescription</key>
+	<string>Need Location permission</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>Need Location permission</string>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
+	<key>UIBackgroundModes</key>
+	<array>
+		<string>bluetooth-central</string>
+	</array>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>UIMainStoryboardFile</key>
 	<string>Main</string>
-	<key>GIDClientID</key>
-	<string>205261320352-47jk9stp00e1pd564fa7t8ehhgstvkn4.apps.googleusercontent.com</string>
-	<key>NSCameraUsageDescription</key>
-	<string>Use for photo / get a product from gallery</string>
 	<key>UISupportedInterfaceOrientations</key>
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>
@@ -49,27 +72,5 @@
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
-	<key>CFBundleURLTypes</key>
-	<array>
-		<dict>
-			<key>CFBundleURLSchemes</key>
-			<array>
-				<string>com.googleusercontent.apps.205261320352-47jk9stp00e1pd564fa7t8ehhgstvkn4</string>
-			</array>
-		</dict>
-	</array>
-
-	<!-- bluethoot -->
-	<key>NSBluetoothAlwaysUsageDescription</key>  
-	<string>Need BLE permission</string>  
-	<key>NSBluetoothPeripheralUsageDescription</key>  
-	<string>Need BLE permission</string>  
-	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>  
-	<string>Need Location permission</string>  
-	<key>NSLocationAlwaysUsageDescription</key>  
-	<string>Need Location permission</string>  
-	<key>NSLocationWhenInUseUsageDescription</key>  
-	<string>Need Location permission</string>
-	<!-- end bluethooth -->
 </dict>
 </plist>

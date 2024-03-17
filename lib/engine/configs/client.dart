@@ -11,7 +11,7 @@ abstract class Development {
       case EnvironmentMode.test:
         return 'http://192.168.253.113:4000/';
       case EnvironmentMode.production:
-        return 'http://192.168.100.18:4000/'; // real device
+        return 'https://garapinpos.garapin.cloud/'; // real device
     }
   }
 
@@ -23,7 +23,7 @@ abstract class Development {
       case EnvironmentMode.test:
         return 'http://192.168.253.113:4000/';
       case EnvironmentMode.production:
-        return 'http://192.168.100.18:4000/'; // real device
+        return 'https://garapinpos.garapin.cloud/'; // real device
     }
   }
 }
