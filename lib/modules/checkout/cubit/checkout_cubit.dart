@@ -20,6 +20,8 @@ part 'checkout_cubit.freezed.dart';
 
 class CheckoutCubit extends BaseCubit<CheckoutState> {
   Timer? timer;
+  final ExpansionTileController? tileQrController = ExpansionTileController();
+  final ExpansionTileController? tileVaController = ExpansionTileController();
   final TextEditingController amountCashController = TextEditingController();
   final ScrollController scrollController = ScrollController();
   final CartCubit cartCubit;
@@ -62,6 +64,7 @@ class CheckoutCubit extends BaseCubit<CheckoutState> {
 
   doSelectPayment(PaymentMethod paymentMethod, String invoices, int amount,
       {String? bankCode}) async {
+    showLoading();
     if (paymentMethod == PaymentMethod.qris) {
       // if (state.qrData == null) {
       final data = await ApiService.createQrcode(context,
@@ -91,11 +94,16 @@ class CheckoutCubit extends BaseCubit<CheckoutState> {
         showError(data.message);
       }
     }
+    dismissLoading();
     scrollBottom();
   }
 
   changePaymentMethod(PaymentMethod paymentMethod) {
-    emit(state.copyWith(paymentMethod: paymentMethod));
+    if (state.paymentMethod == paymentMethod) {
+      emit(state.copyWith(paymentMethod: PaymentMethod.none));
+    } else {
+      emit(state.copyWith(paymentMethod: paymentMethod));
+    }
   }
 
   void getInvoicesInterval(String invoices) {

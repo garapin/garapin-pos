@@ -63,7 +63,7 @@ class EditProductPage extends StatelessWidget {
                                           size: 26,
                                         )),
                                     Text(
-                                      "Tambah Produk",
+                                      "Edit Produk",
                                       style: AppFont.largeBold(context),
                                     ),
                                   ],
@@ -178,49 +178,47 @@ class EditProductPage extends StatelessWidget {
                                   );
                                 },
                                 child: Container(
-                                  height: 163,
-                                  width: baseWidth,
-                                  decoration: const BoxDecoration(
-                                    color: Color(0xffF8F9FD),
-                                  ),
-                                  child: (state.product?.image != "")
-                                      ? Container(
-                                          decoration: BoxDecoration(
-                                            borderRadius:
-                                                BorderRadius.circular(12),
-                                          ),
-                                          height: 260,
-                                          width: double.infinity,
-                                          child: ImageLoad(
-                                              fit: BoxFit.contain,
-                                              imageUrl:
-                                                  Environment.showUrlImage(
-                                                      path: state
-                                                              .product?.image ??
-                                                          "")))
-                                      : (state.pickedImage != null)
-                                          ? Container(
-                                              decoration: BoxDecoration(
-                                                borderRadius:
-                                                    BorderRadius.circular(12),
-                                              ),
-                                              height: 260,
-                                              width: double.infinity,
-                                              child: Image.file(
-                                                File(state.pickedImage!.path),
-                                              ),
-                                            )
-                                          : const Column(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.center,
-                                              children: [
-                                                Icon(Icons.image, size: 80),
-                                                SizedBox(height: 12),
-                                                Text(
-                                                    "Unggah Foto Thumbnail produk"),
-                                              ],
+                                    height: 163,
+                                    width: baseWidth,
+                                    decoration: const BoxDecoration(
+                                      color: Color(0xffF8F9FD),
+                                    ),
+                                    child: (state.pickedImage != null)
+                                        ? Container(
+                                            decoration: BoxDecoration(
+                                              borderRadius:
+                                                  BorderRadius.circular(12),
                                             ),
-                                ),
+                                            height: 260,
+                                            width: double.infinity,
+                                            child: Image.file(
+                                              File(state.pickedImage!.path),
+                                            ),
+                                          )
+                                        // : const Column(
+                                        //     mainAxisAlignment:
+                                        //         MainAxisAlignment.center,
+                                        //     children: [
+                                        //       Icon(Icons.image, size: 80),
+                                        //       SizedBox(height: 12),
+                                        //       Text(
+                                        //           "Unggah Foto Thumbnail produk"),
+                                        //     ],
+                                        //   ),
+                                        : Container(
+                                            decoration: BoxDecoration(
+                                              borderRadius:
+                                                  BorderRadius.circular(12),
+                                            ),
+                                            height: 260,
+                                            width: double.infinity,
+                                            child: ImageLoad(
+                                                fit: BoxFit.contain,
+                                                imageUrl:
+                                                    Environment.showUrlImage(
+                                                        path: state.product
+                                                                ?.image ??
+                                                            "")))),
                               ),
                             ),
                             const SizedBox(height: 40),

@@ -33,13 +33,13 @@ class LoginCubit extends BaseCubit<LoginState> {
     showLoading();
     try {
       final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
-      if (googleUser == null) {
-        dismissLoading();
-        return;
-      }
+      // if (googleUser == null) {
+      //   dismissLoading();
+      //   return;
+      // }
 
       final GoogleSignInAuthentication googleAuth =
-          await googleUser.authentication;
+          await googleUser!.authentication;
 
       final data = await ApiService.signinWithGoogle(
         context,

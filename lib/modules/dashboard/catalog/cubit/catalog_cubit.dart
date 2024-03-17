@@ -70,7 +70,6 @@ class CatalogCubit extends BaseCubit<CatalogState> {
     final data = await ApiService.addToCart(context,
         idProduct: idProduct, quantity: quantity);
     if (data.isSuccess) {
-      showSuccess(data.message);
     } else {
       showError(data.message);
     }

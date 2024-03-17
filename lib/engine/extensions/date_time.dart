@@ -5,7 +5,8 @@ extension DateTimeExtensions on DateTime {
   String format({String pattern = 'yyyy-MM-dd HH:mm:ss', String? locale}) {
     String loc = locale ?? Environment.currentLanguages.languageCode;
     try {
-      return DateFormat(pattern, loc).format(this);
+      // return DateFormat(pattern, loc).format(this);
+      return DateFormat(pattern, loc).format(toLocal());
     } catch (e) {
       return toString();
     }

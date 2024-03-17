@@ -19,7 +19,7 @@ import '../../../engine/base/app.dart';
 import '../../../widgets/components/pair_bluethooth.dart';
 
 class PaymentMethodsPage extends StatelessWidget {
-  const PaymentMethodsPage({super.key, required this.cartCubit});
+  PaymentMethodsPage({super.key, required this.cartCubit});
   final CartCubit cartCubit;
 
   @override
@@ -126,9 +126,13 @@ class PaymentMethodsPage extends StatelessWidget {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   ExpansionTile(
+                                    controller: cubit.tileQrController,
                                     onExpansionChanged: (value) {
-                                      print("print ini");
-                                      print(value);
+                                      if (value) {
+                                        cubit.tileVaController?.collapse();
+                                        cubit.changePaymentMethod(
+                                            PaymentMethod.none);
+                                      }
                                     },
                                     title: Text(
                                       "QRIS",
@@ -172,6 +176,15 @@ class PaymentMethodsPage extends StatelessWidget {
                                     ],
                                   ),
                                   ExpansionTile(
+                                      onExpansionChanged: (value) {
+                                        if (value) {
+                                          cubit.tileQrController?.collapse();
+                                          cubit.changePaymentMethod(
+                                              PaymentMethod.none);
+                                        }
+                                      },
+                                      controller: cubit.tileVaController,
+                                      enabled: true,
                                       title: Text(
                                         "Virtual Account",
                                         style: AppFont.largeBold(context),
@@ -227,15 +240,33 @@ class PaymentMethodsPage extends StatelessWidget {
                                         ),
                                         const SizedBox(height: 20),
                                       ]),
-                                  TextButton(
-                                      onPressed: () {
-                                        cubit.changePaymentMethod(
-                                            PaymentMethod.cash);
-                                      },
-                                      child: Text(
-                                        "Cash",
-                                        style: AppFont.largeBold(context),
-                                      )),
+                                  Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 8),
+                                    child: TextButton(
+                                        onPressed: () {
+                                          cubit.tileVaController?.collapse();
+                                          cubit.tileQrController?.collapse();
+                                          cubit.changePaymentMethod(
+                                              PaymentMethod.cash);
+                                        },
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Text(
+                                              "Cash",
+                                              style: AppFont.largeBold(context),
+                                            ),
+                                            Icon((state.paymentMethod ==
+                                                    PaymentMethod.cash)
+                                                ? Icons
+                                                    .keyboard_arrow_up_rounded
+                                                : Icons
+                                                    .keyboard_arrow_down_rounded)
+                                          ],
+                                        )),
+                                  ),
                                 ],
                               )
                             : Column(
@@ -298,48 +329,83 @@ class PaymentMethodsPage extends StatelessWidget {
                                   ),
                                 ],
                               ),
+                        Divider(
+                          thickness: 1,
+                        ),
                         const SizedBox(height: 20),
-                        Builder(
-                          builder: (context) {
-                            if (state.paymentMethod == PaymentMethod.qris) {
-                              return Column(
-                                children: [
-                                  Align(
-                                    alignment: Alignment.center,
-                                    child: QrImageView(
-                                      data: state.qrData!.qrString!,
-                                      version: QrVersions.auto,
-                                      size: 200.0,
-                                    ),
-                                  ),
-                                  const SizedBox(height: 12),
-                                  Align(
-                                      alignment: Alignment.center,
-                                      child: Text(
-                                        "Scan untuk lakukan pembayaran",
-                                        style: AppFont.large(context)!
-                                            .copyWith(fontSize: 18),
-                                      ))
-                                ],
-                              );
-                            } else if (state.paymentMethod ==
-                                PaymentMethod.va) {
-                              return Container(
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
+                        SizedBox(
+                          height: 300,
+                          width: baseWidth,
+                          child: Builder(
+                            builder: (context) {
+                              if (state.paymentMethod == PaymentMethod.qris) {
+                                return Column(
                                   children: [
                                     Text(
-                                      state.virtualAccountResponse?.bankCode ??
-                                          "",
-                                      style: AppFont.large(context)!
-                                          .copyWith(fontSize: 16),
+                                      "Pembayaran QRIS",
+                                      style: AppFont.largePrimary(context)!
+                                          .copyWith(
+                                              fontSize: 18,
+                                              fontWeight: FontWeight.bold),
                                     ),
+                                    Align(
+                                      alignment: Alignment.center,
+                                      child: QrImageView(
+                                        data: state.qrData!.qrString!,
+                                        version: QrVersions.auto,
+                                        size: 200.0,
+                                      ),
+                                    ),
+                                    const SizedBox(height: 12),
+                                    Align(
+                                        alignment: Alignment.center,
+                                        child: Text(
+                                          "Scan untuk lakukan pembayaran",
+                                          style: AppFont.large(context)!
+                                              .copyWith(fontSize: 18),
+                                        )),
+                                    Align(
+                                        alignment: Alignment.center,
+                                        child: Text(
+                                          "Expired at ${state.qrData?.expiresAt!.toddMMMyyyyHHmmss()}",
+                                          style: AppFont.large(context)!
+                                              .copyWith(fontSize: 18),
+                                        ))
+                                  ],
+                                );
+                              } else if (state.paymentMethod ==
+                                  PaymentMethod.va) {
+                                return Column(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    Text(
+                                      "Pembayaran Virtual Account",
+                                      style: AppFont.largePrimary(context)!
+                                          .copyWith(
+                                              fontSize: 18,
+                                              fontWeight: FontWeight.bold),
+                                    ),
+                                    SizedBox(height: 16),
+                                    ImageLoad(
+                                        height: 120,
+                                        imageUrl: Environment.showUrlImage(
+                                            path: state.availablePayment
+                                                    .where((element) =>
+                                                        element.bank ==
+                                                        state
+                                                            .virtualAccountResponse
+                                                            ?.bankCode)
+                                                    .first
+                                                    .image ??
+                                                "")), // Widget untuk menampilkan gambar
+
                                     Text(
                                       state.virtualAccountResponse
                                               ?.accountNumber ??
                                           "",
-                                      style: AppFont.largeBold(context)!
-                                          .copyWith(fontSize: 20),
+                                      style: AppFont.success(context)!.copyWith(
+                                          fontSize: 24,
+                                          fontWeight: FontWeight.bold),
                                     ),
                                     const SizedBox(height: 4),
                                     Text(
@@ -350,76 +416,82 @@ class PaymentMethodsPage extends StatelessWidget {
                                       "Expired at ${state.virtualAccountResponse?.expirationDate!.toddMMMyyyyHHmmss() ?? ""}",
                                       style: AppFont.medium(context),
                                     ),
-                                    const SizedBox(
-                                      height: 150,
-                                    )
                                   ],
-                                ),
-                              );
-                            } else if (state.paymentMethod ==
-                                PaymentMethod.cash) {
-                              return Column(children: [
-                                Padding(
-                                  padding: EdgeInsets.symmetric(horizontal: 12),
-                                  child: TextField(
-                                    inputFormatters: [
-                                      FilteringTextInputFormatter.allow(
-                                          RegExp(r'[0-9]')),
-                                      TextInputFormatter.withFunction(
-                                          (oldValue, newValue) {
-                                        final text = newValue.text;
-                                        final newText =
-                                            (int.parse(text).currencyFormat());
-                                        return TextEditingValue(
-                                          text: newText,
-                                          selection: TextSelection.collapsed(
-                                              offset: newText.length),
-                                        );
-                                      }),
-                                    ],
-                                    keyboardType: TextInputType.number,
-                                    controller: cubit.amountCashController,
-                                    decoration: InputDecoration(
-                                        border: OutlineInputBorder(
-                                            borderRadius: BorderRadius.all(
-                                                Radius.circular(26))),
-                                        label: Text(
-                                          "Masukan jumlah uang",
-                                        )),
+                                );
+                              } else if (state.paymentMethod ==
+                                  PaymentMethod.cash) {
+                                return Column(children: [
+                                  Text(
+                                    "Pembayaran Cash",
+                                    style: AppFont.largePrimary(context)!
+                                        .copyWith(
+                                            fontSize: 18,
+                                            fontWeight: FontWeight.bold),
                                   ),
-                                ),
-                                const SizedBox(height: 24),
-                                Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 12),
-                                  child: ClipRRect(
-                                    borderRadius: BorderRadius.circular(26),
-                                    child: SizedBox(
-                                      width: baseWidth,
-                                      height: 50,
-                                      child: ElevatedButton(
-                                          onPressed: () {
-                                            String removeCurrency = cubit
-                                                .amountCashController.text
-                                                .replaceAll(
-                                                    RegExp(r'[^\d]'), '');
-                                            cubit.doSelectPayment(
-                                              PaymentMethod.cash,
-                                              cartCubit.state.invoces!,
-                                              int.parse(removeCurrency),
-                                            );
-                                          },
-                                          child: const Text(
-                                              "Konfirmasi Bayar Cash")),
+                                  SizedBox(height: 16),
+                                  Padding(
+                                    padding:
+                                        EdgeInsets.symmetric(horizontal: 12),
+                                    child: TextField(
+                                      inputFormatters: [
+                                        FilteringTextInputFormatter.allow(
+                                            RegExp(r'[0-9]')),
+                                        TextInputFormatter.withFunction(
+                                            (oldValue, newValue) {
+                                          final text = newValue.text;
+                                          final newText = (int.parse(text)
+                                              .currencyFormat());
+                                          return TextEditingValue(
+                                            text: newText,
+                                            selection: TextSelection.collapsed(
+                                                offset: newText.length),
+                                          );
+                                        }),
+                                      ],
+                                      keyboardType: TextInputType.number,
+                                      controller: cubit.amountCashController,
+                                      decoration: InputDecoration(
+                                          border: OutlineInputBorder(
+                                              borderRadius: BorderRadius.all(
+                                                  Radius.circular(26))),
+                                          label: Text(
+                                            "Masukan jumlah uang",
+                                          )),
                                     ),
                                   ),
-                                ),
-                                const SizedBox(height: 20),
-                              ]);
-                            } else {
-                              return const SizedBox();
-                            }
-                          },
+                                  const SizedBox(height: 24),
+                                  Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 12),
+                                    child: ClipRRect(
+                                      borderRadius: BorderRadius.circular(26),
+                                      child: SizedBox(
+                                        width: baseWidth,
+                                        height: 50,
+                                        child: ElevatedButton(
+                                            onPressed: () {
+                                              String removeCurrency = cubit
+                                                  .amountCashController.text
+                                                  .replaceAll(
+                                                      RegExp(r'[^\d]'), '');
+                                              cubit.doSelectPayment(
+                                                PaymentMethod.cash,
+                                                cartCubit.state.invoces!,
+                                                int.parse(removeCurrency),
+                                              );
+                                            },
+                                            child: const Text(
+                                                "Konfirmasi Bayar Cash")),
+                                      ),
+                                    ),
+                                  ),
+                                  const SizedBox(height: 20),
+                                ]);
+                              } else {
+                                return const SizedBox();
+                              }
+                            },
+                          ),
                         ),
                       ],
                     ),

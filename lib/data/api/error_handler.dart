@@ -6,10 +6,6 @@ import 'package:dio/dio.dart';
 import 'network_exceptions.dart';
 import 'response.dart';
 
-///
-/// Created by alfianhpratama on 08/11/22
-///
-
 class ErrorHandler {
   static BaseResponse getDioException(error) {
     int status = 405;
