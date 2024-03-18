@@ -5,6 +5,7 @@ import 'package:pos/data/api/error_handler.dart';
 import 'package:pos/data/models/base/available_payment.dart';
 import 'package:pos/data/models/base/bank_account.dart';
 import 'package:pos/data/models/base/brand.dart';
+import 'package:pos/data/models/base/bussiness_partner.dart';
 import 'package:pos/data/models/base/cart.dart';
 import 'package:pos/data/models/base/invoices.dart';
 import 'package:pos/data/models/base/payment_cash.dart';
@@ -14,6 +15,7 @@ import 'package:pos/data/models/base/store.dart';
 import 'package:pos/data/models/base/unit.dart';
 import 'package:pos/data/models/base/virtual_account.dart';
 import 'package:pos/data/models/request/req_product.dart';
+import 'package:pos/data/models/request/req_register_bank.dart';
 import 'package:pos/engine/engine.dart';
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter/material.dart';
@@ -403,11 +405,27 @@ class ApiService {
 
   static Future<ApiResponse<Store>> addBankAccountInProfile(
     BuildContext context, {
-    required BankAccount bankAccount,
+    required ReqRegisterBank req,
   }) async {
     return await ApiConfigure(context)
-        .post('store/update/add_bank_account', params: bankAccount.toJson())
+        .post('store/update/add_bank_account', params: req.toJson())
         .then((result) => ApiResponse<Store>.fromJson(result.data))
         .handler((error) => ApiResponse<Store>.onError(error));
+  }
+
+  static Future<ApiResponse> createMerchant(
+    BuildContext context, {
+    required String databaseName,
+    required String merchantRole,
+    required String email,
+  }) async {
+    return await ApiConfigure(context)
+        .post('store/merchant/create', params: {
+          "store_name": databaseName,
+          "merchant_role": merchantRole,
+          "email": email
+        })
+        .then((result) => ApiResponse.fromJson(result.data))
+        .handler((error) => ApiResponse.onError(error));
   }
 }

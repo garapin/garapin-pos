@@ -21,6 +21,10 @@ Map<String, dynamic> _$StoreToJson(Store instance) => <String, dynamic>{
     };
 
 StoreClass _$StoreClassFromJson(Map<String, dynamic> json) => StoreClass(
+      businessPartner: json['business_partner'] == null
+          ? null
+          : BusinessPartner.fromJson(
+              json['business_partner'] as Map<String, dynamic>),
       accountHolder: json['account_holder'] == null
           ? null
           : AccountHolder.fromJson(
@@ -49,6 +53,7 @@ StoreClass _$StoreClassFromJson(Map<String, dynamic> json) => StoreClass(
 Map<String, dynamic> _$StoreClassToJson(StoreClass instance) =>
     <String, dynamic>{
       'bank_account': instance.bankAccount,
+      'business_partner': instance.businessPartner,
       'account_holder': instance.accountHolder,
       '_id': instance.id,
       'pic_name': instance.picName,

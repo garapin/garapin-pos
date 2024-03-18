@@ -16,6 +16,7 @@ class MasterPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final cubit = context.read<MasterCubit>();
     return Scaffold(
+        backgroundColor: const Color(0xffF8F9FD),
         floatingActionButton: BlocBuilder<MasterCubit, MasterState>(
           builder: (context, state) {
             return ContainerStateHandler(
@@ -89,6 +90,25 @@ class MasterPage extends StatelessWidget {
                                         "Bagi - Bagi",
                                         style: AppFont.largePrimary(context),
                                       )),
+                                    )),
+                                SizedBox(height: 20),
+                                CustomButton(
+                                    onPressed: () {
+                                      cubit.changePage(2);
+                                      cubit.showPage(false);
+                                    },
+                                    child: Container(
+                                      decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(24),
+                                          color: AppColor.appColor.primary
+                                              .withOpacity(0.15)),
+                                      height: 40,
+                                      child: Center(
+                                          child: Text(
+                                        "My Merchant",
+                                        style: AppFont.largePrimary(context),
+                                      )),
                                     ))
                               ],
                             ),
@@ -105,11 +125,11 @@ class MasterPage extends StatelessWidget {
           child: BlocBuilder<MasterCubit, MasterState>(
             builder: (context, state) {
               return ContainerStateHandler(
-                  child: state.widget,
                   loading: Center(
                     child: CircularProgressIndicator(),
                   ),
-                  status: state.status);
+                  status: state.status,
+                  child: state.widget);
             },
           ),
         ));

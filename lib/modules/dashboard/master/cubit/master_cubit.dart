@@ -7,6 +7,7 @@ import 'package:pos/modules/dashboard/catalog/cubit/catalog_cubit.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 import '../../catalog/view/catalog.dart';
+import '../pages/mymerchant.dart';
 
 part 'master_state.dart';
 part 'master_cubit.freezed.dart';
@@ -39,6 +40,7 @@ class MasterCubit extends BaseCubit<MasterState> {
 
   List<Widget> page = [
     CatalogPage(modeCatalog: ModeCatalog.edit),
-    CatalogPage(modeCatalog: ModeCatalog.cashier),
+    MyMerchantPage(),
+    MyMerchantPage(),
   ];
 }

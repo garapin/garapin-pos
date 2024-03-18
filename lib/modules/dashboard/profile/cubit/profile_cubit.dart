@@ -12,6 +12,7 @@ import 'package:pos/data/api/services.dart';
 import 'package:pos/data/models/base/available_payment.dart';
 import 'package:pos/data/models/base/bank_account.dart';
 import 'package:pos/data/models/base/store.dart';
+import 'package:pos/data/models/request/req_register_bank.dart';
 import 'package:pos/engine/engine.dart';
 import 'package:pos/engine/helpers/options.dart';
 
@@ -129,6 +130,7 @@ class ProfileCubit extends BaseCubit<ProfileState> {
       showSuccess(data.message);
       final data2 = await ApiService.getStoreInfo(context);
       if (data2.data?.store?.storeName != null) {
+        Sessions.setAccountHolder(jsonEncode(data2.data!.store!.accountHolder));
         context.go(RouteNames.dashboard);
       } else {}
     } else {
@@ -178,7 +180,7 @@ class ProfileCubit extends BaseCubit<ProfileState> {
     Map<String, dynamic>? form = formKey.currentState?.value;
 
     final data = await ApiService.addBankAccountInProfile(context,
-        bankAccount: BankAccount(
+        req: ReqRegisterBank(
           bankName: form?["bank_name"] ?? "",
           holderName: form?["holder_name"] ?? "",
           accountNumber: int.parse(form?["account_number"]),
@@ -280,5 +282,11 @@ class ProfileCubit extends BaseCubit<ProfileState> {
         );
       },
     );
+  }
+
+  showFormBussinessPartner() {
+    emit(state.copyWith(
+        showFormBussinessPartner:
+            state.showFormBussinessPartner ? false : true));
   }
 }

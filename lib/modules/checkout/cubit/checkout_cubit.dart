@@ -82,6 +82,8 @@ class CheckoutCubit extends BaseCubit<CheckoutState> {
         emit(state.copyWith(
             paymentMethod: PaymentMethod.va,
             virtualAccountResponse: data.data));
+      } else {
+        showError(data.message);
       }
     } else if (paymentMethod == PaymentMethod.cash) {
       final data = await ApiService.paymentCash(context,

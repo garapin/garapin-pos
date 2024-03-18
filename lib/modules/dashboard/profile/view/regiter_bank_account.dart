@@ -23,6 +23,7 @@ class RegisterBankAccountWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var bankAccount = state?.store?.store?.bankAccount;
+    var businessPartnesr = state?.store?.store?.businessPartner;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -66,7 +67,7 @@ class RegisterBankAccountWidget extends StatelessWidget {
         ),
         const SizedBox(height: 16),
         OutlineFormText(
-          initialValue: bankAccount?.accountNumber.toString() ?? "",
+          initialValue: "${bankAccount?.accountNumber ?? ""}",
           keyboardType: TextInputType.number,
           name: "account_number",
           hintText: "masukan Nomor Rekening",
@@ -74,7 +75,7 @@ class RegisterBankAccountWidget extends StatelessWidget {
         ),
         const SizedBox(height: 16),
         OutlineFormText(
-          initialValue: bankAccount?.pin.toString() ?? "",
+          initialValue: "${bankAccount?.pin ?? ""}",
           keyboardType: TextInputType.number,
           name: "pin",
           hintText: "Masukan Pin",
@@ -97,7 +98,9 @@ class RegisterBankAccountWidget extends StatelessWidget {
               height: 40,
               width: 300,
               child: ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    cubit.showFormBussinessPartner();
+                  },
                   child: const Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
@@ -109,103 +112,124 @@ class RegisterBankAccountWidget extends StatelessWidget {
             ),
           )),
         ),
-        const SizedBox(height: 16),
-        OutlineFormText(
-          initialValue: bankAccount?.companyName ?? "",
-          name: "company_name",
-          hintText: "Masukan Nama Perusahaan",
-          label: "Nama Perusahaan",
-        ),
-        SizedBox(height: 24),
-        OutlineFormText(
-          initialValue: bankAccount?.noNpwp ?? "",
-          name: "no_npwp",
-          hintText: "Masukan No NPWP",
-          label: "No. NPWP",
-        ),
-        const SizedBox(height: 24),
-        OutlineFormText(
-          initialValue: bankAccount?.noNib ?? "",
-          name: "no_nib",
-          hintText: "Masukan No NIB",
-          label: "No. NIB",
-        ),
-        const SizedBox(height: 24),
-        ImagePickerWidget(
-          label: "Upload NPWP",
-          cubit: cubit,
-          imageUrl: null,
-          pickedImage: state?.npwpImage,
-          pickCameraPressed: () {
-            cubit
-                .pickNpwpImage(ImageSource.camera)
-                .then((value) => context.pop());
-          },
-          pickGaleryPressed: () {
-            cubit
-                .pickNpwpImage(ImageSource.gallery)
-                .then((value) => context.pop());
-          },
-        ),
-        const SizedBox(height: 16),
-        ImagePickerWidget(
-          cubit: cubit,
-          label: "Upload NIB",
-          imageUrl: null,
-          pickedImage: state?.nibImage,
-          pickCameraPressed: () {
-            cubit
-                .pickNibImage(ImageSource.camera)
-                .then((value) => context.pop());
-          },
-          pickGaleryPressed: () {
-            cubit
-                .pickNibImage(ImageSource.gallery)
-                .then((value) => context.pop());
-          },
-        ),
-        const SizedBox(height: 16),
-        ImagePickerWidget(
-          label: "Upload Akta",
-          cubit: cubit,
-          imageUrl: null,
-          pickedImage: state?.aktaImage,
-          pickCameraPressed: () {
-            cubit
-                .pickAktaImage(ImageSource.camera)
-                .then((value) => context.pop());
-          },
-          pickGaleryPressed: () {
-            cubit
-                .pickAktaImage(ImageSource.gallery)
-                .then((value) => context.pop());
-          },
-        ),
-        const SizedBox(height: 32),
-        ClipRRect(
-          borderRadius: BorderRadius.circular(38),
-          child: SizedBox(
-            height: 40,
-            width: baseWidth,
-            child: ElevatedButton(
-              onPressed: () {
-                cubit.addBankAccount();
-              },
-              child: const Text("Request Approval"),
-            ),
-          ),
-        ),
-        const SizedBox(height: 16),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            const Text("Status :"),
-            Text(state?.store?.store?.bankAccount?.status ?? "",
-                style: AppFont.large(context)!.copyWith(
-                  color: AppColor.appColor.warning,
-                ))
-          ],
-        )
+        (state!.showFormBussinessPartner)
+            ? Align(
+                alignment: Alignment.center,
+                child: Container(
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(24),
+                      color: AppColor.appColor.primary.withOpacity(0.1)),
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 30, vertical: 24),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        const SizedBox(height: 16),
+                        OutlineFormText(
+                          initialValue: businessPartnesr?.companyName ?? "",
+                          name: "company_name",
+                          hintText: "Masukan Nama Perusahaan",
+                          label: "Nama Perusahaan",
+                        ),
+                        SizedBox(height: 24),
+                        OutlineFormText(
+                          initialValue: businessPartnesr?.noNpwp ?? "",
+                          name: "no_npwp",
+                          hintText: "Masukan No NPWP",
+                          label: "No. NPWP",
+                        ),
+                        const SizedBox(height: 24),
+                        OutlineFormText(
+                          initialValue: businessPartnesr?.noNib ?? "",
+                          name: "no_nib",
+                          hintText: "Masukan No NIB",
+                          label: "No. NIB",
+                        ),
+                        const SizedBox(height: 24),
+                        ImagePickerWidget(
+                          label: "Upload NPWP",
+                          cubit: cubit,
+                          imageUrl: businessPartnesr?.imageNpwp ?? "",
+                          pickedImage: state?.npwpImage,
+                          pickCameraPressed: () {
+                            cubit
+                                .pickNpwpImage(ImageSource.camera)
+                                .then((value) => context.pop());
+                          },
+                          pickGaleryPressed: () {
+                            cubit
+                                .pickNpwpImage(ImageSource.gallery)
+                                .then((value) => context.pop());
+                          },
+                        ),
+                        const SizedBox(height: 16),
+                        ImagePickerWidget(
+                          cubit: cubit,
+                          label: "Upload NIB",
+                          imageUrl: businessPartnesr?.imageNib ?? "",
+                          pickedImage: state?.nibImage,
+                          pickCameraPressed: () {
+                            cubit
+                                .pickNibImage(ImageSource.camera)
+                                .then((value) => context.pop());
+                          },
+                          pickGaleryPressed: () {
+                            cubit
+                                .pickNibImage(ImageSource.gallery)
+                                .then((value) => context.pop());
+                          },
+                        ),
+                        const SizedBox(height: 16),
+                        ImagePickerWidget(
+                          label: "Upload Akta",
+                          cubit: cubit,
+                          imageUrl: businessPartnesr?.imageAkta ?? "",
+                          pickedImage: state?.aktaImage,
+                          pickCameraPressed: () {
+                            cubit
+                                .pickAktaImage(ImageSource.camera)
+                                .then((value) => context.pop());
+                          },
+                          pickGaleryPressed: () {
+                            cubit
+                                .pickAktaImage(ImageSource.gallery)
+                                .then((value) => context.pop());
+                          },
+                        ),
+                        const SizedBox(height: 32),
+                        ClipRRect(
+                          borderRadius: BorderRadius.circular(38),
+                          child: SizedBox(
+                            height: 40,
+                            width: baseWidth,
+                            child: ElevatedButton(
+                              onPressed: () {
+                                cubit.addBankAccount();
+                              },
+                              child: const Text("Request Approval"),
+                            ),
+                          ),
+                        ),
+                        const SizedBox(height: 16),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            const Text("Status :"),
+                            Text(
+                                state?.store?.store?.businessPartner?.status ??
+                                    "",
+                                style: AppFont.large(context)!.copyWith(
+                                  color: AppColor.appColor.warning,
+                                ))
+                          ],
+                        )
+                      ],
+                    ),
+                  ),
+                ),
+              )
+            : SizedBox()
       ],
     );
   }

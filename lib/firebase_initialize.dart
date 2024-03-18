@@ -13,10 +13,10 @@ Future<void> initializeFirebase() async {
   } else if (Platform.isIOS) {
     await Firebase.initializeApp(
       options: const FirebaseOptions(
-        apiKey: 'AIzaSyCU6HiBa80eG-coDduyDXUlsSYZoILdb5E',
-        appId: '1:205261320352:ios:204ecb66f17f3e329dd9c5',
+        apiKey: 'AIzaSyBqiPAO8yWb_Gy3RqNB5F9Ryow0TZPMp1k',
+        appId: '1:205261320352:ios:baba5bb454c83c6b9dd9c5',
         messagingSenderId: '205261320352',
-        projectId: 'pos-3c2be',
+        projectId: 'garapin-pos',
       ),
     );
   } else {
