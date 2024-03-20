@@ -141,6 +141,24 @@ class ProfileCubit extends BaseCubit<ProfileState> {
     return data;
   }
 
+  void acceptInvitation(String status) async {
+    final data = await ApiService.acceptInvitation(context, status: status);
+    if (data.isSuccess) {
+      showSuccess(data.message);
+      refreshData();
+    } else {
+      showError(data.message);
+    }
+  }
+
+  bool isReadOnly() {
+    if (state.store?.store?.businessPartner?.status == "ACTIVE") {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
   Future addBankAccount() async {
     showLoading();
     formKey.currentState?.save();

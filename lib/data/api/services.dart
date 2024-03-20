@@ -7,6 +7,7 @@ import 'package:pos/data/models/base/bank_account.dart';
 import 'package:pos/data/models/base/brand.dart';
 import 'package:pos/data/models/base/bussiness_partner.dart';
 import 'package:pos/data/models/base/cart.dart';
+import 'package:pos/data/models/base/database_store.dart';
 import 'package:pos/data/models/base/invoices.dart';
 import 'package:pos/data/models/base/payment_cash.dart';
 import 'package:pos/data/models/base/product.dart';
@@ -21,6 +22,7 @@ import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:pos/modules/product/edit_product/cubit/edit_product_cubit.dart';
 import '../models/base/category.dart';
+import '../models/base/merchant_model.dart';
 import '../models/base/user.dart';
 import 'configure.dart';
 import 'response.dart';
@@ -427,5 +429,30 @@ class ApiService {
         })
         .then((result) => ApiResponse.fromJson(result.data))
         .handler((error) => ApiResponse.onError(error));
+  }
+
+  static Future<ApiResponseList<MerchantModel>> getAllMerchanr(
+      BuildContext context) async {
+    return await ApiConfigure(context)
+        .get('store/merchant/all')
+        .then((result) => ApiResponseList<MerchantModel>.fromJson(result.data))
+        .handler((error) => ApiResponseList<MerchantModel>.onError(error));
+  }
+
+  static Future<ApiResponse<MerchantModel>> acceptInvitation(
+      BuildContext context,
+      {required String status}) async {
+    return await ApiConfigure(context)
+        .post('/store/merchant/accept_invitation', params: {"status": status})
+        .then((result) => ApiResponse<MerchantModel>.fromJson(result.data))
+        .handler((error) => ApiResponse<MerchantModel>.onError(error));
+  }
+
+  static Future<ApiResponseList<DatabaseStore>> getStoreDatabaseByParent(
+      BuildContext context) async {
+    return await ApiConfigure(context)
+        .get('/store/get_stores_database_id_parent')
+        .then((result) => ApiResponseList<DatabaseStore>.fromJson(result.data))
+        .handler((error) => ApiResponseList<DatabaseStore>.onError(error));
   }
 }

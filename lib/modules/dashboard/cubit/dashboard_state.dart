@@ -4,6 +4,7 @@ part of 'dashboard_cubit.dart';
 class DashboardState with _$DashboardState {
   const factory DashboardState({
     @Default(DataStateStatus.initial) DataStateStatus status,
+    Store? store,
     @Default(0) int index,
     @Default(CatalogPage()) Widget widget,
     @Default(false) showCreateProduct,

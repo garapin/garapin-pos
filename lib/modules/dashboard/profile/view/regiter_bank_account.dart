@@ -82,36 +82,41 @@ class RegisterBankAccountWidget extends StatelessWidget {
           label: "Pin Anda",
           maxLength: 6,
         ),
-        ListTile(
-          title: Text(
-            "Ingin menjadi Business Partner Kami?",
-            style: AppFont.largeBold(context)!.copyWith(fontSize: 16),
-          ),
-          subtitle: Text(
-            "Jadilah partner kami sekarang juga",
-            style: AppFont.large(context)!.copyWith(fontSize: 14),
-          ),
-          trailing: Expanded(
-              child: ClipRRect(
-            borderRadius: BorderRadius.circular(38),
-            child: SizedBox(
-              height: 40,
-              width: 300,
-              child: ElevatedButton(
-                  onPressed: () {
-                    cubit.showFormBussinessPartner();
-                  },
-                  child: const Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Icon(Icons.people),
-                      SizedBox(width: 20),
-                      Text("Register Bussiness Partner"),
-                    ],
-                  )),
-            ),
-          )),
-        ),
+        (state?.store?.store?.storeType == "MERCHANT")
+            ? SizedBox()
+            : ListTile(
+                title: Text(
+                  "Ingin menjadi Business Partner Kami?",
+                  style: AppFont.largeBold(context)!.copyWith(fontSize: 16),
+                ),
+                subtitle: Text(
+                  "Jadilah partner kami sekarang juga",
+                  style: AppFont.large(context)!.copyWith(fontSize: 14),
+                ),
+                trailing: Expanded(
+                    child: ClipRRect(
+                  borderRadius: BorderRadius.circular(38),
+                  child: SizedBox(
+                    height: 40,
+                    width: 400,
+                    child: ElevatedButton(
+                        onPressed: () {
+                          cubit.showFormBussinessPartner();
+                        },
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Icon(Icons.people),
+                            SizedBox(width: 20),
+                            Text(state?.store?.store?.businessPartner?.status ==
+                                    "ACTIVE"
+                                ? "Sudah menjadi Bussiness Partner"
+                                : "Register Bussiness Partner"),
+                          ],
+                        )),
+                  ),
+                )),
+              ),
         (state!.showFormBussinessPartner)
             ? Align(
                 alignment: Alignment.center,
@@ -127,6 +132,7 @@ class RegisterBankAccountWidget extends StatelessWidget {
                       children: [
                         const SizedBox(height: 16),
                         OutlineFormText(
+                          readOnly: cubit.isReadOnly(),
                           initialValue: businessPartnesr?.companyName ?? "",
                           name: "company_name",
                           hintText: "Masukan Nama Perusahaan",
@@ -134,6 +140,7 @@ class RegisterBankAccountWidget extends StatelessWidget {
                         ),
                         SizedBox(height: 24),
                         OutlineFormText(
+                          readOnly: cubit.isReadOnly(),
                           initialValue: businessPartnesr?.noNpwp ?? "",
                           name: "no_npwp",
                           hintText: "Masukan No NPWP",
@@ -141,6 +148,7 @@ class RegisterBankAccountWidget extends StatelessWidget {
                         ),
                         const SizedBox(height: 24),
                         OutlineFormText(
+                          readOnly: cubit.isReadOnly(),
                           initialValue: businessPartnesr?.noNib ?? "",
                           name: "no_nib",
                           hintText: "Masukan No NIB",
@@ -198,19 +206,21 @@ class RegisterBankAccountWidget extends StatelessWidget {
                           },
                         ),
                         const SizedBox(height: 32),
-                        ClipRRect(
-                          borderRadius: BorderRadius.circular(38),
-                          child: SizedBox(
-                            height: 40,
-                            width: baseWidth,
-                            child: ElevatedButton(
-                              onPressed: () {
-                                cubit.addBankAccount();
-                              },
-                              child: const Text("Request Approval"),
-                            ),
-                          ),
-                        ),
+                        state?.store?.store?.businessPartner?.status == "ACTIVE"
+                            ? SizedBox()
+                            : ClipRRect(
+                                borderRadius: BorderRadius.circular(38),
+                                child: SizedBox(
+                                  height: 40,
+                                  width: baseWidth,
+                                  child: ElevatedButton(
+                                    onPressed: () {
+                                      cubit.addBankAccount();
+                                    },
+                                    child: const Text("Request Approval"),
+                                  ),
+                                ),
+                              ),
                         const SizedBox(height: 16),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,

@@ -16,6 +16,7 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$MasterState {
+  Store? get store => throw _privateConstructorUsedError;
   bool get showPage => throw _privateConstructorUsedError;
   DataStateStatus get status => throw _privateConstructorUsedError;
   int get index => throw _privateConstructorUsedError;
@@ -32,7 +33,12 @@ abstract class $MasterStateCopyWith<$Res> {
           MasterState value, $Res Function(MasterState) then) =
       _$MasterStateCopyWithImpl<$Res, MasterState>;
   @useResult
-  $Res call({bool showPage, DataStateStatus status, int index, Widget widget});
+  $Res call(
+      {Store? store,
+      bool showPage,
+      DataStateStatus status,
+      int index,
+      Widget widget});
 }
 
 /// @nodoc
@@ -48,12 +54,17 @@ class _$MasterStateCopyWithImpl<$Res, $Val extends MasterState>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? store = freezed,
     Object? showPage = null,
     Object? status = null,
     Object? index = null,
     Object? widget = null,
   }) {
     return _then(_value.copyWith(
+      store: freezed == store
+          ? _value.store
+          : store // ignore: cast_nullable_to_non_nullable
+              as Store?,
       showPage: null == showPage
           ? _value.showPage
           : showPage // ignore: cast_nullable_to_non_nullable
@@ -82,7 +93,12 @@ abstract class _$$MasterStateImplCopyWith<$Res>
       __$$MasterStateImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({bool showPage, DataStateStatus status, int index, Widget widget});
+  $Res call(
+      {Store? store,
+      bool showPage,
+      DataStateStatus status,
+      int index,
+      Widget widget});
 }
 
 /// @nodoc
@@ -96,12 +112,17 @@ class __$$MasterStateImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? store = freezed,
     Object? showPage = null,
     Object? status = null,
     Object? index = null,
     Object? widget = null,
   }) {
     return _then(_$MasterStateImpl(
+      store: freezed == store
+          ? _value.store
+          : store // ignore: cast_nullable_to_non_nullable
+              as Store?,
       showPage: null == showPage
           ? _value.showPage
           : showPage // ignore: cast_nullable_to_non_nullable
@@ -126,11 +147,14 @@ class __$$MasterStateImplCopyWithImpl<$Res>
 
 class _$MasterStateImpl implements _MasterState {
   const _$MasterStateImpl(
-      {this.showPage = true,
+      {this.store,
+      this.showPage = true,
       this.status = DataStateStatus.initial,
       this.index = 0,
       this.widget = const CatalogPage(modeCatalog: ModeCatalog.edit)});
 
+  @override
+  final Store? store;
   @override
   @JsonKey()
   final bool showPage;
@@ -146,7 +170,7 @@ class _$MasterStateImpl implements _MasterState {
 
   @override
   String toString() {
-    return 'MasterState(showPage: $showPage, status: $status, index: $index, widget: $widget)';
+    return 'MasterState(store: $store, showPage: $showPage, status: $status, index: $index, widget: $widget)';
   }
 
   @override
@@ -154,6 +178,7 @@ class _$MasterStateImpl implements _MasterState {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$MasterStateImpl &&
+            (identical(other.store, store) || other.store == store) &&
             (identical(other.showPage, showPage) ||
                 other.showPage == showPage) &&
             (identical(other.status, status) || other.status == status) &&
@@ -162,7 +187,8 @@ class _$MasterStateImpl implements _MasterState {
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, showPage, status, index, widget);
+  int get hashCode =>
+      Object.hash(runtimeType, store, showPage, status, index, widget);
 
   @JsonKey(ignore: true)
   @override
@@ -173,11 +199,14 @@ class _$MasterStateImpl implements _MasterState {
 
 abstract class _MasterState implements MasterState {
   const factory _MasterState(
-      {final bool showPage,
+      {final Store? store,
+      final bool showPage,
       final DataStateStatus status,
       final int index,
       final Widget widget}) = _$MasterStateImpl;
 
+  @override
+  Store? get store;
   @override
   bool get showPage;
   @override

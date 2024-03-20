@@ -6,6 +6,7 @@ import 'package:flutter/widgets.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:go_router/go_router.dart';
 import 'package:pos/engine/helpers/sessions.dart';
+import 'package:pos/widgets/components/confirmation_alert.dart';
 
 import '../../../../routes/routes.dart';
 

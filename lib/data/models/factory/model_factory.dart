@@ -4,7 +4,9 @@ import '../base/available_payment.dart';
 import '../base/brand.dart';
 import '../base/cart.dart';
 import '../base/category.dart';
+import '../base/database_store.dart';
 import '../base/invoices.dart';
+import '../base/merchant_model.dart';
 import '../base/payment_cash.dart';
 import '../base/product.dart';
 import '../base/qrcode.dart';
@@ -41,6 +43,10 @@ Object factoryModel(String type, {Map<String, dynamic>? json}) {
           : AvailablePayment();
     case 'PaymentCash':
       return json != null ? PaymentCash.fromJson(json) : PaymentCash();
+    case 'MerchantModel':
+      return json != null ? MerchantModel.fromJson(json) : MerchantModel();
+    case 'DatabaseStore':
+      return json != null ? DatabaseStore.fromJson(json) : DatabaseStore();
     case 'dynamic':
       return json != null ? DefaultModel(json) : DefaultModel({});
     default:

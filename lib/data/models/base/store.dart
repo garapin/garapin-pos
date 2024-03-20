@@ -59,7 +59,12 @@ class StoreClass {
   String? phoneNumber;
   @JsonKey(name: "store_name")
   String? storeName;
-
+  @JsonKey(name: "store_type")
+  String? storeType;
+  @JsonKey(name: "merchant_role")
+  String? merChantRole;
+  @JsonKey(name: "store_status")
+  String? storeStatus;
   StoreClass({
     this.businessPartner,
     this.accountHolder,
@@ -76,6 +81,9 @@ class StoreClass {
     this.v,
     this.phoneNumber,
     this.storeName,
+    this.storeType,
+    this.merChantRole,
+    this.storeStatus,
   });
 
   factory StoreClass.fromJson(Map<String, dynamic> json) =>

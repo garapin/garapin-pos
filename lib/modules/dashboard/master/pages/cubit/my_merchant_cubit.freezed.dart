@@ -17,6 +17,7 @@ final _privateConstructorUsedError = UnsupportedError(
 /// @nodoc
 mixin _$MyMerchantState {
   DataStateStatus get status => throw _privateConstructorUsedError;
+  List<DatabaseStore> get merchants => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $MyMerchantStateCopyWith<MyMerchantState> get copyWith =>
@@ -29,7 +30,7 @@ abstract class $MyMerchantStateCopyWith<$Res> {
           MyMerchantState value, $Res Function(MyMerchantState) then) =
       _$MyMerchantStateCopyWithImpl<$Res, MyMerchantState>;
   @useResult
-  $Res call({DataStateStatus status});
+  $Res call({DataStateStatus status, List<DatabaseStore> merchants});
 }
 
 /// @nodoc
@@ -45,13 +46,18 @@ class _$MyMerchantStateCopyWithImpl<$Res, $Val extends MyMerchantState>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? status = freezed,
+    Object? status = null,
+    Object? merchants = null,
   }) {
     return _then(_value.copyWith(
-      status: freezed == status
+      status: null == status
           ? _value.status
           : status // ignore: cast_nullable_to_non_nullable
               as DataStateStatus,
+      merchants: null == merchants
+          ? _value.merchants
+          : merchants // ignore: cast_nullable_to_non_nullable
+              as List<DatabaseStore>,
     ) as $Val);
   }
 }
@@ -64,7 +70,7 @@ abstract class _$$MyMerchantStateImplCopyWith<$Res>
       __$$MyMerchantStateImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({DataStateStatus status});
+  $Res call({DataStateStatus status, List<DatabaseStore> merchants});
 }
 
 /// @nodoc
@@ -78,13 +84,18 @@ class __$$MyMerchantStateImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? status = freezed,
+    Object? status = null,
+    Object? merchants = null,
   }) {
     return _then(_$MyMerchantStateImpl(
-      status: freezed == status
+      status: null == status
           ? _value.status
           : status // ignore: cast_nullable_to_non_nullable
               as DataStateStatus,
+      merchants: null == merchants
+          ? _value._merchants
+          : merchants // ignore: cast_nullable_to_non_nullable
+              as List<DatabaseStore>,
     ));
   }
 }
@@ -92,15 +103,26 @@ class __$$MyMerchantStateImplCopyWithImpl<$Res>
 /// @nodoc
 
 class _$MyMerchantStateImpl implements _MyMerchantState {
-  const _$MyMerchantStateImpl({this.status = DataStateStatus.initial});
+  const _$MyMerchantStateImpl(
+      {this.status = DataStateStatus.initial,
+      final List<DatabaseStore> merchants = const []})
+      : _merchants = merchants;
 
   @override
   @JsonKey()
   final DataStateStatus status;
+  final List<DatabaseStore> _merchants;
+  @override
+  @JsonKey()
+  List<DatabaseStore> get merchants {
+    if (_merchants is EqualUnmodifiableListView) return _merchants;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_merchants);
+  }
 
   @override
   String toString() {
-    return 'MyMerchantState(status: $status)';
+    return 'MyMerchantState(status: $status, merchants: $merchants)';
   }
 
   @override
@@ -108,12 +130,14 @@ class _$MyMerchantStateImpl implements _MyMerchantState {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$MyMerchantStateImpl &&
-            const DeepCollectionEquality().equals(other.status, status));
+            (identical(other.status, status) || other.status == status) &&
+            const DeepCollectionEquality()
+                .equals(other._merchants, _merchants));
   }
 
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, const DeepCollectionEquality().hash(status));
+  int get hashCode => Object.hash(
+      runtimeType, status, const DeepCollectionEquality().hash(_merchants));
 
   @JsonKey(ignore: true)
   @override
@@ -124,11 +148,14 @@ class _$MyMerchantStateImpl implements _MyMerchantState {
 }
 
 abstract class _MyMerchantState implements MyMerchantState {
-  const factory _MyMerchantState({final DataStateStatus status}) =
-      _$MyMerchantStateImpl;
+  const factory _MyMerchantState(
+      {final DataStateStatus status,
+      final List<DatabaseStore> merchants}) = _$MyMerchantStateImpl;
 
   @override
   DataStateStatus get status;
+  @override
+  List<DatabaseStore> get merchants;
   @override
   @JsonKey(ignore: true)
   _$$MyMerchantStateImplCopyWith<_$MyMerchantStateImpl> get copyWith =>

@@ -36,6 +36,8 @@ Map<String, dynamic> _$UserToJson(User instance) => <String, dynamic>{
 
 StoreDatabaseName _$StoreDatabaseNameFromJson(Map<String, dynamic> json) =>
     StoreDatabaseName(
+      type: json['type'] as String?,
+      merchantRole: json['merchant_role'] as String?,
       name: json['name'] as String?,
       conncetionString: json['conncetion_string'] as String?,
       role: json['role'] as String?,
@@ -43,6 +45,8 @@ StoreDatabaseName _$StoreDatabaseNameFromJson(Map<String, dynamic> json) =>
 
 Map<String, dynamic> _$StoreDatabaseNameToJson(StoreDatabaseName instance) =>
     <String, dynamic>{
+      'type': instance.type,
+      'merchant_role': instance.merchantRole,
       'name': instance.name,
       'conncetion_string': instance.conncetionString,
       'role': instance.role,

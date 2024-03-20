@@ -38,6 +38,10 @@ class User {
 
 @JsonSerializable()
 class StoreDatabaseName {
+  @JsonKey(name: "type")
+  String? type;
+  @JsonKey(name: "merchant_role")
+  String? merchantRole;
   @JsonKey(name: "name")
   String? name;
   @JsonKey(name: "conncetion_string")
@@ -46,6 +50,8 @@ class StoreDatabaseName {
   String? role;
 
   StoreDatabaseName({
+    this.type,
+    this.merchantRole,
     this.name,
     this.conncetionString,
     this.role,

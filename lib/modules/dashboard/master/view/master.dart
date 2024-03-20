@@ -43,76 +43,9 @@ class MasterPage extends StatelessWidget {
                           height: baseHeight,
                           width: 200,
                           child: Padding(
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 12, vertical: 20),
-                            child: Column(
-                              children: [
-                                Align(
-                                    alignment: Alignment.topRight,
-                                    child: IconButton(
-                                        onPressed: () {
-                                          cubit.showPage(false);
-                                        },
-                                        icon: Icon(Icons.close))),
-                                CustomButton(
-                                    onPressed: () {
-                                      cubit.changePage(0);
-                                      cubit.showPage(false);
-                                    },
-                                    child: Container(
-                                      decoration: BoxDecoration(
-                                          borderRadius:
-                                              BorderRadius.circular(24),
-                                          color: AppColor.appColor.primary
-                                              .withOpacity(0.15)),
-                                      height: 40,
-                                      child: Center(
-                                          child: Text(
-                                        "Product",
-                                        style: AppFont.largePrimary(context),
-                                      )),
-                                    )),
-                                SizedBox(height: 20),
-                                CustomButton(
-                                    onPressed: () {
-                                      cubit.changePage(1);
-                                      cubit.showPage(false);
-                                    },
-                                    child: Container(
-                                      decoration: BoxDecoration(
-                                          borderRadius:
-                                              BorderRadius.circular(24),
-                                          color: AppColor.appColor.primary
-                                              .withOpacity(0.15)),
-                                      height: 40,
-                                      child: Center(
-                                          child: Text(
-                                        "Bagi - Bagi",
-                                        style: AppFont.largePrimary(context),
-                                      )),
-                                    )),
-                                SizedBox(height: 20),
-                                CustomButton(
-                                    onPressed: () {
-                                      cubit.changePage(2);
-                                      cubit.showPage(false);
-                                    },
-                                    child: Container(
-                                      decoration: BoxDecoration(
-                                          borderRadius:
-                                              BorderRadius.circular(24),
-                                          color: AppColor.appColor.primary
-                                              .withOpacity(0.15)),
-                                      height: 40,
-                                      child: Center(
-                                          child: Text(
-                                        "My Merchant",
-                                        style: AppFont.largePrimary(context),
-                                      )),
-                                    ))
-                              ],
-                            ),
-                          ),
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 12, vertical: 20),
+                              child: cubit.showRulesWidgetMaster()),
                         ),
                       ),
                     )
@@ -129,7 +62,7 @@ class MasterPage extends StatelessWidget {
                     child: CircularProgressIndicator(),
                   ),
                   status: state.status,
-                  child: state.widget);
+                  child: state.widget ?? SizedBox());
             },
           ),
         ));

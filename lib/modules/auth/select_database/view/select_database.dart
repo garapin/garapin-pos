@@ -181,7 +181,7 @@ class CardSelectDatabase extends StatelessWidget {
       onPressed: () {},
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
-        height: 78,
+        height: 88,
         width: 443,
         decoration: BoxDecoration(
           color: Colors.white,
@@ -198,7 +198,7 @@ class CardSelectDatabase extends StatelessWidget {
         child:
             Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
           SizedBox(
-            width: 320,
+            width: 330,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -213,6 +213,13 @@ class CardSelectDatabase extends StatelessWidget {
                 const SizedBox(height: 2),
                 Text(
                   "${FirebaseAuth.instance.currentUser?.displayName ?? ""} - ${database?.role}",
+                  style: AppFont.large(context)!.copyWith(
+                    fontSize: 14,
+                    color: selected ? AppColor.appColor.primary : null,
+                  ),
+                ),
+                Text(
+                  "${database?.type ?? ""} - ${database?.merchantRole ?? ""}",
                   style: AppFont.large(context)!.copyWith(
                     fontSize: 14,
                     color: selected ? AppColor.appColor.primary : null,

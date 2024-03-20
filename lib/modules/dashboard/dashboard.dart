@@ -42,7 +42,7 @@ class DashboardPage extends StatelessWidget {
                 BlocBuilder<DashboardCubit, DashboardState>(
                   builder: (context, state) {
                     return ContainerStateHandler(
-                      status: state.status,
+                      status: DataStateStatus.success,
                       loading: const Center(
                         child: CircularProgressIndicator(),
                       ),
@@ -52,73 +52,126 @@ class DashboardPage extends StatelessWidget {
                         width: baseWidth * 0.075,
                         height: baseHeight,
                         child: SingleChildScrollView(
-                          child: Column(
-                            children: [
-                              const SizedBox(height: 8),
-                              CustomButton(
-                                  onPressed: () {
-                                    cubit.changePage(0);
-                                  },
-                                  child: state.index == 0
-                                      ? Resources.images.appetizercashierActive
-                                          .image(height: 65, width: 60)
-                                      : Resources
-                                          .images.appetizercashierInactive
-                                          .image(height: 65, width: 60)),
-                              const SizedBox(height: 8),
-                              (Sessions.getDatabaseModel()?.role != "ADMIN")
-                                  ? SizedBox()
-                                  : CustomButton(
+                          child: Builder(builder: (context) {
+                            if (state.store?.store?.merChantRole == "SUPP") {
+                              return Column(
+                                children: [
+                                  const SizedBox(height: 8),
+                                  CustomButton(
                                       onPressed: () {
-                                        masterCubit.showPage(true);
-                                        cubit.changePage(1);
+                                        cubit.changePage(2);
                                       },
-                                      child: state.index == 1
-                                          ? Resources.images.catalogActive
+                                      child: state.index == 2
+                                          ? Resources.images.reportActive
                                               .image(height: 65, width: 60)
-                                          : Resources.images.catalogInactive
+                                          : Resources.images.reportInactive
                                               .image(height: 65, width: 60)),
-                              const SizedBox(height: 8),
-                              CustomButton(
-                                  onPressed: () {
-                                    cubit.changePage(2);
-                                  },
-                                  child: state.index == 2
-                                      ? Resources.images.reportActive
-                                          .image(height: 65, width: 60)
-                                      : Resources.images.reportInactive
-                                          .image(height: 65, width: 60)),
-                              const SizedBox(height: 8),
-                              (Sessions.getDatabaseModel()?.role != "ADMIN")
-                                  ? SizedBox()
-                                  : CustomButton(
+                                  const SizedBox(height: 8),
+                                  (Sessions.getDatabaseModel()?.role != "ADMIN")
+                                      ? SizedBox()
+                                      : CustomButton(
+                                          onPressed: () {
+                                            cubit.changePage(3);
+                                          },
+                                          child: state.index == 3
+                                              ? Resources.images.profileActive
+                                                  .image(height: 65, width: 60)
+                                              : Resources.images.profileInactive
+                                                  .image(
+                                                      height: 65, width: 60)),
+                                  SizedBox(height: baseHeight / 2.5),
+                                  Align(
+                                    alignment: Alignment.bottomCenter,
+                                    child: CustomButton(
+                                        onPressed: () async {
+                                          final GoogleSignInAccount? s =
+                                              await GoogleSignIn().signOut();
+                                          Sessions.clear().then((value) =>
+                                              context.go(RouteNames.root));
+                                        },
+                                        child: const Icon(
+                                          Icons.logout,
+                                          size: 30,
+                                          color: Colors.red,
+                                        )),
+                                  ),
+                                  const SizedBox(height: 40)
+                                ],
+                              );
+                            } else {
+                              return Column(
+                                children: [
+                                  const SizedBox(height: 8),
+                                  CustomButton(
                                       onPressed: () {
-                                        cubit.changePage(3);
+                                        cubit.changePage(0);
                                       },
-                                      child: state.index == 3
-                                          ? Resources.images.profileActive
+                                      child: state.index == 0
+                                          ? Resources
+                                              .images.appetizercashierActive
                                               .image(height: 65, width: 60)
-                                          : Resources.images.profileInactive
+                                          : Resources
+                                              .images.appetizercashierInactive
                                               .image(height: 65, width: 60)),
-                              SizedBox(height: baseHeight / 2.5),
-                              Align(
-                                alignment: Alignment.bottomCenter,
-                                child: CustomButton(
-                                    onPressed: () async {
-                                      final GoogleSignInAccount? s =
-                                          await GoogleSignIn().signOut();
-                                      Sessions.clear().then((value) =>
-                                          context.go(RouteNames.root));
-                                    },
-                                    child: const Icon(
-                                      Icons.logout,
-                                      size: 30,
-                                      color: Colors.red,
-                                    )),
-                              ),
-                              const SizedBox(height: 40)
-                            ],
-                          ),
+                                  const SizedBox(height: 8),
+                                  (Sessions.getDatabaseModel()?.role != "ADMIN")
+                                      ? SizedBox()
+                                      : CustomButton(
+                                          onPressed: () {
+                                            masterCubit.showPage(true);
+                                            masterCubit.initData();
+                                            cubit.changePage(1);
+                                          },
+                                          child: state.index == 1
+                                              ? Resources.images.catalogActive
+                                                  .image(height: 65, width: 60)
+                                              : Resources.images.catalogInactive
+                                                  .image(
+                                                      height: 65, width: 60)),
+                                  const SizedBox(height: 8),
+                                  CustomButton(
+                                      onPressed: () {
+                                        cubit.changePage(2);
+                                      },
+                                      child: state.index == 2
+                                          ? Resources.images.reportActive
+                                              .image(height: 65, width: 60)
+                                          : Resources.images.reportInactive
+                                              .image(height: 65, width: 60)),
+                                  const SizedBox(height: 8),
+                                  (Sessions.getDatabaseModel()?.role != "ADMIN")
+                                      ? SizedBox()
+                                      : CustomButton(
+                                          onPressed: () {
+                                            cubit.changePage(3);
+                                          },
+                                          child: state.index == 3
+                                              ? Resources.images.profileActive
+                                                  .image(height: 65, width: 60)
+                                              : Resources.images.profileInactive
+                                                  .image(
+                                                      height: 65, width: 60)),
+                                  SizedBox(height: baseHeight / 2.5),
+                                  Align(
+                                    alignment: Alignment.bottomCenter,
+                                    child: CustomButton(
+                                        onPressed: () async {
+                                          final GoogleSignInAccount? s =
+                                              await GoogleSignIn().signOut();
+                                          Sessions.clear().then((value) =>
+                                              context.go(RouteNames.root));
+                                        },
+                                        child: const Icon(
+                                          Icons.logout,
+                                          size: 30,
+                                          color: Colors.red,
+                                        )),
+                                  ),
+                                  const SizedBox(height: 40)
+                                ],
+                              );
+                            }
+                          }),
                         ),
                       ),
                     );

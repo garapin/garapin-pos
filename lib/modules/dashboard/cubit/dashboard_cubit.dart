@@ -8,6 +8,7 @@ import 'package:pos/modules/dashboard/catalog/cubit/catalog_cubit.dart';
 import 'package:pos/modules/dashboard/master/pages/cubit/my_merchant_cubit.dart';
 import 'package:pos/modules/dashboard/master/view/master.dart';
 import 'package:pos/modules/dashboard/profile/view/profile.dart';
+import '../../../data/models/base/store.dart';
 import '../catalog/view/catalog.dart';
 
 part 'dashboard_state.dart';
@@ -20,9 +21,21 @@ class DashboardCubit extends BaseCubit<DashboardState> {
   @override
   Future<void> initData() async {
     loadingState();
-
+    getStore();
     emit(state.copyWith(
         status: DataStateStatus.success, widget: CatalogPage(), index: 0));
+    finishRefresh(state.status);
+  }
+
+  getStore() async {
+    loadingState();
+    final data = await ApiService.getStoreInfo(context);
+    if (data.isSuccess) {
+      emit(state.copyWith(status: DataStateStatus.success, store: data.data));
+    } else {
+      emit(state.copyWith(status: DataStateStatus.error));
+    }
+    finishRefresh(state.status);
   }
 
   @override
