@@ -12,6 +12,7 @@ import 'package:pos/data/models/base/invoices.dart';
 import 'package:pos/data/models/base/payment_cash.dart';
 import 'package:pos/data/models/base/product.dart';
 import 'package:pos/data/models/base/qrcode.dart';
+import 'package:pos/data/models/base/split_payment_rule.dart';
 import 'package:pos/data/models/base/store.dart';
 import 'package:pos/data/models/base/unit.dart';
 import 'package:pos/data/models/base/virtual_account.dart';
@@ -23,6 +24,7 @@ import 'package:flutter/material.dart';
 import 'package:pos/modules/product/edit_product/cubit/edit_product_cubit.dart';
 import '../models/base/category.dart';
 import '../models/base/merchant_model.dart';
+import '../models/base/split_payment_template.dart';
 import '../models/base/user.dart';
 import 'configure.dart';
 import 'response.dart';
@@ -454,5 +456,67 @@ class ApiService {
         .get('/store/get_stores_database_id_parent')
         .then((result) => ApiResponseList<DatabaseStore>.fromJson(result.data))
         .handler((error) => ApiResponseList<DatabaseStore>.onError(error));
+  }
+
+  static Future<ApiResponse<SplitPaymentTemplate>> createTemplate(
+    BuildContext context, {
+    required String name,
+    required String storeName,
+    required String referenceId,
+    required String destinationAccountId,
+    String? description,
+  }) async {
+    return await ApiConfigure(context)
+        .post('/store/crate_template', params: {
+          "name": name,
+          "description": description,
+          "routes": [
+            RoutePayments(
+                type: "ADMIN",
+                target: storeName,
+                referenceId: referenceId,
+                destinationAccountId: destinationAccountId)
+          ],
+        })
+        .then(
+            (result) => ApiResponse<SplitPaymentTemplate>.fromJson(result.data))
+        .handler((error) => ApiResponse<SplitPaymentTemplate>.onError(error));
+  }
+
+  static Future<ApiResponse<SplitPaymentTemplate>> updateTemplate(
+    BuildContext context, {
+    required String referenceId,
+    required RoutePayments routePayments,
+    required String id,
+  }) async {
+    return await ApiConfigure(context)
+        .post('/store/template/update', params: {
+          "id": id,
+          "reference_id": referenceId,
+          "route": routePayments
+        })
+        .then(
+            (result) => ApiResponse<SplitPaymentTemplate>.fromJson(result.data))
+        .handler((error) => ApiResponse<SplitPaymentTemplate>.onError(error));
+  }
+
+  static Future<ApiResponse<SplitPaymentTemplate>> getTemplateId(
+      BuildContext context,
+      {required String id}) async {
+    return await ApiConfigure(context)
+        .get('/store/split/$id')
+        .then(
+            (result) => ApiResponse<SplitPaymentTemplate>.fromJson(result.data))
+        .handler((error) => ApiResponse<SplitPaymentTemplate>.onError(error));
+  }
+
+  static Future<ApiResponseList<SplitPaymentTemplate>> getTemplateAll(
+      BuildContext context) async {
+    return await ApiConfigure(context)
+        .get('/store/template/all')
+        .then((result) =>
+            ApiResponseList<SplitPaymentTemplate>.fromJson(result.data))
+        .handler(
+            (error) => ApiResponseList<SplitPaymentTemplate>.onError(error));
   }
 }

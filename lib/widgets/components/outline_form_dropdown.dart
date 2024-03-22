@@ -12,6 +12,7 @@ class OutlineFormDropdown extends StatelessWidget {
   final String? suffixText;
   final String? Function(dynamic)? validator;
   final List<DropdownMenuItem<dynamic>> items;
+  final bool enabled;
   const OutlineFormDropdown({
     super.key,
     required this.name,
@@ -21,6 +22,7 @@ class OutlineFormDropdown extends StatelessWidget {
     this.initialValue,
     this.suffixText,
     this.validator,
+    this.enabled = true,
     required this.uniqueKey,
   });
 
@@ -37,6 +39,7 @@ class OutlineFormDropdown extends StatelessWidget {
             : const SizedBox(),
         label != null ? const SizedBox(height: 8) : const SizedBox(),
         FormBuilderDropdown(
+          enabled: enabled,
           key: UniqueKey(),
           validator: validator,
           initialValue: initialValue,

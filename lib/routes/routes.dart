@@ -5,6 +5,8 @@ import 'package:pos/modules/auth/select_database/cubit/select_database_cubit.dar
 import 'package:pos/modules/auth/select_database/view/select_database.dart';
 import 'package:pos/modules/cart/cubit/cart_cubit.dart';
 import 'package:pos/modules/dashboard/master/cubit/master_cubit.dart';
+import 'package:pos/modules/dashboard/master/pages/bagi/cubit/create_bagi_cubit.dart';
+import 'package:pos/modules/dashboard/master/pages/bagi/view/create_bagi.dart';
 import 'package:pos/modules/dashboard/profile/view/profile.dart';
 import 'package:pos/modules/product/create_product/cubit/create_product_cubit.dart';
 import 'package:pos/modules/product/create_product/view/create_product.dart';
@@ -54,7 +56,7 @@ class Routes implements RouterInterface {
         builder: (ctx, GoRouterState state) {
           return BlocProvider(
             create: (context) => SelectDatabaseCubit(context),
-            child: SelectDatabasePage(),
+            child: const SelectDatabasePage(),
           );
         },
       ),
@@ -125,6 +127,17 @@ class Routes implements RouterInterface {
               create: (context) => ProfileCubit(context),
               child: const ProfilePage(),
             ),
+          );
+        },
+      ),
+      GoRoute(
+        name: RouteNames.createBagi,
+        path: RouteNames.createBagi,
+        builder: (ctx, GoRouterState state) {
+          return BlocProvider(
+            create: (context) =>
+                CreateBagiCubit(context, state.extra as String),
+            child: const CreateBagiPage(),
           );
         },
       ),

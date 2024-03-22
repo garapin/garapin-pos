@@ -5,6 +5,8 @@ import 'package:pos/engine/engine.dart';
 import 'package:flutter/material.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:pos/modules/dashboard/catalog/cubit/catalog_cubit.dart';
+import 'package:pos/modules/dashboard/master/pages/bagi/cubit/bagi_cubit.dart';
+import 'package:pos/modules/dashboard/master/pages/bagi/cubit/create_bagi_cubit.dart';
 import 'package:pos/modules/dashboard/master/pages/cubit/my_merchant_cubit.dart';
 import 'package:pos/modules/dashboard/master/view/master.dart';
 import 'package:pos/modules/dashboard/profile/view/profile.dart';
@@ -59,6 +61,7 @@ class DashboardCubit extends BaseCubit<DashboardState> {
     ),
     MultiBlocProvider(
       providers: [
+        BlocProvider(create: (context) => BagiCubit(context)),
         BlocProvider(create: (context) => CatalogCubit(context)),
         BlocProvider(create: (context) => MyMerchantCubit(context)),
       ],

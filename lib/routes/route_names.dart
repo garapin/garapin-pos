@@ -11,4 +11,5 @@ class RouteNames {
   static const String cretaeProduct = "/create_product";
   static const String editProduct = "/edit_product";
   static const String profile = "/profile";
+  static const String createBagi = "/create_bagi";
 }
