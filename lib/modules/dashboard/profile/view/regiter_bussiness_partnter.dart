@@ -109,7 +109,7 @@ class RegisterBussinessPartner extends StatelessWidget {
                         ImagePickerWidget(
                           label: "Upload NPWP",
                           cubit: cubit,
-                          imageUrl: businessPartnesr?.imageNpwp ?? "",
+                          imageUrl: businessPartnesr?.imageNpwp,
                           pickedImage: state?.npwpImage,
                           pickCameraPressed: () {
                             cubit
@@ -126,7 +126,7 @@ class RegisterBussinessPartner extends StatelessWidget {
                         ImagePickerWidget(
                           cubit: cubit,
                           label: "Upload NIB",
-                          imageUrl: businessPartnesr?.imageNib ?? "",
+                          imageUrl: businessPartnesr?.imageNib,
                           pickedImage: state?.nibImage,
                           pickCameraPressed: () {
                             cubit
@@ -143,7 +143,7 @@ class RegisterBussinessPartner extends StatelessWidget {
                         ImagePickerWidget(
                           label: "Upload Akta",
                           cubit: cubit,
-                          imageUrl: businessPartnesr?.imageAkta ?? "",
+                          imageUrl: businessPartnesr?.imageAkta,
                           pickedImage: state?.aktaImage,
                           pickCameraPressed: () {
                             cubit

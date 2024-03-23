@@ -61,95 +61,97 @@ class BagiCubit extends BaseCubit<BagiState> {
         return AlertDialog(
           shape:
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
-          content: Container(
-              padding: const EdgeInsets.symmetric(vertical: 20),
-              width: 400,
-              height: 330,
-              decoration:
-                  BoxDecoration(borderRadius: BorderRadius.circular(24)),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  Text(
-                    "Nama Template",
-                    style: AppFont.large(context),
-                  ),
-                  const SizedBox(height: 16),
-                  const Divider(thickness: 2),
-                  const SizedBox(height: 32),
-                  TextField(
-                    decoration: InputDecoration(
-                      hintText: "Masukan nama template",
-                      border: OutlineInputBorder(
-                          borderRadius:
-                              BorderRadius.circular(32)), // Menambahkan border
+          content: SingleChildScrollView(
+            child: Container(
+                padding: const EdgeInsets.symmetric(vertical: 10),
+                width: 300,
+                height: 170,
+                decoration:
+                    BoxDecoration(borderRadius: BorderRadius.circular(24)),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Text(
+                      "Nama Template",
+                      style: AppFont.large(context),
                     ),
-                    controller: createTemplateController,
-                    style: const TextStyle(
-                        height: 1.0), // Mengatur tinggi TextField
-                  ),
-                  const SizedBox(height: 32),
-                  const Divider(thickness: 2),
-                  const SizedBox(height: 16),
-                  Row(
-                    children: [
-                      Expanded(
-                        child: Container(
-                          height: 45,
-                          padding: const EdgeInsets.symmetric(horizontal: 24),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(32.0),
-                            border:
-                                Border.all(color: AppColor.appColor.primary),
-                          ),
-                          child: TextButton(
-                            onPressed: () {
-                              context.pop();
-                            },
-                            child: const Text(
-                              'Cancel',
+                    const SizedBox(height: 16),
+                    TextField(
+                      decoration: InputDecoration(
+                        hintText: "Masukan nama template",
+                        border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(
+                                32)), // Menambahkan border
+                      ),
+                      controller: createTemplateController,
+                      style: const TextStyle(
+                          height: 1.0), // Mengatur tinggi TextField
+                    ),
+                    const SizedBox(height: 16),
+                    Row(
+                      children: [
+                        Expanded(
+                          child: Container(
+                            height: 45,
+                            padding: const EdgeInsets.symmetric(horizontal: 24),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(32.0),
+                              border:
+                                  Border.all(color: AppColor.appColor.primary),
+                            ),
+                            child: TextButton(
+                              onPressed: () {
+                                context.pop();
+                              },
+                              child: const Text(
+                                'Cancel',
+                              ),
                             ),
                           ),
                         ),
-                      ),
-                      const SizedBox(width: 12),
-                      Expanded(
-                        child: Container(
-                          height: 45,
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(36)),
-                          child: ClipRRect(
-                            borderRadius: BorderRadius.circular(36),
-                            child: ElevatedButton(
-                                onPressed: () async {
-                                  final data = await ApiService.createTemplate(
-                                      context,
-                                      name: createTemplateController.text,
-                                      storeName:
-                                          state.store?.store?.storeName ?? "",
-                                      description: null,
-                                      referenceId:
-                                          Sessions.getDatabaseModel()!.name!,
-                                      destinationAccountId: state
-                                          .store!.store!.accountHolder!.id!);
-                                  if (data.isSuccess) {
-                                    context
-                                        .pushNamed(RouteNames.createBagi,
-                                            extra: data.data?.id ?? "")
-                                        .then((value) => getAllTemplate());
-                                  } else {
-                                    showError(data.message);
-                                  }
-                                },
-                                child: const Text("Create Template")),
+                        const SizedBox(width: 12),
+                        Expanded(
+                          child: Container(
+                            height: 45,
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(36)),
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(36),
+                              child: ElevatedButton(
+                                  onPressed: () async {
+                                    final data =
+                                        await ApiService.createTemplate(context,
+                                            name: createTemplateController.text,
+                                            storeName:
+                                                state.store?.store?.storeName ??
+                                                    "",
+                                            description: null,
+                                            referenceId:
+                                                Sessions.getDatabaseModel()!
+                                                    .name!,
+                                            destinationAccountId: state.store!
+                                                .store!.accountHolder!.id!);
+                                    if (data.isSuccess) {
+                                      context.pop();
+                                      createTemplateController.clear();
+                                      context
+                                          .pushNamed(RouteNames.createBagi,
+                                              extra: data.data?.id ?? "")
+                                          .then((value) => getAllTemplate());
+                                    } else {
+                                      showError(data.message);
+                                    }
+                                  },
+                                  child: const Text("Create Template")),
+                            ),
                           ),
                         ),
-                      ),
-                    ],
-                  ),
-                ],
-              )),
+                      ],
+                    ),
+                  ],
+                )),
+          ),
         );
       },
     );
