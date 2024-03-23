@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
 
 import '../../themes/themes.dart';
 
@@ -12,12 +13,14 @@ class OutlineFormText extends StatelessWidget {
   final String? suffixText;
   final bool readOnly;
   final int? maxLength;
+  final bool obscureText;
   final String? Function(String?)? validator;
   const OutlineFormText({
     super.key,
     required this.name,
     required this.hintText,
     this.label,
+    this.obscureText = false,
     this.initialValue,
     this.suffixText,
     this.keyboardType,
@@ -39,6 +42,7 @@ class OutlineFormText extends StatelessWidget {
             : const SizedBox(),
         label != null ? const SizedBox(height: 8) : const SizedBox(),
         FormBuilderTextField(
+          obscureText: obscureText,
           readOnly: readOnly,
           keyboardType: keyboardType,
           initialValue: initialValue,

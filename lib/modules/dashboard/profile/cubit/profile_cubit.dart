@@ -12,6 +12,7 @@ import 'package:pos/data/api/services.dart';
 import 'package:pos/data/models/base/available_payment.dart';
 import 'package:pos/data/models/base/bank_account.dart';
 import 'package:pos/data/models/base/store.dart';
+import 'package:pos/data/models/request/req_bussiness_partner.dart';
 import 'package:pos/data/models/request/req_register_bank.dart';
 import 'package:pos/engine/engine.dart';
 import 'package:pos/engine/helpers/options.dart';
@@ -85,7 +86,7 @@ class ProfileCubit extends BaseCubit<ProfileState> {
   }
 
   @override
-  void loadingState() => emit(state.copyWith(status: DataStateStatus.initial));
+  void loadingState() => emit(state.copyWith(status: DataStateStatus.loading));
 
   @override
   Future<void> refreshData() => initData();
@@ -162,6 +163,31 @@ class ProfileCubit extends BaseCubit<ProfileState> {
   Future addBankAccount() async {
     showLoading();
     formKey.currentState?.save();
+    Map<String, dynamic>? form = formKey.currentState?.value;
+    final data = await ApiService.addBankAccountInProfile(context,
+        req: ReqRegisterBank(
+          bankName: form?["bank_name"] ?? "",
+          holderName: form?["holder_name"] ?? "",
+          accountNumber: int.parse(form?["account_number"]),
+          pin: int.parse(form?["pin"]),
+        ));
+    if (data.isSuccess) {
+      showSuccess(data.message);
+      final data2 = await ApiService.getStoreInfo(context);
+      if (data2.data?.store?.storeName != null) {
+        context.go(RouteNames.dashboard);
+      } else {}
+    } else {
+      showError(data.message);
+    }
+    refreshData();
+    dismissLoading();
+    return data;
+  }
+
+  Future requestBussinessPartner() async {
+    showLoading();
+    formKey.currentState?.save();
     String? base64Npwp;
     String? base64Nib;
     String? base64IAkta;
@@ -197,12 +223,8 @@ class ProfileCubit extends BaseCubit<ProfileState> {
     }
     Map<String, dynamic>? form = formKey.currentState?.value;
 
-    final data = await ApiService.addBankAccountInProfile(context,
-        req: ReqRegisterBank(
-          bankName: form?["bank_name"] ?? "",
-          holderName: form?["holder_name"] ?? "",
-          accountNumber: int.parse(form?["account_number"]),
-          pin: int.parse(form?["pin"]),
+    final data = await ApiService.requestBussinessPartner(context,
+        req: ReqBussinesspartner(
           companyName: form?["company_name"] ?? "",
           noNpwp: form?["no_npwp"] ?? "",
           noNib: form?["no_nib"] ?? "",

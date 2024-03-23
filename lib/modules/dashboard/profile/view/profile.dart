@@ -7,11 +7,12 @@ import 'package:image_picker/image_picker.dart';
 import 'package:pos/engine/engine.dart';
 import 'package:pos/modules/dashboard/cubit/dashboard_cubit.dart';
 import 'package:pos/modules/dashboard/profile/cubit/profile_cubit.dart';
+import 'package:pos/modules/dashboard/profile/view/register_bank_account.dart';
 import 'package:pos/widgets/components/outline_form_text.dart';
 import 'package:pos/themes/themes.dart';
 import 'package:pos/widgets/widgets.dart';
 import '../../../../widgets/components/image_picker_widget.dart';
-import 'regiter_bank_account.dart';
+import 'regiter_bussiness_partnter.dart';
 
 class ProfilePage extends StatelessWidget {
   const ProfilePage({super.key});
@@ -232,7 +233,12 @@ class ProfilePage extends StatelessWidget {
                                       label: 'Kode POS',
                                     ),
                                     const SizedBox(height: 16),
-                                    RegisterBankAccountWidget(
+                                    RegisterBankAccount(
+                                      cubit: cubit,
+                                      store: store,
+                                      state: state,
+                                    ),
+                                    RegisterBussinessPartner(
                                       cubit: cubit,
                                       store: store,
                                       state: state,

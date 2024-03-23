@@ -16,6 +16,7 @@ import 'package:pos/data/models/base/split_payment_rule.dart';
 import 'package:pos/data/models/base/store.dart';
 import 'package:pos/data/models/base/unit.dart';
 import 'package:pos/data/models/base/virtual_account.dart';
+import 'package:pos/data/models/request/req_bussiness_partner.dart';
 import 'package:pos/data/models/request/req_product.dart';
 import 'package:pos/data/models/request/req_register_bank.dart';
 import 'package:pos/engine/engine.dart';
@@ -413,6 +414,16 @@ class ApiService {
   }) async {
     return await ApiConfigure(context)
         .post('store/update/add_bank_account', params: req.toJson())
+        .then((result) => ApiResponse<Store>.fromJson(result.data))
+        .handler((error) => ApiResponse<Store>.onError(error));
+  }
+
+  static Future<ApiResponse<Store>> requestBussinessPartner(
+    BuildContext context, {
+    required ReqBussinesspartner req,
+  }) async {
+    return await ApiConfigure(context)
+        .post('store/update/request_bussiness_partner', params: req.toJson())
         .then((result) => ApiResponse<Store>.fromJson(result.data))
         .handler((error) => ApiResponse<Store>.onError(error));
   }
