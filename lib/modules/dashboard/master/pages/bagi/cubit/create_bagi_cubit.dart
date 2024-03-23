@@ -37,176 +37,181 @@ class CreateBagiCubit extends BaseCubit<CreateBagiState> {
       context: context,
       builder: (context) {
         return AlertDialog(
-          shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
-          content: Container(
-            decoration: BoxDecoration(borderRadius: BorderRadius.circular(24)),
-            height: 600,
-            width: 500,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  "Target Bagi-Bagi",
-                  style: AppFont.large(context),
-                ),
-                const SizedBox(height: 16),
-                const Divider(thickness: 2),
-                const SizedBox(height: 32),
-                SizedBox(
-                  child: OutlineFormDropdown(
-                      label: "Target",
-                      name: "outline",
-                      hintText: "Masukan target",
-                      items: state.merchants
-                          .map((e) => DropdownMenuItem(
-                                onTap: () {
-                                  var item = e.storesData;
-                                  target.text = item!.storeName!;
-                                  emit(state.copyWith(
-                                      routePayments: RoutePayments(
-                                          type: item.merchantRole,
-                                          target: target.text,
-                                          // feePos: int.parse(feePos.text),
-                                          // percentAmount:
-                                          //     int.parse(percentAmount.text),
-                                          currency: "IDR",
-                                          destinationAccountId:
-                                              item.accountHolder!.id!,
-                                          referenceId: e.dbName)));
-                                },
-                                value: e.dbName,
-                                child: Text(
-                                    "${e.storesData?.merchantRole} -> ${e.storesData?.storeName ?? ""}"),
-                              ))
-                          .toList(),
-                      uniqueKey: UniqueKey()),
-                ),
-                const SizedBox(height: 32),
-                Padding(
-                  padding: const EdgeInsets.only(left: 8),
-                  child: Text(
-                    "Bagi-Bagi Pendapatan",
-                    style: AppFont.large(context),
-                  ),
-                ),
-                const SizedBox(height: 8),
-                SizedBox(
-                  height: 67,
-                  child: TextField(
-                    maxLength: 2,
-                    decoration: InputDecoration(
-                      suffixIcon: Icon(Icons.percent),
-                      helperStyle: AppFont.small(context)!.copyWith(
-                        color: AppColor.appColor.warning,
-                      ),
-                      helperText:
-                          "Merchant ini akan mendapat bagian dari hasil transaksi ppenjualan",
-                      label: const Text("Bagi-Bagi Pendapatan"),
-                      border: OutlineInputBorder(
-                          borderRadius:
-                              BorderRadius.circular(32)), // Menambahkan border
-                    ),
-                    controller: percentAmount,
-                    style: const TextStyle(
-                        height: 1.0), // Mengatur tinggi TextField
-                  ),
-                ),
-                const SizedBox(height: 32),
-                Padding(
-                  padding: const EdgeInsets.only(left: 8),
-                  child: Text(
-                    "Bagi-Bagi Pendapatan",
-                    style: AppFont.large(context),
-                  ),
-                ),
-                const SizedBox(height: 8),
-                SizedBox(
-                  height: 67,
-                  child: TextField(
-                    maxLength: 2,
-                    decoration: InputDecoration(
-                      suffixIcon: Icon(Icons.percent),
-                      helperStyle: AppFont.small(context)!.copyWith(
-                        color: AppColor.appColor.warning,
-                      ),
-                      helperText: "Merchant & customer ini akan membayar biaya",
-                      label: const Text("Bagi-Bagi Biaya"),
-                      border: OutlineInputBorder(
-                          borderRadius:
-                              BorderRadius.circular(32)), // Menambahkan border
-                    ),
-                    controller: feePos,
-                    style: const TextStyle(
-                        height: 1.0), // Mengatur tinggi TextField
-                  ),
-                ),
-                const SizedBox(height: 32),
-                const Divider(thickness: 2),
-                const SizedBox(height: 16),
-                Row(
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
+            content: Container(
+              decoration:
+                  BoxDecoration(borderRadius: BorderRadius.circular(24)),
+              height: 400,
+              width: 400,
+              child: SingleChildScrollView(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Expanded(
-                      child: Container(
-                        height: 45,
-                        padding: const EdgeInsets.symmetric(horizontal: 24),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(32.0),
-                          border: Border.all(color: AppColor.appColor.primary),
+                    Text(
+                      "Target Bagi-Bagi",
+                      style: AppFont.large(context),
+                    ),
+                    const SizedBox(height: 4),
+                    const Divider(thickness: 2),
+                    const SizedBox(height: 8),
+                    SizedBox(
+                      child: OutlineFormDropdown(
+                          label: "Target",
+                          name: "outline",
+                          hintText: "Masukan target",
+                          items: state.merchants
+                              .map((e) => DropdownMenuItem(
+                                    onTap: () {
+                                      var item = e.storesData;
+                                      target.text = item!.storeName!;
+                                      emit(state.copyWith(
+                                          routePayments: RoutePayments(
+                                              type: item.merchantRole,
+                                              target: target.text,
+                                              // feePos: int.parse(feePos.text),
+                                              // percentAmount:
+                                              //     int.parse(percentAmount.text),
+                                              currency: "IDR",
+                                              destinationAccountId:
+                                                  item.accountHolder!.id!,
+                                              referenceId: e.dbName)));
+                                    },
+                                    value: e.dbName,
+                                    child: Text(
+                                        "${e.storesData?.merchantRole} -> ${e.storesData?.storeName ?? ""}"),
+                                  ))
+                              .toList(),
+                          uniqueKey: UniqueKey()),
+                    ),
+                    const SizedBox(height: 16),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 8),
+                      child: Text(
+                        "Bagi-Bagi Pendapatan",
+                        style: AppFont.large(context),
+                      ),
+                    ),
+                    const SizedBox(height: 8),
+                    SizedBox(
+                      height: 67,
+                      child: TextField(
+                        keyboardType: TextInputType.number,
+                        maxLength: 2,
+                        decoration: InputDecoration(
+                          suffixIcon: Icon(Icons.percent),
+                          helperStyle: AppFont.small(context)!.copyWith(
+                            color: AppColor.appColor.warning,
+                          ),
+                          helperText:
+                              "Merchant ini akan mendapat bagian dari hasil transaksi ppenjualan",
+                          hintText: "Masukan persenan",
+                          border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(
+                                  32)), // Menambahkan border
                         ),
-                        child: TextButton(
-                          onPressed: () {
-                            context.pop();
-                          },
-                          child: const Text(
-                            'CANCEL',
+                        controller: percentAmount,
+                        style: const TextStyle(
+                            height: 1.0), // Mengatur tinggi TextField
+                      ),
+                    ),
+                    const SizedBox(height: 16),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 8),
+                      child: Text(
+                        "Bagi-Bagi Biaya",
+                        style: AppFont.large(context),
+                      ),
+                    ),
+                    const SizedBox(height: 8),
+                    SizedBox(
+                      height: 67,
+                      child: TextField(
+                        keyboardType: TextInputType.number,
+                        maxLength: 2,
+                        decoration: InputDecoration(
+                          suffixIcon: Icon(Icons.percent),
+                          helperStyle: AppFont.small(context)!.copyWith(
+                            color: AppColor.appColor.warning,
+                          ),
+                          helperText:
+                              "Merchant & customer ini akan membayar biaya",
+                          hintText: "Masukan persenan",
+                          border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(
+                                  32)), // Menambahkan border
+                        ),
+                        controller: feePos,
+                        style: const TextStyle(
+                            height: 1.0), // Mengatur tinggi TextField
+                      ),
+                    ),
+                    const SizedBox(height: 16),
+                    Row(
+                      children: [
+                        Expanded(
+                          child: Container(
+                            height: 45,
+                            padding: const EdgeInsets.symmetric(horizontal: 24),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(32.0),
+                              border:
+                                  Border.all(color: AppColor.appColor.primary),
+                            ),
+                            child: TextButton(
+                              onPressed: () {
+                                context.pop();
+                              },
+                              child: const Text(
+                                'CANCEL',
+                              ),
+                            ),
                           ),
                         ),
-                      ),
-                    ),
-                    const SizedBox(width: 12),
-                    Expanded(
-                      child: Container(
-                        height: 45,
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(36)),
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(36),
-                          child: ElevatedButton(
-                              onPressed: () async {
-                                RoutePayments newData = state.routePayments!;
-                                newData.percentAmount =
-                                    int.parse(percentAmount.text);
-                                newData.feePos = int.parse(feePos.text);
-                                final data = await ApiService.updateTemplate(
-                                    context,
-                                    referenceId:
-                                        state.routePayments!.referenceId!,
-                                    routePayments: state.routePayments!,
-                                    id: id);
-                                // flatAmount: null,
-                                // percentAmount: int.parse(percentAmount.text),);
-                                if (data.isSuccess) {
-                                  refreshData();
-                                  percentAmount.clear();
-                                  feePos.clear();
-                                  context.pop();
-                                  showSuccess(data.message);
-                                } else {
-                                  showError(data.message);
-                                }
-                              },
-                              child: const Text("ADD")),
+                        const SizedBox(width: 12),
+                        Expanded(
+                          child: Container(
+                            height: 45,
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(36)),
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(36),
+                              child: ElevatedButton(
+                                  onPressed: () async {
+                                    RoutePayments newData =
+                                        state.routePayments!;
+                                    newData.percentAmount =
+                                        int.parse(percentAmount.text);
+                                    newData.feePos = int.parse(feePos.text);
+                                    final data =
+                                        await ApiService.updateTemplate(context,
+                                            referenceId: state
+                                                .routePayments!.referenceId!,
+                                            routePayments: state.routePayments!,
+                                            id: id);
+                                    // flatAmount: null,
+                                    // percentAmount: int.parse(percentAmount.text),);
+                                    if (data.isSuccess) {
+                                      refreshData();
+                                      percentAmount.clear();
+                                      feePos.clear();
+                                      context.pop();
+                                      showSuccess(data.message);
+                                    } else {
+                                      showError(data.message);
+                                    }
+                                  },
+                                  child: const Text("ADD")),
+                            ),
+                          ),
                         ),
-                      ),
+                      ],
                     ),
                   ],
                 ),
-              ],
-            ),
-          ),
-        );
+              ),
+            ));
       },
     );
   }
@@ -222,161 +227,165 @@ class CreateBagiCubit extends BaseCubit<CreateBagiState> {
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
           content: Container(
             decoration: BoxDecoration(borderRadius: BorderRadius.circular(24)),
-            height: 600,
-            width: 500,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  "Target Bagi-Bagi",
-                  style: AppFont.large(context),
-                ),
-                const SizedBox(height: 16),
-                const Divider(thickness: 2),
-                const SizedBox(height: 32),
-                SizedBox(
-                  child: OutlineFormDropdown(
-                      enabled: (routePayments.type == "ADMIN") ? false : true,
-                      initialValue: routePayments.target,
-                      label: "Target",
-                      name: "outline",
-                      hintText: "Masukan target",
-                      items: state.merchants
-                          .map((e) => DropdownMenuItem(
-                                onTap: () {},
-                                value: e.storesData?.storeName ?? "",
-                                child: Text(
-                                    "${e.storesData?.merchantRole} -> ${e.storesData?.storeName ?? ""}"),
-                              ))
-                          .toList(),
-                      uniqueKey: UniqueKey()),
-                ),
-                const SizedBox(height: 32),
-                Padding(
-                  padding: const EdgeInsets.only(left: 8),
-                  child: Text(
-                    "Bagi-Bagi Pendapatan",
+            height: 400,
+            width: 400,
+            child: SingleChildScrollView(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    "Target Bagi-Bagi",
                     style: AppFont.large(context),
                   ),
-                ),
-                const SizedBox(height: 8),
-                SizedBox(
-                  height: 67,
-                  child: TextField(
-                    maxLength: 2,
-                    decoration: InputDecoration(
-                      suffixIcon: Icon(Icons.percent),
-                      helperStyle: AppFont.small(context)!.copyWith(
-                        color: AppColor.appColor.warning,
-                      ),
-                      helperText:
-                          "Merchant ini akan mendapat bagian dari hasil transaksi ppenjualan",
-                      label: const Text("Bagi-Bagi Pendapatan"),
-                      border: OutlineInputBorder(
-                          borderRadius:
-                              BorderRadius.circular(32)), // Menambahkan border
+                  const SizedBox(height: 4),
+                  const Divider(thickness: 2),
+                  const SizedBox(height: 8),
+                  SizedBox(
+                    child: OutlineFormDropdown(
+                        enabled: (routePayments.type == "ADMIN") ? false : true,
+                        initialValue: routePayments.target,
+                        label: "Target",
+                        name: "outline",
+                        hintText: "Masukan target",
+                        items: state.merchants
+                            .map((e) => DropdownMenuItem(
+                                  onTap: () {},
+                                  value: e.storesData?.storeName ?? "",
+                                  child: Text(
+                                      "${e.storesData?.merchantRole} -> ${e.storesData?.storeName ?? ""}"),
+                                ))
+                            .toList(),
+                        uniqueKey: UniqueKey()),
+                  ),
+                  const SizedBox(height: 16),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 8),
+                    child: Text(
+                      "Bagi-Bagi Pendapatan",
+                      style: AppFont.large(context),
                     ),
-                    controller: percentAmount,
-                    style: const TextStyle(
-                        height: 1.0), // Mengatur tinggi TextField
                   ),
-                ),
-                const SizedBox(height: 32),
-                Padding(
-                  padding: const EdgeInsets.only(left: 8),
-                  child: Text(
-                    "Bagi-Bagi Pendapatan",
-                    style: AppFont.large(context),
-                  ),
-                ),
-                const SizedBox(height: 8),
-                SizedBox(
-                  height: 67,
-                  child: TextField(
-                    maxLength: 2,
-                    decoration: InputDecoration(
-                      suffixIcon: Icon(Icons.percent),
-                      helperStyle: AppFont.small(context)!.copyWith(
-                        color: AppColor.appColor.warning,
-                      ),
-                      helperText: "Merchant & customer ini akan membayar biaya",
-                      label: const Text("Bagi-Bagi Biaya"),
-                      border: OutlineInputBorder(
-                          borderRadius:
-                              BorderRadius.circular(32)), // Menambahkan border
-                    ),
-                    controller: feePos,
-                    style: const TextStyle(
-                        height: 1.0), // Mengatur tinggi TextField
-                  ),
-                ),
-                const SizedBox(height: 32),
-                const Divider(thickness: 2),
-                const SizedBox(height: 16),
-                const SizedBox(height: 24),
-                Row(
-                  children: [
-                    Expanded(
-                      child: Container(
-                        height: 45,
-                        padding: const EdgeInsets.symmetric(horizontal: 24),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(32.0),
-                          border: Border.all(color: AppColor.appColor.primary),
+                  const SizedBox(height: 8),
+                  SizedBox(
+                    height: 67,
+                    child: TextField(
+                      keyboardType: TextInputType.number,
+                      maxLength: 2,
+                      decoration: InputDecoration(
+                        suffixIcon: Icon(Icons.percent),
+                        helperStyle: AppFont.small(context)!.copyWith(
+                          color: AppColor.appColor.warning,
                         ),
-                        child: TextButton(
-                          onPressed: () {
-                            context.pop();
-                          },
-                          child: const Text(
-                            'CANCEL',
+                        helperText:
+                            "Merchant ini akan mendapat bagian dari hasil transaksi ppenjualan",
+                        hintText: "Masukan persenan",
+                        border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(
+                                32)), // Menambahkan border
+                      ),
+                      controller: percentAmount,
+                      style: const TextStyle(
+                          height: 1.0), // Mengatur tinggi TextField
+                    ),
+                  ),
+                  const SizedBox(height: 16),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 8),
+                    child: Text(
+                      "Bagi-Bagi Biaya",
+                      style: AppFont.large(context),
+                    ),
+                  ),
+                  const SizedBox(height: 8),
+                  SizedBox(
+                    height: 67,
+                    child: TextField(
+                      keyboardType: TextInputType.number,
+                      maxLength: 2,
+                      decoration: InputDecoration(
+                        suffixIcon: Icon(Icons.percent),
+                        helperStyle: AppFont.small(context)!.copyWith(
+                          color: AppColor.appColor.warning,
+                        ),
+                        helperText:
+                            "Merchant & customer ini akan membayar biaya",
+                        hintText: "Masukan persenan",
+                        border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(
+                                32)), // Menambahkan border
+                      ),
+                      controller: feePos,
+                      style: const TextStyle(
+                          height: 1.0), // Mengatur tinggi TextField
+                    ),
+                  ),
+                  const SizedBox(height: 16),
+                  Row(
+                    children: [
+                      Expanded(
+                        child: Container(
+                          height: 45,
+                          padding: const EdgeInsets.symmetric(horizontal: 24),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(32.0),
+                            border:
+                                Border.all(color: AppColor.appColor.primary),
+                          ),
+                          child: TextButton(
+                            onPressed: () {
+                              context.pop();
+                            },
+                            child: const Text(
+                              'CANCEL',
+                            ),
                           ),
                         ),
                       ),
-                    ),
-                    const SizedBox(width: 12),
-                    Expanded(
-                      child: Container(
-                        height: 45,
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(36)),
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(36),
-                          child: ElevatedButton(
-                              onPressed: () async {
-                                final data = await ApiService.updateTemplate(
-                                    context,
-                                    referenceId: routePayments.referenceId!,
-                                    routePayments: RoutePayments(
-                                        type: routePayments.type,
-                                        target: routePayments.target,
-                                        feePos: int.parse(feePos.text),
-                                        flatAmount: null,
-                                        percentAmount:
-                                            int.parse(percentAmount.text),
-                                        currency: "IDR",
-                                        destinationAccountId:
-                                            routePayments.destinationAccountId,
-                                        referenceId: routePayments.referenceId),
-                                    id: id);
-                                if (data.isSuccess) {
-                                  refreshData();
-                                  percentAmount.clear();
-                                  feePos.clear();
-                                  context.pop();
-                                  showSuccess(data.message);
-                                } else {
-                                  showError(data.message);
-                                }
-                              },
-                              child: const Text("EDIT")),
+                      const SizedBox(width: 12),
+                      Expanded(
+                        child: Container(
+                          height: 45,
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(36)),
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(36),
+                            child: ElevatedButton(
+                                onPressed: () async {
+                                  final data = await ApiService.updateTemplate(
+                                      context,
+                                      referenceId: routePayments.referenceId!,
+                                      routePayments: RoutePayments(
+                                          type: routePayments.type,
+                                          target: routePayments.target,
+                                          feePos: int.parse(feePos.text),
+                                          flatAmount: null,
+                                          percentAmount:
+                                              int.parse(percentAmount.text),
+                                          currency: "IDR",
+                                          destinationAccountId: routePayments
+                                              .destinationAccountId,
+                                          referenceId:
+                                              routePayments.referenceId),
+                                      id: id);
+                                  if (data.isSuccess) {
+                                    refreshData();
+                                    percentAmount.clear();
+                                    feePos.clear();
+                                    context.pop();
+                                    showSuccess(data.message);
+                                  } else {
+                                    showError(data.message);
+                                  }
+                                },
+                                child: const Text("EDIT")),
+                          ),
                         ),
                       ),
-                    ),
-                  ],
-                ),
-              ],
+                    ],
+                  ),
+                ],
+              ),
             ),
           ),
         );

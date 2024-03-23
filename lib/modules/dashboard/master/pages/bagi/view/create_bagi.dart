@@ -137,13 +137,18 @@ class CreateBagiPage extends StatelessWidget {
                                     alignment: Alignment.center,
                                     width: baseWidth / 7,
                                     child: Text(
-                                        item?.percentAmount?.toString() ?? "",
+                                        item?.percentAmount != null
+                                            ? "${item?.percentAmount}%"
+                                            : "",
                                         style: AppFont.medium(context)),
                                   ),
                                   Container(
                                     alignment: Alignment.center,
                                     width: baseWidth / 7,
-                                    child: Text(item?.feePos?.toString() ?? "",
+                                    child: Text(
+                                        item?.feePos != null
+                                            ? "${item?.feePos}%"
+                                            : "",
                                         style: AppFont.medium(context)),
                                   ),
                                   Container(
