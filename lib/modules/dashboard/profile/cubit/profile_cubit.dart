@@ -42,6 +42,7 @@ class ProfileCubit extends BaseCubit<ProfileState> {
     } else {
       emit(state.copyWith(status: DataStateStatus.error));
     }
+    finishRefresh(state.status);
   }
 
   Future<void> pickImage(ImageSource source) async {

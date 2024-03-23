@@ -27,6 +27,7 @@ class ProfilePage extends StatelessWidget {
         builder: (context, state) {
           var store = state.store?.store;
           return ContainerStateHandler(
+            refresherOptions: cubit.defaultRefresh,
             status: state.status,
             loading: const Center(
               child: CircularProgressIndicator(),
