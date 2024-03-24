@@ -1,7 +1,10 @@
 import 'dart:convert';
+import 'dart:developer';
 import 'dart:io';
+import 'package:path_provider/path_provider.dart';
 
 import 'package:bloc/bloc.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
@@ -15,11 +18,7 @@ import 'package:pos/data/models/base/store.dart';
 import 'package:pos/data/models/request/req_bussiness_partner.dart';
 import 'package:pos/data/models/request/req_register_bank.dart';
 import 'package:pos/engine/engine.dart';
-import 'package:pos/engine/helpers/options.dart';
-
-import '../../../../data/api/response.dart';
 import '../../../../routes/routes.dart';
-import '../../cubit/dashboard_cubit.dart';
 
 part 'profile_state.dart';
 part 'profile_cubit.freezed.dart';
@@ -30,14 +29,16 @@ class ProfileCubit extends BaseCubit<ProfileState> {
   ProfileCubit(BuildContext context) : super(context, const ProfileState());
 
   @override
-  Future<void> initData() async {
+  Future<void> initData({bool requestBussinessPartner = false}) async {
     loadingState();
     getAvailablePayment();
     final data = await ApiService.getStoreInfo(context);
     if (data.isSuccess) {
-      setCity(data.data?.store?.city ?? "");
-      setAddressState(data.data?.store?.state ?? "");
-      setCountry(data.data?.store?.country ?? "");
+      if (requestBussinessPartner == false) {
+        setCity(data.data?.store?.city ?? "");
+        setAddressState(data.data?.store?.state ?? "");
+        setCountry(data.data?.store?.country ?? "");
+      }
       emit(state.copyWith(status: DataStateStatus.success, store: data.data));
     } else {
       emit(state.copyWith(status: DataStateStatus.error));
@@ -68,12 +69,38 @@ class ProfileCubit extends BaseCubit<ProfileState> {
     }
   }
 
+  Future<void> pickNpwpFile() async {
+    try {
+      FilePickerResult? result = await FilePicker.platform.pickFiles();
+      if (result != null) {
+        XFile? file = XFile(result.files.single.path!);
+        log(file.path);
+        emit(state.copyWith(npwpImage: file));
+      } else {}
+    } catch (e) {
+      showError("Gagal memilih file");
+    }
+  }
+
   Future<void> pickNibImage(ImageSource source) async {
     try {
       XFile? image = await ImagePicker().pickImage(source: source);
       emit(state.copyWith(nibImage: image));
     } catch (e) {
       showError("Gagal mengambil gambar");
+    }
+  }
+
+  Future<void> pickNibFile() async {
+    try {
+      FilePickerResult? result = await FilePicker.platform.pickFiles();
+      if (result != null) {
+        XFile? file = XFile(result.files.single.path!);
+        log(file.path);
+        emit(state.copyWith(nibImage: file));
+      } else {}
+    } catch (e) {
+      showError("Gagal memilih file");
     }
   }
 
@@ -86,11 +113,25 @@ class ProfileCubit extends BaseCubit<ProfileState> {
     }
   }
 
+  Future<void> pickAktaFile() async {
+    try {
+      FilePickerResult? result = await FilePicker.platform.pickFiles();
+      if (result != null) {
+        XFile? file = XFile(result.files.single.path!);
+        log(file.path);
+        emit(state.copyWith(aktaImage: file));
+      } else {}
+    } catch (e) {
+      showError("Gagal memilih file");
+    }
+  }
+
   @override
   void loadingState() => emit(state.copyWith(status: DataStateStatus.loading));
 
   @override
-  Future<void> refreshData() => initData();
+  Future<void> refreshData({bool requestBussinessPartner = false}) =>
+      initData(requestBussinessPartner: requestBussinessPartner);
   setCountry(String country) {
     emit(state.copyWith(country: country));
   }
@@ -162,28 +203,31 @@ class ProfileCubit extends BaseCubit<ProfileState> {
   }
 
   Future addBankAccount() async {
-    showLoading();
-    formKey.currentState?.save();
-    Map<String, dynamic>? form = formKey.currentState?.value;
-    final data = await ApiService.addBankAccountInProfile(context,
-        req: ReqRegisterBank(
-          bankName: form?["bank_name"] ?? "",
-          holderName: form?["holder_name"] ?? "",
-          accountNumber: int.parse(form?["account_number"]),
-          pin: int.parse(form?["pin"]),
-        ));
-    if (data.isSuccess) {
-      showSuccess(data.message);
-      final data2 = await ApiService.getStoreInfo(context);
-      if (data2.data?.store?.storeName != null) {
-        context.go(RouteNames.dashboard);
-      } else {}
-    } else {
-      showError(data.message);
+    try {
+      showLoading();
+      formKey.currentState?.save();
+      Map<String, dynamic>? form = formKey.currentState?.value;
+      final data = await ApiService.addBankAccountInProfile(context,
+          req: ReqRegisterBank(
+            bankName: form?["bank_name"] ?? "",
+            holderName: form?["holder_name"] ?? "",
+            accountNumber: int.parse(form?["account_number"]),
+            pin: int.parse(form?["pin"]),
+          ));
+      if (data.isSuccess) {
+        final data2 = await ApiService.getStoreInfo(context);
+        if (data2.data?.store?.storeName != null) {
+          context.go(RouteNames.dashboard);
+        } else {}
+      } else {
+        showError(data.message);
+      }
+      // refreshData();
+      dismissLoading();
+      return data;
+    } catch (e) {
+      return null;
     }
-    refreshData();
-    dismissLoading();
-    return data;
   }
 
   Future requestBussinessPartner() async {
@@ -243,7 +287,7 @@ class ProfileCubit extends BaseCubit<ProfileState> {
     } else {
       showError(data.message);
     }
-    refreshData();
+    refreshData(requestBussinessPartner: true);
     dismissLoading();
     return data;
   }

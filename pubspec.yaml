@@ -55,6 +55,10 @@ dependencies:
   flutter_blue_plus: ^1.31.16
   bluetooth_print: ^4.3.0
   data_table_2: ^2.5.11
+  file_picker: ^8.0.0+1
+  path_provider: ^2.1.2
+  flutter_cached_pdfview: ^0.4.2
+  syncfusion_flutter_pdfviewer: ^24.2.8
 
 dev_dependencies:
   flutter_test:

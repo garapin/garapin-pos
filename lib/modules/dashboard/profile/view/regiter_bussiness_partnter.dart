@@ -107,6 +107,11 @@ class RegisterBussinessPartner extends StatelessWidget {
                         ),
                         const SizedBox(height: 24),
                         ImagePickerWidget(
+                          fileEnable: true,
+                          pickFilePressed: () {
+                            cubit.pickNpwpFile().then((value) => context.pop());
+                            ;
+                          },
                           label: "Upload NPWP",
                           cubit: cubit,
                           imageUrl: businessPartnesr?.imageNpwp,
@@ -124,10 +129,15 @@ class RegisterBussinessPartner extends StatelessWidget {
                         ),
                         const SizedBox(height: 16),
                         ImagePickerWidget(
+                          fileEnable: true,
                           cubit: cubit,
                           label: "Upload NIB",
                           imageUrl: businessPartnesr?.imageNib,
                           pickedImage: state?.nibImage,
+                          pickFilePressed: () {
+                            cubit.pickNibFile().then((value) => context.pop());
+                            ;
+                          },
                           pickCameraPressed: () {
                             cubit
                                 .pickNibImage(ImageSource.camera)
@@ -141,6 +151,11 @@ class RegisterBussinessPartner extends StatelessWidget {
                         ),
                         const SizedBox(height: 16),
                         ImagePickerWidget(
+                          pickFilePressed: () {
+                            cubit.pickAktaFile().then((value) => context.pop());
+                            ;
+                          },
+                          fileEnable: true,
                           label: "Upload Akta",
                           cubit: cubit,
                           imageUrl: businessPartnesr?.imageAkta,

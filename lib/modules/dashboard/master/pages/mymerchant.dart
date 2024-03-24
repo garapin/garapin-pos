@@ -23,7 +23,7 @@ class MyMerchantPage extends StatelessWidget {
         return ContainerStateHandler(
           refresherOptions: cubit.defaultRefresh,
           status: state.status,
-          loading: Center(
+          loading: const Center(
             child: CircularProgressIndicator(),
           ),
           child: SingleChildScrollView(
@@ -56,13 +56,14 @@ class MyMerchantPage extends StatelessWidget {
                       key: cubit.formKey,
                       child: Column(
                         children: [
-                          OutlineFormText(
+                          const OutlineFormText(
                             name: 'email',
                             hintText: 'Masukan email',
                             label: 'Email',
                           ),
                           const SizedBox(height: 16),
-                          OutlineFormText(
+                          const OutlineFormText(
+                            maxLength: 30,
                             name: 'store_name',
                             hintText: 'Masukan nama database',
                             label: 'Database Name',
@@ -93,9 +94,9 @@ class MyMerchantPage extends StatelessWidget {
                                 child: Text("CUST"),
                               )
                             ],
-                            uniqueKey: Key("100"),
+                            uniqueKey: const Key("100"),
                           ),
-                          SizedBox(height: 32),
+                          const SizedBox(height: 32),
                           ClipRRect(
                             borderRadius: BorderRadius.circular(38),
                             child: SizedBox(
@@ -108,11 +109,11 @@ class MyMerchantPage extends StatelessWidget {
                                   child: const Text("Invite")),
                             ),
                           ),
-                          SizedBox(height: 16),
-                          Divider(thickness: 1),
-                          SizedBox(height: 16),
+                          const SizedBox(height: 16),
+                          const Divider(thickness: 1),
+                          const SizedBox(height: 16),
                           ListView.builder(
-                            physics: NeverScrollableScrollPhysics(),
+                            physics: const NeverScrollableScrollPhysics(),
                             shrinkWrap: true,
                             itemCount: state.merchants.length,
                             itemBuilder: (context, index) {

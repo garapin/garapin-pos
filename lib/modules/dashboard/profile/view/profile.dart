@@ -27,7 +27,8 @@ class ProfilePage extends StatelessWidget {
         builder: (context, state) {
           var store = state.store?.store;
           return ContainerStateHandler(
-            refresherOptions: cubit.defaultRefresh,
+            refresherOptions:
+                (store?.storeName != null) ? cubit.defaultRefresh : null,
             status: state.status,
             loading: const Center(
               child: CircularProgressIndicator(),
@@ -380,8 +381,10 @@ class ProfilePage extends StatelessWidget {
                                   height: 50,
                                   child: ElevatedButton(
                                       onPressed: () {
-                                        cubit.updateProfile().then((value) =>
-                                            cubitDashboard.changePage(0));
+                                        cubit.addBankAccount().then((value) {
+                                          cubit.updateProfile().then((value) =>
+                                              cubitDashboard.changePage(0));
+                                        });
                                       },
                                       child: const Text("SAVE")),
                                 ),

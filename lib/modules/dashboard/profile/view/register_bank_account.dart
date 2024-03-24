@@ -86,20 +86,20 @@ class RegisterBankAccount extends StatelessWidget {
               label: "Pin Anda",
               maxLength: 6,
             ),
-            ClipRRect(
-              borderRadius: BorderRadius.circular(38),
-              child: SizedBox(
-                height: 40,
-                width: baseWidth,
-                child: ElevatedButton(
-                  onPressed: () {
-                    cubit.addBankAccount();
-                  },
-                  child: const Text("SAVE"),
-                ),
-              ),
-            ),
-            const SizedBox(height: 16),
+            // ClipRRect(
+            //   borderRadius: BorderRadius.circular(38),
+            //   child: SizedBox(
+            //     height: 40,
+            //     width: baseWidth,
+            //     child: ElevatedButton(
+            //       onPressed: () {
+            //         cubit.addBankAccount();
+            //       },
+            //       child: const Text("SAVE"),
+            //     ),
+            //   ),
+            // ),
+            // const SizedBox(height: 16),
           ],
         ),
       ],
