@@ -35,18 +35,18 @@ class RegisterBussinessPartner extends StatelessWidget {
             : ListTile(
                 title: Text(
                   "Ingin menjadi Business Partner Kami?",
-                  style: AppFont.largeBold(context)!.copyWith(fontSize: 16),
+                  style: AppFont.largeBold(context)!.copyWith(fontSize: 14),
                 ),
                 subtitle: Text(
                   "Jadilah partner kami sekarang juga",
-                  style: AppFont.large(context)!.copyWith(fontSize: 14),
+                  style: AppFont.large(context)!.copyWith(fontSize: 12),
                 ),
                 trailing: Expanded(
                     child: ClipRRect(
                   borderRadius: BorderRadius.circular(38),
                   child: Container(
                     height: 40,
-                    width: 300,
+                    width: 350,
                     child: ElevatedButton(
                         style: ElevatedButton.styleFrom(
                             backgroundColor: isActive

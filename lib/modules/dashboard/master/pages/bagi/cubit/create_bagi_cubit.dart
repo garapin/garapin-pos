@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:go_router/go_router.dart';
@@ -18,6 +20,9 @@ class CreateBagiCubit extends BaseCubit<CreateBagiState> {
   final TextEditingController percentAmount = TextEditingController();
   final TextEditingController feePos = TextEditingController();
   final TextEditingController target = TextEditingController();
+//popup
+  final TextEditingController referenceIdC = TextEditingController();
+  final TextEditingController destinationAccountIdC = TextEditingController();
   final String id;
   CreateBagiCubit(BuildContext context, this.id)
       : super(context, const CreateBagiState());
@@ -33,6 +38,9 @@ class CreateBagiCubit extends BaseCubit<CreateBagiState> {
   }
 
   void addTarget() {
+    target.text = "";
+    feePos.text = "";
+    percentAmount.text = "";
     showDialog(
       context: context,
       builder: (context) {
@@ -62,6 +70,11 @@ class CreateBagiCubit extends BaseCubit<CreateBagiState> {
                           name: "outline",
                           hintText: "Masukan target",
                           items: state.merchants
+                              .where((element) =>
+                                  element.storesData?.storeName != null)
+                              .where((element) =>
+                                  element.storesData?.merchantRole != "ADMIN" &&
+                                  element.storesData?.merchantRole != "TRX")
                               .map((e) => DropdownMenuItem(
                                     onTap: () {
                                       var item = e.storesData;
@@ -179,27 +192,39 @@ class CreateBagiCubit extends BaseCubit<CreateBagiState> {
                               borderRadius: BorderRadius.circular(36),
                               child: ElevatedButton(
                                   onPressed: () async {
-                                    RoutePayments newData =
-                                        state.routePayments!;
-                                    newData.percentAmount =
-                                        int.parse(percentAmount.text);
-                                    newData.feePos = int.parse(feePos.text);
-                                    final data =
-                                        await ApiService.updateTemplate(context,
-                                            referenceId: state
-                                                .routePayments!.referenceId!,
-                                            routePayments: state.routePayments!,
-                                            id: id);
-                                    // flatAmount: null,
-                                    // percentAmount: int.parse(percentAmount.text),);
-                                    if (data.isSuccess) {
-                                      refreshData();
-                                      percentAmount.clear();
-                                      feePos.clear();
-                                      context.pop();
-                                      showSuccess(data.message);
+                                    if (target.text == "") {
+                                      showError("Target tidak boleh kosong");
+                                    } else if (percentAmount.text == "") {
+                                      showError(
+                                          "Bagi-bagi pendapatan tidak boleh kosong");
+                                    } else if (feePos.text == "") {
+                                      showError(
+                                          "Bagi-bagi biaya tidak boleh kosong");
                                     } else {
-                                      showError(data.message);
+                                      RoutePayments newData =
+                                          state.routePayments!;
+                                      newData.percentAmount =
+                                          int.parse(percentAmount.text);
+                                      newData.feePos = int.parse(feePos.text);
+                                      final data =
+                                          await ApiService.updateTemplate(
+                                              context,
+                                              referenceId: state
+                                                  .routePayments!.referenceId!,
+                                              routePayments:
+                                                  state.routePayments!,
+                                              id: id);
+                                      // flatAmount: null,
+                                      // percentAmount: int.parse(percentAmount.text),);
+                                      if (data.isSuccess) {
+                                        refreshData();
+                                        percentAmount.clear();
+                                        feePos.clear();
+                                        context.pop();
+                                        showSuccess(data.message);
+                                      } else {
+                                        showError(data.message);
+                                      }
                                     }
                                   },
                                   child: const Text("ADD")),
@@ -219,6 +244,10 @@ class CreateBagiCubit extends BaseCubit<CreateBagiState> {
   void editTarget(RoutePayments routePayments) {
     percentAmount.text = routePayments.percentAmount?.toString() ?? "";
     feePos.text = routePayments.feePos?.toString() ?? "";
+    target.text = routePayments.target ?? "";
+    referenceIdC.text = routePayments.referenceId ?? "";
+    log(referenceIdC.text);
+    destinationAccountIdC.text = routePayments.destinationAccountId ?? "";
     showDialog(
       context: context,
       builder: (context) {
@@ -242,22 +271,35 @@ class CreateBagiCubit extends BaseCubit<CreateBagiState> {
                   const Divider(thickness: 2),
                   const SizedBox(height: 8),
                   SizedBox(
-                    child: OutlineFormDropdown(
-                        enabled: (routePayments.type == "ADMIN") ? false : true,
-                        initialValue: routePayments.target,
-                        label: "Target",
-                        name: "outline",
-                        hintText: "Masukan target",
-                        items: state.merchants
-                            .map((e) => DropdownMenuItem(
-                                  onTap: () {},
-                                  value: e.storesData?.storeName ?? "",
-                                  child: Text(
-                                      "${e.storesData?.merchantRole} -> ${e.storesData?.storeName ?? ""}"),
-                                ))
-                            .toList(),
-                        uniqueKey: UniqueKey()),
-                  ),
+                      child: OutlineFormDropdown(
+                          onChanged: (p0) {},
+                          enabled: routePayments.type == "ADMIN" ? false : true,
+                          initialValue: target.text,
+                          label: "Target",
+                          name: "outline",
+                          hintText: "Masukan target",
+                          items: state.merchants
+                              .where((element) =>
+                                  element.storesData?.storeName != null)
+                              .where((element) =>
+                                  element.storesData?.merchantRole ==
+                                  routePayments.type)
+                              .map((e) {
+                            return DropdownMenuItem(
+                              onTap: () {
+                                DatabaseStore p = e;
+                                target.text =
+                                    p.storesData!.storeName.toString();
+                                referenceIdC.text = p.dbName.toString();
+                                destinationAccountIdC.text =
+                                    p.storesData!.accountHolder!.id.toString();
+                              },
+                              value: e.storesData?.storeName,
+                              child: Text(
+                                  "${e.storesData?.merchantRole} -> ${e.storesData?.storeName ?? ""}"),
+                            );
+                          }).toList(),
+                          uniqueKey: UniqueKey())),
                   const SizedBox(height: 16),
                   Padding(
                     padding: const EdgeInsets.only(left: 8),
@@ -352,30 +394,39 @@ class CreateBagiCubit extends BaseCubit<CreateBagiState> {
                             borderRadius: BorderRadius.circular(36),
                             child: ElevatedButton(
                                 onPressed: () async {
-                                  final data = await ApiService.updateTemplate(
-                                      context,
-                                      referenceId: routePayments.referenceId!,
-                                      routePayments: RoutePayments(
-                                          type: routePayments.type,
-                                          target: routePayments.target,
-                                          feePos: int.parse(feePos.text),
-                                          flatAmount: null,
-                                          percentAmount:
-                                              int.parse(percentAmount.text),
-                                          currency: "IDR",
-                                          destinationAccountId: routePayments
-                                              .destinationAccountId,
-                                          referenceId:
-                                              routePayments.referenceId),
-                                      id: id);
-                                  if (data.isSuccess) {
-                                    refreshData();
-                                    percentAmount.clear();
-                                    feePos.clear();
-                                    context.pop();
-                                    showSuccess(data.message);
+                                  if (target.text == "") {
+                                    showError("Target tidak boleh kosong");
+                                  } else if (percentAmount.text == "") {
+                                    showError(
+                                        "Bagi-bagi pendapatan tidak boleh kosong");
+                                  } else if (feePos.text == "") {
+                                    showError(
+                                        "Bagi-bagi biaya tidak boleh kosong");
                                   } else {
-                                    showError(data.message);
+                                    final data =
+                                        await ApiService.updateTemplate(context,
+                                            referenceId: referenceIdC.text,
+                                            routePayments: RoutePayments(
+                                                type: routePayments.type,
+                                                target: target.text,
+                                                feePos: int.parse(feePos.text),
+                                                flatAmount: null,
+                                                percentAmount: int.parse(
+                                                    percentAmount.text),
+                                                currency: "IDR",
+                                                destinationAccountId:
+                                                    destinationAccountIdC.text,
+                                                referenceId: referenceIdC.text),
+                                            id: id);
+                                    if (data.isSuccess) {
+                                      refreshData();
+                                      percentAmount.clear();
+                                      feePos.clear();
+                                      context.pop();
+                                      showSuccess(data.message);
+                                    } else {
+                                      showError(data.message);
+                                    }
                                   }
                                 },
                                 child: const Text("EDIT")),

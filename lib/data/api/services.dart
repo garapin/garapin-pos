@@ -486,7 +486,10 @@ class ApiService {
                 type: "ADMIN",
                 target: storeName,
                 referenceId: referenceId,
-                destinationAccountId: destinationAccountId)
+                destinationAccountId: destinationAccountId),
+            RoutePayments(
+              type: "TRX",
+            )
           ],
         })
         .then(

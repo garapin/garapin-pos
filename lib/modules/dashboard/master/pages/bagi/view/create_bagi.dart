@@ -166,7 +166,7 @@ class CreateBagiPage extends StatelessWidget {
                                                   .toString()),
                                               flatAmount: int.tryParse(
                                                   item.flatAmount.toString()),
-                                              target: item.target!,
+                                              target: item.target,
                                               referenceId: item.referenceId,
                                               destinationAccountId:
                                                   item.destinationAccountId,

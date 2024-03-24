@@ -13,6 +13,7 @@ class OutlineFormDropdown extends StatelessWidget {
   final String? Function(dynamic)? validator;
   final List<DropdownMenuItem<dynamic>> items;
   final bool enabled;
+  final void Function(dynamic)? onChanged;
   const OutlineFormDropdown({
     super.key,
     required this.name,
@@ -24,6 +25,7 @@ class OutlineFormDropdown extends StatelessWidget {
     this.validator,
     this.enabled = true,
     required this.uniqueKey,
+    this.onChanged,
   });
 
   @override
@@ -39,6 +41,7 @@ class OutlineFormDropdown extends StatelessWidget {
             : const SizedBox(),
         label != null ? const SizedBox(height: 8) : const SizedBox(),
         FormBuilderDropdown(
+          onChanged: onChanged,
           enabled: enabled,
           key: UniqueKey(),
           validator: validator,
