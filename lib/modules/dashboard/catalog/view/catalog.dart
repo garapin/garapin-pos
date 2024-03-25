@@ -97,42 +97,47 @@ class CatalogPage extends StatelessWidget {
                 emptyOptions: EmptyOptions(
                     customEmpty: Column(
                   children: [
-                    Padding(
-                      padding: const EdgeInsets.all(12.0),
-                      child: Row(
-                        children: [
-                          SizedBox(
-                            height: 40,
-                            width: 200,
-                            child: TextButton(
-                                style: OutlinedButton.styleFrom(
-                                  backgroundColor: AppColor.appColor.primary,
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(40),
-                                    side: BorderSide(
-                                      width: 1.5,
-                                      color: AppColor.appColor.primary,
-                                    ),
-                                  ),
+                    (state.modeCatalog == ModeCatalog.cashier)
+                        ? SizedBox()
+                        : Padding(
+                            padding: const EdgeInsets.all(12.0),
+                            child: Row(
+                              children: [
+                                SizedBox(
+                                  height: 40,
+                                  width: 200,
+                                  child: TextButton(
+                                      style: OutlinedButton.styleFrom(
+                                        backgroundColor:
+                                            AppColor.appColor.primary,
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(40),
+                                          side: BorderSide(
+                                            width: 1.5,
+                                            color: AppColor.appColor.primary,
+                                          ),
+                                        ),
+                                      ),
+                                      onPressed: () {
+                                        context
+                                            .pushNamed(RouteNames.cretaeProduct)
+                                            .then(
+                                                (value) => cubit.refreshData());
+                                      },
+                                      child: Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: 24, vertical: 0),
+                                        child: Text(
+                                          "Buat Produk",
+                                          style: AppFont.largeBold(context)!
+                                              .copyWith(color: Colors.white),
+                                        ),
+                                      )),
                                 ),
-                                onPressed: () {
-                                  context
-                                      .pushNamed(RouteNames.cretaeProduct)
-                                      .then((value) => cubit.refreshData());
-                                },
-                                child: Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 24, vertical: 0),
-                                  child: Text(
-                                    "Buat Produk",
-                                    style: AppFont.largeBold(context)!
-                                        .copyWith(color: Colors.white),
-                                  ),
-                                )),
+                              ],
+                            ),
                           ),
-                        ],
-                      ),
-                    ),
                     SizedBox(height: 60),
                     const EmptyImageData(
                       text: "Produk Kosong",
