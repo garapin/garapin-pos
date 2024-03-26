@@ -56,7 +56,7 @@ class DashboardCubit extends BaseCubit<DashboardState> {
   }
 
   List<Widget> page = [
-    CatalogPage(
+    const CatalogPage(
       modeCatalog: ModeCatalog.cashier,
     ),
     MultiBlocProvider(

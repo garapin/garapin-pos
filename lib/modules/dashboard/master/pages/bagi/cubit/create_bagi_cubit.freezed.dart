@@ -186,8 +186,8 @@ class _$CreateBagiStateImpl implements _CreateBagiState {
             other is _$CreateBagiStateImpl &&
             (identical(other.status, status) || other.status == status) &&
             (identical(other.store, store) || other.store == store) &&
-            (identical(other.routePayments, routePayments) ||
-                other.routePayments == routePayments) &&
+            const DeepCollectionEquality()
+                .equals(other.routePayments, routePayments) &&
             const DeepCollectionEquality()
                 .equals(other._merchants, _merchants) &&
             (identical(other.paymentTemplate, paymentTemplate) ||
@@ -195,8 +195,13 @@ class _$CreateBagiStateImpl implements _CreateBagiState {
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, status, store, routePayments,
-      const DeepCollectionEquality().hash(_merchants), paymentTemplate);
+  int get hashCode => Object.hash(
+      runtimeType,
+      status,
+      store,
+      const DeepCollectionEquality().hash(routePayments),
+      const DeepCollectionEquality().hash(_merchants),
+      paymentTemplate);
 
   @JsonKey(ignore: true)
   @override

@@ -1,13 +1,18 @@
+import 'dart:math';
+
 import 'package:data_table_2/data_table_2.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:pos/data/api/services.dart';
 import 'package:pos/data/models/base/split_payment_rule.dart';
 import 'package:pos/modules/dashboard/master/pages/bagi/cubit/bagi_cubit.dart';
 import 'package:pos/modules/dashboard/master/pages/bagi/cubit/create_bagi_cubit.dart';
 import 'package:pos/widgets/widgets.dart';
 
+import '../../../../../../data/models/base/split_payment_template.dart';
 import '../../../../../../engine/base/app.dart';
 import '../../../../../../themes/themes.dart';
 
@@ -151,28 +156,58 @@ class CreateBagiPage extends StatelessWidget {
                                             : "",
                                         style: AppFont.medium(context)),
                                   ),
-                                  Container(
-                                      alignment: Alignment.center,
-                                      width: baseWidth / 7,
-                                      child: CustomButton(
-                                          onPressed: () {
-                                            cubitCreateBagi
-                                                .editTarget(RoutePayments(
-                                              type: item!.type!,
-                                              feePos: int.tryParse(
-                                                  item.feePos.toString()),
-                                              percentAmount: int.tryParse(item
-                                                  .percentAmount
-                                                  .toString()),
-                                              flatAmount: int.tryParse(
-                                                  item.flatAmount.toString()),
-                                              target: item.target,
-                                              referenceId: item.referenceId,
-                                              destinationAccountId:
-                                                  item.destinationAccountId,
-                                            ));
-                                          },
-                                          child: Icon(Icons.edit))),
+                                  Row(
+                                    children: [
+                                      Container(
+                                          alignment: Alignment.center,
+                                          padding: EdgeInsets.only(right: 30),
+                                          width: 50,
+                                          child: CustomButton(
+                                              onPressed: () {
+                                                cubitCreateBagi
+                                                    .editTarget(RoutePayments(
+                                                  type: item!.type!,
+                                                  feePos: int.tryParse(
+                                                      item.feePos.toString()),
+                                                  percentAmount: int.tryParse(
+                                                      item.percentAmount
+                                                          .toString()),
+                                                  flatAmount: int.tryParse(item
+                                                      .flatAmount
+                                                      .toString()),
+                                                  target: item.target,
+                                                  referenceId: item.referenceId,
+                                                  destinationAccountId:
+                                                      item.destinationAccountId,
+                                                ));
+                                              },
+                                              child: Icon(Icons.edit))),
+                                      Container(
+                                          padding: EdgeInsets.only(right: 100),
+                                          alignment: Alignment.center,
+                                          width: 65,
+                                          child: CustomButton(
+                                              onPressed: () {
+                                                cubitCreateBagi
+                                                    .editTarget(RoutePayments(
+                                                  type: item!.type!,
+                                                  feePos: int.tryParse(
+                                                      item.feePos.toString()),
+                                                  percentAmount: int.tryParse(
+                                                      item.percentAmount
+                                                          .toString()),
+                                                  flatAmount: int.tryParse(item
+                                                      .flatAmount
+                                                      .toString()),
+                                                  target: item.target,
+                                                  referenceId: item.referenceId,
+                                                  destinationAccountId:
+                                                      item.destinationAccountId,
+                                                ));
+                                              },
+                                              child: Icon(Icons.delete))),
+                                    ],
+                                  ),
                                 ]);
                           },
                           separatorBuilder: (BuildContext context, int index) {
@@ -184,7 +219,6 @@ class CreateBagiPage extends StatelessWidget {
                         ),
                       ),
                       Divider(thickness: 2),
-                      SizedBox(height: 30),
                       Padding(
                         padding: const EdgeInsets.symmetric(
                             horizontal: 36, vertical: 4),
@@ -195,7 +229,50 @@ class CreateBagiPage extends StatelessWidget {
                               style: AppFont.largeBold(context)!
                                   .copyWith(color: AppColor.appColor.warning),
                             )),
-                      )
+                      ),
+                      SizedBox(height: 15),
+                      Padding(
+                        padding: const EdgeInsets.only(right: 50),
+                        child: Align(
+                          alignment: Alignment.centerRight,
+                          child: Builder(builder: (context) {
+                            return ClipRRect(
+                              borderRadius: BorderRadius.circular(24),
+                              child: SizedBox(
+                                  height: 50,
+                                  width: 400,
+                                  child: ElevatedButton(
+                                      onPressed: () async {
+                                        final data =
+                                            await ApiService.createSplitRule(
+                                                context,
+                                                idTemplate:
+                                                    state.paymentTemplate?.id ??
+                                                        "",
+                                                name: state.paymentTemplate
+                                                        ?.name ??
+                                                    "",
+                                                description: state
+                                                        .paymentTemplate
+                                                        ?.description ??
+                                                    "Bagi Bagi Untuk trx ${state.paymentTemplate?.routes?.where((element) => element.type == "TRX").first.target?.toUpperCase() ?? ""}",
+                                                routes: state
+                                                    .paymentTemplate!.routes!);
+                                        if (data.isSuccess) {
+                                          ShowNotify.success(context,
+                                              msg: data.message);
+                                        } else {
+                                          ShowNotify.error(context,
+                                              msg: data.message);
+                                        }
+                                      },
+                                      child: Text(
+                                          "Gunakan Template Ke TRX ${state.paymentTemplate?.routes?.where((element) => element.type == "TRX").first.target?.toUpperCase() ?? ""}"))),
+                            );
+                          }),
+                        ),
+                      ),
+                      SizedBox(height: 30),
                     ]))),
           );
         },

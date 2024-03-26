@@ -89,10 +89,6 @@ class MyMerchantPage extends StatelessWidget {
                                 value: "SUPP",
                                 child: Text("SUPP"),
                               ),
-                              DropdownMenuItem(
-                                value: "CUST",
-                                child: Text("CUST"),
-                              )
                             ],
                             uniqueKey: const Key("100"),
                           ),
@@ -126,12 +122,23 @@ class MyMerchantPage extends StatelessWidget {
                                 ),
                                 title: Text(
                                   merchant.storesData?.storeName ??
-                                      "Nama belum ditambahkan",
+                                      "Menunggu approval",
                                   style: AppFont.largeBold(context),
                                 ),
-                                subtitle: Text(
-                                  merchant.storesData?.merchantRole ?? "",
-                                  style: AppFont.medium(context),
+                                subtitle: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      merchant.storesData?.accountHolder
+                                              ?.email ??
+                                          "",
+                                      style: AppFont.medium(context),
+                                    ),
+                                    Text(
+                                      merchant.storesData?.merchantRole ?? "",
+                                      style: AppFont.medium(context),
+                                    ),
+                                  ],
                                 ),
                                 trailing: Text(
                                   merchant.storesData?.storeStatus ?? "",

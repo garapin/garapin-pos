@@ -497,6 +497,25 @@ class ApiService {
         .handler((error) => ApiResponse<SplitPaymentTemplate>.onError(error));
   }
 
+  static Future<ApiResponse<SplitPaymentTemplate>> createSplitRule(
+    BuildContext context, {
+    required String idTemplate,
+    required String name,
+    required String description,
+    required List<RoutePayments> routes,
+  }) async {
+    return await ApiConfigure(context)
+        .post('/store/split_rule', params: {
+          "id_template": idTemplate,
+          "name": name,
+          "description": description,
+          "routes": routes,
+        })
+        .then(
+            (result) => ApiResponse<SplitPaymentTemplate>.fromJson(result.data))
+        .handler((error) => ApiResponse<SplitPaymentTemplate>.onError(error));
+  }
+
   static Future<ApiResponse<SplitPaymentTemplate>> updateTemplate(
     BuildContext context, {
     required String referenceId,

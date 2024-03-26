@@ -13,7 +13,7 @@ SplitPaymentTemplate _$SplitPaymentTemplateFromJson(
       name: json['name'] as String?,
       description: json['description'],
       routes: (json['routes'] as List<dynamic>?)
-          ?.map((e) => Route.fromJson(e as Map<String, dynamic>))
+          ?.map((e) => RoutePayments.fromJson(e as Map<String, dynamic>))
           .toList(),
       createdAt: json['createdAt'] == null
           ? null
@@ -36,7 +36,8 @@ Map<String, dynamic> _$SplitPaymentTemplateToJson(
       '__v': instance.v,
     };
 
-Route _$RouteFromJson(Map<String, dynamic> json) => Route(
+RoutePayments _$RoutePaymentsFromJson(Map<String, dynamic> json) =>
+    RoutePayments(
       type: json['type'] as String?,
       target: json['target'] as String?,
       feePos: json['fee_pos'],
@@ -48,7 +49,8 @@ Route _$RouteFromJson(Map<String, dynamic> json) => Route(
       id: json['_id'] as String?,
     );
 
-Map<String, dynamic> _$RouteToJson(Route instance) => <String, dynamic>{
+Map<String, dynamic> _$RoutePaymentsToJson(RoutePayments instance) =>
+    <String, dynamic>{
       'type': instance.type,
       'target': instance.target,
       'fee_pos': instance.feePos,

@@ -49,10 +49,10 @@ Object factoryModel(String type, {Map<String, dynamic>? json}) {
       return json != null ? MerchantModel.fromJson(json) : MerchantModel();
     case 'DatabaseStore':
       return json != null ? DatabaseStore.fromJson(json) : DatabaseStore();
-    case 'SplitPaymentRule':
-      return json != null
-          ? SplitPaymentRule.fromJson(json)
-          : SplitPaymentRule();
+    // case 'SplitPaymentRule':
+    //   return json != null
+    //       ? SplitPaymentRule.fromJson(json)
+    //       : SplitPaymentRule();
     case 'SplitPaymentTemplate':
       return json != null
           ? SplitPaymentTemplate.fromJson(json)

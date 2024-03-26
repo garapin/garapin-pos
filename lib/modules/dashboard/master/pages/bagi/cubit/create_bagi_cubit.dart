@@ -41,6 +41,9 @@ class CreateBagiCubit extends BaseCubit<CreateBagiState> {
     target.text = "";
     feePos.text = "";
     percentAmount.text = "";
+    List<String> destAccountId = state.paymentTemplate!.routes!
+        .map((e) => e.destinationAccountId.toString())
+        .toList();
     showDialog(
       context: context,
       builder: (context) {
@@ -75,6 +78,8 @@ class CreateBagiCubit extends BaseCubit<CreateBagiState> {
                               .where((element) =>
                                   element.storesData?.merchantRole != "ADMIN" &&
                                   element.storesData?.merchantRole != "TRX")
+                              .where((element) => !destAccountId.contains(
+                                  element.storesData?.accountHolder?.id))
                               .map((e) => DropdownMenuItem(
                                     onTap: () {
                                       var item = e.storesData;

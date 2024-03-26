@@ -16,7 +16,7 @@ class SplitPaymentTemplate {
   @JsonKey(name: "description")
   dynamic description;
   @JsonKey(name: "routes")
-  List<Route>? routes;
+  List<RoutePayments>? routes;
   @JsonKey(name: "createdAt")
   DateTime? createdAt;
   @JsonKey(name: "updatedAt")
@@ -41,7 +41,7 @@ class SplitPaymentTemplate {
 }
 
 @JsonSerializable()
-class Route {
+class RoutePayments {
   @JsonKey(name: "type")
   String? type;
   @JsonKey(name: "target")
@@ -61,7 +61,7 @@ class Route {
   @JsonKey(name: "_id")
   String? id;
 
-  Route({
+  RoutePayments({
     this.type,
     this.target,
     this.feePos,
@@ -73,7 +73,8 @@ class Route {
     this.id,
   });
 
-  factory Route.fromJson(Map<String, dynamic> json) => _$RouteFromJson(json);
+  factory RoutePayments.fromJson(Map<String, dynamic> json) =>
+      _$RoutePaymentsFromJson(json);
 
-  Map<String, dynamic> toJson() => _$RouteToJson(this);
+  Map<String, dynamic> toJson() => _$RoutePaymentsToJson(this);
 }

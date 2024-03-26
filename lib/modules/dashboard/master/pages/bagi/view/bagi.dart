@@ -21,7 +21,7 @@ class BagiPage extends StatelessWidget {
       builder: (conext, state) {
         return ContainerStateHandler(
             refresherOptions: cubit.defaultRefresh,
-            loading: Center(
+            loading: const Center(
               child: CircularProgressIndicator(),
             ),
             status: state.status,
@@ -69,14 +69,14 @@ class ListBagi extends StatelessWidget {
               const Divider(),
               const SizedBox(height: 16),
               ListView.separated(
-                physics: NeverScrollableScrollPhysics(),
+                physics: const NeverScrollableScrollPhysics(),
                 shrinkWrap: true,
                 itemCount: cubit.state.paymentTemplate.length,
                 itemBuilder: (context, index) {
                   var item = cubit.state.paymentTemplate[index];
                   return ListTile(
                     contentPadding:
-                        EdgeInsets.symmetric(horizontal: 24, vertical: 6),
+                        const EdgeInsets.symmetric(horizontal: 24, vertical: 6),
                     title: Text(
                       item.name ?? "",
                       style: AppFont.largeBold(context),
@@ -84,7 +84,7 @@ class ListBagi extends StatelessWidget {
                     subtitle: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        SizedBox(height: 4),
+                        const SizedBox(height: 4),
                         Text(
                           item.createdAt!.toddMMMyyyyHHmm(),
                           style: AppFont.small(context),
@@ -97,7 +97,7 @@ class ListBagi extends StatelessWidget {
                     ),
                     trailing: Container(
                       height: 40,
-                      padding: EdgeInsets.symmetric(horizontal: 24),
+                      padding: const EdgeInsets.symmetric(horizontal: 24),
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(32.0),
                         border: Border.all(color: AppColor.appColor.primary),
@@ -115,8 +115,8 @@ class ListBagi extends StatelessWidget {
                   );
                 },
                 separatorBuilder: (BuildContext context, int index) {
-                  return Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 30),
+                  return const Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 30),
                     child: Divider(
                       thickness: 2,
                     ),
