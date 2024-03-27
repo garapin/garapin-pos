@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:go_router/go_router.dart';
 import 'package:pos/data/api/services.dart';
-import 'package:pos/data/models/base/split_payment_rule.dart';
 import 'package:pos/engine/engine.dart';
 import 'package:pos/routes/routes.dart';
 import 'package:pos/themes/themes.dart';

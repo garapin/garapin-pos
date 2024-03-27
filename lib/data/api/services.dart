@@ -3,16 +3,14 @@ import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:pos/data/api/error_handler.dart';
 import 'package:pos/data/models/base/available_payment.dart';
-import 'package:pos/data/models/base/bank_account.dart';
 import 'package:pos/data/models/base/brand.dart';
-import 'package:pos/data/models/base/bussiness_partner.dart';
 import 'package:pos/data/models/base/cart.dart';
 import 'package:pos/data/models/base/database_store.dart';
 import 'package:pos/data/models/base/invoices.dart';
 import 'package:pos/data/models/base/payment_cash.dart';
 import 'package:pos/data/models/base/product.dart';
 import 'package:pos/data/models/base/qrcode.dart';
-import 'package:pos/data/models/base/split_payment_rule.dart';
+import 'package:pos/data/models/base/split_rule.dart';
 import 'package:pos/data/models/base/store.dart';
 import 'package:pos/data/models/base/unit.dart';
 import 'package:pos/data/models/base/virtual_account.dart';
@@ -551,5 +549,13 @@ class ApiService {
             ApiResponseList<SplitPaymentTemplate>.fromJson(result.data))
         .handler(
             (error) => ApiResponseList<SplitPaymentTemplate>.onError(error));
+  }
+
+  static Future<ApiResponse<SplitRule>> getSplitRule(BuildContext context,
+      {required String id}) async {
+    return await ApiConfigure(context)
+        .get('/store/split_rule/$id')
+        .then((result) => ApiResponse<SplitRule>.fromJson(result.data))
+        .handler((error) => ApiResponse<SplitRule>.onError(error));
   }
 }

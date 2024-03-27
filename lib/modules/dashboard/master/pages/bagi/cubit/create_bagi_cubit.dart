@@ -3,7 +3,6 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:go_router/go_router.dart';
-import 'package:pos/data/models/base/split_payment_rule.dart';
 import 'package:pos/engine/engine.dart';
 
 import '../../../../../../data/api/services.dart';
@@ -116,7 +115,7 @@ class CreateBagiCubit extends BaseCubit<CreateBagiState> {
                       height: 67,
                       child: TextField(
                         keyboardType: TextInputType.number,
-                        maxLength: 2,
+                        maxLength: 3,
                         decoration: InputDecoration(
                           suffixIcon: Icon(Icons.percent),
                           helperStyle: AppFont.small(context)!.copyWith(
@@ -147,7 +146,7 @@ class CreateBagiCubit extends BaseCubit<CreateBagiState> {
                       height: 67,
                       child: TextField(
                         keyboardType: TextInputType.number,
-                        maxLength: 2,
+                        maxLength: 3,
                         decoration: InputDecoration(
                           suffixIcon: Icon(Icons.percent),
                           helperStyle: AppFont.small(context)!.copyWith(
@@ -318,7 +317,7 @@ class CreateBagiCubit extends BaseCubit<CreateBagiState> {
                     height: 67,
                     child: TextField(
                       keyboardType: TextInputType.number,
-                      maxLength: 2,
+                      maxLength: 3,
                       decoration: InputDecoration(
                         suffixIcon: Icon(Icons.percent),
                         helperStyle: AppFont.small(context)!.copyWith(
@@ -349,7 +348,7 @@ class CreateBagiCubit extends BaseCubit<CreateBagiState> {
                     height: 67,
                     child: TextField(
                       keyboardType: TextInputType.number,
-                      maxLength: 2,
+                      maxLength: 3,
                       decoration: InputDecoration(
                         suffixIcon: Icon(Icons.percent),
                         helperStyle: AppFont.small(context)!.copyWith(
@@ -484,4 +483,20 @@ class CreateBagiCubit extends BaseCubit<CreateBagiState> {
 
   @override
   Future<void> refreshData() => initData();
+
+  void createSplitRule() async {
+    showLoading();
+    final data = await ApiService.createSplitRule(context,
+        idTemplate: state.paymentTemplate?.id ?? "",
+        name: state.paymentTemplate?.name ?? "",
+        description: state.paymentTemplate?.description ??
+            "Bagi Bagi Untuk trx ${state.paymentTemplate?.routes?.where((element) => element.type == "TRX").first.target?.toUpperCase() ?? ""}",
+        routes: state.paymentTemplate!.routes!);
+    if (data.isSuccess) {
+      showSuccess(data.message);
+    } else {
+      showError(data.message);
+    }
+    dismissLoading();
+  }
 }

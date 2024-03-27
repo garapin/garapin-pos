@@ -7,7 +7,7 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:pos/data/api/services.dart';
-import 'package:pos/data/models/base/split_payment_rule.dart';
+
 import 'package:pos/modules/dashboard/master/pages/bagi/cubit/bagi_cubit.dart';
 import 'package:pos/modules/dashboard/master/pages/bagi/cubit/create_bagi_cubit.dart';
 import 'package:pos/widgets/widgets.dart';
@@ -242,29 +242,8 @@ class CreateBagiPage extends StatelessWidget {
                                   height: 50,
                                   width: 400,
                                   child: ElevatedButton(
-                                      onPressed: () async {
-                                        final data =
-                                            await ApiService.createSplitRule(
-                                                context,
-                                                idTemplate:
-                                                    state.paymentTemplate?.id ??
-                                                        "",
-                                                name: state.paymentTemplate
-                                                        ?.name ??
-                                                    "",
-                                                description: state
-                                                        .paymentTemplate
-                                                        ?.description ??
-                                                    "Bagi Bagi Untuk trx ${state.paymentTemplate?.routes?.where((element) => element.type == "TRX").first.target?.toUpperCase() ?? ""}",
-                                                routes: state
-                                                    .paymentTemplate!.routes!);
-                                        if (data.isSuccess) {
-                                          ShowNotify.success(context,
-                                              msg: data.message);
-                                        } else {
-                                          ShowNotify.error(context,
-                                              msg: data.message);
-                                        }
+                                      onPressed: () {
+                                        cubitCreateBagi.createSplitRule();
                                       },
                                       child: Text(
                                           "Gunakan Template Ke TRX ${state.paymentTemplate?.routes?.where((element) => element.type == "TRX").first.target?.toUpperCase() ?? ""}"))),
