@@ -470,6 +470,17 @@ class CreateBagiCubit extends BaseCubit<CreateBagiState> {
     }
   }
 
+  void deleteTargetTemplate(String referenceId) async {
+    final data = await ApiService.deleteTargetTemplate(context,
+        id: id, referenceId: referenceId);
+    if (data.isSuccess) {
+      showSuccess(data.message);
+      refreshData();
+    } else {
+      showError(data.message);
+    }
+  }
+
   getStore() async {
     final data = await ApiService.getStoreInfo(context);
     emit(state.copyWith(store: data.data));

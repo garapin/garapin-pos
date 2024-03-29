@@ -567,4 +567,13 @@ class ApiService {
         .then((result) => ApiResponse.fromJson(result.data))
         .handler((error) => ApiResponse.onError(error));
   }
+
+  static Future<ApiResponse> deleteTargetTemplate(BuildContext context,
+      {required String id, required String referenceId}) async {
+    return await ApiConfigure(context)
+        .post('/store/template/target/delete',
+            params: {"id": id, "reference_id": referenceId})
+        .then((result) => ApiResponse.fromJson(result.data))
+        .handler((error) => ApiResponse.onError(error));
+  }
 }

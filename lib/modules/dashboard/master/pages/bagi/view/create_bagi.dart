@@ -172,57 +172,53 @@ class CreateBagiPage extends StatelessWidget {
                                             : "",
                                         style: AppFont.medium(context)),
                                   ),
-                                  Row(
-                                    children: [
-                                      Container(
-                                          alignment: Alignment.center,
-                                          padding: EdgeInsets.only(right: 30),
-                                          width: 50,
-                                          child: CustomButton(
-                                              onPressed: () {
-                                                cubitCreateBagi
-                                                    .editTarget(RoutePayments(
-                                                  type: item!.type!,
-                                                  feePos: int.tryParse(
-                                                      item.feePos.toString()),
-                                                  percentAmount: int.tryParse(
-                                                      item.percentAmount
-                                                          .toString()),
-                                                  flatAmount: int.tryParse(item
-                                                      .flatAmount
-                                                      .toString()),
-                                                  target: item.target,
-                                                  referenceId: item.referenceId,
-                                                  destinationAccountId:
-                                                      item.destinationAccountId,
-                                                ));
-                                              },
-                                              child: Icon(Icons.edit))),
-                                      Container(
-                                          padding: EdgeInsets.only(right: 100),
-                                          alignment: Alignment.center,
-                                          width: 65,
-                                          child: CustomButton(
-                                              onPressed: () {
-                                                cubitCreateBagi
-                                                    .editTarget(RoutePayments(
-                                                  type: item!.type!,
-                                                  feePos: int.tryParse(
-                                                      item.feePos.toString()),
-                                                  percentAmount: int.tryParse(
-                                                      item.percentAmount
-                                                          .toString()),
-                                                  flatAmount: int.tryParse(item
-                                                      .flatAmount
-                                                      .toString()),
-                                                  target: item.target,
-                                                  referenceId: item.referenceId,
-                                                  destinationAccountId:
-                                                      item.destinationAccountId,
-                                                ));
-                                              },
-                                              child: Icon(Icons.delete))),
-                                    ],
+                                  Padding(
+                                    padding: const EdgeInsets.only(right: 15),
+                                    child: Row(
+                                      children: [
+                                        Container(
+                                            alignment: Alignment.center,
+                                            width: 50,
+                                            child: CustomButton(
+                                                onPressed: () {
+                                                  cubitCreateBagi
+                                                      .editTarget(RoutePayments(
+                                                    type: item!.type!,
+                                                    feePos: int.tryParse(
+                                                        item.feePos.toString()),
+                                                    percentAmount: int.tryParse(
+                                                        item.percentAmount
+                                                            .toString()),
+                                                    flatAmount: int.tryParse(
+                                                        item.flatAmount
+                                                            .toString()),
+                                                    target: item.target,
+                                                    referenceId:
+                                                        item.referenceId,
+                                                    destinationAccountId: item
+                                                        .destinationAccountId,
+                                                  ));
+                                                },
+                                                child: Icon(Icons.edit))),
+                                        SizedBox(width: 12),
+                                        (item?.type == "TRX" ||
+                                                item?.type == "ADMIN")
+                                            ? SizedBox(
+                                                width: 25,
+                                              )
+                                            : Container(
+                                                width: 50,
+                                                child: CustomButton(
+                                                    onPressed: () {
+                                                      cubitCreateBagi
+                                                          .deleteTargetTemplate(item
+                                                                  ?.referenceId
+                                                                  .toString() ??
+                                                              "");
+                                                    },
+                                                    child: Icon(Icons.delete))),
+                                      ],
+                                    ),
                                   ),
                                 ]);
                           },
