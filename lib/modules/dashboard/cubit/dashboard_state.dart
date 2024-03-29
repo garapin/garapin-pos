@@ -6,7 +6,7 @@ class DashboardState with _$DashboardState {
     @Default(DataStateStatus.initial) DataStateStatus status,
     Store? store,
     @Default(0) int index,
-    @Default(CatalogPage()) Widget widget,
+    @Default(SizedBox()) Widget widget,
     @Default(false) showCreateProduct,
     User? user,
   }) = _DashboardState;

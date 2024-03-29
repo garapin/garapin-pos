@@ -17,15 +17,14 @@ part 'dashboard_state.dart';
 part 'dashboard_cubit.freezed.dart';
 
 class DashboardCubit extends BaseCubit<DashboardState> {
-  DashboardCubit(BuildContext context)
-      : super(context, DashboardState(index: 0));
+  DashboardCubit(BuildContext context) : super(context, DashboardState());
 
   @override
   Future<void> initData() async {
     loadingState();
     getStore();
     emit(state.copyWith(
-        status: DataStateStatus.success, widget: CatalogPage(), index: 0));
+        status: DataStateStatus.success, widget: ProfilePage(), index: 3));
     finishRefresh(state.status);
   }
 
@@ -41,7 +40,10 @@ class DashboardCubit extends BaseCubit<DashboardState> {
   }
 
   @override
-  void loadingState() => emit(state.copyWith(status: DataStateStatus.initial));
+  void loadingState() {
+    emit(state.copyWith(status: DataStateStatus.initial));
+  }
+
   @override
   Future<void> refreshData() async {}
 

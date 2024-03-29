@@ -42,10 +42,8 @@ class DashboardPage extends StatelessWidget {
                 BlocBuilder<DashboardCubit, DashboardState>(
                   builder: (context, state) {
                     return ContainerStateHandler(
-                      status: DataStateStatus.success,
-                      loading: const Center(
-                        child: CircularProgressIndicator(),
-                      ),
+                      status: state.status,
+                      loading: SizedBox(),
                       child: Container(
                         decoration: BoxDecoration(
                             border: Border.all(color: Colors.grey)),
@@ -53,9 +51,25 @@ class DashboardPage extends StatelessWidget {
                         height: baseHeight,
                         child: SingleChildScrollView(
                           child: Builder(builder: (context) {
-                            if (state.store?.store?.merChantRole == "SUPP") {
+                            var store = state.store?.store;
+                            if (store?.storeType == "BUSSINESS_PARTNER") {
                               return Column(
                                 children: [
+                                  const SizedBox(height: 8),
+                                  (Sessions.getDatabaseModel()?.role != "ADMIN")
+                                      ? SizedBox()
+                                      : CustomButton(
+                                          onPressed: () {
+                                            masterCubit.showPage(true);
+                                            masterCubit.initData();
+                                            cubit.changePage(1);
+                                          },
+                                          child: state.index == 1
+                                              ? Resources.images.catalogActive
+                                                  .image(height: 65, width: 60)
+                                              : Resources.images.catalogInactive
+                                                  .image(
+                                                      height: 65, width: 60)),
                                   const SizedBox(height: 8),
                                   CustomButton(
                                       onPressed: () {
@@ -79,7 +93,7 @@ class DashboardPage extends StatelessWidget {
                                               : Resources.images.profileInactive
                                                   .image(
                                                       height: 65, width: 60)),
-                                  SizedBox(height: baseHeight / 2.5),
+                                  SizedBox(height: 30),
                                   Align(
                                     alignment: Alignment.bottomCenter,
                                     child: CustomButton(
@@ -98,7 +112,7 @@ class DashboardPage extends StatelessWidget {
                                   const SizedBox(height: 40)
                                 ],
                               );
-                            } else {
+                            } else if (store?.storeType == "USER") {
                               return Column(
                                 children: [
                                   const SizedBox(height: 8),
@@ -151,7 +165,7 @@ class DashboardPage extends StatelessWidget {
                                               : Resources.images.profileInactive
                                                   .image(
                                                       height: 65, width: 60)),
-                                  SizedBox(height: baseHeight / 2.5),
+                                  SizedBox(height: 30),
                                   Align(
                                     alignment: Alignment.bottomCenter,
                                     child: CustomButton(
@@ -170,6 +184,138 @@ class DashboardPage extends StatelessWidget {
                                   const SizedBox(height: 40)
                                 ],
                               );
+                            } else if (store?.storeType == "MERCHANT") {
+                              if (state.store?.store?.merChantRole == "SUPP") {
+                                return Column(
+                                  children: [
+                                    const SizedBox(height: 8),
+                                    CustomButton(
+                                        onPressed: () {
+                                          cubit.changePage(2);
+                                        },
+                                        child: state.index == 2
+                                            ? Resources.images.reportActive
+                                                .image(height: 65, width: 60)
+                                            : Resources.images.reportInactive
+                                                .image(height: 65, width: 60)),
+                                    const SizedBox(height: 8),
+                                    (Sessions.getDatabaseModel()?.role !=
+                                            "ADMIN")
+                                        ? SizedBox()
+                                        : CustomButton(
+                                            onPressed: () {
+                                              cubit.changePage(3);
+                                            },
+                                            child: state.index == 3
+                                                ? Resources.images.profileActive
+                                                    .image(
+                                                        height: 65, width: 60)
+                                                : Resources
+                                                    .images.profileInactive
+                                                    .image(
+                                                        height: 65, width: 60)),
+                                    SizedBox(height: 30),
+                                    Align(
+                                      alignment: Alignment.bottomCenter,
+                                      child: CustomButton(
+                                          onPressed: () async {
+                                            final GoogleSignInAccount? s =
+                                                await GoogleSignIn().signOut();
+                                            Sessions.clear().then((value) =>
+                                                context.go(RouteNames.root));
+                                          },
+                                          child: const Icon(
+                                            Icons.logout,
+                                            size: 30,
+                                            color: Colors.red,
+                                          )),
+                                    ),
+                                    const SizedBox(height: 40)
+                                  ],
+                                );
+                              } else if (store?.merChantRole == "TRX") {
+                                return Column(
+                                  children: [
+                                    const SizedBox(height: 8),
+                                    CustomButton(
+                                        onPressed: () {
+                                          cubit.changePage(0);
+                                        },
+                                        child: state.index == 0
+                                            ? Resources
+                                                .images.appetizercashierActive
+                                                .image(height: 65, width: 60)
+                                            : Resources
+                                                .images.appetizercashierInactive
+                                                .image(height: 65, width: 60)),
+                                    const SizedBox(height: 8),
+                                    (Sessions.getDatabaseModel()?.role !=
+                                            "ADMIN")
+                                        ? SizedBox()
+                                        : CustomButton(
+                                            onPressed: () {
+                                              masterCubit.showPage(true);
+                                              masterCubit.initData();
+                                              cubit.changePage(1);
+                                            },
+                                            child: state.index == 1
+                                                ? Resources.images.catalogActive
+                                                    .image(
+                                                        height: 65, width: 60)
+                                                : Resources
+                                                    .images.catalogInactive
+                                                    .image(
+                                                        height: 65, width: 60)),
+                                    const SizedBox(height: 8),
+                                    CustomButton(
+                                        onPressed: () {
+                                          cubit.changePage(2);
+                                        },
+                                        child: state.index == 2
+                                            ? Resources.images.reportActive
+                                                .image(height: 65, width: 60)
+                                            : Resources.images.reportInactive
+                                                .image(height: 65, width: 60)),
+                                    const SizedBox(height: 8),
+                                    (Sessions.getDatabaseModel()?.role !=
+                                            "ADMIN")
+                                        ? SizedBox()
+                                        : CustomButton(
+                                            onPressed: () {
+                                              cubit.changePage(3);
+                                            },
+                                            child: state.index == 3
+                                                ? Resources.images.profileActive
+                                                    .image(
+                                                        height: 65, width: 60)
+                                                : Resources
+                                                    .images.profileInactive
+                                                    .image(
+                                                        height: 65, width: 60)),
+                                    SizedBox(height: 30),
+                                    Align(
+                                      alignment: Alignment.bottomCenter,
+                                      child: CustomButton(
+                                          onPressed: () async {
+                                            final GoogleSignInAccount? s =
+                                                await GoogleSignIn().signOut();
+                                            Sessions.clear().then((value) =>
+                                                context.go(RouteNames.root));
+                                          },
+                                          child: const Icon(
+                                            Icons.logout,
+                                            size: 30,
+                                            color: Colors.red,
+                                          )),
+                                    ),
+                                    const SizedBox(height: 40)
+                                  ],
+                                );
+                              } else {
+                                return SizedBox();
+                              }
+                            } else {
+                              return SizedBox();
                             }
                           }),
                         ),
