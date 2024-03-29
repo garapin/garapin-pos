@@ -558,4 +558,13 @@ class ApiService {
         .then((result) => ApiResponse<SplitRule>.fromJson(result.data))
         .handler((error) => ApiResponse<SplitRule>.onError(error));
   }
+
+  static Future<ApiResponse> changeStatusTemplate(BuildContext context,
+      {required String idTemplate, required String statusTemplate}) async {
+    return await ApiConfigure(context)
+        .post('/store/template/change_status',
+            params: {"id_template": idTemplate, "status": statusTemplate})
+        .then((result) => ApiResponse.fromJson(result.data))
+        .handler((error) => ApiResponse.onError(error));
+  }
 }

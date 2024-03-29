@@ -459,6 +459,17 @@ class CreateBagiCubit extends BaseCubit<CreateBagiState> {
     }
   }
 
+  changeStatusTemplate(String statusTemplate) async {
+    final data = await ApiService.changeStatusTemplate(context,
+        idTemplate: id, statusTemplate: statusTemplate);
+    if (data.isSuccess) {
+      refreshData();
+      showSuccess(data.message);
+    } else {
+      showError(data.message);
+    }
+  }
+
   getStore() async {
     final data = await ApiService.getStoreInfo(context);
     emit(state.copyWith(store: data.data));

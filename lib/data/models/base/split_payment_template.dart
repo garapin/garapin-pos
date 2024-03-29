@@ -11,6 +11,10 @@ part 'split_payment_template.g.dart';
 class SplitPaymentTemplate {
   @JsonKey(name: "_id")
   String? id;
+  @JsonKey(name: "status_template")
+  String? statusTemplate;
+  @JsonKey(name: "db_trx")
+  String? dbTrx;
   @JsonKey(name: "name")
   String? name;
   @JsonKey(name: "description")
@@ -27,6 +31,7 @@ class SplitPaymentTemplate {
   SplitPaymentTemplate({
     this.id,
     this.name,
+    this.statusTemplate,
     this.description,
     this.routes,
     this.createdAt,

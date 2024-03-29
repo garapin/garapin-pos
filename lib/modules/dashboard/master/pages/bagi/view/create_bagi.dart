@@ -58,9 +58,25 @@ class CreateBagiPage extends StatelessWidget {
                                     },
                                     icon: const Icon(Icons.arrow_back)),
                                 const SizedBox(width: 12),
-                                Text(
-                                  state.paymentTemplate?.name ?? '',
-                                  style: AppFont.largeBold(context),
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      state.paymentTemplate?.name ?? '',
+                                      style: AppFont.largeBold(context),
+                                    ),
+                                    Text(
+                                      state.paymentTemplate?.statusTemplate!
+                                              .toLowerCase() ??
+                                          '',
+                                      style: AppFont.medium(context)!.copyWith(
+                                          color: state.paymentTemplate
+                                                      ?.statusTemplate ==
+                                                  "ACTIVE"
+                                              ? AppColor.appColor.success
+                                              : AppColor.appColor.warning),
+                                    ),
+                                  ],
                                 ),
                               ],
                             ),
@@ -243,10 +259,15 @@ class CreateBagiPage extends StatelessWidget {
                                   width: 400,
                                   child: ElevatedButton(
                                       onPressed: () {
-                                        cubitCreateBagi.createSplitRule();
+                                        // cubitCreateBagi.createSplitRule();
+                                        cubitCreateBagi
+                                            .changeStatusTemplate("ACTIVE");
                                       },
-                                      child: Text(
-                                          "Gunakan Template Ke TRX ${state.paymentTemplate?.routes?.where((element) => element.type == "TRX").first.target?.toUpperCase() ?? ""}"))),
+                                      child: Text(state.paymentTemplate
+                                                  ?.statusTemplate ==
+                                              "ACTIVE"
+                                          ? "Template Active Ke TRX ${state.paymentTemplate?.routes?.where((element) => element.type == "TRX").first.target?.toUpperCase() ?? ""}"
+                                          : "Gunakan Template Ke TRX ${state.paymentTemplate?.routes?.where((element) => element.type == "TRX").first.target?.toUpperCase() ?? ""}"))),
                             );
                           }),
                         ),

@@ -11,6 +11,7 @@ SplitPaymentTemplate _$SplitPaymentTemplateFromJson(
     SplitPaymentTemplate(
       id: json['_id'] as String?,
       name: json['name'] as String?,
+      statusTemplate: json['status_template'] as String?,
       description: json['description'],
       routes: (json['routes'] as List<dynamic>?)
           ?.map((e) => RoutePayments.fromJson(e as Map<String, dynamic>))
@@ -22,12 +23,14 @@ SplitPaymentTemplate _$SplitPaymentTemplateFromJson(
           ? null
           : DateTime.parse(json['updatedAt'] as String),
       v: json['__v'] as int?,
-    );
+    )..dbTrx = json['db_trx'] as String?;
 
 Map<String, dynamic> _$SplitPaymentTemplateToJson(
         SplitPaymentTemplate instance) =>
     <String, dynamic>{
       '_id': instance.id,
+      'status_template': instance.statusTemplate,
+      'db_trx': instance.dbTrx,
       'name': instance.name,
       'description': instance.description,
       'routes': instance.routes,
