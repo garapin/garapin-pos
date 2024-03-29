@@ -239,16 +239,35 @@ class CreateBagiPage extends StatelessWidget {
                         padding: const EdgeInsets.symmetric(
                             horizontal: 36, vertical: 4),
                         child: Align(
-                            alignment: Alignment.centerLeft,
-                            child: Text(
-                              "*hasil jumlah dari bagi bagi pendapatan harus 100%",
-                              style: AppFont.largeBold(context)!
-                                  .copyWith(color: AppColor.appColor.warning),
-                            )),
+                          alignment: Alignment.centerLeft,
+                          child: SizedBox(
+                            width: baseWidth / 2,
+                            child: Column(
+                              children: [
+                                Align(
+                                    alignment: Alignment.centerLeft,
+                                    child: Text(
+                                      "*hasil jumlah dari bagi bagi pendapatan harus 100%",
+                                      style: AppFont.largeBold(context)!
+                                          .copyWith(
+                                              color: AppColor.appColor.warning),
+                                    )),
+                                Align(
+                                    alignment: Alignment.centerLeft,
+                                    child: Text(
+                                      "*Status active template bagi bagi sedang digunakan TRX, dan pastikan ketika merubah template sedang tidak ada transaksi yang terjadi",
+                                      style: AppFont.largeBold(context)!
+                                          .copyWith(
+                                              color: AppColor.appColor.warning),
+                                    )),
+                              ],
+                            ),
+                          ),
+                        ),
                       ),
                       SizedBox(height: 15),
                       Padding(
-                        padding: const EdgeInsets.only(right: 50),
+                        padding: const EdgeInsets.only(right: 50, left: 50),
                         child: Align(
                           alignment: Alignment.centerRight,
                           child: Builder(builder: (context) {
