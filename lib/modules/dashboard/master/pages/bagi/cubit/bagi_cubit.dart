@@ -63,7 +63,7 @@ class BagiCubit extends BaseCubit<BagiState> {
           content: SingleChildScrollView(
             child: Container(
                 padding: const EdgeInsets.symmetric(vertical: 10),
-                width: 300,
+                width: 400,
                 height: 170,
                 decoration:
                     BoxDecoration(borderRadius: BorderRadius.circular(24)),

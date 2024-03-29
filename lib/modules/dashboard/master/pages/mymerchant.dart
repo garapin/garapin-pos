@@ -114,44 +114,54 @@ class MyMerchantPage extends StatelessWidget {
                             itemCount: state.merchants.length,
                             itemBuilder: (context, index) {
                               DatabaseStore merchant = state.merchants[index];
-                              return ListTile(
-                                leading: Icon(
-                                  Icons.account_circle_rounded,
-                                  color: AppColor.appColor.warning,
-                                  size: 48,
-                                ),
-                                title: Text(
-                                  merchant.storesData?.storeName ??
-                                      "Menunggu approval",
-                                  style: AppFont.largeBold(context),
-                                ),
-                                subtitle: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      merchant.storesData?.accountHolder
-                                              ?.email ??
-                                          "",
-                                      style: AppFont.medium(context),
-                                    ),
-                                    Text(
-                                      merchant.storesData?.merchantRole ?? "",
-                                      style: AppFont.medium(context),
-                                    ),
-                                  ],
-                                ),
-                                trailing: Text(
-                                  merchant.storesData?.storeStatus ?? "",
-                                  style: AppFont.mediumBold(context)!.copyWith(
-                                      color: merchant.storesData?.storeStatus ==
-                                              "ACTIVE"
-                                          ? AppColor.appColor.success
-                                          : merchant.storesData?.storeStatus ==
-                                                  "REJECT"
-                                              ? AppColor.appColor.inactive
-                                              : AppColor.appColor.warning),
-                                ),
-                              );
+                              if (merchant.dbName ==
+                                  Sessions.getDatabaseModel()?.name) {
+                                return SizedBox();
+                              } else {
+                                return ListTile(
+                                  leading: Icon(
+                                    Icons.account_circle_rounded,
+                                    color: AppColor.appColor.warning,
+                                    size: 48,
+                                  ),
+                                  title: Text(
+                                    merchant.storesData?.storeName ??
+                                        "Menunggu approval",
+                                    style: AppFont.largeBold(context),
+                                  ),
+                                  subtitle: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        merchant.storesData?.accountHolder
+                                                ?.email ??
+                                            "",
+                                        style: AppFont.medium(context),
+                                      ),
+                                      Text(
+                                        merchant.storesData?.merchantRole ?? "",
+                                        style: AppFont.medium(context),
+                                      ),
+                                    ],
+                                  ),
+                                  trailing: Text(
+                                    merchant.storesData?.storeStatus ?? "",
+                                    style: AppFont.mediumBold(context)!
+                                        .copyWith(
+                                            color: merchant.storesData
+                                                        ?.storeStatus ==
+                                                    "ACTIVE"
+                                                ? AppColor.appColor.success
+                                                : merchant.storesData
+                                                            ?.storeStatus ==
+                                                        "REJECT"
+                                                    ? AppColor.appColor.inactive
+                                                    : AppColor
+                                                        .appColor.warning),
+                                  ),
+                                );
+                              }
                             },
                           )
                         ],
