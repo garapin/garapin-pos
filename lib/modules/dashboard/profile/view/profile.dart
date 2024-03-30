@@ -382,8 +382,25 @@ class ProfilePage extends StatelessWidget {
                                   child: ElevatedButton(
                                       onPressed: () {
                                         cubit.addBankAccount().then((value) {
-                                          cubit.updateProfile().then((value) =>
-                                              cubitDashboard.changePage(0));
+                                          cubit.updateProfile().then((value) {
+                                            if (store?.storeType ==
+                                                "BUSSINESS_PARTNER") {
+                                              cubitDashboard.changePage(1);
+                                            } else if (store?.storeType ==
+                                                "USER") {
+                                              cubitDashboard.changePage(0);
+                                            } else {
+                                              if (store?.merChantRole ==
+                                                  "TRX") {
+                                                cubitDashboard.changePage(0);
+                                              } else if (store?.merChantRole ==
+                                                  "SUPP") {
+                                                cubitDashboard.changePage(2);
+                                              } else {
+                                                cubitDashboard.changePage(3);
+                                              }
+                                            }
+                                          });
                                         });
                                       },
                                       child: const Text("SAVE")),
