@@ -24,7 +24,7 @@ class CreateNewDatabasePage extends StatelessWidget {
             child: SingleChildScrollView(
               child: Container(
                 width: 543,
-                height: 328,
+                height: 400,
                 padding:
                     const EdgeInsets.symmetric(horizontal: 90, vertical: 32),
                 decoration: BoxDecoration(
@@ -64,8 +64,9 @@ class CreateNewDatabasePage extends StatelessWidget {
                     ),
                     SizedBox(
                       width: 443,
-                      height: 42,
+                      height: 70,
                       child: TextFormField(
+                        maxLength: 30,
                         controller: cubit.databaseNameControler,
                         decoration: InputDecoration(
                           hintText: 'Masukan Nama Database',
@@ -85,7 +86,7 @@ class CreateNewDatabasePage extends StatelessWidget {
                       ),
                     ),
                     const SizedBox(
-                      height: 32,
+                      height: 16,
                     ),
                     SizedBox(
                         height: 48,

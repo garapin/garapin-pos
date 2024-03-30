@@ -199,12 +199,16 @@ class CreateBagiPage extends StatelessWidget {
                                                         .destinationAccountId,
                                                   ));
                                                 },
-                                                child: Icon(Icons.edit))),
+                                                child: Icon(
+                                                  Icons.edit,
+                                                  color: Theme.of(context)
+                                                      .primaryColor,
+                                                ))),
                                         SizedBox(width: 12),
                                         (item?.type == "TRX" ||
                                                 item?.type == "ADMIN")
                                             ? SizedBox(
-                                                width: 25,
+                                                width: 50,
                                               )
                                             : Container(
                                                 width: 50,
@@ -216,7 +220,10 @@ class CreateBagiPage extends StatelessWidget {
                                                                   .toString() ??
                                                               "");
                                                     },
-                                                    child: Icon(Icons.delete))),
+                                                    child: Icon(
+                                                      Icons.delete,
+                                                      color: Colors.red,
+                                                    ))),
                                       ],
                                     ),
                                   ),
@@ -263,28 +270,33 @@ class CreateBagiPage extends StatelessWidget {
                       ),
                       SizedBox(height: 15),
                       Padding(
-                        padding: const EdgeInsets.only(right: 50, left: 50),
+                        padding: EdgeInsets.only(right: 50, left: 50),
                         child: Align(
                           alignment: Alignment.centerRight,
-                          child: Builder(builder: (context) {
-                            return ClipRRect(
-                              borderRadius: BorderRadius.circular(24),
-                              child: SizedBox(
-                                  height: 50,
-                                  width: 400,
-                                  child: ElevatedButton(
-                                      onPressed: () {
-                                        // cubitCreateBagi.createSplitRule();
-                                        cubitCreateBagi
-                                            .changeStatusTemplate("ACTIVE");
-                                      },
-                                      child: Text(state.paymentTemplate
-                                                  ?.statusTemplate ==
+                          child: Column(
+                            children: [
+                              Text(state.paymentTemplate?.statusTemplate ==
+                                      "ACTIVE"
+                                  ? "Tempalte Active"
+                                  : "Template Inactive"),
+                              Switch.adaptive(
+                                  value:
+                                      state.paymentTemplate?.statusTemplate ==
                                               "ACTIVE"
-                                          ? "Template Active Ke TRX ${state.paymentTemplate?.routes?.where((element) => element.type == "TRX").first.target?.toUpperCase() ?? ""}"
-                                          : "Gunakan Template Ke TRX ${state.paymentTemplate?.routes?.where((element) => element.type == "TRX").first.target?.toUpperCase() ?? ""}"))),
-                            );
-                          }),
+                                          ? true
+                                          : false,
+                                  onChanged: (val) {
+                                    if (state.paymentTemplate?.statusTemplate ==
+                                        "ACTIVE") {
+                                      cubitCreateBagi
+                                          .changeStatusTemplate("INACTIVE");
+                                    } else {
+                                      cubitCreateBagi
+                                          .changeStatusTemplate("ACTIVE");
+                                    }
+                                  }),
+                            ],
+                          ),
                         ),
                       ),
                       SizedBox(height: 30),

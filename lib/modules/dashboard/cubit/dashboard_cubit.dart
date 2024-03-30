@@ -9,6 +9,7 @@ import 'package:pos/modules/dashboard/master/pages/bagi/cubit/bagi_cubit.dart';
 import 'package:pos/modules/dashboard/master/pages/bagi/cubit/create_bagi_cubit.dart';
 import 'package:pos/modules/dashboard/master/pages/cubit/my_merchant_cubit.dart';
 import 'package:pos/modules/dashboard/master/view/master.dart';
+import 'package:pos/modules/dashboard/profile/cubit/profile_cubit.dart';
 import 'package:pos/modules/dashboard/profile/view/profile.dart';
 import '../../../data/models/base/store.dart';
 import '../catalog/view/catalog.dart';
@@ -23,8 +24,8 @@ class DashboardCubit extends BaseCubit<DashboardState> {
   Future<void> initData() async {
     loadingState();
     getStore();
-    emit(state.copyWith(
-        status: DataStateStatus.success, widget: ProfilePage(), index: 3));
+    context.read<ProfileCubit>().initData();
+    emit(state.copyWith(status: DataStateStatus.success, widget: page[3]));
     finishRefresh(state.status);
   }
 

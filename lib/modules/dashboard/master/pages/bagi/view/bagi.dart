@@ -92,6 +92,14 @@ class ListBagi extends StatelessWidget {
                         Text(
                           "TRX -> ${item.routes!.where((element) => element.type == "TRX").isNotEmpty ? item.routes?.where((element) => element.type == "TRX").first.target : "TRX belum ditambahkan"}",
                           style: AppFont.small(context)?.copyWith(),
+                        ),
+                        SizedBox(height: 2),
+                        Text(
+                          item.statusTemplate ?? "",
+                          style: AppFont.small(context)?.copyWith(
+                              color: item.statusTemplate == "ACTIVE"
+                                  ? AppColor.appColor.success
+                                  : AppColor.appColor.warning),
                         )
                       ],
                     ),
@@ -104,8 +112,9 @@ class ListBagi extends StatelessWidget {
                       ),
                       child: TextButton(
                         onPressed: () {
-                          context.pushNamed(RouteNames.createBagi,
-                              extra: item.id);
+                          context
+                              .pushNamed(RouteNames.createBagi, extra: item.id)
+                              .then((value) => cubit.refreshData());
                         },
                         child: const Text(
                           'DETAIL',

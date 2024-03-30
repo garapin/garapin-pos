@@ -85,6 +85,9 @@ class DashboardPage extends StatelessWidget {
                                       ? SizedBox()
                                       : CustomButton(
                                           onPressed: () {
+                                            context
+                                                .read<ProfileCubit>()
+                                                .initData();
                                             cubit.changePage(3);
                                           },
                                           child: state.index == 3
@@ -157,6 +160,9 @@ class DashboardPage extends StatelessWidget {
                                       ? SizedBox()
                                       : CustomButton(
                                           onPressed: () {
+                                            context
+                                                .read<ProfileCubit>()
+                                                .initData();
                                             cubit.changePage(3);
                                           },
                                           child: state.index == 3
@@ -204,6 +210,9 @@ class DashboardPage extends StatelessWidget {
                                         ? SizedBox()
                                         : CustomButton(
                                             onPressed: () {
+                                              context
+                                                  .read<ProfileCubit>()
+                                                  .initData();
                                               cubit.changePage(3);
                                             },
                                             child: state.index == 3
@@ -282,6 +291,9 @@ class DashboardPage extends StatelessWidget {
                                         ? SizedBox()
                                         : CustomButton(
                                             onPressed: () {
+                                              context
+                                                  .read<ProfileCubit>()
+                                                  .initData();
                                               cubit.changePage(3);
                                             },
                                             child: state.index == 3

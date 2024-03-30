@@ -43,7 +43,7 @@ class BagiCubit extends BaseCubit<BagiState> {
   }
 
   getAllMerchant() async {
-    final data = await ApiService.getStoreDatabaseByParent(context);
+    final data = await ApiService.getStoreDatabaseTrxByParent(context);
     emit(state.copyWith(merchants: data.data));
   }
 

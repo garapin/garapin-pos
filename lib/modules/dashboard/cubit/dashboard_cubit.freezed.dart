@@ -161,8 +161,8 @@ class _$DashboardStateImpl implements _DashboardState {
   const _$DashboardStateImpl(
       {this.status = DataStateStatus.initial,
       this.store,
-      this.index = 0,
-      this.widget = const CatalogPage(),
+      this.index = 3,
+      this.widget = const ProfilePage(),
       this.showCreateProduct = false,
       this.user});
 

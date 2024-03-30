@@ -466,6 +466,7 @@ class CreateBagiCubit extends BaseCubit<CreateBagiState> {
       refreshData();
       showSuccess(data.message);
     } else {
+      refreshData();
       showError(data.message);
     }
   }
@@ -487,7 +488,7 @@ class CreateBagiCubit extends BaseCubit<CreateBagiState> {
   }
 
   getAllMerchant() async {
-    final data = await ApiService.getStoreDatabaseByParent(context);
+    final data = await ApiService.getStoreDatabaseTrxByParent(context);
     List<DatabaseStore> newData = data.data ?? [];
     newData.insert(
         0,

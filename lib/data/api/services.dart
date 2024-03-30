@@ -459,6 +459,14 @@ class ApiService {
         .handler((error) => ApiResponse<MerchantModel>.onError(error));
   }
 
+  static Future<ApiResponseList<DatabaseStore>> getStoreDatabaseTrxByParent(
+      BuildContext context) async {
+    return await ApiConfigure(context)
+        .get('/store/get_stores_database_id_parent/trx')
+        .then((result) => ApiResponseList<DatabaseStore>.fromJson(result.data))
+        .handler((error) => ApiResponseList<DatabaseStore>.onError(error));
+  }
+
   static Future<ApiResponseList<DatabaseStore>> getStoreDatabaseByParent(
       BuildContext context) async {
     return await ApiConfigure(context)
