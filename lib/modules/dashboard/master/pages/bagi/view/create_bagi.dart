@@ -214,11 +214,55 @@ class CreateBagiPage extends StatelessWidget {
                                                 width: 50,
                                                 child: CustomButton(
                                                     onPressed: () {
-                                                      cubitCreateBagi
-                                                          .deleteTargetTemplate(item
-                                                                  ?.referenceId
-                                                                  .toString() ??
-                                                              "");
+                                                      showDialog(
+                                                        context: context,
+                                                        builder: (context) {
+                                                          return SizedBox(
+                                                            height: 300,
+                                                            child: AlertDialog(
+                                                              shape: RoundedRectangleBorder(
+                                                                  borderRadius:
+                                                                      BorderRadius
+                                                                          .circular(
+                                                                              24)),
+                                                              title: Text(
+                                                                  "Yakin untuk menghapus ${item?.target}"),
+                                                              actions: [
+                                                                TextButton(
+                                                                    onPressed:
+                                                                        () {
+                                                                      context
+                                                                          .pop();
+                                                                    },
+                                                                    child: Text(
+                                                                        "Cancel",
+                                                                        style: AppFont.largeBold(context)
+                                                                            ?.copyWith(
+                                                                          color:
+                                                                              Colors.grey,
+                                                                        ))),
+                                                                TextButton(
+                                                                    onPressed:
+                                                                        () {
+                                                                      cubitCreateBagi.deleteTargetTemplate(
+                                                                          item?.referenceId.toString() ??
+                                                                              "");
+                                                                      context
+                                                                          .pop();
+                                                                    },
+                                                                    child: Text(
+                                                                        "Ya",
+                                                                        style: AppFont.largeBold(context)
+                                                                            ?.copyWith(
+                                                                          color: AppColor
+                                                                              .appColor
+                                                                              .primary,
+                                                                        )))
+                                                              ],
+                                                            ),
+                                                          );
+                                                        },
+                                                      );
                                                     },
                                                     child: Icon(
                                                       Icons.delete,
