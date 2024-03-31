@@ -48,7 +48,8 @@ class MyApp extends StatelessWidget {
                           log('WEB MODE LANDSCAPE ${MediaQuery.of(context).size.height}');
 
                           baseHeight = MediaQuery.of(context).size.height;
-                          double newWidth = baseHeight * 0.65;
+                          // double newWidth = baseHeight * 0.65; yang lama
+                          double newWidth = baseHeight * 2;
                           baseWidth = MediaQuery.of(context).size.width * 0.5;
 
                           return Container(

@@ -1,6 +1,32 @@
 <!DOCTYPE html>
 <html>
   <head>
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-analytics.js"></script>
+    <script>
+    // Import the functions you need from the SDKs you need
+import { initializeApp } from "firebase/app";
+import { getAnalytics } from "firebase/analytics";
+// TODO: Add SDKs for Firebase products that you want to use
+// https://firebase.google.com/docs/web/setup#available-libraries
+
+// Your web app's Firebase configuration
+// For Firebase JS SDK v7.20.0 and later, measurementId is optional
+const firebaseConfig = {
+  apiKey: "AIzaSyCs5_yGluBhPJmPCFK4H0E0ieEAsHDG8pE",
+  authDomain: "garapin-pos.firebaseapp.com",
+  projectId: "garapin-pos",
+  storageBucket: "garapin-pos.appspot.com",
+  messagingSenderId: "205261320352",
+  appId: "1:205261320352:web:6fc74de46f71261b9dd9c5",
+  measurementId: "G-NFJQ4KP1GM"
+};
+
+// Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const analytics = getAnalytics(app);
+</script>
     <!--
     If you are serving your web app in a path other than the root, change the
     href value below to reflect the base path you are serving from.

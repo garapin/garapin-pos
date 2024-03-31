@@ -297,14 +297,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.2.0"
-  data_table_2:
-    dependency: "direct main"
-    description:
-      name: data_table_2
-      sha256: fdb0551f103f1daf837bddfde14619fd9e683408833a618c9afabeb533fce88c
-      url: "https://pub.dev"
-    source: hosted
-    version: "2.5.11"
   device_info_plus:
     dependency: "direct main"
     description:
@@ -1072,14 +1064,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.0.5"
-  mobile_scanner:
-    dependency: "direct main"
-    description:
-      name: mobile_scanner
-      sha256: "1b60b8f9d4ce0cb0e7d7bc223c955d083a0737bee66fa1fcfe5de48225e0d5b3"
-      url: "https://pub.dev"
-    source: hosted
-    version: "3.5.7"
   multi_dropdown:
     dependency: "direct main"
     description:
@@ -1705,10 +1689,10 @@ packages:
     dependency: transitive
     description:
       name: web
-      sha256: afe077240a270dcfd2aafe77602b4113645af95d0ad31128cc02bce5ac5d5152
+      sha256: "4188706108906f002b3a293509234588823c8c979dc83304e229ff400c996b05"
       url: "https://pub.dev"
     source: hosted
-    version: "0.3.0"
+    version: "0.4.2"
   web_socket_channel:
     dependency: transitive
     description:
