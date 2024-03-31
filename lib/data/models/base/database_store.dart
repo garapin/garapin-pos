@@ -11,6 +11,8 @@ part 'database_store.g.dart';
 class DatabaseStore {
   @JsonKey(name: "dbName")
   String? dbName;
+  @JsonKey(name: "email_owner")
+  String? emailOwner;
   @JsonKey(name: "storesData")
   StoresData? storesData;
 

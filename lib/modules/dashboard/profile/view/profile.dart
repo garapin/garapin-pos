@@ -8,6 +8,7 @@ import 'package:pos/engine/engine.dart';
 import 'package:pos/modules/dashboard/cubit/dashboard_cubit.dart';
 import 'package:pos/modules/dashboard/profile/cubit/profile_cubit.dart';
 import 'package:pos/modules/dashboard/profile/view/register_bank_account.dart';
+import 'package:pos/widgets/components/check_version.dart';
 import 'package:pos/widgets/components/outline_form_text.dart';
 import 'package:pos/themes/themes.dart';
 import 'package:pos/widgets/widgets.dart';
@@ -402,6 +403,7 @@ class ProfilePage extends StatelessWidget {
                                             }
                                           });
                                         });
+                                        // checkVersion(context);
                                       },
                                       child: const Text("SAVE")),
                                 ),
@@ -410,6 +412,7 @@ class ProfilePage extends StatelessWidget {
                           ),
                         ),
                         const SizedBox(height: 40),
+                        // Text(state.currentVersion ?? "")
                       ],
                     );
                   }

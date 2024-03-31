@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:pos/data/api/services.dart';
 import '../../engine/configs/environment.dart';
 import '../../engine/helpers/sessions.dart';
+import '../../widgets/components/check_version.dart';
 import 'interceptors.dart';
 
 enum ParamType { formData, jsonBody }
@@ -29,25 +30,8 @@ class ApiConfigure {
   }
 
   void config(String path) async {
+    checkVersion(context);
     String? token = Sessions.getToken();
-
-    if (path.startsWith("store/transcation/")) {
-      // final data = await ApiService.getSplitRule(context,
-      //     id: Sessions.getDatabaseModel()?.name ?? "");
-      // if (data.isSuccess) {
-      //   if (data.data != null) {
-      //     Map<String, dynamic> headers = {
-      //       'with-split-rule': data.data?.splitRuleId ?? ""
-      //     };
-      //     _dio.options.headers.addAll(headers);
-      //   }
-      // }
-      // Map<String, dynamic> headers = {
-      // 'with-split-rule': "splitru_2b3982de-6f84-4ee2-8ede-a3dd0f504ccb",
-      //   'for-user-id': Sessions.getAccountHolderModel()!.id
-      // };
-      // _dio.options.headers.addAll(headers);
-    }
     if (token != null) {
       Map<String, dynamic> headers = {'Authorization': token};
       _dio.options.headers.addAll(headers);

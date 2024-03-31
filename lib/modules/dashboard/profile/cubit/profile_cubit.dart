@@ -39,7 +39,10 @@ class ProfileCubit extends BaseCubit<ProfileState> {
         setAddressState(data.data?.store?.state ?? "");
         setCountry(data.data?.store?.country ?? "");
       }
-      emit(state.copyWith(status: DataStateStatus.success, store: data.data));
+      emit(state.copyWith(
+          status: DataStateStatus.success,
+          store: data.data,
+          currentVersion: data.currentVersion));
     } else {
       emit(state.copyWith(status: DataStateStatus.error));
     }

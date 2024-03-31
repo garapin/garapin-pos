@@ -12,11 +12,12 @@ DatabaseStore _$DatabaseStoreFromJson(Map<String, dynamic> json) =>
       storesData: json['storesData'] == null
           ? null
           : StoresData.fromJson(json['storesData'] as Map<String, dynamic>),
-    );
+    )..emailOwner = json['email_owner'] as String?;
 
 Map<String, dynamic> _$DatabaseStoreToJson(DatabaseStore instance) =>
     <String, dynamic>{
       'dbName': instance.dbName,
+      'email_owner': instance.emailOwner,
       'storesData': instance.storesData,
     };
 

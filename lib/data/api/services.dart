@@ -5,6 +5,7 @@ import 'package:pos/data/api/error_handler.dart';
 import 'package:pos/data/models/base/available_payment.dart';
 import 'package:pos/data/models/base/brand.dart';
 import 'package:pos/data/models/base/cart.dart';
+import 'package:pos/data/models/base/config_version_apps.dart';
 import 'package:pos/data/models/base/database_store.dart';
 import 'package:pos/data/models/base/invoices.dart';
 import 'package:pos/data/models/base/payment_cash.dart';
@@ -21,6 +22,7 @@ import 'package:pos/engine/engine.dart';
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:pos/modules/product/edit_product/cubit/edit_product_cubit.dart';
+import '../../widgets/components/check_version.dart';
 import '../models/base/category.dart';
 import '../models/base/merchant_model.dart';
 import '../models/base/split_payment_template.dart';
@@ -71,6 +73,15 @@ class ApiService {
         )
         .then((result) => ApiResponse<String>.fromJson(result.data))
         .handler((error) => ApiResponse<String>.onError(error));
+  }
+
+  static Future<ApiResponse<ConfigVersionApps>> getConfigVersion(
+    BuildContext context,
+  ) async {
+    return await ApiConfigure(context)
+        .get('config/version')
+        .then((result) => ApiResponse<ConfigVersionApps>.fromJson(result.data))
+        .handler((error) => ApiResponse<ConfigVersionApps>.onError(error));
   }
 
   static Future<ApiResponse<User>> signinWithGoogle(BuildContext context,

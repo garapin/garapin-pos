@@ -13,6 +13,7 @@ class ProfileState with _$ProfileState {
     String? country,
     String? stateAddress,
     String? city,
+    String? currentVersion,
     @Default(false) bool showFormBussinessPartner,
     @Default([]) List<AvailablePayment> availablePayment,
   }) = _ProfileState;

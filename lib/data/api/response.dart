@@ -23,12 +23,14 @@ class BaseResponse {
 class ApiResponse<T> extends BaseResponse {
   @Converter()
   final T? data;
+  @JsonKey(name: 'current_version')
+  final String currentVersion;
 
-  ApiResponse({
-    required super.status,
-    required super.message,
-    this.data,
-  });
+  ApiResponse(
+      {required super.status,
+      required super.message,
+      this.data,
+      required this.currentVersion});
 
   factory ApiResponse.fromJson(Map<String, dynamic> json) =>
       _$ApiResponseFromJson(json);
@@ -36,8 +38,8 @@ class ApiResponse<T> extends BaseResponse {
   @override
   Map<String, dynamic> toJson() => _$ApiResponseToJson(this);
 
-  factory ApiResponse.onError(BaseResponse error) =>
-      ApiResponse(status: error.status, message: error.message);
+  factory ApiResponse.onError(BaseResponse error) => ApiResponse(
+      status: error.status, message: error.message, currentVersion: '');
 }
 
 @JsonSerializable()
@@ -49,13 +51,16 @@ class ApiResponseList<T> extends BaseResponse {
   final int totalData;
   @JsonKey(name: 'total_page')
   final int totalPage;
+  @JsonKey(name: 'current_version')
+  final String currentVersion;
 
   ApiResponseList(
       {required super.status,
       required super.message,
       this.data = const [],
       this.totalData = 10,
-      this.totalPage = 1});
+      this.totalPage = 1,
+      required this.currentVersion});
 
   factory ApiResponseList.fromJson(Map<String, dynamic> json) =>
       _$ApiResponseListFromJson(json);
@@ -63,6 +68,6 @@ class ApiResponseList<T> extends BaseResponse {
   @override
   Map<String, dynamic> toJson() => _$ApiResponseListToJson(this);
 
-  factory ApiResponseList.onError(BaseResponse error) =>
-      ApiResponseList(status: error.status, message: error.message);
+  factory ApiResponseList.onError(BaseResponse error) => ApiResponseList(
+      status: error.status, message: error.message, currentVersion: "");
 }

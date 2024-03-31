@@ -99,23 +99,6 @@ class MasterCubit extends BaseCubit<MasterState> {
                   icon: Icon(Icons.close))),
           CustomButton(
               onPressed: () {
-                changePage(0);
-                showPage(false);
-              },
-              child: Container(
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(24),
-                    color: AppColor.appColor.primary.withOpacity(0.15)),
-                height: 40,
-                child: Center(
-                    child: Text(
-                  "Product",
-                  style: AppFont.largePrimary(context),
-                )),
-              )),
-          SizedBox(height: 20),
-          CustomButton(
-              onPressed: () {
                 changePage(1);
                 showPage(false);
               },

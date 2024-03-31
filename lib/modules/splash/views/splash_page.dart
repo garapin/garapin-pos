@@ -20,7 +20,7 @@ class SplashPage extends StatelessWidget {
               SizedBox(
                 width: width,
                 height: baseHeight,
-                child: Resources.images.gems.image(),
+                child: Resources.images.iconPos.image(),
               ),
               Column(
                 children: [

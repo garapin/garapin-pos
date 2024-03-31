@@ -32,7 +32,9 @@ class MyMerchantCubit extends BaseCubit<MyMerchantState> {
   }
 
   @override
-  Future<void> refreshData() => initData();
+  Future<void> refreshData() async {
+    initData();
+  }
 
   void getAllMerhcant() async {
     final data = await ApiService.getStoreDatabaseByParent(context);
@@ -41,7 +43,7 @@ class MyMerchantCubit extends BaseCubit<MyMerchantState> {
     }
   }
 
-  void createMerchant() async {
+  void createMerchant(GlobalKey<FormBuilderState> formData) async {
     showLoading();
     formKey.currentState?.save();
     Map<String, dynamic>? form = formKey.currentState?.value;
@@ -50,7 +52,8 @@ class MyMerchantCubit extends BaseCubit<MyMerchantState> {
         merchantRole: form?["merchant_role"] ?? "",
         email: form?["email"] ?? "");
     if (data.isSuccess) {
-      formKey.currentState?.reset();
+      formData.currentState?.reset();
+      formData.currentState?.patchValue({"merchant_role": null});
       refreshData();
       showSuccess(data.message);
     } else {

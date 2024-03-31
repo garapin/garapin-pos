@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:pos/data/models/base/config_version_apps.dart';
 import 'package:pos/data/models/base/split_rule.dart';
 
 import '../base/available_payment.dart';
@@ -53,6 +54,10 @@ Object factoryModel(String type, {Map<String, dynamic>? json}) {
       return json != null ? DatabaseStore.fromJson(json) : DatabaseStore();
     case 'SplitRule':
       return json != null ? SplitRule.fromJson(json) : SplitRule();
+    case 'ConfigVersionApps':
+      return json != null
+          ? ConfigVersionApps.fromJson(json)
+          : ConfigVersionApps();
     case 'SplitPaymentTemplate':
       return json != null
           ? SplitPaymentTemplate.fromJson(json)

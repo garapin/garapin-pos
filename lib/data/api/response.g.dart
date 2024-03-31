@@ -23,6 +23,7 @@ ApiResponse<T> _$ApiResponseFromJson<T>(Map<String, dynamic> json) =>
       message: json['message'] as String,
       data: _$JsonConverterFromJson<Object, T>(
           json['data'], Converter<T?>().fromJson),
+      currentVersion: json['current_version'] as String,
     );
 
 Map<String, dynamic> _$ApiResponseToJson<T>(ApiResponse<T> instance) =>
@@ -31,6 +32,7 @@ Map<String, dynamic> _$ApiResponseToJson<T>(ApiResponse<T> instance) =>
       'message': instance.message,
       'data': _$JsonConverterToJson<Object, T>(
           instance.data, Converter<T?>().toJson),
+      'current_version': instance.currentVersion,
     };
 
 Value? _$JsonConverterFromJson<Json, Value>(
@@ -55,6 +57,7 @@ ApiResponseList<T> _$ApiResponseListFromJson<T>(Map<String, dynamic> json) =>
           const [],
       totalData: json['total_data'] as int? ?? 10,
       totalPage: json['total_page'] as int? ?? 1,
+      currentVersion: json['current_version'] as String,
     );
 
 Map<String, dynamic> _$ApiResponseListToJson<T>(ApiResponseList<T> instance) =>
@@ -64,4 +67,5 @@ Map<String, dynamic> _$ApiResponseListToJson<T>(ApiResponseList<T> instance) =>
       'data': instance.data.map(Converter<T>().toJson).toList(),
       'total_data': instance.totalData,
       'total_page': instance.totalPage,
+      'current_version': instance.currentVersion,
     };

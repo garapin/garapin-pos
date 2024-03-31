@@ -26,6 +26,7 @@ mixin _$ProfileState {
   String? get country => throw _privateConstructorUsedError;
   String? get stateAddress => throw _privateConstructorUsedError;
   String? get city => throw _privateConstructorUsedError;
+  String? get currentVersion => throw _privateConstructorUsedError;
   bool get showFormBussinessPartner => throw _privateConstructorUsedError;
   List<AvailablePayment> get availablePayment =>
       throw _privateConstructorUsedError;
@@ -52,6 +53,7 @@ abstract class $ProfileStateCopyWith<$Res> {
       String? country,
       String? stateAddress,
       String? city,
+      String? currentVersion,
       bool showFormBussinessPartner,
       List<AvailablePayment> availablePayment});
 }
@@ -79,6 +81,7 @@ class _$ProfileStateCopyWithImpl<$Res, $Val extends ProfileState>
     Object? country = freezed,
     Object? stateAddress = freezed,
     Object? city = freezed,
+    Object? currentVersion = freezed,
     Object? showFormBussinessPartner = null,
     Object? availablePayment = null,
   }) {
@@ -123,6 +126,10 @@ class _$ProfileStateCopyWithImpl<$Res, $Val extends ProfileState>
           ? _value.city
           : city // ignore: cast_nullable_to_non_nullable
               as String?,
+      currentVersion: freezed == currentVersion
+          ? _value.currentVersion
+          : currentVersion // ignore: cast_nullable_to_non_nullable
+              as String?,
       showFormBussinessPartner: null == showFormBussinessPartner
           ? _value.showFormBussinessPartner
           : showFormBussinessPartner // ignore: cast_nullable_to_non_nullable
@@ -154,6 +161,7 @@ abstract class _$$ProfileStateImplCopyWith<$Res>
       String? country,
       String? stateAddress,
       String? city,
+      String? currentVersion,
       bool showFormBussinessPartner,
       List<AvailablePayment> availablePayment});
 }
@@ -179,6 +187,7 @@ class __$$ProfileStateImplCopyWithImpl<$Res>
     Object? country = freezed,
     Object? stateAddress = freezed,
     Object? city = freezed,
+    Object? currentVersion = freezed,
     Object? showFormBussinessPartner = null,
     Object? availablePayment = null,
   }) {
@@ -223,6 +232,10 @@ class __$$ProfileStateImplCopyWithImpl<$Res>
           ? _value.city
           : city // ignore: cast_nullable_to_non_nullable
               as String?,
+      currentVersion: freezed == currentVersion
+          ? _value.currentVersion
+          : currentVersion // ignore: cast_nullable_to_non_nullable
+              as String?,
       showFormBussinessPartner: null == showFormBussinessPartner
           ? _value.showFormBussinessPartner
           : showFormBussinessPartner // ignore: cast_nullable_to_non_nullable
@@ -249,6 +262,7 @@ class _$ProfileStateImpl implements _ProfileState {
       this.country,
       this.stateAddress,
       this.city,
+      this.currentVersion,
       this.showFormBussinessPartner = false,
       final List<AvailablePayment> availablePayment = const []})
       : _availablePayment = availablePayment;
@@ -275,6 +289,8 @@ class _$ProfileStateImpl implements _ProfileState {
   @override
   final String? city;
   @override
+  final String? currentVersion;
+  @override
   @JsonKey()
   final bool showFormBussinessPartner;
   final List<AvailablePayment> _availablePayment;
@@ -289,7 +305,7 @@ class _$ProfileStateImpl implements _ProfileState {
 
   @override
   String toString() {
-    return 'ProfileState(status: $status, store: $store, err: $err, pickedImage: $pickedImage, npwpImage: $npwpImage, nibImage: $nibImage, aktaImage: $aktaImage, country: $country, stateAddress: $stateAddress, city: $city, showFormBussinessPartner: $showFormBussinessPartner, availablePayment: $availablePayment)';
+    return 'ProfileState(status: $status, store: $store, err: $err, pickedImage: $pickedImage, npwpImage: $npwpImage, nibImage: $nibImage, aktaImage: $aktaImage, country: $country, stateAddress: $stateAddress, city: $city, currentVersion: $currentVersion, showFormBussinessPartner: $showFormBussinessPartner, availablePayment: $availablePayment)';
   }
 
   @override
@@ -312,6 +328,8 @@ class _$ProfileStateImpl implements _ProfileState {
             (identical(other.stateAddress, stateAddress) ||
                 other.stateAddress == stateAddress) &&
             (identical(other.city, city) || other.city == city) &&
+            (identical(other.currentVersion, currentVersion) ||
+                other.currentVersion == currentVersion) &&
             (identical(
                     other.showFormBussinessPartner, showFormBussinessPartner) ||
                 other.showFormBussinessPartner == showFormBussinessPartner) &&
@@ -332,6 +350,7 @@ class _$ProfileStateImpl implements _ProfileState {
       country,
       stateAddress,
       city,
+      currentVersion,
       showFormBussinessPartner,
       const DeepCollectionEquality().hash(_availablePayment));
 
@@ -354,6 +373,7 @@ abstract class _ProfileState implements ProfileState {
       final String? country,
       final String? stateAddress,
       final String? city,
+      final String? currentVersion,
       final bool showFormBussinessPartner,
       final List<AvailablePayment> availablePayment}) = _$ProfileStateImpl;
 
@@ -377,6 +397,8 @@ abstract class _ProfileState implements ProfileState {
   String? get stateAddress;
   @override
   String? get city;
+  @override
+  String? get currentVersion;
   @override
   bool get showFormBussinessPartner;
   @override

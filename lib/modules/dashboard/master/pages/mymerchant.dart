@@ -21,7 +21,14 @@ class MyMerchantPage extends StatelessWidget {
     return BlocBuilder<MyMerchantCubit, MyMerchantState>(
       builder: (context, state) {
         return ContainerStateHandler(
-          refresherOptions: cubit.defaultRefresh,
+          refresherOptions: RefresherOptions(
+            controller: cubit.defaultRefresh.controller,
+            onRefresh: () {
+              cubit.formKey.currentState?.reset();
+              cubit.formKey.currentState?.patchValue({"merchant_role": null});
+              cubit.refreshData();
+            },
+          ),
           status: state.status,
           loading: const Center(
             child: CircularProgressIndicator(),
@@ -70,11 +77,12 @@ class MyMerchantPage extends StatelessWidget {
                           ),
                           const SizedBox(height: 16),
                           OutlineFormDropdown(
+                            initialValue: null,
                             validator: (v) {
                               if (v != null) {
                                 return null;
                               } else {
-                                return 'Unit tidak boleh kosong';
+                                return 'error';
                               }
                             },
                             name: 'merchant_role',
@@ -100,7 +108,8 @@ class MyMerchantPage extends StatelessWidget {
                               width: baseWidth,
                               child: ElevatedButton(
                                   onPressed: () {
-                                    cubit.createMerchant();
+                                    // cubit.formKey.currentState?.reset();
+                                    cubit.createMerchant(cubit.formKey);
                                   },
                                   child: const Text("Invite")),
                             ),
@@ -134,9 +143,7 @@ class MyMerchantPage extends StatelessWidget {
                                         CrossAxisAlignment.start,
                                     children: [
                                       Text(
-                                        merchant.storesData?.accountHolder
-                                                ?.email ??
-                                            "",
+                                        merchant.emailOwner ?? "",
                                         style: AppFont.medium(context),
                                       ),
                                       Text(
