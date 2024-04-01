@@ -3,12 +3,17 @@
 //     final databaseStore = databaseStoreFromJson(jsonString);
 
 import 'package:json_annotation/json_annotation.dart';
+import 'package:pos/data/models/base/user.dart';
 import 'dart:convert';
+
+import 'store.dart';
 
 part 'database_store.g.dart';
 
 @JsonSerializable()
 class DatabaseStore {
+  @JsonKey(name: "user")
+  User? user;
   @JsonKey(name: "dbName")
   String? dbName;
   @JsonKey(name: "email_owner")
@@ -97,42 +102,6 @@ class StoresData {
       _$StoresDataFromJson(json);
 
   Map<String, dynamic> toJson() => _$StoresDataToJson(this);
-}
-
-@JsonSerializable()
-class AccountHolder {
-  @JsonKey(name: "id")
-  String? id;
-  @JsonKey(name: "created")
-  DateTime? created;
-  @JsonKey(name: "updated")
-  DateTime? updated;
-  @JsonKey(name: "email")
-  String? email;
-  @JsonKey(name: "type")
-  String? type;
-  @JsonKey(name: "public_profile")
-  PublicProfile? publicProfile;
-  @JsonKey(name: "country")
-  String? country;
-  @JsonKey(name: "status")
-  String? status;
-
-  AccountHolder({
-    this.id,
-    this.created,
-    this.updated,
-    this.email,
-    this.type,
-    this.publicProfile,
-    this.country,
-    this.status,
-  });
-
-  factory AccountHolder.fromJson(Map<String, dynamic> json) =>
-      _$AccountHolderFromJson(json);
-
-  Map<String, dynamic> toJson() => _$AccountHolderToJson(this);
 }
 
 @JsonSerializable()

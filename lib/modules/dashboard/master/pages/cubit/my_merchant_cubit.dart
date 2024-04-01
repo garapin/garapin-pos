@@ -1,22 +1,17 @@
-import 'package:bloc/bloc.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:pos/data/api/services.dart';
-import 'package:pos/data/models/base/merchant_model.dart';
 import 'package:pos/engine/engine.dart';
-import 'package:pos/engine/helpers/options.dart';
-
 import '../../../../../data/models/base/database_store.dart';
-import '../../../../../engine/base/base_cubit.dart';
 
 part 'my_merchant_state.dart';
 part 'my_merchant_cubit.freezed.dart';
 
 class MyMerchantCubit extends BaseCubit<MyMerchantState> {
   final formKey = GlobalKey<FormBuilderState>();
-  MyMerchantCubit(BuildContext context) : super(context, MyMerchantState());
+  MyMerchantCubit(BuildContext context)
+      : super(context, const MyMerchantState());
 
   @override
   Future<void> initData() async {

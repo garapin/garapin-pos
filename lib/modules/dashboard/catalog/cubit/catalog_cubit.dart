@@ -1,11 +1,7 @@
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:go_router/go_router.dart';
 import 'package:pos/data/api/services.dart';
 import 'package:pos/engine/engine.dart';
 import 'package:flutter/widgets.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:pos/modules/cart/cubit/cart_cubit.dart';
-
 import '../../../../data/models/base/category.dart';
 import '../../../../data/models/base/product.dart';
 import '../../../../data/models/base/store.dart';

@@ -17,8 +17,8 @@ final _privateConstructorUsedError = UnsupportedError(
 /// @nodoc
 mixin _$SelectDatabaseState {
   DataStateStatus get status => throw _privateConstructorUsedError;
-  String? get err => throw _privateConstructorUsedError;
-  User? get user => throw _privateConstructorUsedError;
+  String? get err => throw _privateConstructorUsedError; // User? user,
+  List<DatabaseStore> get databaseStore => throw _privateConstructorUsedError;
   String get selectedDatabase => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
@@ -35,7 +35,7 @@ abstract class $SelectDatabaseStateCopyWith<$Res> {
   $Res call(
       {DataStateStatus status,
       String? err,
-      User? user,
+      List<DatabaseStore> databaseStore,
       String selectedDatabase});
 }
 
@@ -54,7 +54,7 @@ class _$SelectDatabaseStateCopyWithImpl<$Res, $Val extends SelectDatabaseState>
   $Res call({
     Object? status = null,
     Object? err = freezed,
-    Object? user = freezed,
+    Object? databaseStore = null,
     Object? selectedDatabase = null,
   }) {
     return _then(_value.copyWith(
@@ -66,10 +66,10 @@ class _$SelectDatabaseStateCopyWithImpl<$Res, $Val extends SelectDatabaseState>
           ? _value.err
           : err // ignore: cast_nullable_to_non_nullable
               as String?,
-      user: freezed == user
-          ? _value.user
-          : user // ignore: cast_nullable_to_non_nullable
-              as User?,
+      databaseStore: null == databaseStore
+          ? _value.databaseStore
+          : databaseStore // ignore: cast_nullable_to_non_nullable
+              as List<DatabaseStore>,
       selectedDatabase: null == selectedDatabase
           ? _value.selectedDatabase
           : selectedDatabase // ignore: cast_nullable_to_non_nullable
@@ -89,7 +89,7 @@ abstract class _$$SelectDatabaseStateImplCopyWith<$Res>
   $Res call(
       {DataStateStatus status,
       String? err,
-      User? user,
+      List<DatabaseStore> databaseStore,
       String selectedDatabase});
 }
 
@@ -106,7 +106,7 @@ class __$$SelectDatabaseStateImplCopyWithImpl<$Res>
   $Res call({
     Object? status = null,
     Object? err = freezed,
-    Object? user = freezed,
+    Object? databaseStore = null,
     Object? selectedDatabase = null,
   }) {
     return _then(_$SelectDatabaseStateImpl(
@@ -118,10 +118,10 @@ class __$$SelectDatabaseStateImplCopyWithImpl<$Res>
           ? _value.err
           : err // ignore: cast_nullable_to_non_nullable
               as String?,
-      user: freezed == user
-          ? _value.user
-          : user // ignore: cast_nullable_to_non_nullable
-              as User?,
+      databaseStore: null == databaseStore
+          ? _value._databaseStore
+          : databaseStore // ignore: cast_nullable_to_non_nullable
+              as List<DatabaseStore>,
       selectedDatabase: null == selectedDatabase
           ? _value.selectedDatabase
           : selectedDatabase // ignore: cast_nullable_to_non_nullable
@@ -136,23 +136,33 @@ class _$SelectDatabaseStateImpl implements _SelectDatabaseState {
   const _$SelectDatabaseStateImpl(
       {this.status = DataStateStatus.initial,
       this.err,
-      this.user,
-      this.selectedDatabase = ''});
+      final List<DatabaseStore> databaseStore = const [],
+      this.selectedDatabase = ''})
+      : _databaseStore = databaseStore;
 
   @override
   @JsonKey()
   final DataStateStatus status;
   @override
   final String? err;
+// User? user,
+  final List<DatabaseStore> _databaseStore;
+// User? user,
   @override
-  final User? user;
+  @JsonKey()
+  List<DatabaseStore> get databaseStore {
+    if (_databaseStore is EqualUnmodifiableListView) return _databaseStore;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_databaseStore);
+  }
+
   @override
   @JsonKey()
   final String selectedDatabase;
 
   @override
   String toString() {
-    return 'SelectDatabaseState(status: $status, err: $err, user: $user, selectedDatabase: $selectedDatabase)';
+    return 'SelectDatabaseState(status: $status, err: $err, databaseStore: $databaseStore, selectedDatabase: $selectedDatabase)';
   }
 
   @override
@@ -162,14 +172,15 @@ class _$SelectDatabaseStateImpl implements _SelectDatabaseState {
             other is _$SelectDatabaseStateImpl &&
             (identical(other.status, status) || other.status == status) &&
             (identical(other.err, err) || other.err == err) &&
-            (identical(other.user, user) || other.user == user) &&
+            const DeepCollectionEquality()
+                .equals(other._databaseStore, _databaseStore) &&
             (identical(other.selectedDatabase, selectedDatabase) ||
                 other.selectedDatabase == selectedDatabase));
   }
 
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, status, err, user, selectedDatabase);
+  int get hashCode => Object.hash(runtimeType, status, err,
+      const DeepCollectionEquality().hash(_databaseStore), selectedDatabase);
 
   @JsonKey(ignore: true)
   @override
@@ -183,15 +194,15 @@ abstract class _SelectDatabaseState implements SelectDatabaseState {
   const factory _SelectDatabaseState(
       {final DataStateStatus status,
       final String? err,
-      final User? user,
+      final List<DatabaseStore> databaseStore,
       final String selectedDatabase}) = _$SelectDatabaseStateImpl;
 
   @override
   DataStateStatus get status;
   @override
   String? get err;
-  @override
-  User? get user;
+  @override // User? user,
+  List<DatabaseStore> get databaseStore;
   @override
   String get selectedDatabase;
   @override

@@ -2,13 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:pos/data/models/base/database_store.dart';
-import 'package:pos/data/models/base/merchant_model.dart';
 import 'package:pos/engine/engine.dart';
 import 'package:pos/modules/dashboard/master/pages/cubit/my_merchant_cubit.dart';
 import 'package:pos/widgets/components/outline_form_dropdown.dart';
 import 'package:pos/widgets/widgets.dart';
-
-import '../../../../engine/base/app.dart';
 import '../../../../themes/themes.dart';
 import '../../../../widgets/components/outline_form_text.dart';
 

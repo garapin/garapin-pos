@@ -5,7 +5,8 @@ class SelectDatabaseState with _$SelectDatabaseState {
   const factory SelectDatabaseState({
     @Default(DataStateStatus.initial) DataStateStatus status,
     String? err,
-    User? user,
+    // User? user,
+    @Default([]) List<DatabaseStore> databaseStore,
     @Default('') String selectedDatabase,
   }) = _SelectDatabaseState;
 }

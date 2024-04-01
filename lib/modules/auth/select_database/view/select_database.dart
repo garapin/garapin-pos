@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/widgets.dart';
+import 'package:pos/data/models/base/database_store.dart';
 import 'package:pos/engine/base/app.dart';
 import 'package:pos/modules/auth/select_database/cubit/select_database_cubit.dart';
 import 'package:pos/routes/routes.dart';
@@ -82,31 +83,31 @@ class SelectDatabasePage extends StatelessWidget {
                             ),
                             const SizedBox(height: 24),
                             ConstrainedBox(
-                              constraints:
-                                  BoxConstraints(minHeight: 0, maxHeight: 260),
+                              constraints: const BoxConstraints(
+                                  minHeight: 0, maxHeight: 260),
                               child: ListView.builder(
                                 padding: const EdgeInsets.symmetric(
                                     horizontal: 2, vertical: 2),
                                 shrinkWrap: true,
-                                itemCount:
-                                    state.user?.storeDatabaseName?.length,
+                                itemCount: state.databaseStore.length,
                                 itemBuilder: (context, index) {
-                                  var database =
-                                      state.user?.storeDatabaseName?[index];
+                                  var database = state.databaseStore[index];
                                   return Padding(
                                     padding: const EdgeInsets.only(bottom: 16),
                                     child: CustomButton(
                                       onPressed: () {
                                         cubit.selectedDatabase(
-                                            database?.name ?? "");
+                                            database.dbName ?? "");
                                       },
                                       child: CardSelectDatabase(
-                                        selected: database?.name ==
+                                        selected: database.dbName ==
                                                 state.selectedDatabase
                                             ? true
                                             : false,
                                         database: database,
-                                        username: state.user?.username ?? "",
+                                        username: state.databaseStore.first
+                                                .emailOwner ??
+                                            "",
                                       ),
                                     ),
                                   );
@@ -121,7 +122,8 @@ class SelectDatabasePage extends StatelessWidget {
                                     borderRadius: BorderRadius.circular(58),
                                     child: ElevatedButton(
                                         onPressed: () {
-                                          cubit.doSelecteDatabase(state.user!);
+                                          cubit.doSelecteDatabase(
+                                              state.databaseStore.first.user!);
                                         },
                                         child: const Text("Load")))),
                           ],
@@ -165,7 +167,7 @@ class SelectDatabasePage extends StatelessWidget {
 
 class CardSelectDatabase extends StatelessWidget {
   final bool selected;
-  final StoreDatabaseName? database;
+  final DatabaseStore? database;
   final String? username;
 
   const CardSelectDatabase({
@@ -181,7 +183,6 @@ class CardSelectDatabase extends StatelessWidget {
       onPressed: () {},
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
-        height: 88,
         width: 443,
         decoration: BoxDecoration(
           color: Colors.white,
@@ -204,46 +205,74 @@ class CardSelectDatabase extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  database?.name ?? "",
+                  database?.dbName ?? "",
                   style: AppFont.largeBold(context)!.copyWith(
                       fontSize: 16,
                       color: selected ? AppColor.appColor.primary : null,
                       overflow: TextOverflow.ellipsis),
                 ),
-                const SizedBox(height: 2),
+                const SizedBox(height: 6),
                 Text(
-                  "${FirebaseAuth.instance.currentUser?.displayName ?? ""} - ${database?.role}",
+                  "${FirebaseAuth.instance.currentUser?.displayName ?? ""} - ${database?.user?.storeDatabaseName?.where((element) => element.name == database?.dbName).first.role}",
                   style: AppFont.large(context)!.copyWith(
                     fontSize: 14,
                     color: selected ? AppColor.appColor.primary : null,
                   ),
                 ),
+                const SizedBox(height: 2),
                 Text(
-                  "${database?.type ?? ""} - ${database?.merchantRole ?? ""}",
+                  "${database?.storesData?.storeType?.replaceAll('_', " ") ?? ""} - ${database?.storesData?.merchantRole == "NOT_MERCHANT" ? "" : database?.storesData?.merchantRole}",
                   style: AppFont.large(context)!.copyWith(
                     fontSize: 14,
                     color: selected ? AppColor.appColor.primary : null,
                   ),
-                )
+                ),
+                (database?.storesData?.storeStatus == "PENDING")
+                    ? Text(
+                        "Anda mendapatkan undangan untuk menggunakan database ini.",
+                        style: AppFont.large(context)!.copyWith(
+                          fontSize: 14,
+                          color: AppColor.appColor.warning,
+                        ),
+                      )
+                    : SizedBox()
               ],
             ),
           ),
-          Container(
-            decoration: BoxDecoration(
-              shape: BoxShape.circle,
-              border: Border.all(
-                color: selected ? AppColor.appColor.primary : Colors.grey,
-                width: 3.0,
+          Column(
+            children: [
+              Container(
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  border: Border.all(
+                    color: selected ? AppColor.appColor.primary : Colors.grey,
+                    width: 3.0,
+                  ),
+                ),
+                child: Padding(
+                    padding: const EdgeInsets.all(3),
+                    child: Column(
+                      children: [
+                        Icon(
+                          Icons.verified,
+                          size: 30.0,
+                          color: selected
+                              ? AppColor.appColor.primary
+                              : Colors.grey,
+                        ),
+                      ],
+                    )),
               ),
-            ),
-            child: Padding(
-                padding: const EdgeInsets.all(6.0),
-                child: Icon(
-                  Icons.check,
-                  size: 30.0,
-                  color: selected ? AppColor.appColor.primary : Colors.grey,
-                )),
-          ),
+              SizedBox(height: 6),
+              Text(
+                database?.storesData?.storeStatus ?? "",
+                style: AppFont.smallBold(context)!.copyWith(
+                    color: database?.storesData?.storeStatus == "ACTIVE"
+                        ? AppColor.appColor.success
+                        : AppColor.appColor.warning),
+              )
+            ],
+          )
         ]),
       ),
     );

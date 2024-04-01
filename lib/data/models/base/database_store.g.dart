@@ -12,10 +12,15 @@ DatabaseStore _$DatabaseStoreFromJson(Map<String, dynamic> json) =>
       storesData: json['storesData'] == null
           ? null
           : StoresData.fromJson(json['storesData'] as Map<String, dynamic>),
-    )..emailOwner = json['email_owner'] as String?;
+    )
+      ..user = json['user'] == null
+          ? null
+          : User.fromJson(json['user'] as Map<String, dynamic>)
+      ..emailOwner = json['email_owner'] as String?;
 
 Map<String, dynamic> _$DatabaseStoreToJson(DatabaseStore instance) =>
     <String, dynamic>{
+      'user': instance.user,
       'dbName': instance.dbName,
       'email_owner': instance.emailOwner,
       'storesData': instance.storesData,
@@ -78,37 +83,6 @@ Map<String, dynamic> _$StoresDataToJson(StoresData instance) =>
       'updatedAt': instance.updatedAt?.toIso8601String(),
       '__v': instance.v,
       'phone_number': instance.phoneNumber,
-    };
-
-AccountHolder _$AccountHolderFromJson(Map<String, dynamic> json) =>
-    AccountHolder(
-      id: json['id'] as String?,
-      created: json['created'] == null
-          ? null
-          : DateTime.parse(json['created'] as String),
-      updated: json['updated'] == null
-          ? null
-          : DateTime.parse(json['updated'] as String),
-      email: json['email'] as String?,
-      type: json['type'] as String?,
-      publicProfile: json['public_profile'] == null
-          ? null
-          : PublicProfile.fromJson(
-              json['public_profile'] as Map<String, dynamic>),
-      country: json['country'] as String?,
-      status: json['status'] as String?,
-    );
-
-Map<String, dynamic> _$AccountHolderToJson(AccountHolder instance) =>
-    <String, dynamic>{
-      'id': instance.id,
-      'created': instance.created?.toIso8601String(),
-      'updated': instance.updated?.toIso8601String(),
-      'email': instance.email,
-      'type': instance.type,
-      'public_profile': instance.publicProfile,
-      'country': instance.country,
-      'status': instance.status,
     };
 
 PublicProfile _$PublicProfileFromJson(Map<String, dynamic> json) =>

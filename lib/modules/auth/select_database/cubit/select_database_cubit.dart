@@ -1,12 +1,11 @@
 import 'dart:convert';
 import 'package:pos/data/api/services.dart';
+import 'package:pos/data/models/base/database_store.dart';
 import 'package:pos/data/models/base/user.dart';
 import 'package:pos/engine/engine.dart';
 import 'package:flutter/widgets.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:go_router/go_router.dart';
-import 'package:pos/engine/helpers/sessions.dart';
-import 'package:pos/widgets/components/confirmation_alert.dart';
 
 import '../../../../routes/routes.dart';
 
@@ -23,21 +22,23 @@ class SelectDatabaseCubit extends BaseCubit<SelectDatabaseState> {
     final data = await ApiService.signinWithGoogle(context,
         email: Sessions.getUserModel()!.email!);
     if (data.isSuccess) {
-      if (data.data!.storeDatabaseName!.isNotEmpty) {
-        String firstSelected = data.data?.storeDatabaseName?.first.name ?? "";
+      if (data.data.isNotEmpty) {
+        String firstSelected = data.data.first.dbName ?? "";
         emit(state.copyWith(
             status: DataStateStatus.success,
-            user: data.data,
+            databaseStore: data.data,
             selectedDatabase: firstSelected));
       } else {
         emit(state.copyWith(
           status: DataStateStatus.success,
-          user: data.data,
+          databaseStore: data.data,
         ));
       }
     } else {
       emit(state.copyWith(
-          status: DataStateStatus.error, user: data.data, err: data.message));
+          status: DataStateStatus.error,
+          databaseStore: data.data,
+          err: data.message));
     }
     finishRefresh(state.status);
   }

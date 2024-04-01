@@ -54,8 +54,8 @@ class LoginCubit extends BaseCubit<LoginState> {
         await FirebaseAuth.instance.signInWithCredential(credential);
 
         // final GoogleSignInAccount? s = await GoogleSignIn().signOut();
-        Sessions.setToken(data.data!.token!);
-        Sessions.setUsers(jsonEncode(data.data!))
+        Sessions.setToken(data.data.first.user!.token!);
+        Sessions.setUsers(jsonEncode(data.data.first.user))
             .then((value) => context.pushNamed(RouteNames.selectDatababase));
       } else {
         showError("Email tidak terdaftar");

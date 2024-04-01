@@ -84,12 +84,13 @@ class ApiService {
         .handler((error) => ApiResponse<ConfigVersionApps>.onError(error));
   }
 
-  static Future<ApiResponse<User>> signinWithGoogle(BuildContext context,
+  static Future<ApiResponseList<DatabaseStore>> signinWithGoogle(
+      BuildContext context,
       {required String email}) async {
     return await ApiConfigure(context)
         .post('auth/signin_with_google', params: {"email": email})
-        .then((result) => ApiResponse<User>.fromJson(result.data))
-        .handler((error) => ApiResponse<User>.onError(error));
+        .then((result) => ApiResponseList<DatabaseStore>.fromJson(result.data))
+        .handler((error) => ApiResponseList<DatabaseStore>.onError(error));
   }
 
   static Future<ApiResponse<User>> createDatabase(BuildContext context,
