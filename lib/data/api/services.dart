@@ -14,6 +14,7 @@ import 'package:pos/data/models/base/qrcode.dart';
 import 'package:pos/data/models/base/split_rule.dart';
 import 'package:pos/data/models/base/store.dart';
 import 'package:pos/data/models/base/unit.dart';
+import 'package:pos/data/models/base/user_database.dart';
 import 'package:pos/data/models/base/virtual_account.dart';
 import 'package:pos/data/models/request/req_bussiness_partner.dart';
 import 'package:pos/data/models/request/req_product.dart';
@@ -26,7 +27,6 @@ import '../../widgets/components/check_version.dart';
 import '../models/base/category.dart';
 import '../models/base/merchant_model.dart';
 import '../models/base/split_payment_template.dart';
-import '../models/base/user.dart';
 import 'configure.dart';
 import 'response.dart';
 
@@ -84,13 +84,13 @@ class ApiService {
         .handler((error) => ApiResponse<ConfigVersionApps>.onError(error));
   }
 
-  static Future<ApiResponseList<DatabaseStore>> signinWithGoogle(
+  static Future<ApiResponse<UserDatabase>> signinWithGoogle(
       BuildContext context,
       {required String email}) async {
     return await ApiConfigure(context)
         .post('auth/signin_with_google', params: {"email": email})
-        .then((result) => ApiResponseList<DatabaseStore>.fromJson(result.data))
-        .handler((error) => ApiResponseList<DatabaseStore>.onError(error));
+        .then((result) => ApiResponse<UserDatabase>.fromJson(result.data))
+        .handler((error) => ApiResponse<UserDatabase>.onError(error));
   }
 
   static Future<ApiResponse<User>> createDatabase(BuildContext context,

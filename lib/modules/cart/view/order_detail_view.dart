@@ -97,8 +97,13 @@ class OrderDetailView extends StatelessWidget {
                                 children: [
                                   Row(
                                     children: [
-                                      Expanded(
-                                        flex: 2,
+                                      Container(
+                                        decoration: BoxDecoration(
+                                            borderRadius:
+                                                BorderRadius.circular(12)),
+                                        height: 40,
+                                        width: 40,
+                                        // flex: 2,
                                         child: ImageLoad(
                                           imageUrl: Environment.showUrlImage(
                                               path: product?.product?.image ??

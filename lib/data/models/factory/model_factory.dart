@@ -17,7 +17,7 @@ import '../base/qrcode.dart';
 import '../base/split_payment_template.dart';
 import '../base/store.dart';
 import '../base/unit.dart';
-import '../base/user.dart';
+import '../base/user_database.dart';
 import '../base/virtual_account.dart';
 
 Object factoryModel(String type, {Map<String, dynamic>? json}) {
@@ -54,6 +54,8 @@ Object factoryModel(String type, {Map<String, dynamic>? json}) {
       return json != null ? DatabaseStore.fromJson(json) : DatabaseStore();
     case 'SplitRule':
       return json != null ? SplitRule.fromJson(json) : SplitRule();
+    case 'UserDatabase':
+      return json != null ? UserDatabase.fromJson(json) : UserDatabase();
     case 'ConfigVersionApps':
       return json != null
           ? ConfigVersionApps.fromJson(json)
