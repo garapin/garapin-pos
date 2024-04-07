@@ -320,7 +320,7 @@ class CreateBagiPage extends StatelessWidget {
                             children: [
                               Text(state.paymentTemplate?.statusTemplate ==
                                       "ACTIVE"
-                                  ? "Tempalte Active"
+                                  ? "Template Active"
                                   : "Template Inactive"),
                               Switch.adaptive(
                                   value:
