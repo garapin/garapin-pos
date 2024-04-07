@@ -23,6 +23,7 @@ class MasterCubit extends BaseCubit<MasterState> {
   @override
   Future<void> initData() async {
     loadingState();
+    emit(state.copyWith(widget: SizedBox()));
     getStore();
     emit(state.copyWith(status: DataStateStatus.success));
     finishRefresh(state.status);

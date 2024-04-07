@@ -7,9 +7,7 @@ class MasterState with _$MasterState {
     @Default(true) bool showPage,
     @Default(DataStateStatus.initial) DataStateStatus status,
     @Default(0) int index,
-    @Default(CatalogPage(
-      modeCatalog: ModeCatalog.edit,
-    ))
-    Widget widget,
+    @Default(SizedBox()) Widget widget,
+    @Default(true) bool isInitialMaster,
   }) = _MasterState;
 }

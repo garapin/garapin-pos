@@ -21,6 +21,7 @@ mixin _$MasterState {
   DataStateStatus get status => throw _privateConstructorUsedError;
   int get index => throw _privateConstructorUsedError;
   Widget get widget => throw _privateConstructorUsedError;
+  bool get isInitialMaster => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $MasterStateCopyWith<MasterState> get copyWith =>
@@ -38,7 +39,8 @@ abstract class $MasterStateCopyWith<$Res> {
       bool showPage,
       DataStateStatus status,
       int index,
-      Widget widget});
+      Widget widget,
+      bool isInitialMaster});
 }
 
 /// @nodoc
@@ -59,6 +61,7 @@ class _$MasterStateCopyWithImpl<$Res, $Val extends MasterState>
     Object? status = null,
     Object? index = null,
     Object? widget = null,
+    Object? isInitialMaster = null,
   }) {
     return _then(_value.copyWith(
       store: freezed == store
@@ -81,6 +84,10 @@ class _$MasterStateCopyWithImpl<$Res, $Val extends MasterState>
           ? _value.widget
           : widget // ignore: cast_nullable_to_non_nullable
               as Widget,
+      isInitialMaster: null == isInitialMaster
+          ? _value.isInitialMaster
+          : isInitialMaster // ignore: cast_nullable_to_non_nullable
+              as bool,
     ) as $Val);
   }
 }
@@ -98,7 +105,8 @@ abstract class _$$MasterStateImplCopyWith<$Res>
       bool showPage,
       DataStateStatus status,
       int index,
-      Widget widget});
+      Widget widget,
+      bool isInitialMaster});
 }
 
 /// @nodoc
@@ -117,6 +125,7 @@ class __$$MasterStateImplCopyWithImpl<$Res>
     Object? status = null,
     Object? index = null,
     Object? widget = null,
+    Object? isInitialMaster = null,
   }) {
     return _then(_$MasterStateImpl(
       store: freezed == store
@@ -139,6 +148,10 @@ class __$$MasterStateImplCopyWithImpl<$Res>
           ? _value.widget
           : widget // ignore: cast_nullable_to_non_nullable
               as Widget,
+      isInitialMaster: null == isInitialMaster
+          ? _value.isInitialMaster
+          : isInitialMaster // ignore: cast_nullable_to_non_nullable
+              as bool,
     ));
   }
 }
@@ -151,7 +164,8 @@ class _$MasterStateImpl implements _MasterState {
       this.showPage = true,
       this.status = DataStateStatus.initial,
       this.index = 0,
-      this.widget = const CatalogPage(modeCatalog: ModeCatalog.edit)});
+      this.widget = const SizedBox(),
+      this.isInitialMaster = true});
 
   @override
   final Store? store;
@@ -167,10 +181,13 @@ class _$MasterStateImpl implements _MasterState {
   @override
   @JsonKey()
   final Widget widget;
+  @override
+  @JsonKey()
+  final bool isInitialMaster;
 
   @override
   String toString() {
-    return 'MasterState(store: $store, showPage: $showPage, status: $status, index: $index, widget: $widget)';
+    return 'MasterState(store: $store, showPage: $showPage, status: $status, index: $index, widget: $widget, isInitialMaster: $isInitialMaster)';
   }
 
   @override
@@ -183,12 +200,14 @@ class _$MasterStateImpl implements _MasterState {
                 other.showPage == showPage) &&
             (identical(other.status, status) || other.status == status) &&
             (identical(other.index, index) || other.index == index) &&
-            (identical(other.widget, widget) || other.widget == widget));
+            (identical(other.widget, widget) || other.widget == widget) &&
+            (identical(other.isInitialMaster, isInitialMaster) ||
+                other.isInitialMaster == isInitialMaster));
   }
 
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, store, showPage, status, index, widget);
+  int get hashCode => Object.hash(
+      runtimeType, store, showPage, status, index, widget, isInitialMaster);
 
   @JsonKey(ignore: true)
   @override
@@ -203,7 +222,8 @@ abstract class _MasterState implements MasterState {
       final bool showPage,
       final DataStateStatus status,
       final int index,
-      final Widget widget}) = _$MasterStateImpl;
+      final Widget widget,
+      final bool isInitialMaster}) = _$MasterStateImpl;
 
   @override
   Store? get store;
@@ -215,6 +235,8 @@ abstract class _MasterState implements MasterState {
   int get index;
   @override
   Widget get widget;
+  @override
+  bool get isInitialMaster;
   @override
   @JsonKey(ignore: true)
   _$$MasterStateImplCopyWith<_$MasterStateImpl> get copyWith =>
