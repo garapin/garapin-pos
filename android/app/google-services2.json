@@ -7,42 +7,6 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:205261320352:android:52c2d3edef835cea9dd9c5",
-        "android_client_info": {
-          "package_name": "com.garapinpos.app"
-        }
-      },
-      "oauth_client": [
-        {
-          "client_id": "205261320352-3t92qn7ne6gnnjr3o45t4j50gndrgp61.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
-      "api_key": [
-        {
-          "current_key": "AIzaSyCU6HiBa80eG-coDduyDXUlsSYZoILdb5E"
-        }
-      ],
-      "services": {
-        "appinvite_service": {
-          "other_platform_oauth_client": [
-            {
-              "client_id": "205261320352-3t92qn7ne6gnnjr3o45t4j50gndrgp61.apps.googleusercontent.com",
-              "client_type": 3
-            },
-            {
-              "client_id": "205261320352-47jk9stp00e1pd564fa7t8ehhgstvkn4.apps.googleusercontent.com",
-              "client_type": 2,
-              "ios_info": {
-                "bundle_id": "com.garapinpos.app"
-              }
-            }
-          ]
-        }
-      }
-    },
-    {
-      "client_info": {
         "mobilesdk_app_id": "1:205261320352:android:0ffb4967e5d6fbc29dd9c5",
         "android_client_info": {
           "package_name": "com.pos.app"
@@ -86,7 +50,7 @@
               "client_id": "205261320352-47jk9stp00e1pd564fa7t8ehhgstvkn4.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
-                "bundle_id": "com.garapinpos.app"
+                "bundle_id": "com.pos.app"
               }
             }
           ]
