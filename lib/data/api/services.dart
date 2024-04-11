@@ -7,10 +7,13 @@ import 'package:pos/data/models/base/brand.dart';
 import 'package:pos/data/models/base/cart.dart';
 import 'package:pos/data/models/base/config_version_apps.dart';
 import 'package:pos/data/models/base/database_store.dart';
+import 'package:pos/data/models/base/filter_store_transaction.dart';
+import 'package:pos/data/models/base/history_transaction.dart';
 import 'package:pos/data/models/base/invoices.dart';
 import 'package:pos/data/models/base/payment_cash.dart';
 import 'package:pos/data/models/base/product.dart';
 import 'package:pos/data/models/base/qrcode.dart';
+import 'package:pos/data/models/base/split_payment_detail.dart';
 import 'package:pos/data/models/base/split_rule.dart';
 import 'package:pos/data/models/base/store.dart';
 import 'package:pos/data/models/base/unit.dart';
@@ -595,5 +598,36 @@ class ApiService {
             params: {"id": id, "reference_id": referenceId})
         .then((result) => ApiResponse.fromJson(result.data))
         .handler((error) => ApiResponse.onError(error));
+  }
+
+  static Future<ApiResponse<HistoryTransaction>> report(BuildContext context,
+      {required String param, required String targetDatabase}) async {
+    return await ApiConfigure(context)
+        .post('/store/transaction/history',
+            params: {"database": targetDatabase, "param": param})
+        .then((result) => ApiResponse<HistoryTransaction>.fromJson(result.data))
+        .handler((error) => ApiResponse<HistoryTransaction>.onError(error));
+  }
+
+  static Future<ApiResponse<SplitPaymentDetail>> reportDetailBagi(
+      BuildContext context,
+      {required String invoice,
+      required String targetDatabase}) async {
+    return await ApiConfigure(context)
+        .post('/store/transaction/history/detail',
+            params: {"database": targetDatabase, "invoice": invoice})
+        .then((result) => ApiResponse<SplitPaymentDetail>.fromJson(result.data))
+        .handler((error) => ApiResponse<SplitPaymentDetail>.onError(error));
+  }
+
+  static Future<ApiResponseList<FilterStoreTransaction>> filterReport(
+    BuildContext context,
+  ) async {
+    return await ApiConfigure(context)
+        .get('/store/transaction/history/filter/TRX')
+        .then((result) =>
+            ApiResponseList<FilterStoreTransaction>.fromJson(result.data))
+        .handler(
+            (error) => ApiResponseList<FilterStoreTransaction>.onError(error));
   }
 }

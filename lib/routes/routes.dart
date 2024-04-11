@@ -14,6 +14,8 @@ import 'package:pos/modules/dashboard/catalog/cubit/catalog_cubit.dart';
 import 'package:pos/modules/dashboard/profile/cubit/profile_cubit.dart';
 import 'package:pos/modules/product/edit_product/cubit/edit_product_cubit.dart';
 import 'package:pos/modules/product/edit_product/view/edit_product.dart';
+import 'package:pos/modules/report/cubit/report_detail_cubit.dart';
+import 'package:pos/modules/report/view/report_bagi_detail.dart';
 import 'package:pos/widgets/components/background_image.dart';
 import 'package:pos/modules/dashboard/cubit/dashboard_cubit.dart';
 import 'package:pos/modules/dashboard/dashboard.dart';
@@ -138,6 +140,17 @@ class Routes implements RouterInterface {
             create: (context) =>
                 CreateBagiCubit(context, state.extra as String),
             child: const CreateBagiPage(),
+          );
+        },
+      ),
+      GoRoute(
+        name: RouteNames.reportBagiDretail,
+        path: RouteNames.reportBagiDretail,
+        builder: (ctx, GoRouterState state) {
+          return BlocProvider(
+            create: (context) =>
+                ReportDetailCubit(context, state.extra as Map<String, String>),
+            child: const ReportBagiDretail(),
           );
         },
       ),

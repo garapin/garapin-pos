@@ -11,6 +11,9 @@ import 'package:pos/modules/dashboard/master/pages/cubit/my_merchant_cubit.dart'
 import 'package:pos/modules/dashboard/master/view/master.dart';
 import 'package:pos/modules/dashboard/profile/cubit/profile_cubit.dart';
 import 'package:pos/modules/dashboard/profile/view/profile.dart';
+import 'package:pos/modules/report/cubit/report_cubit.dart';
+import 'package:pos/modules/report/cubit/report_detail_cubit.dart';
+import 'package:pos/modules/report/view/report.dart';
 import '../../../data/models/base/store.dart';
 import '../catalog/view/catalog.dart';
 
@@ -73,7 +76,17 @@ class DashboardCubit extends BaseCubit<DashboardState> {
     // CatalogPage(
     //   modeCatalog: ModeCatalog.edit,
     // ),
-    SizedBox(),
+    MultiBlocProvider(
+      providers: [
+        BlocProvider(
+          create: (context) => ReportCubit(context),
+        ),
+        BlocProvider(
+          create: (context) => ReportDetailCubit(context, {}),
+        ),
+      ],
+      child: ReportPage(),
+    ),
     ProfilePage(),
   ];
 }

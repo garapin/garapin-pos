@@ -8,12 +8,15 @@ import '../base/brand.dart';
 import '../base/cart.dart';
 import '../base/category.dart';
 import '../base/database_store.dart';
+import '../base/filter_store_transaction.dart';
+import '../base/history_transaction.dart';
 import '../base/invoices.dart';
 import '../base/merchant_model.dart';
 import '../base/payment_cash.dart';
 import '../base/product.dart';
 import '../base/qrcode.dart';
 
+import '../base/split_payment_detail.dart';
 import '../base/split_payment_template.dart';
 import '../base/store.dart';
 import '../base/unit.dart';
@@ -64,6 +67,18 @@ Object factoryModel(String type, {Map<String, dynamic>? json}) {
       return json != null
           ? SplitPaymentTemplate.fromJson(json)
           : SplitPaymentTemplate();
+    case 'HistoryTransaction':
+      return json != null
+          ? HistoryTransaction.fromJson(json)
+          : HistoryTransaction();
+    case 'FilterStoreTransaction':
+      return json != null
+          ? FilterStoreTransaction.fromJson(json)
+          : FilterStoreTransaction();
+    case 'SplitPaymentDetail':
+      return json != null
+          ? SplitPaymentDetail.fromJson(json)
+          : SplitPaymentDetail();
     case 'dynamic':
       return json != null ? DefaultModel(json) : DefaultModel({});
     default:
