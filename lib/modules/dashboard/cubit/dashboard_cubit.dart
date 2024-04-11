@@ -76,17 +76,14 @@ class DashboardCubit extends BaseCubit<DashboardState> {
     // CatalogPage(
     //   modeCatalog: ModeCatalog.edit,
     // ),
-    MultiBlocProvider(
-      providers: [
-        BlocProvider(
-          create: (context) => ReportCubit(context),
-        ),
-        BlocProvider(
-          create: (context) => ReportDetailCubit(context, {}),
-        ),
-      ],
-      child: ReportPage(),
-    ),
+    MultiBlocProvider(providers: [
+      BlocProvider(
+        create: (context) => ReportCubit(context),
+      ),
+      BlocProvider(
+        create: (context) => ReportDetailCubit(context, {}),
+      ),
+    ], child: ReportPage()),
     ProfilePage(),
   ];
 }

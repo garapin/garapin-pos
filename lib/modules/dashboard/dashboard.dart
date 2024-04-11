@@ -344,7 +344,11 @@ class DashboardPage extends StatelessWidget {
                             child: CircularProgressIndicator(),
                           ),
                           status: state.status,
-                          child: state.widget);
+                          child: (state.index == 2 &&
+                                  state.store?.store?.storeType !=
+                                      "BUSSINESS_PARTNER")
+                              ? SizedBox()
+                              : state.widget);
                     },
                   ),
                 ),

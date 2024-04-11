@@ -2,6 +2,7 @@ import 'package:bloc/bloc.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:intl/intl.dart';
 import 'package:pos/data/api/services.dart';
 import 'package:pos/data/models/base/filter_store_transaction.dart';
 import 'package:pos/data/models/base/history_transaction.dart';
@@ -16,10 +17,7 @@ class ReportCubit extends BaseCubit<ReportState> {
   ReportCubit(BuildContext context) : super(context, ReportState());
 
   @override
-  Future<void> initData(
-      {bool isRefresh = false,
-      String param =
-          "created[gte]=2024-02-01T12:00:00Z&created[lte]=2024-04-06T12:00:00Z"}) async {
+  Future<void> initData({bool isRefresh = false, String param = ""}) async {
     loadingState();
     final filter = await ApiService.filterReport(context);
 
@@ -61,21 +59,21 @@ class ReportCubit extends BaseCubit<ReportState> {
 
   void getDateTimeRange(String datetimeRange) {
     String dateTimeRange = datetimeRange;
+    print(dateTimeRange);
     List<String> dates = dateTimeRange.split(" - ");
     DateTime startDate = DateTime.parse(dates[0]);
-    DateTime endDate = DateTime.parse(dates[1]);
-    String startIsoDate = '${startDate.toIso8601String()}Z';
-    String endIsoDate = '${endDate.toIso8601String()}Z';
+    DateTime endDate = DateTime.parse(dates[1]).add(Duration(days: 1));
+    String startIsoDate =
+        DateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'").format(startDate.toUtc());
+    String endIsoDate =
+        DateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'").format(endDate.toUtc());
     print("StartDate: $startIsoDate");
     print("EndDate: $endIsoDate");
     emit(state.copyWith(startDate: startIsoDate, endDate: endIsoDate));
   }
 
   Future<void> getData(
-      {bool force = false,
-      isRefresh = false,
-      String param =
-          "created[gte]=2024-02-01T12:00:00Z&created[lte]=2024-04-06T12:00:00Z"}) async {
+      {bool force = false, isRefresh = false, String param = ""}) async {
     loadingState(force: force);
 
     List<Datum> dataList = state.transaction;
