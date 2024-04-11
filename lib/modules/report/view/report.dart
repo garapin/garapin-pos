@@ -29,11 +29,11 @@ class ReportPage extends StatelessWidget {
             height: baseHeight,
             color: Colors.white,
             child: ContainerStateHandler(
-              loading: SizedBox(),
+              loading: const SizedBox(),
               status: DataStateStatus.success,
               child: Column(
                 children: [
-                  SizedBox(height: 60),
+                  const SizedBox(height: 60),
                   Container(
                     width: baseWidth,
                     child: Padding(
@@ -47,7 +47,7 @@ class ReportPage extends StatelessWidget {
                               "Pilih Template",
                               style: AppFont.largeBold(context),
                             ),
-                            SizedBox(height: 12),
+                            const SizedBox(height: 12),
                             OutlineFormDropdown(
                                 onChanged: (p0) {
                                   log(p0);
@@ -74,19 +74,19 @@ class ReportPage extends StatelessWidget {
                                 // )
                                 ,
                                 uniqueKey: UniqueKey()),
-                            SizedBox(height: 20),
+                            const SizedBox(height: 20),
                             FormBuilderDateRangePicker(
                                 initialValue: DateTimeRange(
                                     start: DateTime.now()
-                                        .subtract(Duration(days: 7)),
+                                        .subtract(const Duration(days: 7)),
                                     end: DateTime.now()),
                                 onChanged: (value) {
                                   cubit.getDateTimeRange(value.toString());
                                 },
                                 decoration: InputDecoration(
-                                  contentPadding:
-                                      EdgeInsets.symmetric(horizontal: 20),
-                                  suffixIcon: Icon(Icons.date_range),
+                                  contentPadding: const EdgeInsets.symmetric(
+                                      horizontal: 20),
+                                  suffixIcon: const Icon(Icons.date_range),
                                   border: OutlineInputBorder(
                                     borderSide: const BorderSide(width: 1),
                                     borderRadius: BorderRadius.circular(58),
@@ -97,11 +97,12 @@ class ReportPage extends StatelessWidget {
                                 ),
                                 name: "date",
                                 firstDate: DateTime.now()
-                                    .subtract(Duration(days: 1000)),
+                                    .subtract(const Duration(days: 1000)),
                                 lastDate: DateTime.now()),
-                            SizedBox(height: 28),
+                            const SizedBox(height: 28),
                             Container(
-                              padding: EdgeInsets.symmetric(horizontal: 0),
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 0),
                               height: 45,
                               width: baseWidth,
                               decoration: BoxDecoration(
@@ -125,7 +126,7 @@ class ReportPage extends StatelessWidget {
                                                 "created[gte]=${state.startDate}&created[lte]=${state.endDate}");
                                       }
                                     },
-                                    child: Text("Cari Transaksi")),
+                                    child: const Text("Cari Transaksi")),
                               ),
                             ),
                           ],
@@ -133,9 +134,9 @@ class ReportPage extends StatelessWidget {
                       ),
                     ),
                   ),
-                  SizedBox(height: 20),
-                  Divider(thickness: 2),
-                  SizedBox(height: 20),
+                  const SizedBox(height: 20),
+                  const Divider(thickness: 2),
+                  const SizedBox(height: 20),
                   Expanded(
                     child: ContainerStateHandler(
                       refresherOptions: RefresherOptions(
@@ -145,14 +146,15 @@ class ReportPage extends StatelessWidget {
                         enablePullUp: state.canLoadMore,
                       ),
                       status: state.status,
-                      loading: Center(
+                      loading: const Center(
                         child: CircularProgressIndicator(),
                       ),
                       child: state.transaction.isEmpty
-                          ? Center(child: Text("Transaksi Kosong"))
+                          ? const Center(child: Text("Transaksi Kosong"))
                           : ListView.separated(
                               shrinkWrap: true,
-                              padding: EdgeInsets.symmetric(horizontal: 80),
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 80),
                               itemCount: state.transaction.length,
                               itemBuilder: (BuildContext context, int index) {
                                 var item = state.transaction[index];
@@ -174,14 +176,13 @@ class ReportPage extends StatelessWidget {
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
                                     children: [
-                                      SizedBox(height: 4),
+                                      const SizedBox(height: 4),
                                       Text(
                                         "status transaksi : ${item.status!.name}",
                                         style: AppFont.medium(context),
                                       ),
-                                      SizedBox(height: 2),
-                                      Text(
-                                          "${item.created!.toddMMMyyyyHHmmss()}"),
+                                      const SizedBox(height: 2),
+                                      Text(item.created!.toddMMMyyyyHHmmss()),
                                     ],
                                   ),
                                   trailing: Column(
@@ -197,7 +198,7 @@ class ReportPage extends StatelessWidget {
                               },
                               separatorBuilder:
                                   (BuildContext context, int index) {
-                                return Column(
+                                return const Column(
                                   children: [
                                     SizedBox(height: 6),
                                     Divider(thickness: 2),
