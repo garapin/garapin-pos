@@ -600,11 +600,27 @@ class ApiService {
         .handler((error) => ApiResponse.onError(error));
   }
 
+// report bs
   static Future<ApiResponse<HistoryTransaction>> report(BuildContext context,
       {required String param, required String targetDatabase}) async {
     return await ApiConfigure(context)
         .post('/store/transaction/history',
             params: {"database": targetDatabase, "param": param})
+        .then((result) => ApiResponse<HistoryTransaction>.fromJson(result.data))
+        .handler((error) => ApiResponse<HistoryTransaction>.onError(error));
+  }
+
+  static Future<ApiResponse<HistoryTransaction>> reportSupport(
+      BuildContext context,
+      {required String param,
+      required String targetDatabase,
+      required String supportDatabse}) async {
+    return await ApiConfigure(context)
+        .post('/store/transaction/history/support', params: {
+          "database": targetDatabase,
+          "param": param,
+          "database_support": supportDatabse,
+        })
         .then((result) => ApiResponse<HistoryTransaction>.fromJson(result.data))
         .handler((error) => ApiResponse<HistoryTransaction>.onError(error));
   }
@@ -621,10 +637,12 @@ class ApiService {
   }
 
   static Future<ApiResponseList<FilterStoreTransaction>> filterReport(
-    BuildContext context,
-  ) async {
+    BuildContext context, {
+    required String bussinessPartnerDB,
+  }) async {
     return await ApiConfigure(context)
-        .get('/store/transaction/history/filter/TRX')
+        .post('/store/transaction/history/filter/TRX',
+            params: {"bs_database": bussinessPartnerDB})
         .then((result) =>
             ApiResponseList<FilterStoreTransaction>.fromJson(result.data))
         .handler(

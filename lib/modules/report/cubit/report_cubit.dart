@@ -9,6 +9,8 @@ import 'package:pos/data/models/base/history_transaction.dart';
 import 'package:pos/engine/engine.dart';
 import 'package:pos/engine/helpers/options.dart';
 
+import '../../../data/api/response.dart';
+
 part 'report_state.dart';
 part 'report_cubit.freezed.dart';
 
@@ -19,11 +21,21 @@ class ReportCubit extends BaseCubit<ReportState> {
   @override
   Future<void> initData({bool isRefresh = false, String param = ""}) async {
     loadingState();
-    final filter = await ApiService.filterReport(context);
-
+    final storeInfo = await ApiService.getStoreInfo(context);
+    ApiResponseList<FilterStoreTransaction>? filter;
+    var store = storeInfo.data!.store;
+    if (store!.storeType == "BUSSINESS_PARTNER") {
+      filter = await ApiService.filterReport(context,
+          bussinessPartnerDB: Sessions.getDatabaseModel()!.name!);
+    } else if (store.storeType == "MERCHANT" && store.merChantRole == "SUPP") {
+      filter = await ApiService.filterReport(context,
+          bussinessPartnerDB: store.dbParent!);
+    } else {
+      filter = null;
+    }
     emit(state.copyWith(
         status: DataStateStatus.success,
-        filterTemplate: filter.data,
+        filterTemplate: filter!.data,
         endDate: '${DateTime.now().toIso8601String()}Z',
         startDate:
             '${DateTime.now().subtract(Duration(days: 7)).toIso8601String()}Z'));
@@ -75,11 +87,23 @@ class ReportCubit extends BaseCubit<ReportState> {
   Future<void> getData(
       {bool force = false, isRefresh = false, String param = ""}) async {
     loadingState(force: force);
-
+    final storeInfo = await ApiService.getStoreInfo(context);
     List<Datum> dataList = state.transaction;
-    final response = await ApiService.report(context,
-        param: 'types=PAYMENT&$param', targetDatabase: state.targetDatabase!);
-    if (response.isSuccess) {
+    var store = storeInfo.data!.store;
+
+    final ApiResponse<HistoryTransaction>? response;
+    if (store!.storeType == "BUSSINESS_PARTNER") {
+      response = await ApiService.report(context,
+          param: 'types=PAYMENT&$param', targetDatabase: state.targetDatabase!);
+    } else if (store.storeType == "MERCHANT" && store.merChantRole == "SUPP") {
+      response = await ApiService.reportSupport(context,
+          param: 'types=PAYMENT&$param',
+          targetDatabase: state.targetDatabase!,
+          supportDatabse: Sessions.getDatabaseModel()!.name!);
+    } else {
+      response = null;
+    }
+    if (response!.isSuccess) {
       if (isRefresh == true) dataList = [];
       dataList = dataList + response.data!.data!;
       DataStateStatus status = DataStateStatus.success;

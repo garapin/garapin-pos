@@ -49,6 +49,7 @@ StoreClass _$StoreClassFromJson(Map<String, dynamic> json) => StoreClass(
       storeType: json['store_type'] as String?,
       merChantRole: json['merchant_role'] as String?,
       storeStatus: json['store_status'] as String?,
+      dbParent: json['id_parent'] as String?,
     )..bankAccount = json['bank_account'] == null
         ? null
         : BankAccount.fromJson(json['bank_account'] as Map<String, dynamic>);
@@ -74,6 +75,7 @@ Map<String, dynamic> _$StoreClassToJson(StoreClass instance) =>
       'store_type': instance.storeType,
       'merchant_role': instance.merChantRole,
       'store_status': instance.storeStatus,
+      'id_parent': instance.dbParent,
     };
 
 AccountHolder _$AccountHolderFromJson(Map<String, dynamic> json) =>
