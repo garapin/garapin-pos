@@ -52,6 +52,7 @@ class LoginPage extends StatelessWidget {
                 const SizedBox(height: 32),
                 CustomButton(
                   onPressed: () async {
+                    //buat test
                     final data = await ApiService.getConfigVersion(context);
                     cubit.signInWithGoogle(
                         isTest: data.data?.testLogin == "Y" ? true : false);
