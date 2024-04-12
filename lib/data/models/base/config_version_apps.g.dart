@@ -12,6 +12,7 @@ ConfigVersionApps _$ConfigVersionAppsFromJson(Map<String, dynamic> json) =>
       currentVersion: json['current_version'] as String?,
       linkPlaystore: json['link_playstore'] as String?,
       linkAppstore: json['link_appstore'] as String?,
+      testLogin: json['test_login'] as String?,
     );
 
 Map<String, dynamic> _$ConfigVersionAppsToJson(ConfigVersionApps instance) =>
@@ -20,4 +21,5 @@ Map<String, dynamic> _$ConfigVersionAppsToJson(ConfigVersionApps instance) =>
       'current_version': instance.currentVersion,
       'link_playstore': instance.linkPlaystore,
       'link_appstore': instance.linkAppstore,
+      'test_login': instance.testLogin,
     };

@@ -29,37 +29,53 @@ class LoginCubit extends BaseCubit<LoginState> {
   @override
   Future<void> refreshData() => initData();
 
-  Future<dynamic> signInWithGoogle() async {
+  Future<dynamic> signInWithGoogle({bool isTest = false}) async {
     showLoading();
     try {
-      final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
-      if (googleUser == null) {
-        dismissLoading();
-        return;
-      }
-
-      final GoogleSignInAuthentication googleAuth =
-          await googleUser.authentication;
-
-      final data = await ApiService.signinWithGoogle(
-        context,
-        email: googleUser.email,
-      );
-
-      if (data.isSuccess) {
-        final credential = GoogleAuthProvider.credential(
-          accessToken: googleAuth.accessToken,
-          idToken: googleAuth.idToken,
+      if (isTest) {
+        final data = await ApiService.signinWithGoogle(
+          context,
+          email: "test.app@garapin.cloud",
         );
-        await FirebaseAuth.instance.signInWithCredential(credential);
-
-        // final GoogleSignInAccount? s = await GoogleSignIn().signOut();
-        Sessions.setToken(data.data!.user!.token!);
-        Sessions.setUsers(jsonEncode(data.data!.user))
-            .then((value) => context.pushNamed(RouteNames.selectDatababase));
+        if (data.isSuccess) {
+          // final GoogleSignInAccount? s = await GoogleSignIn().signOut();
+          Sessions.setToken(data.data!.user!.token!);
+          Sessions.setUsers(jsonEncode(data.data!.user))
+              .then((value) => context.pushNamed(RouteNames.selectDatababase));
+        } else {
+          showError("Email tidak terdaftar");
+          // final GoogleSignInAccount? s = await GoogleSignIn().signOut();
+        }
       } else {
-        showError("Email tidak terdaftar");
-        // final GoogleSignInAccount? s = await GoogleSignIn().signOut();
+        final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
+        if (googleUser == null) {
+          dismissLoading();
+          return;
+        }
+
+        final GoogleSignInAuthentication googleAuth =
+            await googleUser.authentication;
+
+        final data = await ApiService.signinWithGoogle(
+          context,
+          email: googleUser.email,
+        );
+
+        if (data.isSuccess) {
+          final credential = GoogleAuthProvider.credential(
+            accessToken: googleAuth.accessToken,
+            idToken: googleAuth.idToken,
+          );
+          await FirebaseAuth.instance.signInWithCredential(credential);
+
+          // final GoogleSignInAccount? s = await GoogleSignIn().signOut();
+          Sessions.setToken(data.data!.user!.token!);
+          Sessions.setUsers(jsonEncode(data.data!.user))
+              .then((value) => context.pushNamed(RouteNames.selectDatababase));
+        } else {
+          showError("Email tidak terdaftar");
+          // final GoogleSignInAccount? s = await GoogleSignIn().signOut();
+        }
       }
     } catch (e) {
       // Handle exceptions

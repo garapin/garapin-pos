@@ -17,12 +17,15 @@ class ConfigVersionApps {
   String? linkPlaystore;
   @JsonKey(name: "link_appstore")
   String? linkAppstore;
+  @JsonKey(name: "test_login")
+  String? testLogin;
 
   ConfigVersionApps({
     this.id,
     this.currentVersion,
     this.linkPlaystore,
     this.linkAppstore,
+    this.testLogin,
   });
 
   factory ConfigVersionApps.fromJson(Map<String, dynamic> json) =>
