@@ -49,6 +49,12 @@ class ReportPage extends StatelessWidget {
                             ),
                             const SizedBox(height: 12),
                             OutlineFormDropdown(
+                                initialValue: (state
+                                                .store?.store?.merChantRole ==
+                                            "TRX" ||
+                                        state.store?.store?.storeType == "USER")
+                                    ? Sessions.getDatabaseModel()!.name
+                                    : null,
                                 onChanged: (p0) {
                                   log(p0);
                                   cubit.cleanTransaction();
@@ -111,7 +117,10 @@ class ReportPage extends StatelessWidget {
                                 borderRadius: BorderRadius.circular(24),
                                 child: ElevatedButton(
                                     onPressed: () {
-                                      if (state.targetDatabase == null) {
+                                      cubit.formKey.currentState?.save();
+                                      if (cubit.formKey.currentState
+                                              ?.value["template"] ==
+                                          null) {
                                         ShowNotify.error(context,
                                             msg: "Template belum dipilih");
                                       } else if (state.startDate == null &&
@@ -159,18 +168,31 @@ class ReportPage extends StatelessWidget {
                               itemBuilder: (BuildContext context, int index) {
                                 var item = state.transaction[index];
                                 return ListTile(
-                                  onTap: () {
-                                    context.pushNamed(
+                                  onTap: () async {
+                                    var status = context.pushNamed(
                                         RouteNames.reportBagiDretail,
                                         extra: Map<String, String>.from({
                                           "database": state.targetDatabase,
                                           "invoice": item.referenceId
                                         }));
+                                    print("ini status");
+                                    print(status
+                                        .then((value) => value.toString()));
+
+                                    // if (status != null) {
+                                    //   context.pushNamed(
+                                    //       RouteNames.detailTransactionProduct,
+                                    //       extra: Map<String, String>.from({
+                                    //         "database": state.targetDatabase,
+                                    //         "invoice": item.referenceId
+                                    //       }));
+                                    // }
                                   },
                                   title: Text(
                                     item.referenceId?.split("&&")[0] ?? "",
-                                    style: AppFont.largeBold(context)!
-                                        .copyWith(fontWeight: FontWeight.bold),
+                                    style: AppFont.largeBold(context)!.copyWith(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 16),
                                   ),
                                   subtitle: Column(
                                     crossAxisAlignment:
@@ -178,8 +200,14 @@ class ReportPage extends StatelessWidget {
                                     children: [
                                       const SizedBox(height: 4),
                                       Text(
-                                        "status transaksi : ${item.status!.name}",
-                                        style: AppFont.medium(context),
+                                        "Transaksi : ${item.status!.name}",
+                                        style: AppFont.mediumBold(context)!
+                                            .copyWith(
+                                                color: item.status!.name ==
+                                                        "SUCCESS"
+                                                    ? AppColor.appColor.success
+                                                    : AppColor
+                                                        .appColor.warning),
                                       ),
                                       const SizedBox(height: 2),
                                       Text(item.created!.toddMMMyyyyHHmmss()),
@@ -188,10 +216,22 @@ class ReportPage extends StatelessWidget {
                                   trailing: Column(
                                     crossAxisAlignment: CrossAxisAlignment.end,
                                     children: [
-                                      Text(item.amount
-                                          .currencyFormat(symbol: "Rp.")),
                                       Text(
-                                          "status settle : ${item.settlementStatus}"),
+                                        item.amount
+                                            .currencyFormat(symbol: "Rp."),
+                                        style: AppFont.largeBold(context),
+                                      ),
+                                      Text(
+                                        "Settle : ${item.settlementStatus}",
+                                        style: AppFont.mediumBold(context)!
+                                            .copyWith(
+                                                color: item.settlementStatus ==
+                                                        "SUCCESS"
+                                                    ? AppColor.appColor.success
+                                                    : AppColor
+                                                        .appColor.warning),
+                                      ),
+                                      Text("${item.channelCode}"),
                                     ],
                                   ),
                                 );

@@ -11,6 +11,7 @@ import 'package:pos/modules/dashboard/master/pages/cubit/my_merchant_cubit.dart'
 import 'package:pos/modules/dashboard/master/view/master.dart';
 import 'package:pos/modules/dashboard/profile/cubit/profile_cubit.dart';
 import 'package:pos/modules/dashboard/profile/view/profile.dart';
+import 'package:pos/modules/report/cubit/detail_transaction_product_cubit.dart';
 import 'package:pos/modules/report/cubit/report_cubit.dart';
 import 'package:pos/modules/report/cubit/report_detail_cubit.dart';
 import 'package:pos/modules/report/view/report.dart';
@@ -82,6 +83,9 @@ class DashboardCubit extends BaseCubit<DashboardState> {
       ),
       BlocProvider(
         create: (context) => ReportDetailCubit(context, {}),
+      ),
+      BlocProvider(
+        create: (context) => DetailTransactionProductCubit(context, {}),
       ),
     ], child: ReportPage()),
     ProfilePage(),

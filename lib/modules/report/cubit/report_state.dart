@@ -10,6 +10,7 @@ class ReportState with _$ReportState {
       String? startDate,
       String? endDate,
       String? targetDatabase,
+      Store? store,
       @Default(false) bool canLoadMore,
       String? err}) = _ReportState;
 }

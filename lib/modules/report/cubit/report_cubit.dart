@@ -10,6 +10,7 @@ import 'package:pos/engine/engine.dart';
 import 'package:pos/engine/helpers/options.dart';
 
 import '../../../data/api/response.dart';
+import '../../../data/models/base/store.dart';
 
 part 'report_state.dart';
 part 'report_cubit.freezed.dart';
@@ -31,11 +32,18 @@ class ReportCubit extends BaseCubit<ReportState> {
       filter = await ApiService.filterReport(context,
           bussinessPartnerDB: store.dbParent!);
     } else {
+      emit(state.copyWith(targetDatabase: Sessions.getDatabaseModel()!.name));
       filter = null;
     }
     emit(state.copyWith(
+        store: storeInfo.data,
         status: DataStateStatus.success,
-        filterTemplate: filter!.data,
+        filterTemplate: filter?.data ??
+            [
+              FilterStoreTransaction(
+                  dbName: Sessions.getDatabaseModel()!.name!,
+                  templateName: Sessions.getDatabaseModel()!.name)
+            ],
         endDate: '${DateTime.now().toIso8601String()}Z',
         startDate:
             '${DateTime.now().subtract(Duration(days: 7)).toIso8601String()}Z'));
@@ -100,6 +108,13 @@ class ReportCubit extends BaseCubit<ReportState> {
           param: 'types=PAYMENT&$param',
           targetDatabase: state.targetDatabase!,
           supportDatabse: Sessions.getDatabaseModel()!.name!);
+    } else if (store.merChantRole == "TRX" && store.storeType == "MERCHANT" ||
+        store.storeType == "USER" && store.merChantRole == "NOT_MERCHANT") {
+      response = await ApiService.report(
+        context,
+        param: 'types=PAYMENT&$param',
+        targetDatabase: Sessions.getDatabaseModel()!.name!,
+      );
     } else {
       response = null;
     }

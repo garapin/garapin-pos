@@ -18,6 +18,8 @@ final _privateConstructorUsedError = UnsupportedError(
 mixin _$ReportDetailState {
   DataStateStatus get status => throw _privateConstructorUsedError;
   SplitPaymentDetail? get split => throw _privateConstructorUsedError;
+  Invoices? get invoice => throw _privateConstructorUsedError;
+  Store? get store => throw _privateConstructorUsedError;
   String? get err => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
@@ -31,7 +33,12 @@ abstract class $ReportDetailStateCopyWith<$Res> {
           ReportDetailState value, $Res Function(ReportDetailState) then) =
       _$ReportDetailStateCopyWithImpl<$Res, ReportDetailState>;
   @useResult
-  $Res call({DataStateStatus status, SplitPaymentDetail? split, String? err});
+  $Res call(
+      {DataStateStatus status,
+      SplitPaymentDetail? split,
+      Invoices? invoice,
+      Store? store,
+      String? err});
 }
 
 /// @nodoc
@@ -49,6 +56,8 @@ class _$ReportDetailStateCopyWithImpl<$Res, $Val extends ReportDetailState>
   $Res call({
     Object? status = null,
     Object? split = freezed,
+    Object? invoice = freezed,
+    Object? store = freezed,
     Object? err = freezed,
   }) {
     return _then(_value.copyWith(
@@ -60,6 +69,14 @@ class _$ReportDetailStateCopyWithImpl<$Res, $Val extends ReportDetailState>
           ? _value.split
           : split // ignore: cast_nullable_to_non_nullable
               as SplitPaymentDetail?,
+      invoice: freezed == invoice
+          ? _value.invoice
+          : invoice // ignore: cast_nullable_to_non_nullable
+              as Invoices?,
+      store: freezed == store
+          ? _value.store
+          : store // ignore: cast_nullable_to_non_nullable
+              as Store?,
       err: freezed == err
           ? _value.err
           : err // ignore: cast_nullable_to_non_nullable
@@ -76,7 +93,12 @@ abstract class _$$ReportDetailStateImplCopyWith<$Res>
       __$$ReportDetailStateImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({DataStateStatus status, SplitPaymentDetail? split, String? err});
+  $Res call(
+      {DataStateStatus status,
+      SplitPaymentDetail? split,
+      Invoices? invoice,
+      Store? store,
+      String? err});
 }
 
 /// @nodoc
@@ -92,6 +114,8 @@ class __$$ReportDetailStateImplCopyWithImpl<$Res>
   $Res call({
     Object? status = null,
     Object? split = freezed,
+    Object? invoice = freezed,
+    Object? store = freezed,
     Object? err = freezed,
   }) {
     return _then(_$ReportDetailStateImpl(
@@ -103,6 +127,14 @@ class __$$ReportDetailStateImplCopyWithImpl<$Res>
           ? _value.split
           : split // ignore: cast_nullable_to_non_nullable
               as SplitPaymentDetail?,
+      invoice: freezed == invoice
+          ? _value.invoice
+          : invoice // ignore: cast_nullable_to_non_nullable
+              as Invoices?,
+      store: freezed == store
+          ? _value.store
+          : store // ignore: cast_nullable_to_non_nullable
+              as Store?,
       err: freezed == err
           ? _value.err
           : err // ignore: cast_nullable_to_non_nullable
@@ -115,7 +147,11 @@ class __$$ReportDetailStateImplCopyWithImpl<$Res>
 
 class _$ReportDetailStateImpl implements _ReportDetailState {
   const _$ReportDetailStateImpl(
-      {this.status = DataStateStatus.initial, this.split, this.err});
+      {this.status = DataStateStatus.initial,
+      this.split,
+      this.invoice,
+      this.store,
+      this.err});
 
   @override
   @JsonKey()
@@ -123,11 +159,15 @@ class _$ReportDetailStateImpl implements _ReportDetailState {
   @override
   final SplitPaymentDetail? split;
   @override
+  final Invoices? invoice;
+  @override
+  final Store? store;
+  @override
   final String? err;
 
   @override
   String toString() {
-    return 'ReportDetailState(status: $status, split: $split, err: $err)';
+    return 'ReportDetailState(status: $status, split: $split, invoice: $invoice, store: $store, err: $err)';
   }
 
   @override
@@ -137,11 +177,14 @@ class _$ReportDetailStateImpl implements _ReportDetailState {
             other is _$ReportDetailStateImpl &&
             (identical(other.status, status) || other.status == status) &&
             (identical(other.split, split) || other.split == split) &&
+            (identical(other.invoice, invoice) || other.invoice == invoice) &&
+            const DeepCollectionEquality().equals(other.store, store) &&
             (identical(other.err, err) || other.err == err));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, status, split, err);
+  int get hashCode => Object.hash(runtimeType, status, split, invoice,
+      const DeepCollectionEquality().hash(store), err);
 
   @JsonKey(ignore: true)
   @override
@@ -155,12 +198,18 @@ abstract class _ReportDetailState implements ReportDetailState {
   const factory _ReportDetailState(
       {final DataStateStatus status,
       final SplitPaymentDetail? split,
+      final Invoices? invoice,
+      final Store? store,
       final String? err}) = _$ReportDetailStateImpl;
 
   @override
   DataStateStatus get status;
   @override
   SplitPaymentDetail? get split;
+  @override
+  Invoices? get invoice;
+  @override
+  Store? get store;
   @override
   String? get err;
   @override

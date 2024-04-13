@@ -24,6 +24,7 @@ mixin _$ReportState {
   String? get startDate => throw _privateConstructorUsedError;
   String? get endDate => throw _privateConstructorUsedError;
   String? get targetDatabase => throw _privateConstructorUsedError;
+  Store? get store => throw _privateConstructorUsedError;
   bool get canLoadMore => throw _privateConstructorUsedError;
   String? get err => throw _privateConstructorUsedError;
 
@@ -46,6 +47,7 @@ abstract class $ReportStateCopyWith<$Res> {
       String? startDate,
       String? endDate,
       String? targetDatabase,
+      Store? store,
       bool canLoadMore,
       String? err});
 }
@@ -70,6 +72,7 @@ class _$ReportStateCopyWithImpl<$Res, $Val extends ReportState>
     Object? startDate = freezed,
     Object? endDate = freezed,
     Object? targetDatabase = freezed,
+    Object? store = freezed,
     Object? canLoadMore = null,
     Object? err = freezed,
   }) {
@@ -102,6 +105,10 @@ class _$ReportStateCopyWithImpl<$Res, $Val extends ReportState>
           ? _value.targetDatabase
           : targetDatabase // ignore: cast_nullable_to_non_nullable
               as String?,
+      store: freezed == store
+          ? _value.store
+          : store // ignore: cast_nullable_to_non_nullable
+              as Store?,
       canLoadMore: null == canLoadMore
           ? _value.canLoadMore
           : canLoadMore // ignore: cast_nullable_to_non_nullable
@@ -130,6 +137,7 @@ abstract class _$$ReportStateImplCopyWith<$Res>
       String? startDate,
       String? endDate,
       String? targetDatabase,
+      Store? store,
       bool canLoadMore,
       String? err});
 }
@@ -152,6 +160,7 @@ class __$$ReportStateImplCopyWithImpl<$Res>
     Object? startDate = freezed,
     Object? endDate = freezed,
     Object? targetDatabase = freezed,
+    Object? store = freezed,
     Object? canLoadMore = null,
     Object? err = freezed,
   }) {
@@ -184,6 +193,10 @@ class __$$ReportStateImplCopyWithImpl<$Res>
           ? _value.targetDatabase
           : targetDatabase // ignore: cast_nullable_to_non_nullable
               as String?,
+      store: freezed == store
+          ? _value.store
+          : store // ignore: cast_nullable_to_non_nullable
+              as Store?,
       canLoadMore: null == canLoadMore
           ? _value.canLoadMore
           : canLoadMore // ignore: cast_nullable_to_non_nullable
@@ -207,6 +220,7 @@ class _$ReportStateImpl implements _ReportState {
       this.startDate,
       this.endDate,
       this.targetDatabase,
+      this.store,
       this.canLoadMore = false,
       this.err})
       : _transaction = transaction,
@@ -242,6 +256,8 @@ class _$ReportStateImpl implements _ReportState {
   @override
   final String? targetDatabase;
   @override
+  final Store? store;
+  @override
   @JsonKey()
   final bool canLoadMore;
   @override
@@ -249,7 +265,7 @@ class _$ReportStateImpl implements _ReportState {
 
   @override
   String toString() {
-    return 'ReportState(status: $status, transaction: $transaction, filterTemplate: $filterTemplate, param: $param, startDate: $startDate, endDate: $endDate, targetDatabase: $targetDatabase, canLoadMore: $canLoadMore, err: $err)';
+    return 'ReportState(status: $status, transaction: $transaction, filterTemplate: $filterTemplate, param: $param, startDate: $startDate, endDate: $endDate, targetDatabase: $targetDatabase, store: $store, canLoadMore: $canLoadMore, err: $err)';
   }
 
   @override
@@ -268,6 +284,7 @@ class _$ReportStateImpl implements _ReportState {
             (identical(other.endDate, endDate) || other.endDate == endDate) &&
             (identical(other.targetDatabase, targetDatabase) ||
                 other.targetDatabase == targetDatabase) &&
+            (identical(other.store, store) || other.store == store) &&
             (identical(other.canLoadMore, canLoadMore) ||
                 other.canLoadMore == canLoadMore) &&
             (identical(other.err, err) || other.err == err));
@@ -283,6 +300,7 @@ class _$ReportStateImpl implements _ReportState {
       startDate,
       endDate,
       targetDatabase,
+      store,
       canLoadMore,
       err);
 
@@ -302,6 +320,7 @@ abstract class _ReportState implements ReportState {
       final String? startDate,
       final String? endDate,
       final String? targetDatabase,
+      final Store? store,
       final bool canLoadMore,
       final String? err}) = _$ReportStateImpl;
 
@@ -319,6 +338,8 @@ abstract class _ReportState implements ReportState {
   String? get endDate;
   @override
   String? get targetDatabase;
+  @override
+  Store? get store;
   @override
   bool get canLoadMore;
   @override
