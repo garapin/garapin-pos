@@ -8,6 +8,7 @@ import 'dart:convert';
 part 'history_transaction.g.dart';
 
 // test
+// test
 @JsonSerializable()
 class HistoryTransaction {
   @JsonKey(name: "has_more")
