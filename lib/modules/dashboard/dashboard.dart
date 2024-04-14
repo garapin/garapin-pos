@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:pos/engine/base/app.dart';
 import 'package:pos/engine/engine.dart';
+import 'package:pos/modules/dashboard/catalog/cubit/catalog_cubit.dart';
 import 'package:pos/modules/dashboard/cubit/dashboard_cubit.dart';
 import 'package:pos/modules/dashboard/profile/cubit/profile_cubit.dart';
 import 'package:pos/resources/resources.dart';
@@ -248,6 +249,9 @@ class DashboardPage extends StatelessWidget {
                                     const SizedBox(height: 8),
                                     CustomButton(
                                         onPressed: () {
+                                          context
+                                              .read<CatalogCubit>()
+                                              .initData();
                                           cubit.changePage(0);
                                         },
                                         child: state.index == 0

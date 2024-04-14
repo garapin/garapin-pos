@@ -27,58 +27,46 @@ class RegisterBussinessPartner extends StatelessWidget {
     var businessPartnesr = state?.store?.store?.businessPartner;
     bool isActive =
         state?.store?.store?.businessPartner?.status == "ACTIVE" ? true : false;
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        (state?.store?.store?.storeType == "MERCHANT")
-            ? SizedBox()
-            : ListTile(
-                title: Text(
-                  "Ingin menjadi Business Partner Kami?",
-                  style: AppFont.largeBold(context)!.copyWith(fontSize: 14),
-                ),
-                subtitle: Text(
-                  "Jadilah partner kami sekarang juga",
-                  style: AppFont.large(context)!.copyWith(fontSize: 12),
-                ),
-                trailing: Expanded(
-                    child: ClipRRect(
-                  borderRadius: BorderRadius.circular(38),
-                  child: Container(
-                    height: 40,
-                    width: 220,
-                    child: ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                            backgroundColor: isActive
-                                ? AppColor.appColor.success
-                                : AppColor.appColor.primary),
-                        onPressed: () {
-                          cubit.showFormBussinessPartner();
-                        },
-                        child: SizedBox(
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Icon(
-                                isActive ? Icons.verified : Icons.people,
-                                size: 18,
-                              ),
-                              SizedBox(width: 4),
-                              Text(
-                                isActive
-                                    ? "Bussiness Partner"
-                                    : "Register Bussiness Partner",
-                                style: AppFont.whiteSmall(context)!
-                                    .copyWith(fontWeight: FontWeight.bold),
-                              ),
-                            ],
-                          ),
-                        )),
-                  ),
-                )),
-              ),
-        (state!.showFormBussinessPartner)
-            ? Align(
+    return (state?.store?.store?.storeType == "MERCHANT")
+        ? SizedBox()
+        : ExpansionTile(
+            title: Text(
+              "Ingin menjadi Business Partner Kami?",
+              style: AppFont.largeBold(context)!.copyWith(fontSize: 14),
+            ),
+            subtitle: Text(
+              "Jadilah partner kami sekarang juga",
+              style: AppFont.large(context)!.copyWith(fontSize: 12),
+            ),
+            trailing: ClipRRect(
+              borderRadius: BorderRadius.circular(38),
+              child: Container(
+                  height: 40,
+                  width: 220,
+                  decoration: BoxDecoration(color: AppColor.appColor.primary),
+                  child: SizedBox(
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(
+                          isActive ? Icons.verified : Icons.people,
+                          size: 18,
+                          color: AppColor.appColor.background,
+                        ),
+                        SizedBox(width: 4),
+                        Text(
+                          isActive
+                              ? "Bussiness Partner"
+                              : "Register Bussiness Partner",
+                          style: AppFont.whiteSmall(context)!
+                              .copyWith(fontWeight: FontWeight.bold),
+                        ),
+                      ],
+                    ),
+                  )),
+            ),
+            children: [
+              Align(
                 alignment: Alignment.center,
                 child: Container(
                   decoration: BoxDecoration(
@@ -119,7 +107,6 @@ class RegisterBussinessPartner extends StatelessWidget {
                           fileEnable: true,
                           pickFilePressed: () {
                             cubit.pickNpwpFile().then((value) => context.pop());
-                            ;
                           },
                           label: "Upload NPWP",
                           cubit: cubit,
@@ -145,7 +132,6 @@ class RegisterBussinessPartner extends StatelessWidget {
                           pickedImage: state?.nibImage,
                           pickFilePressed: () {
                             cubit.pickNibFile().then((value) => context.pop());
-                            ;
                           },
                           pickCameraPressed: () {
                             cubit
@@ -216,8 +202,7 @@ class RegisterBussinessPartner extends StatelessWidget {
                   ),
                 ),
               )
-            : SizedBox()
-      ],
-    );
+            ],
+          );
   }
 }

@@ -79,6 +79,7 @@ android {
         debug {
             // Konfigurasi untuk build debug
             // Anda dapat menambahkan konfigurasi tambahan jika diperlukan
+            signingConfig signingConfigs.debug
         }
      }
 }

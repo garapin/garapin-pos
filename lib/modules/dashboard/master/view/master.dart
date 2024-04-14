@@ -5,6 +5,8 @@ import 'package:pos/engine/engine.dart';
 import 'package:pos/modules/dashboard/catalog/cubit/catalog_cubit.dart';
 import 'package:pos/modules/dashboard/catalog/view/catalog.dart';
 import 'package:pos/modules/dashboard/master/cubit/master_cubit.dart';
+import 'package:pos/modules/dashboard/master/pages/bagi/cubit/bagi_cubit.dart';
+import 'package:pos/modules/dashboard/master/pages/cubit/my_merchant_cubit.dart';
 import 'package:pos/themes/themes.dart';
 import 'package:pos/widgets/components/custom_button.dart';
 import 'package:pos/widgets/widgets.dart';
@@ -62,7 +64,7 @@ class MasterPage extends StatelessWidget {
                     child: CircularProgressIndicator(),
                   ),
                   status: state.status,
-                  child: state.widget ?? SizedBox());
+                  child: state.widget);
             },
           ),
         ));

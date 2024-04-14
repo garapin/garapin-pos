@@ -5,7 +5,9 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:pos/data/api/services.dart';
 import 'package:pos/engine/engine.dart';
 import 'package:pos/modules/dashboard/catalog/cubit/catalog_cubit.dart';
+import 'package:pos/modules/dashboard/master/pages/bagi/cubit/bagi_cubit.dart';
 import 'package:pos/modules/dashboard/master/pages/bagi/view/bagi.dart';
+import 'package:pos/modules/dashboard/master/pages/cubit/my_merchant_cubit.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 import '../../../../data/models/base/store.dart';
@@ -55,9 +57,18 @@ class MasterCubit extends BaseCubit<MasterState> {
   }
 
   List<Widget> page = [
-    CatalogPage(modeCatalog: ModeCatalog.edit),
-    MyMerchantPage(),
-    BagiPage(),
+    BlocProvider(
+      create: (context) => CatalogCubit(context),
+      child: CatalogPage(modeCatalog: ModeCatalog.edit),
+    ),
+    BlocProvider(
+      create: (context) => MyMerchantCubit(context),
+      child: MyMerchantPage(),
+    ),
+    BlocProvider(
+      create: (context) => BagiCubit(context),
+      child: BagiPage(),
+    ),
   ];
 
   Widget showRulesWidgetMaster() {
@@ -73,6 +84,7 @@ class MasterCubit extends BaseCubit<MasterState> {
         CustomButton(
             onPressed: () {
               changePage(0);
+              context.read<CatalogCubit>().initData();
               showPage(false);
             },
             child: Container(
@@ -102,6 +114,7 @@ class MasterCubit extends BaseCubit<MasterState> {
               onPressed: () {
                 changePage(1);
                 showPage(false);
+                context.read<MyMerchantCubit>().initData();
               },
               child: Container(
                 decoration: BoxDecoration(
@@ -119,6 +132,7 @@ class MasterCubit extends BaseCubit<MasterState> {
               onPressed: () {
                 changePage(2);
                 showPage(false);
+                context.read<BagiCubit>().initData();
               },
               child: Container(
                 decoration: BoxDecoration(
@@ -147,6 +161,7 @@ class MasterCubit extends BaseCubit<MasterState> {
               onPressed: () {
                 changePage(0);
                 showPage(false);
+                context.read<CatalogCubit>().initData();
               },
               child: Container(
                 decoration: BoxDecoration(
@@ -174,6 +189,7 @@ class MasterCubit extends BaseCubit<MasterState> {
                 onPressed: () {
                   changePage(0);
                   showPage(false);
+                  context.read<CatalogCubit>().initData();
                 },
                 child: Container(
                   decoration: BoxDecoration(
@@ -191,6 +207,7 @@ class MasterCubit extends BaseCubit<MasterState> {
                 onPressed: () {
                   changePage(1);
                   showPage(false);
+                  context.read<MyMerchantCubit>().initData();
                 },
                 child: Container(
                   decoration: BoxDecoration(
@@ -208,6 +225,7 @@ class MasterCubit extends BaseCubit<MasterState> {
                 onPressed: () {
                   changePage(2);
                   showPage(false);
+                  context.read<BagiCubit>().initData();
                 },
                 child: Container(
                   decoration: BoxDecoration(
@@ -236,6 +254,7 @@ class MasterCubit extends BaseCubit<MasterState> {
                 onPressed: () {
                   changePage(0);
                   showPage(false);
+                  context.read<CatalogCubit>().initData();
                 },
                 child: Container(
                   decoration: BoxDecoration(
@@ -253,6 +272,7 @@ class MasterCubit extends BaseCubit<MasterState> {
                 onPressed: () {
                   changePage(1);
                   showPage(false);
+                  context.read<MyMerchantCubit>().initData();
                 },
                 child: Container(
                   decoration: BoxDecoration(
@@ -270,6 +290,7 @@ class MasterCubit extends BaseCubit<MasterState> {
                 onPressed: () {
                   changePage(2);
                   showPage(false);
+                  context.read<BagiCubit>().initData();
                 },
                 child: Container(
                   decoration: BoxDecoration(

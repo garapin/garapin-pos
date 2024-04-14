@@ -5,7 +5,7 @@
 <uses-permission android:name="android.permission.BLUETOOTH_CONNECT" />
 <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />  
     <application
-        android:label="pos"
+        android:label="bagi-bagi pos"
         android:name="${applicationName}"
         android:enableOnBackInvokedCallback="true"
         android:icon="@mipmap/ic_launcher"
