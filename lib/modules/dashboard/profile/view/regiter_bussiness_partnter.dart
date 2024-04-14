@@ -46,7 +46,7 @@ class RegisterBussinessPartner extends StatelessWidget {
                   borderRadius: BorderRadius.circular(38),
                   child: Container(
                     height: 40,
-                    width: 350,
+                    width: 220,
                     child: ElevatedButton(
                         style: ElevatedButton.styleFrom(
                             backgroundColor: isActive
@@ -55,15 +55,24 @@ class RegisterBussinessPartner extends StatelessWidget {
                         onPressed: () {
                           cubit.showFormBussinessPartner();
                         },
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Icon(isActive ? Icons.verified : Icons.people),
-                            SizedBox(width: 20),
-                            Text(isActive
-                                ? "Sudah menjadi Bussiness Partner"
-                                : "Register Bussiness Partner"),
-                          ],
+                        child: SizedBox(
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Icon(
+                                isActive ? Icons.verified : Icons.people,
+                                size: 18,
+                              ),
+                              SizedBox(width: 4),
+                              Text(
+                                isActive
+                                    ? "Bussiness Partner"
+                                    : "Register Bussiness Partner",
+                                style: AppFont.whiteSmall(context)!
+                                    .copyWith(fontWeight: FontWeight.bold),
+                              ),
+                            ],
+                          ),
                         )),
                   ),
                 )),

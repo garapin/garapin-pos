@@ -138,7 +138,9 @@ class CatalogPage extends StatelessWidget {
                               ],
                             ),
                           ),
-                    SizedBox(height: 60),
+                    (modeCatalog == ModeCatalog.edit)
+                        ? SizedBox()
+                        : SizedBox(height: 60),
                     const EmptyImageData(
                       text: "Produk Kosong",
                     ),
