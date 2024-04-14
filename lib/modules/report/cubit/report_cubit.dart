@@ -42,7 +42,8 @@ class ReportCubit extends BaseCubit<ReportState> {
             [
               FilterStoreTransaction(
                   dbName: Sessions.getDatabaseModel()!.name!,
-                  templateName: Sessions.getDatabaseModel()!.name)
+                  templateName: storeInfo.data?.store?.storeName,
+                  storeName: storeInfo.data?.store?.storeName)
             ],
         endDate: '${DateTime.now().toIso8601String()}Z',
         startDate:

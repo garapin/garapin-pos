@@ -44,7 +44,7 @@ class ReportPage extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              "Pilih Template",
+                              "Pilih TRX",
                               style: AppFont.largeBold(context),
                             ),
                             const SizedBox(height: 12),
@@ -61,11 +61,11 @@ class ReportPage extends StatelessWidget {
                                   cubit.selectfilterDatabase(p0);
                                 },
                                 name: "template",
-                                hintText: "cari template",
+                                hintText: "Pilih Trx",
                                 items: state.filterTemplate.map(
                                   (e) {
                                     return DropdownMenuItem(
-                                      child: Text(e.templateName ?? "-"),
+                                      child: Text(e.storeName ?? "-"),
                                       value: e.dbName,
                                     );
                                   },
