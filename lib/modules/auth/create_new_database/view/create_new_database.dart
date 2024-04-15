@@ -95,7 +95,12 @@ class CreateNewDatabasePage extends StatelessWidget {
                             borderRadius: BorderRadius.circular(58),
                             child: ElevatedButton(
                                 onPressed: () {
-                                  cubit.doCretaeNewDatabase();
+                                  if (cubit.databaseNameControler.text == "") {
+                                    ShowNotify.error(context,
+                                        msg: "Nama database harus diisi");
+                                  } else {
+                                    cubit.doCretaeNewDatabase();
+                                  }
                                 },
                                 child: const Text("Create")))),
                   ],
