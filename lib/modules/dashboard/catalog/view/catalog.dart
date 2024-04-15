@@ -147,6 +147,7 @@ class CatalogPage extends StatelessWidget {
                   ],
                 )),
                 child: ListView(
+                  shrinkWrap: true,
                   children: [
                     (state.modeCatalog == ModeCatalog.cashier)
                         ? const SizedBox(height: 0)
@@ -192,7 +193,7 @@ class CatalogPage extends StatelessWidget {
                               ],
                             ),
                           ),
-                    Expanded(
+                    Container(
                       child: GridView.builder(
                         shrinkWrap: true,
                         physics: const NeverScrollableScrollPhysics(),

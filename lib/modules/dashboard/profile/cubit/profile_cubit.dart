@@ -130,7 +130,7 @@ class ProfileCubit extends BaseCubit<ProfileState> {
   }
 
   @override
-  void loadingState() => emit(state.copyWith(status: DataStateStatus.loading));
+  void loadingState() => emit(state.copyWith(status: DataStateStatus.initial));
 
   @override
   Future<void> refreshData({bool requestBussinessPartner = false}) =>
