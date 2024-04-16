@@ -636,6 +636,16 @@ class ApiService {
         .handler((error) => ApiResponse<SplitPaymentDetail>.onError(error));
   }
 
+  static Future<ApiResponseList<Invoices>> historyTransactionToday(
+    BuildContext context,
+  ) async {
+    return await ApiConfigure(context)
+        .post('/store/transaction/history/transaction/today',
+            params: {"database": Sessions.getDatabaseModel()!.name})
+        .then((result) => ApiResponseList<Invoices>.fromJson(result.data))
+        .handler((error) => ApiResponseList<Invoices>.onError(error));
+  }
+
   static Future<ApiResponse<Invoices>> transactionDetailProduct(
       BuildContext context,
       {required String invoice,

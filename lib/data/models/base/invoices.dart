@@ -17,7 +17,7 @@ class Invoices {
   @JsonKey(name: "status")
   String? status;
   @JsonKey(name: "payment_method")
-  dynamic paymentMethod;
+  String? paymentMethod;
   @JsonKey(name: "payment_date")
   dynamic paymentDate;
   @JsonKey(name: "webhook")

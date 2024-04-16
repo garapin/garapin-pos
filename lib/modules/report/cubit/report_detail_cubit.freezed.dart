@@ -12,7 +12,7 @@ part of 'report_detail_cubit.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 /// @nodoc
 mixin _$ReportDetailState {
@@ -178,13 +178,13 @@ class _$ReportDetailStateImpl implements _ReportDetailState {
             (identical(other.status, status) || other.status == status) &&
             (identical(other.split, split) || other.split == split) &&
             (identical(other.invoice, invoice) || other.invoice == invoice) &&
-            const DeepCollectionEquality().equals(other.store, store) &&
+            (identical(other.store, store) || other.store == store) &&
             (identical(other.err, err) || other.err == err));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, status, split, invoice,
-      const DeepCollectionEquality().hash(store), err);
+  int get hashCode =>
+      Object.hash(runtimeType, status, split, invoice, store, err);
 
   @JsonKey(ignore: true)
   @override

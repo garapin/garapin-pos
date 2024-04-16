@@ -10,7 +10,9 @@ import 'package:pos/modules/cart/view/modal_add_to_cart.dart';
 import 'package:pos/modules/dashboard/catalog/cubit/catalog_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:pos/modules/dashboard/cubit/dashboard_cubit.dart';
 import 'package:pos/modules/dashboard/profile/cubit/profile_cubit.dart';
+import 'package:pos/modules/history_transaction/cubit/history_transaction_cubit.dart';
 import 'package:pos/routes/routes.dart';
 import 'package:pos/themes/themes.dart';
 import 'package:pos/widgets/components/empty_widget_image.dart';
@@ -503,17 +505,49 @@ class ActionAppBar extends StatelessWidget {
               height: 44,
               child: Row(
                 children: [
-                  const Row(
-                    children: [
-                      Icon(Icons.history),
-                      SizedBox(
-                        width: 8,
-                      ),
-                      Text("History")
-                    ],
+                  BlocBuilder<DashboardCubit, DashboardState>(
+                    builder: (context, state) {
+                      var cubit = context.read<DashboardCubit>();
+                      return ContainerStateHandler(
+                        status: state.status,
+                        loading: SizedBox(),
+                        child: InkWell(
+                          onTap: () {
+                            cubit.changePage(4);
+                          },
+                          child: Row(
+                            children: [
+                              Icon(
+                                Icons.history,
+                                color: (cubit.state.index == 4)
+                                    ? AppColor.appColor.primary
+                                    : Colors.black.withOpacity(0.5),
+                              ),
+                              SizedBox(
+                                width: 8,
+                              ),
+                              Text(
+                                "History",
+                                style: AppFont.largePrimary(context)!.copyWith(
+                                  color: (cubit.state.index == 4)
+                                      ? AppColor.appColor.primary
+                                      : Colors.black.withOpacity(0.5),
+                                ),
+                              )
+                            ],
+                          ),
+                        ),
+                      );
+                    },
                   ),
                   const SizedBox(width: 20),
-                  const RealTimeClock(),
+                  Container(
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                      decoration: BoxDecoration(
+                          color: Colors.grey.withOpacity(0.1),
+                          borderRadius: BorderRadius.circular(12)),
+                      child: const RealTimeClock()),
                   const SizedBox(width: 20),
                   Container(
                     width: 50,
@@ -560,6 +594,7 @@ class _RealTimeClockState extends State<RealTimeClock> {
         if (snapshot.hasData) {
           return Text(
             snapshot.data?.toddMMMyyyyHHmmss() ?? "                   ",
+            style: AppFont.medium(context),
           );
         } else {
           return const SizedBox();

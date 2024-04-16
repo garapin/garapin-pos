@@ -3,25 +3,27 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:pos/engine/engine.dart';
+import 'package:pos/modules/history_transaction/cubit/history_transaction_cubit.dart';
 import 'package:pos/modules/report/cubit/detail_transaction_product_cubit.dart';
 import 'package:pos/modules/report/cubit/report_detail_cubit.dart';
 import 'package:pos/widgets/widgets.dart';
 import '../../../../../../engine/base/app.dart';
 import '../../../../../../themes/themes.dart';
 
-class DetailTransactionProduct extends StatelessWidget {
-  const DetailTransactionProduct({
+class HistoryTransactionPage extends StatelessWidget {
+  const HistoryTransactionPage({
     super.key,
   });
 
   @override
   Widget build(BuildContext context) {
+    final cubit = context.read<HistoryTransactionCubit>();
     return Scaffold(
       backgroundColor: const Color(0xffF8F9FD),
-      body: BlocBuilder<DetailTransactionProductCubit,
-          DetailTransactionProductState>(
+      body: BlocBuilder<HistoryTransactionCubit, HistoryTransactionState>(
         builder: (context, state) {
           return ContainerStateHandler(
+            refresherOptions: cubit.defaultRefresh,
             status: state.status,
             loading: Center(
               child: CircularProgressIndicator(),
@@ -38,7 +40,7 @@ class DetailTransactionProduct extends StatelessWidget {
                   children: [
                     Padding(
                       padding: const EdgeInsets.symmetric(
-                          horizontal: 24, vertical: 16),
+                          horizontal: 24, vertical: 8),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
@@ -55,11 +57,11 @@ class DetailTransactionProduct extends StatelessWidget {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
-                                    "invoice ${state.invoice?.invoiceLabel}",
+                                    "History Transaksi",
                                     style: AppFont.largeBold(context),
                                   ),
                                   Text(
-                                    "${state.invoice?.createdAt!.toddMMMyyyyHHmm()}",
+                                    DateTime.now().toddMMMMyyyy(),
                                     style: AppFont.medium(context),
                                   ),
                                 ],
@@ -69,83 +71,50 @@ class DetailTransactionProduct extends StatelessWidget {
                         ],
                       ),
                     ),
-                    const Divider(),
-                    const SizedBox(height: 16),
+                    const SizedBox(height: 8),
                     Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Container(
                               alignment: Alignment.center,
-                              width: baseWidth / 724,
-                              child: Text('Foto',
+                              width: baseWidth / 7,
+                              child: Text('Order ID',
                                   style: AppFont.largeBold(context))),
                           Container(
                               alignment: Alignment.center,
                               width: baseWidth / 7,
-                              child: Text('Nama',
-                                  style: AppFont.largeBold(context))),
-                          Container(
-                              alignment: Alignment.center,
-                              width: baseWidth / 7,
-                              child: Text('Jumlah Item',
-                                  style: AppFont.largeBold(context))),
-                          Container(
-                              alignment: Alignment.center,
-                              width: baseWidth / 7,
-                              child: Text('Harga',
-                                  style: AppFont.largeBold(context))),
-                          Container(
-                              alignment: Alignment.center,
-                              width: baseWidth / 7,
-                              child: Text('Diskon',
+                              child: Text('Jam & Tanggal',
                                   style: AppFont.largeBold(context))),
                           Container(
                               alignment: Alignment.center,
                               width: baseWidth / 7,
                               child: Text('Total Harga',
                                   style: AppFont.largeBold(context))),
+                          Container(
+                              alignment: Alignment.center,
+                              width: baseWidth / 7,
+                              child: Text('Payment',
+                                  style: AppFont.largeBold(context))),
                         ]),
                     SizedBox(height: 12),
                     Divider(thickness: 2),
+                    SizedBox(height: 8),
                     SizedBox(
                       child: ListView.separated(
+                        padding: EdgeInsets.symmetric(horizontal: 8),
                         shrinkWrap: true,
                         physics: NeverScrollableScrollPhysics(),
-                        itemCount: state.invoice?.product?.items?.length ?? 0,
+                        itemCount: state.inv.length ?? 0,
                         itemBuilder: (context, index) {
-                          var item = state.invoice?.product?.items?[index];
+                          var item = state.inv[index];
                           return Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 Container(
                                   alignment: Alignment.center,
                                   width: baseWidth / 7,
-                                  child: Container(
-                                    decoration: BoxDecoration(
-                                        borderRadius:
-                                            BorderRadius.circular(12)),
-                                    height: 40,
-                                    width: 40,
-                                    // flex: 2,
-                                    child: ImageLoad(
-                                      imageUrl: Environment.showUrlImage(
-                                          path: item?.product?.image ?? ""),
-                                      errorWidget: ImageLoad(
-                                        imageUrl: Environment.showUrlImage(
-                                            path: item?.product?.icon ?? ""),
-                                        height: 40,
-                                        width: 40,
-                                        fit: BoxFit.contain,
-                                      ),
-                                      fit: BoxFit.contain,
-                                    ),
-                                  ),
-                                ),
-                                Container(
-                                  alignment: Alignment.center,
-                                  width: baseWidth / 7,
                                   child: Text(
-                                    item?.product?.name ?? "",
+                                    item.invoiceLabel ?? "",
                                     style: AppFont.medium(context),
                                     textAlign: TextAlign.center,
                                   ),
@@ -153,7 +122,7 @@ class DetailTransactionProduct extends StatelessWidget {
                                 Container(
                                   alignment: Alignment.center,
                                   width: baseWidth / 7,
-                                  child: Text(item?.quantity.toString() ?? "-",
+                                  child: Text(item.createdAt!.toddMMMyyyyHHmm(),
                                       textAlign: TextAlign.center,
                                       style: AppFont.medium(context)),
                                 ),
@@ -162,7 +131,7 @@ class DetailTransactionProduct extends StatelessWidget {
                                   width: baseWidth / 7,
                                   child: Text(
                                       textAlign: TextAlign.center,
-                                      item?.product?.price
+                                      item.product?.totalPrice
                                               .currencyFormat(symbol: "Rp.") ??
                                           "",
                                       style: AppFont.medium(context)),
@@ -172,21 +141,7 @@ class DetailTransactionProduct extends StatelessWidget {
                                   width: baseWidth / 7,
                                   child: Text(
                                       textAlign: TextAlign.center,
-                                      item?.product?.discount
-                                              .currencyFormat(symbol: "Rp.") ??
-                                          "",
-                                      style: AppFont.medium(context)),
-                                ),
-                                Container(
-                                  alignment: Alignment.center,
-                                  width: baseWidth / 7,
-                                  child: Text(
-                                      textAlign: TextAlign.center,
-                                      ((item!.product!.price! -
-                                                  item.product!.discount!) *
-                                              item.quantity!)
-                                          .toString()
-                                          .currencyDot(symbol: "Rp."),
+                                      item.paymentMethod ?? "-",
                                       style: AppFont.medium(context)),
                                 ),
                               ]);
@@ -194,24 +149,19 @@ class DetailTransactionProduct extends StatelessWidget {
                         separatorBuilder: (BuildContext context, int index) {
                           return Padding(
                             padding: const EdgeInsets.symmetric(vertical: 6),
-                            child: Divider(thickness: 2),
+                            child: Column(
+                              children: [
+                                SizedBox(height: 8),
+                                Divider(thickness: 2),
+                                SizedBox(height: 8),
+                              ],
+                            ),
                           );
                         },
                       ),
                     ),
+                    SizedBox(height: 8),
                     Divider(thickness: 2),
-                    SizedBox(height: 15),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 50),
-                      child: Align(
-                        alignment: Alignment.centerRight,
-                        child: Text(
-                          "Total ${state.invoice?.product?.totalPrice.currencyFormat(symbol: "Rp.")}",
-                          style: AppFont.largeBold(context),
-                        ),
-                      ),
-                    ),
-                    SizedBox(height: 15),
                   ],
                 ),
               ),

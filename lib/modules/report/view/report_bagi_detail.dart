@@ -29,7 +29,7 @@ class ReportBagiDretail extends StatelessWidget {
                 children: [
                   Container(
                     margin: const EdgeInsets.symmetric(
-                        horizontal: 80, vertical: 40),
+                        horizontal: 20, vertical: 40),
                     width: baseWidth,
                     decoration: BoxDecoration(
                         color: Colors.white,
@@ -191,7 +191,7 @@ class ReportBagiDretail extends StatelessWidget {
                       ? SizedBox()
                       : Container(
                           margin: const EdgeInsets.symmetric(
-                              horizontal: 80, vertical: 0),
+                              horizontal: 20, vertical: 0),
                           width: baseWidth,
                           decoration: BoxDecoration(
                               color: Colors.white,

@@ -31,8 +31,12 @@ class DashboardPage extends StatelessWidget {
           loading: const SizedBox(),
           child: Scaffold(
             appBar: AppBar(
-              title:
-                  Text(state.store?.store?.storeName ?? "Lengkapin profile!"),
+              elevation: 1,
+              backgroundColor: Colors.white,
+              title: Text(
+                state.store?.store?.storeName ?? "",
+                style: AppFont.largePrimary(context)!.copyWith(fontSize: 16),
+              ),
               actions: const [
                 ActionAppBar(),
               ],

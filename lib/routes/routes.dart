@@ -26,6 +26,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import '../modules/auth/login/view/login.dart';
+import '../modules/history_transaction/cubit/history_transaction_cubit.dart';
 import '../modules/splash/cubit/splash_cubit.dart';
 import '../widgets/components/unknown_page.dart';
 
@@ -94,7 +95,9 @@ class Routes implements RouterInterface {
               ),
               BlocProvider(
                 create: (context) => MasterCubit(ctx),
-              )
+              ),
+              BlocProvider(
+                  create: (context) => HistoryTransactionCubit(context)),
             ],
             child: const DashboardPage(),
           );

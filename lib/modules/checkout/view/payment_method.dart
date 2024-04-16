@@ -308,7 +308,7 @@ class PaymentMethodsPage extends StatelessWidget {
                                         .invoices!.product!.totalPrice
                                         .currencyFormat(symbol: "Rp."),
                                     paymentMethod:
-                                        state.invoices?.paymentMethod,
+                                        state.invoices?.paymentMethod ?? "",
                                   ),
                                   SizedBox(height: 12),
                                   ClipRRect(

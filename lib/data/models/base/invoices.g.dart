@@ -13,7 +13,7 @@ Invoices _$InvoicesFromJson(Map<String, dynamic> json) => Invoices(
       invoice: json['invoice'] as String?,
       invoiceLabel: json['invoice_label'] as String?,
       status: json['status'] as String?,
-      paymentMethod: json['payment_method'],
+      paymentMethod: json['payment_method'] as String?,
       paymentDate: json['payment_date'],
       webhook: json['webhook'],
       id: json['_id'] as String?,
