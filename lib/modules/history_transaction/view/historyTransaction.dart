@@ -41,32 +41,16 @@ class HistoryTransactionPage extends StatelessWidget {
                     Padding(
                       padding: const EdgeInsets.symmetric(
                           horizontal: 24, vertical: 8),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Row(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              IconButton(
-                                  onPressed: () {
-                                    context.pop();
-                                  },
-                                  icon: const Icon(Icons.arrow_back)),
-                              const SizedBox(width: 12),
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    "History Transaksi",
-                                    style: AppFont.largeBold(context),
-                                  ),
-                                  Text(
-                                    DateTime.now().toddMMMMyyyy(),
-                                    style: AppFont.medium(context),
-                                  ),
-                                ],
-                              ),
-                            ],
+                          Text(
+                            "History Transaksi",
+                            style: AppFont.largeBold(context),
+                          ),
+                          Text(
+                            DateTime.now().toddMMMMyyyy(),
+                            style: AppFont.medium(context),
                           ),
                         ],
                       ),
