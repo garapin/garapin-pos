@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/widgets.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:pos/data/models/base/database_store.dart';
 import 'package:pos/engine/base/app.dart';
 import 'package:pos/modules/auth/select_database/cubit/select_database_cubit.dart';
@@ -8,6 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import '../../../../data/models/base/user.dart';
+import '../../../../engine/helpers/sessions.dart';
 import '../../../../themes/themes.dart';
 import '../../../../widgets/components/background_image.dart';
 import '../../../../widgets/widgets.dart';
@@ -138,7 +140,11 @@ class SelectDatabasePage extends StatelessWidget {
                         child: ClipRRect(
                           borderRadius: BorderRadius.circular(58),
                           child: OutlinedButton(
-                            onPressed: () {
+                            onPressed: () async {
+                              final GoogleSignInAccount? s =
+                                  await GoogleSignIn().signOut();
+                              Sessions.clear()
+                                  .then((value) => context.go(RouteNames.root));
                               context.pop();
                             },
                             style: OutlinedButton.styleFrom(
