@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:pos/data/api/services.dart';
 import 'package:pos/modules/auth/login/cubit/login_cubit.dart';
 import 'package:pos/widgets/widgets.dart';
@@ -53,8 +55,11 @@ class LoginPage extends StatelessWidget {
                 CustomButton(
                   onPressed: () async {
                     //buat test
+                    log("asdasd");
                     final data = await ApiService.getConfigVersion(context);
-                    cubit.signInWithGoogle(
+                    print(data.data);
+
+                    await cubit.signInWithGoogle(
                         isTest: data.data?.testLogin == "Y" ? true : false);
                   },
                   child: Container(

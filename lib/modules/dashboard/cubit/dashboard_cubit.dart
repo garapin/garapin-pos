@@ -11,11 +11,15 @@ import 'package:pos/modules/dashboard/master/pages/cubit/my_merchant_cubit.dart'
 import 'package:pos/modules/dashboard/master/view/master.dart';
 import 'package:pos/modules/dashboard/profile/cubit/profile_cubit.dart';
 import 'package:pos/modules/dashboard/profile/view/profile.dart';
+import 'package:pos/modules/dashboard/withdrawl/cubit/withdrawl_cubit.dart';
+import 'package:pos/modules/dashboard/withdrawl/view/withdrawl.dart';
 import 'package:pos/modules/history_transaction/cubit/history_transaction_cubit.dart';
 import 'package:pos/modules/history_transaction/view/historyTransaction.dart';
 import 'package:pos/modules/report/cubit/detail_transaction_product_cubit.dart';
 import 'package:pos/modules/report/cubit/report_cubit.dart';
 import 'package:pos/modules/report/cubit/report_detail_cubit.dart';
+import 'package:pos/modules/report/master_report/cubit/master_report_cubit.dart';
+import 'package:pos/modules/report/master_report/view/master_report.dart';
 import 'package:pos/modules/report/view/report.dart';
 import '../../../data/models/base/store.dart';
 import '../catalog/view/catalog.dart';
@@ -79,18 +83,26 @@ class DashboardCubit extends BaseCubit<DashboardState> {
     // CatalogPage(
     //   modeCatalog: ModeCatalog.edit,
     // ),
-    MultiBlocProvider(providers: [
-      BlocProvider(
-        create: (context) => ReportCubit(context),
-      ),
-      BlocProvider(
-        create: (context) => ReportDetailCubit(context, {}),
-      ),
-      BlocProvider(
-        create: (context) => DetailTransactionProductCubit(context, {}),
-      ),
-    ], child: ReportPage()),
+    // MultiBlocProvider(providers: [
+    //   BlocProvider(
+    //     create: (context) => ReportCubit(context),
+    //   ),
+    //   BlocProvider(
+    //     create: (context) => ReportDetailCubit(context, {}),
+    //   ),
+    //   BlocProvider(
+    //     create: (context) => DetailTransactionProductCubit(context, {}),
+    //   ),
+    // ], child: ReportPage()),
+    BlocProvider(
+      create: (context) => MasterReportCubit(context),
+      child: MasterReportPage(),
+    ),
     ProfilePage(),
-    HistoryTransactionPage()
+    HistoryTransactionPage(),
+    BlocProvider(
+      create: (context) => WithdrawlCubit(context),
+      child: WithdrawlPage(),
+    )
   ];
 }

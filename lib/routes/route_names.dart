@@ -14,4 +14,5 @@ class RouteNames {
   static const String createBagi = "/create_bagi";
   static const String reportBagiDretail = "/report_bagi_detail";
   static const String detailTransactionProduct = "/detail_transaction_product";
+  static const String masterReport = "/master_report";
 }

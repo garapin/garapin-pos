@@ -60,6 +60,10 @@ class $AssetsImagesGen {
   AssetGenImage get appetizercashierInactive =>
       const AssetGenImage('assets/images/Appetizercashier-inactive.png');
 
+  /// File path: assets/images/account_balance.png
+  AssetGenImage get accountBalance =>
+      const AssetGenImage('assets/images/account_balance.png');
+
   /// File path: assets/images/bacground_auth.png
   AssetGenImage get bacgroundAuth =>
       const AssetGenImage('assets/images/bacground_auth.png');
@@ -80,6 +84,14 @@ class $AssetsImagesGen {
 
   /// File path: assets/images/google.png
   AssetGenImage get google => const AssetGenImage('assets/images/google.png');
+
+  /// File path: assets/images/ic_withdrawl_active.png
+  AssetGenImage get icWithdrawlActive =>
+      const AssetGenImage('assets/images/ic_withdrawl_active.png');
+
+  /// File path: assets/images/ic_withdrawl_inactive.png
+  AssetGenImage get icWithdrawlInactive =>
+      const AssetGenImage('assets/images/ic_withdrawl_inactive.png');
 
   /// File path: assets/images/icon-pos.png
   AssetGenImage get iconPos =>
@@ -113,12 +125,15 @@ class $AssetsImagesGen {
   List<AssetGenImage> get values => [
         appetizercashierActive,
         appetizercashierInactive,
+        accountBalance,
         bacgroundAuth,
         box,
         catalogActive,
         catalogInactive,
         gems,
         google,
+        icWithdrawlActive,
+        icWithdrawlInactive,
         iconPos,
         paymentQris,
         paymentSuccess,

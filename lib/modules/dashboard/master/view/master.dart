@@ -19,6 +19,7 @@ class MasterPage extends StatelessWidget {
     final cubit = context.read<MasterCubit>();
     return Scaffold(
         backgroundColor: const Color(0xffF8F9FD),
+        floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
         floatingActionButton: BlocBuilder<MasterCubit, MasterState>(
           builder: (context, state) {
             return ContainerStateHandler(
@@ -28,22 +29,15 @@ class MasterPage extends StatelessWidget {
                   ? Align(
                       alignment: Alignment.topLeft,
                       child: Padding(
-                        padding: const EdgeInsets.only(left: 20, top: 60),
+                        padding:
+                            const EdgeInsets.only(left: 0, top: 0, bottom: 0),
                         child: Container(
                           decoration: BoxDecoration(
                             color: Colors.white,
-                            borderRadius: BorderRadius.circular(16),
-                            boxShadow: [
-                              BoxShadow(
-                                color: Color.fromARGB(255, 212, 212, 212),
-                                blurRadius: 2, // Adjust as needed
-                                spreadRadius: 2, // Adjust as needed
-                                offset: Offset(1, 1), // Adjust as needed
-                              ),
-                            ],
+                            boxShadow: [],
                           ),
                           height: baseHeight,
-                          width: 200,
+                          width: 260,
                           child: Padding(
                               padding: const EdgeInsets.symmetric(
                                   horizontal: 12, vertical: 20),

@@ -2,6 +2,7 @@ import 'dart:developer';
 import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:pos/data/api/error_handler.dart';
+import 'package:pos/data/models/base/account_balance.dart';
 import 'package:pos/data/models/base/available_payment.dart';
 import 'package:pos/data/models/base/brand.dart';
 import 'package:pos/data/models/base/cart.dart';
@@ -668,5 +669,29 @@ class ApiService {
             ApiResponseList<FilterStoreTransaction>.fromJson(result.data))
         .handler(
             (error) => ApiResponseList<FilterStoreTransaction>.onError(error));
+  }
+
+  static Future<ApiResponse<AccountBalance>> getAccountBalane(
+      BuildContext context) async {
+    return await ApiConfigure(context)
+        .get('/store/balance/get_balance')
+        .then((result) => ApiResponse<AccountBalance>.fromJson(result.data))
+        .handler((error) => ApiResponse<AccountBalance>.onError(error));
+  }
+
+  static Future<ApiResponse> verifyPin(BuildContext context,
+      {required int pin}) async {
+    return await ApiConfigure(context)
+        .post('/store/balance/verify_pin', params: {"pin": pin})
+        .then((result) => ApiResponse.fromJson(result.data))
+        .handler((error) => ApiResponse.onError(error));
+  }
+
+  static Future<ApiResponse> withdraw(BuildContext context,
+      {required int amount}) async {
+    return await ApiConfigure(context)
+        .post('/store/balance/withdraw', params: {"amount": amount})
+        .then((result) => ApiResponse.fromJson(result.data))
+        .handler((error) => ApiResponse.onError(error));
   }
 }

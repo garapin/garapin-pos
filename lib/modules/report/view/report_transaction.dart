@@ -1,7 +1,6 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:go_router/go_router.dart';
@@ -12,8 +11,8 @@ import 'package:pos/themes/themes.dart';
 import 'package:pos/widgets/components/outline_form_dropdown.dart';
 import 'package:pos/widgets/widgets.dart';
 
-class ReportPage extends StatelessWidget {
-  const ReportPage({super.key});
+class ReportTransaction extends StatelessWidget {
+  const ReportTransaction({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -46,7 +45,7 @@ class ReportPage extends StatelessWidget {
                           children: [
                             const SizedBox(height: 24),
                             Text(
-                              "Report Bagi-Bagi",
+                              "Report Transaksi Penjualan",
                               style: AppFont.largeBold(context),
                             ),
                             const SizedBox(height: 12),
@@ -185,7 +184,7 @@ class ReportPage extends StatelessWidget {
                                     return ListTile(
                                       onTap: () async {
                                         var status = context.pushNamed(
-                                            RouteNames.reportBagiDretail,
+                                            RouteNames.detailTransactionProduct,
                                             extra: Map<String, String>.from({
                                               "database": state.targetDatabase,
                                               "invoice": item.referenceId

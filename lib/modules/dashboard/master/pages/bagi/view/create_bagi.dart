@@ -98,7 +98,6 @@ class CreateBagiPage extends StatelessWidget {
                           ],
                         ),
                       ),
-                      const Divider(),
                       const SizedBox(height: 16),
                       Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -145,18 +144,24 @@ class CreateBagiPage extends StatelessWidget {
                                   Container(
                                       alignment: Alignment.center,
                                       width: baseWidth / 7,
-                                      child: Text(item?.type ?? "",
+                                      child: Text(
+                                          textAlign: TextAlign.center,
+                                          item?.type ?? "",
                                           style: AppFont.medium(context))),
                                   Container(
                                     alignment: Alignment.center,
                                     width: baseWidth / 7,
-                                    child: Text(item?.target ?? "",
-                                        style: AppFont.medium(context)),
+                                    child: Text(
+                                      item?.target ?? "",
+                                      style: AppFont.medium(context),
+                                      textAlign: TextAlign.center,
+                                    ),
                                   ),
                                   Container(
                                     alignment: Alignment.center,
                                     width: baseWidth / 7,
                                     child: Text(
+                                        textAlign: TextAlign.center,
                                         item?.percentAmount != null
                                             ? "${item?.percentAmount}%"
                                             : "",
@@ -166,6 +171,7 @@ class CreateBagiPage extends StatelessWidget {
                                     alignment: Alignment.center,
                                     width: baseWidth / 7,
                                     child: Text(
+                                        textAlign: TextAlign.center,
                                         item?.feePos != null
                                             ? "${item?.feePos}%"
                                             : "",
@@ -274,12 +280,13 @@ class CreateBagiPage extends StatelessWidget {
                           },
                           separatorBuilder: (BuildContext context, int index) {
                             return Padding(
-                              padding: const EdgeInsets.symmetric(vertical: 6),
+                              padding: const EdgeInsets.symmetric(vertical: 14),
                               child: Divider(thickness: 2),
                             );
                           },
                         ),
                       ),
+                      SizedBox(height: 12),
                       Divider(thickness: 2),
                       Padding(
                         padding: const EdgeInsets.symmetric(

@@ -32,7 +32,7 @@ class ReportDetailCubit extends BaseCubit<ReportDetailState> {
       emit(state.copyWith(status: DataStateStatus.success, split: data.data));
     } else {
       if (data.message == "NON_SPLIT") {
-        print("Pindaj");
+        print("PindaH");
         context.replaceNamed(RouteNames.detailTransactionProduct,
             extra: Map<String, String>.from(
                 {"database": args["database"], "invoice": args["invoice"]}));

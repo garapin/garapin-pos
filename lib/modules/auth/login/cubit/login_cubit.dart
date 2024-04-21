@@ -60,7 +60,6 @@ class LoginCubit extends BaseCubit<LoginState> {
           context,
           email: googleUser.email,
         );
-
         if (data.isSuccess) {
           final credential = GoogleAuthProvider.credential(
             accessToken: googleAuth.accessToken,

@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:pos/data/models/base/config_version_apps.dart';
 import 'package:pos/data/models/base/split_rule.dart';
 
+import '../base/account_balance.dart';
 import '../base/available_payment.dart';
 import '../base/brand.dart';
 import '../base/cart.dart';
@@ -55,6 +56,8 @@ Object factoryModel(String type, {Map<String, dynamic>? json}) {
       return json != null ? MerchantModel.fromJson(json) : MerchantModel();
     case 'DatabaseStore':
       return json != null ? DatabaseStore.fromJson(json) : DatabaseStore();
+    case 'AccountBalance':
+      return json != null ? AccountBalance.fromJson(json) : AccountBalance();
     case 'SplitRule':
       return json != null ? SplitRule.fromJson(json) : SplitRule();
     case 'UserDatabase':

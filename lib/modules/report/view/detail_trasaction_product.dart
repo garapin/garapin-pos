@@ -76,33 +76,39 @@ class DetailTransactionProduct extends StatelessWidget {
                         children: [
                           Container(
                               alignment: Alignment.center,
-                              width: baseWidth / 724,
+                              width: baseWidth / 7,
                               child: Text('Foto',
+                                  textAlign: TextAlign.center,
                                   style: AppFont.largeBold(context))),
                           Container(
                               alignment: Alignment.center,
                               width: baseWidth / 7,
                               child: Text('Nama',
+                                  textAlign: TextAlign.center,
                                   style: AppFont.largeBold(context))),
                           Container(
                               alignment: Alignment.center,
                               width: baseWidth / 7,
                               child: Text('Jumlah Item',
+                                  textAlign: TextAlign.center,
                                   style: AppFont.largeBold(context))),
                           Container(
                               alignment: Alignment.center,
                               width: baseWidth / 7,
                               child: Text('Harga',
+                                  textAlign: TextAlign.center,
                                   style: AppFont.largeBold(context))),
                           Container(
                               alignment: Alignment.center,
                               width: baseWidth / 7,
                               child: Text('Diskon',
+                                  textAlign: TextAlign.center,
                                   style: AppFont.largeBold(context))),
                           Container(
                               alignment: Alignment.center,
                               width: baseWidth / 7,
                               child: Text('Total Harga',
+                                  textAlign: TextAlign.center,
                                   style: AppFont.largeBold(context))),
                         ]),
                     SizedBox(height: 12),
@@ -193,7 +199,7 @@ class DetailTransactionProduct extends StatelessWidget {
                         },
                         separatorBuilder: (BuildContext context, int index) {
                           return Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 6),
+                            padding: const EdgeInsets.symmetric(vertical: 12),
                             child: Divider(thickness: 2),
                           );
                         },

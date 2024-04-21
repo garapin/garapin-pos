@@ -79,7 +79,7 @@ class RegisterBankAccount extends StatelessWidget {
             const SizedBox(height: 16),
             OutlineFormText(
               obscureText: true,
-              initialValue: "${bankAccount?.pin ?? ""}",
+              initialValue: "111111",
               keyboardType: TextInputType.number,
               name: "pin",
               hintText: "Masukan Pin",

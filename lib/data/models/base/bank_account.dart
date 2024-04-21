@@ -16,7 +16,7 @@ class BankAccount {
   @JsonKey(name: "account_number")
   int? accountNumber;
   @JsonKey(name: "pin")
-  int? pin;
+  String? pin;
 
   BankAccount({
     this.bankName,

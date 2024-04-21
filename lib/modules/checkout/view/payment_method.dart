@@ -1,25 +1,18 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:pos/data/models/base/cart.dart';
 import 'package:pos/engine/engine.dart';
-import 'package:pos/engine/extensions/int.dart';
 import 'package:pos/modules/cart/cubit/cart_cubit.dart';
 import 'package:pos/modules/checkout/cubit/checkout_cubit.dart';
 import 'package:pos/resources/resources.dart';
 import 'package:pos/themes/themes.dart';
-import 'package:pos/widgets/components/container_state_handler.dart';
 import 'package:pos/widgets/widgets.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 
-import '../../../engine/base/app.dart';
 import '../../../widgets/components/pair_bluethooth.dart';
 
 class PaymentMethodsPage extends StatelessWidget {
-  PaymentMethodsPage({super.key, required this.cartCubit});
+  const PaymentMethodsPage({super.key, required this.cartCubit});
   final CartCubit cartCubit;
 
   @override

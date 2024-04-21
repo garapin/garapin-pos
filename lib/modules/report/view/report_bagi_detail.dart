@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -120,7 +121,9 @@ class ReportBagiDretail extends StatelessWidget {
                                   state.split?.template?.routes?[index];
                               return (state.store?.store?.merChantRole ==
                                           "SUPP" &&
-                                      template?.type != "SUPP")
+                                      template?.type != "SUPP" &&
+                                      state.store?.store?.storeName !=
+                                          item?.target)
                                   ? SizedBox()
                                   : Row(
                                       mainAxisAlignment:
@@ -137,7 +140,9 @@ class ReportBagiDretail extends StatelessWidget {
                                             alignment: Alignment.center,
                                             width: baseWidth / 7,
                                             child: Text(
-                                              template?.target ?? "",
+                                              (template?.target == "Garapin")
+                                                  ? "Bagi-Bagi Pos"
+                                                  : template?.target ?? "",
                                               style: AppFont.medium(context),
                                               textAlign: TextAlign.center,
                                             ),
@@ -181,9 +186,59 @@ class ReportBagiDretail extends StatelessWidget {
                             },
                           ),
                         ),
+                        SizedBox(height: 15),
                         Divider(thickness: 2),
                         SizedBox(height: 15),
-                        SizedBox(height: 15),
+                        Align(
+                          alignment: Alignment.centerRight,
+                          child: Container(
+                            padding: EdgeInsets.symmetric(horizontal: 40),
+                            width: baseWidth,
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.end,
+                              children: [
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.end,
+                                  children: [
+                                    Text("Total Bagi-Bagi Pendapatan",
+                                        style: AppFont.mediumBold(context)),
+                                    SizedBox(width: 12),
+                                    Text(
+                                        state.split?.split?.routes
+                                                ?.map((e) => e.flatAmount)
+                                                .reduce((value, element) =>
+                                                    value! + element!)
+                                                .toString()
+                                                .currencyDot(symbol: "Rp.") ??
+                                            "",
+                                        textAlign: TextAlign.center,
+                                        style: AppFont.mediumBold(context)),
+                                  ],
+                                ),
+                                SizedBox(height: 8),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.end,
+                                  children: [
+                                    Text("Total Bagi-Bagi Biaya",
+                                        style: AppFont.mediumBold(context)),
+                                    SizedBox(width: 12),
+                                    Text(
+                                        state.split?.split?.routes
+                                                ?.map((e) => e.fee)
+                                                .reduce((value, element) =>
+                                                    value! + element!)
+                                                .toString()
+                                                .currencyDot(symbol: "Rp.") ??
+                                            "",
+                                        textAlign: TextAlign.center,
+                                        style: AppFont.mediumBold(context)),
+                                  ],
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                        SizedBox(height: 30),
                       ],
                     ),
                   ),

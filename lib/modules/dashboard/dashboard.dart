@@ -7,6 +7,8 @@ import 'package:pos/engine/engine.dart';
 import 'package:pos/modules/dashboard/catalog/cubit/catalog_cubit.dart';
 import 'package:pos/modules/dashboard/cubit/dashboard_cubit.dart';
 import 'package:pos/modules/dashboard/profile/cubit/profile_cubit.dart';
+import 'package:pos/modules/dashboard/withdrawl/cubit/withdrawl_cubit.dart';
+import 'package:pos/modules/report/master_report/cubit/master_report_cubit.dart';
 import 'package:pos/resources/resources.dart';
 import 'package:pos/routes/routes.dart';
 import 'package:pos/themes/themes.dart';
@@ -23,6 +25,7 @@ class DashboardPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final masterCubit = context.read<MasterCubit>();
+    final masterReportCubit = context.read<MasterReportCubit>();
     final cubit = context.read<DashboardCubit>();
     return BlocBuilder<ProfileCubit, ProfileState>(
       builder: (context, state) {
@@ -31,7 +34,8 @@ class DashboardPage extends StatelessWidget {
           loading: const SizedBox(),
           child: Scaffold(
             appBar: AppBar(
-              elevation: 1,
+              elevation: 2,
+              shadowColor: AppColor.appColor.primary,
               backgroundColor: Colors.white,
               title: Text(
                 state.store?.store?.storeName ?? "",
@@ -51,7 +55,8 @@ class DashboardPage extends StatelessWidget {
                       loading: SizedBox(),
                       child: Container(
                         decoration: BoxDecoration(
-                            border: Border.all(color: Colors.grey)),
+                            border: Border.all(
+                                color: AppColor.appColor.primary, width: 1)),
                         width: baseWidth * 0.075,
                         height: baseHeight,
                         child: SingleChildScrollView(
@@ -78,6 +83,8 @@ class DashboardPage extends StatelessWidget {
                                   const SizedBox(height: 8),
                                   CustomButton(
                                       onPressed: () {
+                                        masterReportCubit.showPage(true);
+                                        masterReportCubit.initData();
                                         cubit.changePage(2);
                                       },
                                       child: state.index == 2
@@ -85,6 +92,24 @@ class DashboardPage extends StatelessWidget {
                                               .image(height: 65, width: 60)
                                           : Resources.images.reportInactive
                                               .image(height: 65, width: 60)),
+                                  const SizedBox(height: 8),
+                                  (Sessions.getDatabaseModel()?.role != "ADMIN")
+                                      ? SizedBox()
+                                      : CustomButton(
+                                          onPressed: () {
+                                            context
+                                                .read<WithdrawlCubit>()
+                                                .initData();
+                                            cubit.changePage(5);
+                                          },
+                                          child: state.index == 5
+                                              ? Resources
+                                                  .images.icWithdrawlActive
+                                                  .image(height: 65, width: 60)
+                                              : Resources
+                                                  .images.icWithdrawlInactive
+                                                  .image(
+                                                      height: 65, width: 60)),
                                   const SizedBox(height: 8),
                                   (Sessions.getDatabaseModel()?.role != "ADMIN")
                                       ? SizedBox()
@@ -153,6 +178,8 @@ class DashboardPage extends StatelessWidget {
                                   const SizedBox(height: 8),
                                   CustomButton(
                                       onPressed: () {
+                                        masterReportCubit.showPage(true);
+                                        masterReportCubit.initData();
                                         cubit.changePage(2);
                                       },
                                       child: state.index == 2
@@ -203,6 +230,8 @@ class DashboardPage extends StatelessWidget {
                                     CustomButton(
                                         onPressed: () {
                                           cubit.changePage(2);
+                                          masterReportCubit.showPage(true);
+                                          masterReportCubit.initData();
                                         },
                                         child: state.index == 2
                                             ? Resources.images.reportActive
@@ -286,6 +315,8 @@ class DashboardPage extends StatelessWidget {
                                     const SizedBox(height: 8),
                                     CustomButton(
                                         onPressed: () {
+                                          masterReportCubit.showPage(true);
+                                          masterReportCubit.initData();
                                           cubit.changePage(2);
                                         },
                                         child: state.index == 2

@@ -103,13 +103,6 @@ class MasterCubit extends BaseCubit<MasterState> {
     } else if (state.store?.store?.storeType == "BUSSINESS_PARTNER") {
       return Column(
         children: [
-          Align(
-              alignment: Alignment.topRight,
-              child: IconButton(
-                  onPressed: () {
-                    showPage(false);
-                  },
-                  icon: Icon(Icons.close))),
           CustomButton(
               onPressed: () {
                 changePage(1);
@@ -150,13 +143,6 @@ class MasterCubit extends BaseCubit<MasterState> {
     } else if (state.store?.store?.storeType == "MERCHANT") {
       if (state.store?.store?.merChantRole == "TRX") {
         return Column(children: [
-          Align(
-              alignment: Alignment.topRight,
-              child: IconButton(
-                  onPressed: () {
-                    showPage(false);
-                  },
-                  icon: Icon(Icons.close))),
           CustomButton(
               onPressed: () {
                 changePage(0);
