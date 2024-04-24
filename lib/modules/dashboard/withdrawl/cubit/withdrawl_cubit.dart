@@ -28,6 +28,9 @@ class WithdrawlCubit extends BaseCubit<WithdrawlState> {
   @override
   Future<void> initData() async {
     loadingState();
+    emit(state.copyWith(
+        endDate: DateTime.now().toyyyyMMdd(),
+        startDate: DateTime.now().subtract(Duration(days: 7)).toyyyyMMdd()));
     amountController.clear();
     pinController.clear;
     getAvailablePayment();
