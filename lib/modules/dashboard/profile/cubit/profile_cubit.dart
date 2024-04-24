@@ -215,7 +215,8 @@ class ProfileCubit extends BaseCubit<ProfileState> {
             bankName: form?["bank_name"] ?? "",
             holderName: form?["holder_name"] ?? "",
             accountNumber: int.parse(form?["account_number"]),
-            pin: int.parse(form?["pin"]),
+            // pin: int.parse(form?["pin"]
+            pin: 111111, //belumdipake
           ));
       if (data.isSuccess) {
         final data2 = await ApiService.getStoreInfo(context);

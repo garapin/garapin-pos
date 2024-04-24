@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:pos/engine/engine.dart';
 import 'package:flutter/widgets.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
@@ -68,6 +70,8 @@ class LoginCubit extends BaseCubit<LoginState> {
           await FirebaseAuth.instance.signInWithCredential(credential);
 
           // final GoogleSignInAccount? s = await GoogleSignIn().signOut();
+          log("ini token");
+          log(data.data!.user!.token!);
           Sessions.setToken(data.data!.user!.token!);
           Sessions.setUsers(jsonEncode(data.data!.user))
               .then((value) => context.pushNamed(RouteNames.selectDatababase));

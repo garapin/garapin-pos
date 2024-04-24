@@ -21,12 +21,10 @@ class AvailablePayment {
   String? bank;
   @JsonKey(name: "image")
   String? image;
+  @JsonKey(name: "code")
+  String? code;
 
-  AvailablePayment({
-    this.id,
-    this.bank,
-    this.image,
-  });
+  AvailablePayment({this.id, this.bank, this.image, this.code});
 
   factory AvailablePayment.fromJson(Map<String, dynamic> json) =>
       _$AvailablePaymentFromJson(json);

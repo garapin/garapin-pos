@@ -11,6 +11,7 @@ AvailablePayment _$AvailablePaymentFromJson(Map<String, dynamic> json) =>
       id: json['_id'] as String?,
       bank: json['bank'] as String?,
       image: json['image'] as String?,
+      code: json['code'] as String?,
     );
 
 Map<String, dynamic> _$AvailablePaymentToJson(AvailablePayment instance) =>
@@ -18,4 +19,5 @@ Map<String, dynamic> _$AvailablePaymentToJson(AvailablePayment instance) =>
       '_id': instance.id,
       'bank': instance.bank,
       'image': instance.image,
+      'code': instance.code,
     };

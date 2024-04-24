@@ -20,8 +20,11 @@ mixin _$WithdrawlState {
   DataStateStatus get status => throw _privateConstructorUsedError;
   String? get err => throw _privateConstructorUsedError;
   AccountBalance? get accountBalance => throw _privateConstructorUsedError;
+  List<WithdrawHistory> get history => throw _privateConstructorUsedError;
   List<AvailablePayment> get availablePayment =>
       throw _privateConstructorUsedError;
+  String? get startDate => throw _privateConstructorUsedError;
+  String? get endDate => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $WithdrawlStateCopyWith<WithdrawlState> get copyWith =>
@@ -39,7 +42,10 @@ abstract class $WithdrawlStateCopyWith<$Res> {
       DataStateStatus status,
       String? err,
       AccountBalance? accountBalance,
-      List<AvailablePayment> availablePayment});
+      List<WithdrawHistory> history,
+      List<AvailablePayment> availablePayment,
+      String? startDate,
+      String? endDate});
 }
 
 /// @nodoc
@@ -59,7 +65,10 @@ class _$WithdrawlStateCopyWithImpl<$Res, $Val extends WithdrawlState>
     Object? status = null,
     Object? err = freezed,
     Object? accountBalance = freezed,
+    Object? history = null,
     Object? availablePayment = null,
+    Object? startDate = freezed,
+    Object? endDate = freezed,
   }) {
     return _then(_value.copyWith(
       isPinMatch: null == isPinMatch
@@ -78,10 +87,22 @@ class _$WithdrawlStateCopyWithImpl<$Res, $Val extends WithdrawlState>
           ? _value.accountBalance
           : accountBalance // ignore: cast_nullable_to_non_nullable
               as AccountBalance?,
+      history: null == history
+          ? _value.history
+          : history // ignore: cast_nullable_to_non_nullable
+              as List<WithdrawHistory>,
       availablePayment: null == availablePayment
           ? _value.availablePayment
           : availablePayment // ignore: cast_nullable_to_non_nullable
               as List<AvailablePayment>,
+      startDate: freezed == startDate
+          ? _value.startDate
+          : startDate // ignore: cast_nullable_to_non_nullable
+              as String?,
+      endDate: freezed == endDate
+          ? _value.endDate
+          : endDate // ignore: cast_nullable_to_non_nullable
+              as String?,
     ) as $Val);
   }
 }
@@ -99,7 +120,10 @@ abstract class _$$WithdrawlStateImplCopyWith<$Res>
       DataStateStatus status,
       String? err,
       AccountBalance? accountBalance,
-      List<AvailablePayment> availablePayment});
+      List<WithdrawHistory> history,
+      List<AvailablePayment> availablePayment,
+      String? startDate,
+      String? endDate});
 }
 
 /// @nodoc
@@ -117,7 +141,10 @@ class __$$WithdrawlStateImplCopyWithImpl<$Res>
     Object? status = null,
     Object? err = freezed,
     Object? accountBalance = freezed,
+    Object? history = null,
     Object? availablePayment = null,
+    Object? startDate = freezed,
+    Object? endDate = freezed,
   }) {
     return _then(_$WithdrawlStateImpl(
       isPinMatch: null == isPinMatch
@@ -136,10 +163,22 @@ class __$$WithdrawlStateImplCopyWithImpl<$Res>
           ? _value.accountBalance
           : accountBalance // ignore: cast_nullable_to_non_nullable
               as AccountBalance?,
+      history: null == history
+          ? _value._history
+          : history // ignore: cast_nullable_to_non_nullable
+              as List<WithdrawHistory>,
       availablePayment: null == availablePayment
           ? _value._availablePayment
           : availablePayment // ignore: cast_nullable_to_non_nullable
               as List<AvailablePayment>,
+      startDate: freezed == startDate
+          ? _value.startDate
+          : startDate // ignore: cast_nullable_to_non_nullable
+              as String?,
+      endDate: freezed == endDate
+          ? _value.endDate
+          : endDate // ignore: cast_nullable_to_non_nullable
+              as String?,
     ));
   }
 }
@@ -152,8 +191,12 @@ class _$WithdrawlStateImpl implements _WithdrawlState {
       this.status = DataStateStatus.initial,
       this.err,
       this.accountBalance,
-      final List<AvailablePayment> availablePayment = const []})
-      : _availablePayment = availablePayment;
+      final List<WithdrawHistory> history = const [],
+      final List<AvailablePayment> availablePayment = const [],
+      this.startDate,
+      this.endDate})
+      : _history = history,
+        _availablePayment = availablePayment;
 
   @override
   @JsonKey()
@@ -165,6 +208,15 @@ class _$WithdrawlStateImpl implements _WithdrawlState {
   final String? err;
   @override
   final AccountBalance? accountBalance;
+  final List<WithdrawHistory> _history;
+  @override
+  @JsonKey()
+  List<WithdrawHistory> get history {
+    if (_history is EqualUnmodifiableListView) return _history;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_history);
+  }
+
   final List<AvailablePayment> _availablePayment;
   @override
   @JsonKey()
@@ -176,8 +228,13 @@ class _$WithdrawlStateImpl implements _WithdrawlState {
   }
 
   @override
+  final String? startDate;
+  @override
+  final String? endDate;
+
+  @override
   String toString() {
-    return 'WithdrawlState(isPinMatch: $isPinMatch, status: $status, err: $err, accountBalance: $accountBalance, availablePayment: $availablePayment)';
+    return 'WithdrawlState(isPinMatch: $isPinMatch, status: $status, err: $err, accountBalance: $accountBalance, history: $history, availablePayment: $availablePayment, startDate: $startDate, endDate: $endDate)';
   }
 
   @override
@@ -191,13 +248,25 @@ class _$WithdrawlStateImpl implements _WithdrawlState {
             (identical(other.err, err) || other.err == err) &&
             (identical(other.accountBalance, accountBalance) ||
                 other.accountBalance == accountBalance) &&
+            const DeepCollectionEquality().equals(other._history, _history) &&
             const DeepCollectionEquality()
-                .equals(other._availablePayment, _availablePayment));
+                .equals(other._availablePayment, _availablePayment) &&
+            (identical(other.startDate, startDate) ||
+                other.startDate == startDate) &&
+            (identical(other.endDate, endDate) || other.endDate == endDate));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, isPinMatch, status, err,
-      accountBalance, const DeepCollectionEquality().hash(_availablePayment));
+  int get hashCode => Object.hash(
+      runtimeType,
+      isPinMatch,
+      status,
+      err,
+      accountBalance,
+      const DeepCollectionEquality().hash(_history),
+      const DeepCollectionEquality().hash(_availablePayment),
+      startDate,
+      endDate);
 
   @JsonKey(ignore: true)
   @override
@@ -213,7 +282,10 @@ abstract class _WithdrawlState implements WithdrawlState {
       final DataStateStatus status,
       final String? err,
       final AccountBalance? accountBalance,
-      final List<AvailablePayment> availablePayment}) = _$WithdrawlStateImpl;
+      final List<WithdrawHistory> history,
+      final List<AvailablePayment> availablePayment,
+      final String? startDate,
+      final String? endDate}) = _$WithdrawlStateImpl;
 
   @override
   bool get isPinMatch;
@@ -224,7 +296,13 @@ abstract class _WithdrawlState implements WithdrawlState {
   @override
   AccountBalance? get accountBalance;
   @override
+  List<WithdrawHistory> get history;
+  @override
   List<AvailablePayment> get availablePayment;
+  @override
+  String? get startDate;
+  @override
+  String? get endDate;
   @override
   @JsonKey(ignore: true)
   _$$WithdrawlStateImplCopyWith<_$WithdrawlStateImpl> get copyWith =>

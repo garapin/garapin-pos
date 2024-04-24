@@ -23,6 +23,7 @@ import '../base/store.dart';
 import '../base/unit.dart';
 import '../base/user_database.dart';
 import '../base/virtual_account.dart';
+import '../base/withdraw_history.dart';
 
 Object factoryModel(String type, {Map<String, dynamic>? json}) {
   switch (type) {
@@ -74,6 +75,8 @@ Object factoryModel(String type, {Map<String, dynamic>? json}) {
       return json != null
           ? HistoryTransaction.fromJson(json)
           : HistoryTransaction();
+    case 'WithdrawHistory':
+      return json != null ? WithdrawHistory.fromJson(json) : WithdrawHistory();
     case 'FilterStoreTransaction':
       return json != null
           ? FilterStoreTransaction.fromJson(json)

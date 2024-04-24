@@ -7,6 +7,9 @@ class WithdrawlState with _$WithdrawlState {
     @Default(DataStateStatus.initial) DataStateStatus status,
     String? err,
     AccountBalance? accountBalance,
+    @Default([]) List<WithdrawHistory> history,
     @Default([]) List<AvailablePayment> availablePayment,
+    String? startDate,
+    String? endDate,
   }) = _WithdrawlState;
 }

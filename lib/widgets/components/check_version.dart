@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:pos/engine/engine.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 Future<Map<String, dynamic>?> getConfigVersion() async {
   final String url =
@@ -57,11 +58,17 @@ void checkVersion(BuildContext context) async {
                     width: 200,
                     height: 45,
                     child: ElevatedButton(
-                      onPressed: () {
+                      onPressed: () async {
                         if (Platform.isAndroid) {
-                          launcher(data['linkPlaystore'] ?? '');
+                          print("ini url");
+                          print(data['data']['link_playstore']);
+                          await launcher(
+                            data['link_playstore'] ?? '',
+                          );
                         } else if (Platform.isIOS) {
-                          launcher(data['linkAppstore'] ?? '');
+                          await launcher(
+                            data['link_appstore'] ?? '',
+                          );
                         }
                       },
                       child: Text("Update Aplikasi"),

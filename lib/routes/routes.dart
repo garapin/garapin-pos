@@ -8,6 +8,7 @@ import 'package:pos/modules/dashboard/master/cubit/master_cubit.dart';
 import 'package:pos/modules/dashboard/master/pages/bagi/cubit/create_bagi_cubit.dart';
 import 'package:pos/modules/dashboard/master/pages/bagi/view/create_bagi.dart';
 import 'package:pos/modules/dashboard/profile/view/profile.dart';
+import 'package:pos/modules/dashboard/withdrawl/cubit/withdrawl_cubit.dart';
 import 'package:pos/modules/product/create_product/cubit/create_product_cubit.dart';
 import 'package:pos/modules/product/create_product/view/create_product.dart';
 import 'package:pos/modules/dashboard/catalog/cubit/catalog_cubit.dart';
@@ -16,6 +17,8 @@ import 'package:pos/modules/product/edit_product/cubit/edit_product_cubit.dart';
 import 'package:pos/modules/product/edit_product/view/edit_product.dart';
 import 'package:pos/modules/report/cubit/detail_transaction_product_cubit.dart';
 import 'package:pos/modules/report/cubit/report_detail_cubit.dart';
+import 'package:pos/modules/report/master_report/cubit/master_report_cubit.dart';
+import 'package:pos/modules/report/master_report/view/master_report.dart';
 import 'package:pos/modules/report/view/detail_trasaction_product.dart';
 import 'package:pos/modules/report/view/report_bagi_detail.dart';
 import 'package:pos/widgets/components/background_image.dart';
@@ -97,7 +100,11 @@ class Routes implements RouterInterface {
                 create: (context) => MasterCubit(ctx),
               ),
               BlocProvider(
+                create: (context) => MasterReportCubit(ctx),
+              ),
+              BlocProvider(
                   create: (context) => HistoryTransactionCubit(context)),
+              BlocProvider(create: (context) => WithdrawlCubit(context)),
             ],
             child: const DashboardPage(),
           );
@@ -167,6 +174,19 @@ class Routes implements RouterInterface {
             create: (context) => DetailTransactionProductCubit(
                 context, state.extra as Map<String, String>),
             child: const DetailTransactionProduct(),
+          );
+        },
+      ),
+
+      GoRoute(
+        name: RouteNames.masterReport,
+        path: RouteNames.masterReport,
+        builder: (ctx, GoRouterState state) {
+          return BlocProvider(
+            create: (context) => MasterReportCubit(
+              context,
+            ),
+            child: const MasterReportPage(),
           );
         },
       ),

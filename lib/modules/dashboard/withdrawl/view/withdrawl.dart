@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import 'package:pos/engine/engine.dart';
@@ -24,6 +25,24 @@ String maskAccountNumber(String accountNumber) {
   }
   final maskedPart = accountNumber.substring(0, accountNumber.length - 3);
   return '$maskedPart***';
+}
+
+Color statusWithDraw(String status) {
+  switch (status.toUpperCase()) {
+    // Convert status to uppercase to avoid case-sensitive issues
+    case "SUCCESSED":
+      return AppColor.appColor.success;
+    case "ACCEPTED":
+      return AppColor.appColor.active;
+    case "FAILED":
+      return AppColor.appColor.error;
+    case "EXPIRED":
+      return Colors.grey;
+    case "REFUNDED":
+      return AppColor.appColor.warning;
+    default:
+      return Colors.grey; // Default color for unknown status
+  }
 }
 
 class WithdrawlPage extends StatelessWidget {
@@ -115,25 +134,55 @@ class WithdrawlPage extends StatelessWidget {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     SizedBox(
-                                      width: 100,
-                                      child: ImageLoad(
-                                          height: 100,
-                                          fit: BoxFit.contain,
-                                          errorWidget: const SizedBox(),
-                                          placeholderWidget: const SizedBox(),
-                                          imageUrl: Environment.showUrlImage(
-                                              path: state.accountBalance != null
-                                                  ? state.availablePayment
-                                                          .where((element) =>
-                                                              element.bank ==
-                                                              state
-                                                                  .accountBalance!
-                                                                  .bank!
-                                                                  .bankName)
-                                                          .first
-                                                          .image ??
-                                                      ""
-                                                  : "")),
+                                      width: 150,
+                                      child: state.accountBalance?.bank
+                                                  ?.accountNumber ==
+                                              null
+                                          ? InkWell(
+                                              onTap: () {},
+                                              child: Container(
+                                                width: 1000,
+                                                height: 300,
+                                                child: Center(
+                                                    child: OutlinedButton(
+                                                  style: OutlinedButton.styleFrom(
+                                                      shape:
+                                                          RoundedRectangleBorder(
+                                                              borderRadius:
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                          26))),
+                                                  onPressed: () {
+                                                    cubitDashboard
+                                                        .changePage(3);
+                                                  },
+                                                  child: Text(
+                                                    "tambahkan bank account!",
+                                                  ),
+                                                )),
+                                              ),
+                                            )
+                                          : ImageLoad(
+                                              height: 100,
+                                              fit: BoxFit.contain,
+                                              errorWidget: const SizedBox(),
+                                              placeholderWidget:
+                                                  const SizedBox(),
+                                              imageUrl: Environment.showUrlImage(
+                                                  path: state.accountBalance !=
+                                                          null
+                                                      ? state.availablePayment
+                                                              .where((element) =>
+                                                                  element
+                                                                      .bank ==
+                                                                  state
+                                                                      .accountBalance!
+                                                                      .bank!
+                                                                      .bankName)
+                                                              .first
+                                                              .image ??
+                                                          ""
+                                                      : "")),
                                     ),
                                     Column(
                                       mainAxisAlignment:
@@ -224,8 +273,22 @@ class WithdrawlPage extends StatelessWidget {
                                 child: ClipRRect(
                                   borderRadius: BorderRadius.circular(36),
                                   child: ElevatedButton(
+                                      style: ElevatedButton.styleFrom(
+                                          backgroundColor: state.accountBalance
+                                                      ?.bank?.accountNumber ==
+                                                  null
+                                              ? Colors.grey
+                                              : AppColor.appColor.primary),
                                       onPressed: () {
-                                        cubit.checkSaldoValid();
+                                        if (state.accountBalance?.bank
+                                                ?.accountNumber ==
+                                            null) {
+                                          ShowNotify.error(context,
+                                              msg: "Bank account harus diisi");
+                                        } else {
+                                          cubit.checkSaldoValid();
+                                        }
+
                                         // cubit.showPin(context);
                                       },
                                       child: Text(
@@ -236,7 +299,86 @@ class WithdrawlPage extends StatelessWidget {
                                                 fontSize: 18),
                                       )),
                                 ),
-                              )
+                              ),
+                              SizedBox(height: 12),
+                              Divider(thickness: 1),
+                              SizedBox(height: 12),
+                              Align(
+                                alignment: Alignment.centerRight,
+                                child: SizedBox(
+                                  width: 260,
+                                  child: FormBuilderDateRangePicker(
+                                      initialValue: DateTimeRange(
+                                          start: DateTime.now().subtract(
+                                              const Duration(days: 7)),
+                                          end: DateTime.now()),
+                                      onChanged: (value) {
+                                        cubit
+                                            .getDateTimeRange(value.toString());
+                                      },
+                                      decoration: InputDecoration(
+                                        contentPadding:
+                                            const EdgeInsets.symmetric(
+                                                horizontal: 20),
+                                        suffixIcon:
+                                            const Icon(Icons.date_range),
+                                        border: OutlineInputBorder(
+                                          borderSide:
+                                              const BorderSide(width: 1),
+                                          borderRadius:
+                                              BorderRadius.circular(58),
+                                        ),
+                                        hintStyle:
+                                            const TextStyle(fontSize: 16),
+                                        filled: true,
+                                        fillColor: const Color(0xffffffff),
+                                      ),
+                                      name: "date",
+                                      firstDate: DateTime.now()
+                                          .subtract(const Duration(days: 1000)),
+                                      lastDate: DateTime.now()),
+                                ),
+                              ),
+                              SizedBox(height: 12),
+                              (state.history.isEmpty)
+                                  ? Column(
+                                      children: [
+                                        Center(
+                                          child: Text(
+                                              "Tidak ada data history wothdraw"),
+                                        ),
+                                        Center(
+                                          child: Text(
+                                              "${state.startDate} - ${state.endDate}"),
+                                        ),
+                                      ],
+                                    )
+                                  : ListView.separated(
+                                      physics: NeverScrollableScrollPhysics(),
+                                      shrinkWrap: true,
+                                      itemBuilder: (context, index) {
+                                        var his = state.history[index];
+                                        return ListTile(
+                                            trailing: Text(his.status ?? "",
+                                                style: AppFont.mediumBold(
+                                                        context)!
+                                                    .copyWith(
+                                                        color: statusWithDraw(
+                                                            his.status ?? ""))),
+                                            subtitle: Text(his.created
+                                                    ?.toddMMMyyyyHHmmss() ??
+                                                ""),
+                                            title: Text(
+                                                his.amount
+                                                    .toString()
+                                                    .currencyDot(symbol: "Rp."),
+                                                style:
+                                                    AppFont.largeBold(context)!));
+                                      },
+                                      separatorBuilder: (context, index) {
+                                        return SizedBox();
+                                      },
+                                      itemCount: state.history.length)
                             ],
                           ),
                         ),

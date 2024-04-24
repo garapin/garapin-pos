@@ -20,6 +20,7 @@ import 'package:pos/data/models/base/store.dart';
 import 'package:pos/data/models/base/unit.dart';
 import 'package:pos/data/models/base/user_database.dart';
 import 'package:pos/data/models/base/virtual_account.dart';
+import 'package:pos/data/models/base/withdraw_history.dart';
 import 'package:pos/data/models/request/req_bussiness_partner.dart';
 import 'package:pos/data/models/request/req_product.dart';
 import 'package:pos/data/models/request/req_register_bank.dart';
@@ -688,10 +689,23 @@ class ApiService {
   }
 
   static Future<ApiResponse> withdraw(BuildContext context,
-      {required int amount}) async {
+      {required int amount, required String channelColde}) async {
     return await ApiConfigure(context)
-        .post('/store/balance/withdraw', params: {"amount": amount})
+        .post('/store/balance/withdraw',
+            params: {"amount": amount, "channel_code": channelColde})
         .then((result) => ApiResponse.fromJson(result.data))
         .handler((error) => ApiResponse.onError(error));
+  }
+
+  static Future<ApiResponseList<WithdrawHistory>> withdrawHistory(
+      BuildContext context,
+      {required String startDate,
+      required String endDate}) async {
+    return await ApiConfigure(context)
+        .get('/store/balance/withdraw/history',
+            params: {"start_date": startDate, "end_date": endDate})
+        .then(
+            (result) => ApiResponseList<WithdrawHistory>.fromJson(result.data))
+        .handler((error) => ApiResponseList<WithdrawHistory>.onError(error));
   }
 }

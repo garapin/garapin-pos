@@ -193,6 +193,24 @@ class DashboardPage extends StatelessWidget {
                                       : CustomButton(
                                           onPressed: () {
                                             context
+                                                .read<WithdrawlCubit>()
+                                                .initData();
+                                            cubit.changePage(5);
+                                          },
+                                          child: state.index == 5
+                                              ? Resources
+                                                  .images.icWithdrawlActive
+                                                  .image(height: 65, width: 60)
+                                              : Resources
+                                                  .images.icWithdrawlInactive
+                                                  .image(
+                                                      height: 65, width: 60)),
+                                  const SizedBox(height: 8),
+                                  (Sessions.getDatabaseModel()?.role != "ADMIN")
+                                      ? SizedBox()
+                                      : CustomButton(
+                                          onPressed: () {
+                                            context
                                                 .read<ProfileCubit>()
                                                 .initData();
                                             cubit.changePage(3);
@@ -238,6 +256,26 @@ class DashboardPage extends StatelessWidget {
                                                 .image(height: 65, width: 60)
                                             : Resources.images.reportInactive
                                                 .image(height: 65, width: 60)),
+                                    const SizedBox(height: 8),
+                                    (Sessions.getDatabaseModel()?.role !=
+                                            "ADMIN")
+                                        ? SizedBox()
+                                        : CustomButton(
+                                            onPressed: () {
+                                              context
+                                                  .read<WithdrawlCubit>()
+                                                  .initData();
+                                              cubit.changePage(5);
+                                            },
+                                            child: state.index == 5
+                                                ? Resources
+                                                    .images.icWithdrawlActive
+                                                    .image(
+                                                        height: 65, width: 60)
+                                                : Resources
+                                                    .images.icWithdrawlInactive
+                                                    .image(
+                                                        height: 65, width: 60)),
                                     const SizedBox(height: 8),
                                     (Sessions.getDatabaseModel()?.role !=
                                             "ADMIN")
@@ -324,6 +362,26 @@ class DashboardPage extends StatelessWidget {
                                                 .image(height: 65, width: 60)
                                             : Resources.images.reportInactive
                                                 .image(height: 65, width: 60)),
+                                    const SizedBox(height: 8),
+                                    (Sessions.getDatabaseModel()?.role !=
+                                            "ADMIN")
+                                        ? SizedBox()
+                                        : CustomButton(
+                                            onPressed: () {
+                                              context
+                                                  .read<WithdrawlCubit>()
+                                                  .initData();
+                                              cubit.changePage(5);
+                                            },
+                                            child: state.index == 5
+                                                ? Resources
+                                                    .images.icWithdrawlActive
+                                                    .image(
+                                                        height: 65, width: 60)
+                                                : Resources
+                                                    .images.icWithdrawlInactive
+                                                    .image(
+                                                        height: 65, width: 60)),
                                     const SizedBox(height: 8),
                                     (Sessions.getDatabaseModel()?.role !=
                                             "ADMIN")
