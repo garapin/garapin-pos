@@ -76,16 +76,16 @@ class RegisterBankAccount extends StatelessWidget {
               hintText: "masukan Nomor Rekening",
               label: "No Rekening",
             ),
-            const SizedBox(height: 16),
-            OutlineFormText(
-              obscureText: true,
-              initialValue: "111111",
-              keyboardType: TextInputType.number,
-              name: "pin",
-              hintText: "Masukan Pin",
-              label: "Pin Anda",
-              maxLength: 6,
-            ),
+            // const SizedBox(height: 16),
+            // OutlineFormText(
+            //   obscureText: true,
+            //   initialValue: "111111",
+            //   keyboardType: TextInputType.number,
+            //   name: "pin",
+            //   hintText: "Masukan Pin",
+            //   label: "Pin Anda",
+            //   maxLength: 6,
+            // ),
             // ClipRRect(
             //   borderRadius: BorderRadius.circular(38),
             //   child: SizedBox(

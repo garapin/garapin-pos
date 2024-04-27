@@ -59,12 +59,16 @@ class DetailTransactionProduct extends StatelessWidget {
                                     style: AppFont.largeBold(context),
                                   ),
                                   Text(
-                                    "${state.invoice?.createdAt!.toddMMMyyyyHHmm()}",
-                                    style: AppFont.medium(context),
+                                    "TRX ${state.trxName?.toUpperCase()}",
+                                    style: AppFont.largeBold(context),
                                   ),
                                 ],
                               ),
                             ],
+                          ),
+                          Text(
+                            "${state.invoice?.createdAt!.toddMMMyyyyHHmm()}",
+                            style: AppFont.largeBold(context),
                           ),
                         ],
                       ),

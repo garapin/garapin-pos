@@ -18,6 +18,7 @@ class DetailTransactionProductCubit
   @override
   Future<void> initData() async {
     loadingState();
+    emit(state.copyWith(trxName: args["trx"]));
     getInvoice();
     finishRefresh(state.status);
   }

@@ -18,6 +18,7 @@ final _privateConstructorUsedError = UnsupportedError(
 mixin _$DetailTransactionProductState {
   DataStateStatus get status => throw _privateConstructorUsedError;
   Invoices? get invoice => throw _privateConstructorUsedError;
+  String? get trxName => throw _privateConstructorUsedError;
   String? get err => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
@@ -33,7 +34,11 @@ abstract class $DetailTransactionProductStateCopyWith<$Res> {
       _$DetailTransactionProductStateCopyWithImpl<$Res,
           DetailTransactionProductState>;
   @useResult
-  $Res call({DataStateStatus status, Invoices? invoice, String? err});
+  $Res call(
+      {DataStateStatus status,
+      Invoices? invoice,
+      String? trxName,
+      String? err});
 }
 
 /// @nodoc
@@ -52,6 +57,7 @@ class _$DetailTransactionProductStateCopyWithImpl<$Res,
   $Res call({
     Object? status = null,
     Object? invoice = freezed,
+    Object? trxName = freezed,
     Object? err = freezed,
   }) {
     return _then(_value.copyWith(
@@ -63,6 +69,10 @@ class _$DetailTransactionProductStateCopyWithImpl<$Res,
           ? _value.invoice
           : invoice // ignore: cast_nullable_to_non_nullable
               as Invoices?,
+      trxName: freezed == trxName
+          ? _value.trxName
+          : trxName // ignore: cast_nullable_to_non_nullable
+              as String?,
       err: freezed == err
           ? _value.err
           : err // ignore: cast_nullable_to_non_nullable
@@ -80,7 +90,11 @@ abstract class _$$DetailTransactionProductStateImplCopyWith<$Res>
       __$$DetailTransactionProductStateImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({DataStateStatus status, Invoices? invoice, String? err});
+  $Res call(
+      {DataStateStatus status,
+      Invoices? invoice,
+      String? trxName,
+      String? err});
 }
 
 /// @nodoc
@@ -98,6 +112,7 @@ class __$$DetailTransactionProductStateImplCopyWithImpl<$Res>
   $Res call({
     Object? status = null,
     Object? invoice = freezed,
+    Object? trxName = freezed,
     Object? err = freezed,
   }) {
     return _then(_$DetailTransactionProductStateImpl(
@@ -109,6 +124,10 @@ class __$$DetailTransactionProductStateImplCopyWithImpl<$Res>
           ? _value.invoice
           : invoice // ignore: cast_nullable_to_non_nullable
               as Invoices?,
+      trxName: freezed == trxName
+          ? _value.trxName
+          : trxName // ignore: cast_nullable_to_non_nullable
+              as String?,
       err: freezed == err
           ? _value.err
           : err // ignore: cast_nullable_to_non_nullable
@@ -122,7 +141,10 @@ class __$$DetailTransactionProductStateImplCopyWithImpl<$Res>
 class _$DetailTransactionProductStateImpl
     implements _DetailTransactionProductState {
   const _$DetailTransactionProductStateImpl(
-      {this.status = DataStateStatus.initial, this.invoice, this.err});
+      {this.status = DataStateStatus.initial,
+      this.invoice,
+      this.trxName,
+      this.err});
 
   @override
   @JsonKey()
@@ -130,11 +152,13 @@ class _$DetailTransactionProductStateImpl
   @override
   final Invoices? invoice;
   @override
+  final String? trxName;
+  @override
   final String? err;
 
   @override
   String toString() {
-    return 'DetailTransactionProductState(status: $status, invoice: $invoice, err: $err)';
+    return 'DetailTransactionProductState(status: $status, invoice: $invoice, trxName: $trxName, err: $err)';
   }
 
   @override
@@ -144,11 +168,12 @@ class _$DetailTransactionProductStateImpl
             other is _$DetailTransactionProductStateImpl &&
             (identical(other.status, status) || other.status == status) &&
             (identical(other.invoice, invoice) || other.invoice == invoice) &&
+            (identical(other.trxName, trxName) || other.trxName == trxName) &&
             (identical(other.err, err) || other.err == err));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, status, invoice, err);
+  int get hashCode => Object.hash(runtimeType, status, invoice, trxName, err);
 
   @JsonKey(ignore: true)
   @override
@@ -164,12 +189,15 @@ abstract class _DetailTransactionProductState
   const factory _DetailTransactionProductState(
       {final DataStateStatus status,
       final Invoices? invoice,
+      final String? trxName,
       final String? err}) = _$DetailTransactionProductStateImpl;
 
   @override
   DataStateStatus get status;
   @override
   Invoices? get invoice;
+  @override
+  String? get trxName;
   @override
   String? get err;
   @override

@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -61,8 +62,8 @@ class ReportBagiDretail extends StatelessWidget {
                                         style: AppFont.largeBold(context),
                                       ),
                                       Text(
-                                        "${state.split?.split?.description}",
-                                        style: AppFont.medium(context),
+                                        "TRX ${state.trxName?.toUpperCase()}",
+                                        style: AppFont.largeBold(context),
                                       ),
                                     ],
                                   ),
@@ -122,8 +123,8 @@ class ReportBagiDretail extends StatelessWidget {
                               return (state.store?.store?.merChantRole ==
                                           "SUPP" &&
                                       template?.type != "SUPP" &&
-                                      state.store?.store?.storeName !=
-                                          item?.target)
+                                      Sessions.getDatabaseModel()?.name !=
+                                          item?.referenceId)
                                   ? SizedBox()
                                   : Row(
                                       mainAxisAlignment:

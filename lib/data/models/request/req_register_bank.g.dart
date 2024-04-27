@@ -10,8 +10,8 @@ ReqRegisterBank _$ReqRegisterBankFromJson(Map<String, dynamic> json) =>
     ReqRegisterBank(
       bankName: json['bank_name'] as String?,
       holderName: json['holder_name'] as String?,
-      accountNumber: json['account_number'] as int?,
-      pin: json['pin'] as int?,
+      accountNumber: json['account_number'] as String?,
+      pin: json['pin'] as String?,
     );
 
 Map<String, dynamic> _$ReqRegisterBankToJson(ReqRegisterBank instance) =>

@@ -14,9 +14,9 @@ class ReqRegisterBank {
   @JsonKey(name: "holder_name")
   String? holderName;
   @JsonKey(name: "account_number")
-  int? accountNumber;
+  String? accountNumber;
   @JsonKey(name: "pin")
-  int? pin;
+  String? pin;
 
   ReqRegisterBank({
     this.bankName,

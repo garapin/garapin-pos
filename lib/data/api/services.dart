@@ -605,6 +605,7 @@ class ApiService {
 // report bs
   static Future<ApiResponse<HistoryTransaction>> report(BuildContext context,
       {required String param, required String targetDatabase}) async {
+    print(param);
     return await ApiConfigure(context)
         .post('/store/transaction/history',
             params: {"database": targetDatabase, "param": param})

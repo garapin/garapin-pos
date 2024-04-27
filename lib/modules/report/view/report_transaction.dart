@@ -187,7 +187,13 @@ class ReportTransaction extends StatelessWidget {
                                             RouteNames.detailTransactionProduct,
                                             extra: Map<String, String>.from({
                                               "database": state.targetDatabase,
-                                              "invoice": item.referenceId
+                                              "invoice": item.referenceId,
+                                              "trx": state.filterTemplate
+                                                  .where((element) =>
+                                                      element.dbName ==
+                                                      state.targetDatabase)
+                                                  .first
+                                                  .storeName
                                             }));
                                         print("ini status");
                                         print(status

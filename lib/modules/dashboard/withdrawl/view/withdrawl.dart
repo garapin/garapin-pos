@@ -120,105 +120,105 @@ class WithdrawlPage extends StatelessWidget {
                                 ),
                               ),
                               const SizedBox(height: 16),
-                              Container(
-                                padding:
-                                    const EdgeInsets.symmetric(horizontal: 24),
-                                height: 100,
-                                width: baseWidth,
-                                decoration: BoxDecoration(
-                                    border: Border.all(
-                                        color: Colors.grey, width: 0.5),
-                                    borderRadius: BorderRadius.circular(36)),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    SizedBox(
-                                      width: 150,
-                                      child: state.accountBalance?.bank
-                                                  ?.accountNumber ==
-                                              null
-                                          ? InkWell(
-                                              onTap: () {},
-                                              child: Container(
-                                                width: 1000,
-                                                height: 300,
-                                                child: Center(
-                                                    child: OutlinedButton(
-                                                  style: OutlinedButton.styleFrom(
-                                                      shape:
-                                                          RoundedRectangleBorder(
-                                                              borderRadius:
-                                                                  BorderRadius
-                                                                      .circular(
-                                                                          26))),
-                                                  onPressed: () {
-                                                    cubitDashboard
-                                                        .changePage(3);
-                                                  },
-                                                  child: Text(
-                                                    "tambahkan bank account!",
-                                                  ),
-                                                )),
+                              state.accountBalance?.bank?.accountNumber != null
+                                  ? InkWell(
+                                      onTap: () {},
+                                      child: Container(
+                                        width: baseWidth,
+                                        height: 60,
+                                        child: OutlinedButton(
+                                          style: OutlinedButton.styleFrom(
+                                              shape: RoundedRectangleBorder(
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          26))),
+                                          onPressed: () {
+                                            cubitDashboard.changePage(3);
+                                          },
+                                          child: Text(
+                                            "Bank account kosong, Tambahkan bank account di profile untuk bisa withdraw",
+                                          ),
+                                        ),
+                                      ),
+                                    )
+                                  : Container(
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 24),
+                                      height: 100,
+                                      width: baseWidth,
+                                      decoration: BoxDecoration(
+                                          border: Border.all(
+                                              color: Colors.grey, width: 0.5),
+                                          borderRadius:
+                                              BorderRadius.circular(36)),
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.start,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          SizedBox(
+                                            width: 150,
+                                            child: ImageLoad(
+                                                height: 100,
+                                                fit: BoxFit.contain,
+                                                errorWidget: const SizedBox(),
+                                                placeholderWidget:
+                                                    const SizedBox(),
+                                                imageUrl: Environment.showUrlImage(
+                                                    path: state.accountBalance !=
+                                                            null
+                                                        ? state.availablePayment
+                                                                .where((element) =>
+                                                                    element
+                                                                        .bank ==
+                                                                    state
+                                                                        .accountBalance!
+                                                                        .bank!
+                                                                        .bankName)
+                                                                .first
+                                                                .image ??
+                                                            ""
+                                                        : "")),
+                                          ),
+                                          Column(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Text(
+                                                state.accountBalance?.bank
+                                                        ?.holderName ??
+                                                    "",
+                                                style:
+                                                    AppFont.largeBold(context)!
+                                                        .copyWith(fontSize: 18),
                                               ),
-                                            )
-                                          : ImageLoad(
-                                              height: 100,
-                                              fit: BoxFit.contain,
-                                              errorWidget: const SizedBox(),
-                                              placeholderWidget:
-                                                  const SizedBox(),
-                                              imageUrl: Environment.showUrlImage(
-                                                  path: state.accountBalance !=
-                                                          null
-                                                      ? state.availablePayment
-                                                              .where((element) =>
-                                                                  element
-                                                                      .bank ==
-                                                                  state
-                                                                      .accountBalance!
-                                                                      .bank!
-                                                                      .bankName)
-                                                              .first
-                                                              .image ??
-                                                          ""
-                                                      : "")),
+                                              const SizedBox(height: 4),
+                                              Text(
+                                                state.accountBalance?.bank
+                                                        ?.bankName ??
+                                                    "",
+                                                style: AppFont.medium(context)!
+                                                    .copyWith(fontSize: 18),
+                                              ),
+                                              const SizedBox(height: 2),
+                                              Text(
+                                                maskAccountNumber(state
+                                                        .accountBalance
+                                                        ?.bank
+                                                        ?.accountNumber
+                                                        ?.toString() ??
+                                                    ''),
+                                                style: AppFont.medium(context)!
+                                                    .copyWith(fontSize: 16),
+                                              )
+                                            ],
+                                          ),
+                                        ],
+                                      ),
                                     ),
-                                    Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                          state.accountBalance?.bank
-                                                  ?.holderName ??
-                                              "",
-                                          style: AppFont.largeBold(context)!
-                                              .copyWith(fontSize: 18),
-                                        ),
-                                        const SizedBox(height: 4),
-                                        Text(
-                                          state.accountBalance?.bank
-                                                  ?.bankName ??
-                                              "",
-                                          style: AppFont.medium(context)!
-                                              .copyWith(fontSize: 18),
-                                        ),
-                                        const SizedBox(height: 2),
-                                        Text(
-                                          maskAccountNumber(state.accountBalance
-                                                  ?.bank?.accountNumber
-                                                  ?.toString() ??
-                                              ''),
-                                          style: AppFont.medium(context)!
-                                              .copyWith(fontSize: 16),
-                                        )
-                                      ],
-                                    ),
-                                  ],
-                                ),
-                              ),
                               const SizedBox(height: 24),
                               Padding(
                                 padding:

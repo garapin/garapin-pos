@@ -135,7 +135,7 @@ class WithdrawlCubit extends BaseCubit<WithdrawlState> {
               style: AppFont.large(context)!.copyWith(fontSize: 20),
             ),
             content: SizedBox(
-              width: 300,
+              width: 400,
               height: 200,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -218,7 +218,7 @@ class WithdrawlCubit extends BaseCubit<WithdrawlState> {
             actions: <Widget>[
               Container(
                 height: 40,
-                width: 155,
+                width: 255,
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(60),
                   child: Padding(
@@ -237,7 +237,7 @@ class WithdrawlCubit extends BaseCubit<WithdrawlState> {
               ),
               Container(
                 height: 40,
-                width: 155,
+                width: 255,
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(60),
                   child: ElevatedButton(

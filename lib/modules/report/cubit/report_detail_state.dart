@@ -8,5 +8,6 @@ class ReportDetailState with _$ReportDetailState {
     Invoices? invoice,
     Store? store,
     String? err,
+    String? trxName,
   }) = _ReportDetailState;
 }

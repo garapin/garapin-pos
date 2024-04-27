@@ -5,6 +5,7 @@ class DetailTransactionProductState with _$DetailTransactionProductState {
   const factory DetailTransactionProductState({
     @Default(DataStateStatus.initial) DataStateStatus status,
     Invoices? invoice,
+    String? trxName,
     String? err,
   }) = _DetailTransactionProductState;
 }

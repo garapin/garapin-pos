@@ -184,11 +184,23 @@ class ReportPage extends StatelessWidget {
                                     var item = state.transaction[index];
                                     return ListTile(
                                       onTap: () async {
+                                        print(state.filterTemplate
+                                            .where((element) =>
+                                                element.dbName ==
+                                                state.targetDatabase)
+                                            .first
+                                            .storeName);
                                         var status = context.pushNamed(
                                             RouteNames.reportBagiDretail,
                                             extra: Map<String, String>.from({
                                               "database": state.targetDatabase,
-                                              "invoice": item.referenceId
+                                              "invoice": item.referenceId,
+                                              "trx": state.filterTemplate
+                                                  .where((element) =>
+                                                      element.dbName ==
+                                                      state.targetDatabase)
+                                                  .first
+                                                  .storeName
                                             }));
                                         print("ini status");
                                         print(status
