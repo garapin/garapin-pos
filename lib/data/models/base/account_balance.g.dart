@@ -23,7 +23,7 @@ Map<String, dynamic> _$AccountBalanceToJson(AccountBalance instance) =>
 Bank _$BankFromJson(Map<String, dynamic> json) => Bank(
       bankName: json['bank_name'] as String?,
       holderName: json['holder_name'] as String?,
-      accountNumber: json['account_number'] as int?,
+      accountNumber: json['account_number'] as String?,
       pin: json['pin'] as String?,
     );
 
