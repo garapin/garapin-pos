@@ -9,7 +9,7 @@ part of 'bank_account.dart';
 BankAccount _$BankAccountFromJson(Map<String, dynamic> json) => BankAccount(
       bankName: json['bank_name'] as String?,
       holderName: json['holder_name'] as String?,
-      accountNumber: json['account_number'] as int?,
+      accountNumber: json['account_number'] as String?,
       pin: json['pin'] as String?,
     );
 

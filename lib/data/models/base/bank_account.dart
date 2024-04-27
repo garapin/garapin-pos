@@ -14,7 +14,7 @@ class BankAccount {
   @JsonKey(name: "holder_name")
   String? holderName;
   @JsonKey(name: "account_number")
-  int? accountNumber;
+  String? accountNumber;
   @JsonKey(name: "pin")
   String? pin;
 
