@@ -120,7 +120,7 @@ class WithdrawlPage extends StatelessWidget {
                                 ),
                               ),
                               const SizedBox(height: 16),
-                              state.accountBalance?.bank?.accountNumber != null
+                              state.accountBalance?.bank?.accountNumber == null
                                   ? InkWell(
                                       onTap: () {},
                                       child: Container(
