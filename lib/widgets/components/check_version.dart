@@ -30,7 +30,7 @@ void checkVersion(BuildContext context) async {
     PackageInfo packageInfo = await PackageInfo.fromPlatform();
     String version = packageInfo.version;
     print(data);
-    if (data['current_version'].toString() == version) {
+    if (data['allowed_version'].contains(version)) {
       // Versi sudah didukung
     } else {
       showDialog(
@@ -46,7 +46,7 @@ void checkVersion(BuildContext context) async {
               ),
               title: Text('Versi $version Tidak Didukung'),
               content: Text(
-                'Versi aplikasi Anda tidak didukung. Silakan perbarui aplikasi Anda ke versi ${data['current_version']}',
+                'Versi aplikasi Anda tidak didukung. Silakan perbarui aplikasi Anda di playstore',
               ),
               actions: [
                 ClipRRect(

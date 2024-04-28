@@ -23,6 +23,8 @@ mixin _$WithdrawlState {
   List<WithdrawHistory> get history => throw _privateConstructorUsedError;
   List<AvailablePayment> get availablePayment =>
       throw _privateConstructorUsedError;
+  CheckAmountWithdraw? get checkAmountWithdraw =>
+      throw _privateConstructorUsedError;
   String? get startDate => throw _privateConstructorUsedError;
   String? get endDate => throw _privateConstructorUsedError;
 
@@ -44,6 +46,7 @@ abstract class $WithdrawlStateCopyWith<$Res> {
       AccountBalance? accountBalance,
       List<WithdrawHistory> history,
       List<AvailablePayment> availablePayment,
+      CheckAmountWithdraw? checkAmountWithdraw,
       String? startDate,
       String? endDate});
 }
@@ -67,6 +70,7 @@ class _$WithdrawlStateCopyWithImpl<$Res, $Val extends WithdrawlState>
     Object? accountBalance = freezed,
     Object? history = null,
     Object? availablePayment = null,
+    Object? checkAmountWithdraw = freezed,
     Object? startDate = freezed,
     Object? endDate = freezed,
   }) {
@@ -95,6 +99,10 @@ class _$WithdrawlStateCopyWithImpl<$Res, $Val extends WithdrawlState>
           ? _value.availablePayment
           : availablePayment // ignore: cast_nullable_to_non_nullable
               as List<AvailablePayment>,
+      checkAmountWithdraw: freezed == checkAmountWithdraw
+          ? _value.checkAmountWithdraw
+          : checkAmountWithdraw // ignore: cast_nullable_to_non_nullable
+              as CheckAmountWithdraw?,
       startDate: freezed == startDate
           ? _value.startDate
           : startDate // ignore: cast_nullable_to_non_nullable
@@ -122,6 +130,7 @@ abstract class _$$WithdrawlStateImplCopyWith<$Res>
       AccountBalance? accountBalance,
       List<WithdrawHistory> history,
       List<AvailablePayment> availablePayment,
+      CheckAmountWithdraw? checkAmountWithdraw,
       String? startDate,
       String? endDate});
 }
@@ -143,6 +152,7 @@ class __$$WithdrawlStateImplCopyWithImpl<$Res>
     Object? accountBalance = freezed,
     Object? history = null,
     Object? availablePayment = null,
+    Object? checkAmountWithdraw = freezed,
     Object? startDate = freezed,
     Object? endDate = freezed,
   }) {
@@ -171,6 +181,10 @@ class __$$WithdrawlStateImplCopyWithImpl<$Res>
           ? _value._availablePayment
           : availablePayment // ignore: cast_nullable_to_non_nullable
               as List<AvailablePayment>,
+      checkAmountWithdraw: freezed == checkAmountWithdraw
+          ? _value.checkAmountWithdraw
+          : checkAmountWithdraw // ignore: cast_nullable_to_non_nullable
+              as CheckAmountWithdraw?,
       startDate: freezed == startDate
           ? _value.startDate
           : startDate // ignore: cast_nullable_to_non_nullable
@@ -193,6 +207,7 @@ class _$WithdrawlStateImpl implements _WithdrawlState {
       this.accountBalance,
       final List<WithdrawHistory> history = const [],
       final List<AvailablePayment> availablePayment = const [],
+      this.checkAmountWithdraw,
       this.startDate,
       this.endDate})
       : _history = history,
@@ -228,13 +243,15 @@ class _$WithdrawlStateImpl implements _WithdrawlState {
   }
 
   @override
+  final CheckAmountWithdraw? checkAmountWithdraw;
+  @override
   final String? startDate;
   @override
   final String? endDate;
 
   @override
   String toString() {
-    return 'WithdrawlState(isPinMatch: $isPinMatch, status: $status, err: $err, accountBalance: $accountBalance, history: $history, availablePayment: $availablePayment, startDate: $startDate, endDate: $endDate)';
+    return 'WithdrawlState(isPinMatch: $isPinMatch, status: $status, err: $err, accountBalance: $accountBalance, history: $history, availablePayment: $availablePayment, checkAmountWithdraw: $checkAmountWithdraw, startDate: $startDate, endDate: $endDate)';
   }
 
   @override
@@ -251,6 +268,8 @@ class _$WithdrawlStateImpl implements _WithdrawlState {
             const DeepCollectionEquality().equals(other._history, _history) &&
             const DeepCollectionEquality()
                 .equals(other._availablePayment, _availablePayment) &&
+            (identical(other.checkAmountWithdraw, checkAmountWithdraw) ||
+                other.checkAmountWithdraw == checkAmountWithdraw) &&
             (identical(other.startDate, startDate) ||
                 other.startDate == startDate) &&
             (identical(other.endDate, endDate) || other.endDate == endDate));
@@ -265,6 +284,7 @@ class _$WithdrawlStateImpl implements _WithdrawlState {
       accountBalance,
       const DeepCollectionEquality().hash(_history),
       const DeepCollectionEquality().hash(_availablePayment),
+      checkAmountWithdraw,
       startDate,
       endDate);
 
@@ -284,6 +304,7 @@ abstract class _WithdrawlState implements WithdrawlState {
       final AccountBalance? accountBalance,
       final List<WithdrawHistory> history,
       final List<AvailablePayment> availablePayment,
+      final CheckAmountWithdraw? checkAmountWithdraw,
       final String? startDate,
       final String? endDate}) = _$WithdrawlStateImpl;
 
@@ -299,6 +320,8 @@ abstract class _WithdrawlState implements WithdrawlState {
   List<WithdrawHistory> get history;
   @override
   List<AvailablePayment> get availablePayment;
+  @override
+  CheckAmountWithdraw? get checkAmountWithdraw;
   @override
   String? get startDate;
   @override

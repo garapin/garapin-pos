@@ -6,7 +6,9 @@ import 'package:pos/data/models/base/account_balance.dart';
 import 'package:pos/data/models/base/available_payment.dart';
 import 'package:pos/data/models/base/brand.dart';
 import 'package:pos/data/models/base/cart.dart';
+import 'package:pos/data/models/base/check_amount_withdraw.dart';
 import 'package:pos/data/models/base/config_version_apps.dart';
+import 'package:pos/data/models/base/config_version_apps_v2.dart';
 import 'package:pos/data/models/base/database_store.dart';
 import 'package:pos/data/models/base/filter_store_transaction.dart';
 import 'package:pos/data/models/base/history_transaction.dart';
@@ -87,6 +89,17 @@ class ApiService {
         .get('config/version')
         .then((result) => ApiResponse<ConfigVersionApps>.fromJson(result.data))
         .handler((error) => ApiResponse<ConfigVersionApps>.onError(error));
+  }
+
+  static Future<ApiResponseList<ConfigVersionAppsV2>> getConfigVersionV2(
+    BuildContext context,
+  ) async {
+    return await ApiConfigure(context)
+        .get('config/version/v2')
+        .then((result) =>
+            ApiResponseList<ConfigVersionAppsV2>.fromJson(result.data))
+        .handler(
+            (error) => ApiResponseList<ConfigVersionAppsV2>.onError(error));
   }
 
   static Future<ApiResponse<UserDatabase>> signinWithGoogle(
@@ -687,6 +700,16 @@ class ApiService {
         .post('/store/balance/verify_pin', params: {"pin": pin})
         .then((result) => ApiResponse.fromJson(result.data))
         .handler((error) => ApiResponse.onError(error));
+  }
+
+  static Future<ApiResponse<CheckAmountWithdraw>> checkAmountWithraw(
+      BuildContext context,
+      {required int amount}) async {
+    return await ApiConfigure(context)
+        .post('store/balance/withdraw/check_amount', params: {"amount": amount})
+        .then(
+            (result) => ApiResponse<CheckAmountWithdraw>.fromJson(result.data))
+        .handler((error) => ApiResponse<CheckAmountWithdraw>.onError(error));
   }
 
   static Future<ApiResponse> withdraw(BuildContext context,

@@ -30,6 +30,8 @@ String maskAccountNumber(String accountNumber) {
 Color statusWithDraw(String status) {
   switch (status.toUpperCase()) {
     // Convert status to uppercase to avoid case-sensitive issues
+    case "SUCCEEDED":
+      return AppColor.appColor.success;
     case "SUCCESSED":
       return AppColor.appColor.success;
     case "ACCEPTED":
@@ -345,7 +347,7 @@ class WithdrawlPage extends StatelessWidget {
                                       children: [
                                         Center(
                                           child: Text(
-                                              "Tidak ada data history wothdraw"),
+                                              "Tidak ada data history withdraw"),
                                         ),
                                         Center(
                                           child: Text(

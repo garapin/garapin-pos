@@ -8,6 +8,8 @@ import '../base/available_payment.dart';
 import '../base/brand.dart';
 import '../base/cart.dart';
 import '../base/category.dart';
+import '../base/check_amount_withdraw.dart';
+import '../base/config_version_apps_v2.dart';
 import '../base/database_store.dart';
 import '../base/filter_store_transaction.dart';
 import '../base/history_transaction.dart';
@@ -67,6 +69,10 @@ Object factoryModel(String type, {Map<String, dynamic>? json}) {
       return json != null
           ? ConfigVersionApps.fromJson(json)
           : ConfigVersionApps();
+    case 'ConfigVersionAppsV2':
+      return json != null
+          ? ConfigVersionAppsV2.fromJson(json)
+          : ConfigVersionAppsV2();
     case 'SplitPaymentTemplate':
       return json != null
           ? SplitPaymentTemplate.fromJson(json)
@@ -85,6 +91,10 @@ Object factoryModel(String type, {Map<String, dynamic>? json}) {
       return json != null
           ? SplitPaymentDetail.fromJson(json)
           : SplitPaymentDetail();
+    case 'CheckAmountWithdraw':
+      return json != null
+          ? CheckAmountWithdraw.fromJson(json)
+          : CheckAmountWithdraw();
     case 'dynamic':
       return json != null ? DefaultModel(json) : DefaultModel({});
     default:

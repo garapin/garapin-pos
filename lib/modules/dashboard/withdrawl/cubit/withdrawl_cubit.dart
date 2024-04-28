@@ -8,6 +8,7 @@ import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import 'package:pos/data/api/services.dart';
 import 'package:pos/data/models/base/account_balance.dart';
+import 'package:pos/data/models/base/check_amount_withdraw.dart';
 import 'package:pos/data/models/base/withdraw_history.dart';
 import 'package:pos/engine/engine.dart';
 import 'package:pos/engine/helpers/options.dart';
@@ -114,16 +115,33 @@ class WithdrawlCubit extends BaseCubit<WithdrawlState> {
     }
   }
 
-  checkSaldoValid() {
-    int amount = int.parse(amountController.text.replaceAll(",", ""));
-    if (amount > state.accountBalance!.balance!) {
-      showError("Melebihi saldo anda");
+  checkAmountWithdraw(int amount) async {
+    final data = await ApiService.checkAmountWithraw(context, amount: amount);
+    if (data.isSuccess) {
+      emit(state.copyWith(checkAmountWithdraw: data.data));
+      showPin(context, data.data!.amount!, data.data!.totalFee!,
+          data.data!.amountToBank!);
     } else {
-      showPin(context);
+      showError(data.message);
     }
   }
 
-  showPin(BuildContext context) {
+  checkSaldoValid() {
+    try {
+      int amount = int.parse(amountController.text.replaceAll(",", ""));
+      if (amount > state.accountBalance!.balance!) {
+        showError("Melebihi saldo anda");
+      } else if (amount < 20000) {
+        showError("Minimal withdraw Rp.20.000");
+      } else {
+        checkAmountWithdraw(amount);
+      }
+    } catch (e) {
+      showError("Isi saldo minimal Rp.20.000");
+    }
+  }
+
+  showPin(BuildContext context, int amount, int fee, int amountToBank) {
     showDialog(
         context: context,
         builder: (BuildContext context) {
@@ -141,8 +159,21 @@ class WithdrawlCubit extends BaseCubit<WithdrawlState> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    "Lanjutkan withdraw sebesar ${amountController.text.currencyDot(symbol: "Rp.")}",
-                    style: AppFont.large(context)!.copyWith(fontSize: 18),
+                    "withdraw ${amount.toString().currencyDot(symbol: "Rp.")}",
+                    style: AppFont.large(context)!.copyWith(fontSize: 16),
+                  ),
+                  SizedBox(height: 4),
+                  Text(
+                    "Admin + Tax  ${fee.toString().currencyDot(symbol: "Rp.")}",
+                    style: AppFont.large(context)!.copyWith(fontSize: 16),
+                  ),
+                  SizedBox(height: 4),
+                  Divider(thickness: 1),
+                  SizedBox(height: 4),
+                  Text(
+                    "Total masuk ke rekening ${amountToBank.toString().currencyDot(symbol: "Rp.")}",
+                    style: AppFont.large(context)!.copyWith(
+                        fontSize: 18, color: AppColor.appColor.success),
                   ),
                   SizedBox(height: 24),
                   Container(

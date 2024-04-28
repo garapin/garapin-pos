@@ -9,6 +9,7 @@ class WithdrawlState with _$WithdrawlState {
     AccountBalance? accountBalance,
     @Default([]) List<WithdrawHistory> history,
     @Default([]) List<AvailablePayment> availablePayment,
+    CheckAmountWithdraw? checkAmountWithdraw,
     String? startDate,
     String? endDate,
   }) = _WithdrawlState;
