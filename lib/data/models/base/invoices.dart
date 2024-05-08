@@ -22,6 +22,14 @@ class Invoices {
   dynamic paymentDate;
   @JsonKey(name: "webhook")
   dynamic webhook;
+  @JsonKey(name: "total_with_fee")
+  int? totalWithFee;
+  @JsonKey(name: "fee_garapin")
+  int? feeGarapin;
+  @JsonKey(name: "fee_bank")
+  int? feeBank;
+  @JsonKey(name: "vat")
+  double? vat;
   @JsonKey(name: "_id")
   String? id;
   @JsonKey(name: "createdAt")
@@ -39,6 +47,8 @@ class Invoices {
     this.paymentMethod,
     this.paymentDate,
     this.webhook,
+    this.feeBank,
+    this.vat,
     this.id,
     this.createdAt,
     this.updatedAt,

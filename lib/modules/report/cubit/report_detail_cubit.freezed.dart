@@ -22,6 +22,8 @@ mixin _$ReportDetailState {
   Store? get store => throw _privateConstructorUsedError;
   String? get err => throw _privateConstructorUsedError;
   String? get trxName => throw _privateConstructorUsedError;
+  String? get fee => throw _privateConstructorUsedError;
+  String? get tax => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $ReportDetailStateCopyWith<ReportDetailState> get copyWith =>
@@ -40,7 +42,9 @@ abstract class $ReportDetailStateCopyWith<$Res> {
       Invoices? invoice,
       Store? store,
       String? err,
-      String? trxName});
+      String? trxName,
+      String? fee,
+      String? tax});
 }
 
 /// @nodoc
@@ -62,6 +66,8 @@ class _$ReportDetailStateCopyWithImpl<$Res, $Val extends ReportDetailState>
     Object? store = freezed,
     Object? err = freezed,
     Object? trxName = freezed,
+    Object? fee = freezed,
+    Object? tax = freezed,
   }) {
     return _then(_value.copyWith(
       status: null == status
@@ -88,6 +94,14 @@ class _$ReportDetailStateCopyWithImpl<$Res, $Val extends ReportDetailState>
           ? _value.trxName
           : trxName // ignore: cast_nullable_to_non_nullable
               as String?,
+      fee: freezed == fee
+          ? _value.fee
+          : fee // ignore: cast_nullable_to_non_nullable
+              as String?,
+      tax: freezed == tax
+          ? _value.tax
+          : tax // ignore: cast_nullable_to_non_nullable
+              as String?,
     ) as $Val);
   }
 }
@@ -106,7 +120,9 @@ abstract class _$$ReportDetailStateImplCopyWith<$Res>
       Invoices? invoice,
       Store? store,
       String? err,
-      String? trxName});
+      String? trxName,
+      String? fee,
+      String? tax});
 }
 
 /// @nodoc
@@ -126,6 +142,8 @@ class __$$ReportDetailStateImplCopyWithImpl<$Res>
     Object? store = freezed,
     Object? err = freezed,
     Object? trxName = freezed,
+    Object? fee = freezed,
+    Object? tax = freezed,
   }) {
     return _then(_$ReportDetailStateImpl(
       status: null == status
@@ -152,6 +170,14 @@ class __$$ReportDetailStateImplCopyWithImpl<$Res>
           ? _value.trxName
           : trxName // ignore: cast_nullable_to_non_nullable
               as String?,
+      fee: freezed == fee
+          ? _value.fee
+          : fee // ignore: cast_nullable_to_non_nullable
+              as String?,
+      tax: freezed == tax
+          ? _value.tax
+          : tax // ignore: cast_nullable_to_non_nullable
+              as String?,
     ));
   }
 }
@@ -165,7 +191,9 @@ class _$ReportDetailStateImpl implements _ReportDetailState {
       this.invoice,
       this.store,
       this.err,
-      this.trxName});
+      this.trxName,
+      this.fee,
+      this.tax});
 
   @override
   @JsonKey()
@@ -180,10 +208,14 @@ class _$ReportDetailStateImpl implements _ReportDetailState {
   final String? err;
   @override
   final String? trxName;
+  @override
+  final String? fee;
+  @override
+  final String? tax;
 
   @override
   String toString() {
-    return 'ReportDetailState(status: $status, split: $split, invoice: $invoice, store: $store, err: $err, trxName: $trxName)';
+    return 'ReportDetailState(status: $status, split: $split, invoice: $invoice, store: $store, err: $err, trxName: $trxName, fee: $fee, tax: $tax)';
   }
 
   @override
@@ -196,12 +228,14 @@ class _$ReportDetailStateImpl implements _ReportDetailState {
             (identical(other.invoice, invoice) || other.invoice == invoice) &&
             (identical(other.store, store) || other.store == store) &&
             (identical(other.err, err) || other.err == err) &&
-            (identical(other.trxName, trxName) || other.trxName == trxName));
+            (identical(other.trxName, trxName) || other.trxName == trxName) &&
+            (identical(other.fee, fee) || other.fee == fee) &&
+            (identical(other.tax, tax) || other.tax == tax));
   }
 
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, status, split, invoice, store, err, trxName);
+  int get hashCode => Object.hash(
+      runtimeType, status, split, invoice, store, err, trxName, fee, tax);
 
   @JsonKey(ignore: true)
   @override
@@ -218,7 +252,9 @@ abstract class _ReportDetailState implements ReportDetailState {
       final Invoices? invoice,
       final Store? store,
       final String? err,
-      final String? trxName}) = _$ReportDetailStateImpl;
+      final String? trxName,
+      final String? fee,
+      final String? tax}) = _$ReportDetailStateImpl;
 
   @override
   DataStateStatus get status;
@@ -232,6 +268,10 @@ abstract class _ReportDetailState implements ReportDetailState {
   String? get err;
   @override
   String? get trxName;
+  @override
+  String? get fee;
+  @override
+  String? get tax;
   @override
   @JsonKey(ignore: true)
   _$$ReportDetailStateImplCopyWith<_$ReportDetailStateImpl> get copyWith =>

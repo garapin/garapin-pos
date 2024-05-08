@@ -318,33 +318,109 @@ class CreateBagiPage extends StatelessWidget {
                           ),
                         ),
                       ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          Column(
+                            children: [
+                              Text("Total Bagi Bagi Pendapatan",
+                                  style: AppFont.large(context)!),
+                              Text(
+                                  (state.paymentTemplate?.routes
+                                              ?.map((route) =>
+                                                  route.percentAmount ??
+                                                  0) // Mengambil feePos atau 0 jika null
+                                              .reduce((value, element) =>
+                                                  value +
+                                                  element) // Mengurangi kemungkinan error dengan penanganan null
+                                          ??
+                                          0)
+                                      .toString(),
+                                  style: AppFont.largeBold(context)!.copyWith(
+                                      fontSize: 20,
+                                      color: (state.paymentTemplate?.routes
+                                                      ?.map((route) =>
+                                                          route.percentAmount ??
+                                                          0) // Mengambil feePos atau 0 jika null
+                                                      .reduce((value,
+                                                              element) =>
+                                                          value +
+                                                          element) // Mengurangi kemungkinan error dengan penanganan null
+                                                  ??
+                                                  0) !=
+                                              100
+                                          ? AppColor.appColor.error
+                                          : AppColor.appColor.success)),
+                            ],
+                          ),
+                          SizedBox(width: 12),
+                          Column(
+                            children: [
+                              Text("Total Bagi Bagi Biaya",
+                                  style: AppFont.large(context)!),
+                              Text(
+                                  (state.paymentTemplate?.routes
+                                              ?.map((route) =>
+                                                  route.feePos ??
+                                                  0) // Mengambil feePos atau 0 jika null
+                                              .reduce((value, element) =>
+                                                  value +
+                                                  element) // Mengurangi kemungkinan error dengan penanganan null
+                                          ??
+                                          0)
+                                      .toString(),
+                                  style: AppFont.largeBold(context)!.copyWith(
+                                      fontSize: 20,
+                                      color: (state.paymentTemplate?.routes
+                                                      ?.map((route) =>
+                                                          route.feePos ??
+                                                          0) // Mengambil feePos atau 0 jika null
+                                                      .reduce((value,
+                                                              element) =>
+                                                          value +
+                                                          element) // Mengurangi kemungkinan error dengan penanganan null
+                                                  ??
+                                                  0) !=
+                                              100
+                                          ? AppColor.appColor.error
+                                          : AppColor.appColor.success)),
+                            ],
+                          )
+                        ],
+                      ),
                       SizedBox(height: 15),
                       Padding(
                         padding: EdgeInsets.only(right: 50, left: 50),
                         child: Align(
                           alignment: Alignment.centerRight,
-                          child: Column(
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
                             children: [
-                              Text(state.paymentTemplate?.statusTemplate ==
-                                      "ACTIVE"
-                                  ? "Template Active"
-                                  : "Template Inactive"),
-                              Switch.adaptive(
-                                  value:
-                                      state.paymentTemplate?.statusTemplate ==
+                              Column(
+                                children: [
+                                  Text(state.paymentTemplate?.statusTemplate ==
+                                          "ACTIVE"
+                                      ? "Template Active"
+                                      : "Template Inactive"),
+                                  Switch.adaptive(
+                                      value: state.paymentTemplate
+                                                  ?.statusTemplate ==
                                               "ACTIVE"
                                           ? true
                                           : false,
-                                  onChanged: (val) {
-                                    if (state.paymentTemplate?.statusTemplate ==
-                                        "ACTIVE") {
-                                      cubitCreateBagi
-                                          .changeStatusTemplate("INACTIVE");
-                                    } else {
-                                      cubitCreateBagi
-                                          .changeStatusTemplate("ACTIVE");
-                                    }
-                                  }),
+                                      onChanged: (val) {
+                                        if (state.paymentTemplate
+                                                ?.statusTemplate ==
+                                            "ACTIVE") {
+                                          cubitCreateBagi
+                                              .changeStatusTemplate("INACTIVE");
+                                        } else {
+                                          cubitCreateBagi
+                                              .changeStatusTemplate("ACTIVE");
+                                        }
+                                      }),
+                                ],
+                              ),
                             ],
                           ),
                         ),

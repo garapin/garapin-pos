@@ -30,63 +30,16 @@ class MasterReportPage extends StatelessWidget {
                   ? Align(
                       alignment: Alignment.topLeft,
                       child: Padding(
-                        padding:
-                            const EdgeInsets.only(left: 0, top: 0, bottom: 0),
-                        child: Container(
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            boxShadow: [],
-                          ),
-                          height: baseHeight,
-                          width: 260,
-                          child: Padding(
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: 12, vertical: 20),
-                              child: Column(children: [
-                                CustomButton(
-                                    onPressed: () {
-                                      cubit.changePage(0);
-                                      // context.read<CatalogCubit>().initData();
-                                      cubit.showPage(false);
-                                    },
-                                    child: Container(
-                                      decoration: BoxDecoration(
-                                          borderRadius:
-                                              BorderRadius.circular(24),
-                                          color: AppColor.appColor.primary
-                                              .withOpacity(0.15)),
-                                      height: 40,
-                                      child: Center(
-                                          child: Text(
-                                        "Report Transaksi Penjualan",
-                                        style: AppFont.largePrimary(context),
-                                      )),
-                                    )),
-                                SizedBox(height: 20),
-                                CustomButton(
-                                    onPressed: () {
-                                      cubit.changePage(1);
-                                      // context.read<CatalogCubit>().initData();
-                                      cubit.showPage(false);
-                                    },
-                                    child: Container(
-                                      decoration: BoxDecoration(
-                                          borderRadius:
-                                              BorderRadius.circular(24),
-                                          color: AppColor.appColor.primary
-                                              .withOpacity(0.15)),
-                                      height: 40,
-                                      child: Center(
-                                          child: Text(
-                                        "Report Bagi Bagi",
-                                        style: AppFont.largePrimary(context),
-                                      )),
-                                    )),
-                                SizedBox(height: 20)
-                              ])),
-                        ),
-                      ),
-                    )
+                          padding:
+                              const EdgeInsets.only(left: 0, top: 0, bottom: 0),
+                          child: Container(
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                boxShadow: [],
+                              ),
+                              height: baseHeight,
+                              width: 260,
+                              child: cubit.showMaster())))
                   : SizedBox(),
             );
           },

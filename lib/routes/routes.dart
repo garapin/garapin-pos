@@ -178,18 +178,18 @@ class Routes implements RouterInterface {
         },
       ),
 
-      GoRoute(
-        name: RouteNames.masterReport,
-        path: RouteNames.masterReport,
-        builder: (ctx, GoRouterState state) {
-          return BlocProvider(
-            create: (context) => MasterReportCubit(
-              context,
-            ),
-            child: const MasterReportPage(),
-          );
-        },
-      ),
+      // GoRoute(
+      //   name: RouteNames.masterReport,
+      //   path: RouteNames.masterReport,
+      //   builder: (ctx, GoRouterState state) {
+      //     return BlocProvider(
+      //       create: (context) => MasterReportCubit(
+      //         context,
+      //       ),
+      //       child: const MasterReportPage(),
+      //     );
+      //   },
+      // ),
 
       // GoRoute(
       //   name: RouteNames.detail,

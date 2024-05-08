@@ -20,6 +20,8 @@ mixin _$DetailTransactionProductState {
   Invoices? get invoice => throw _privateConstructorUsedError;
   String? get trxName => throw _privateConstructorUsedError;
   String? get err => throw _privateConstructorUsedError;
+  String? get fee => throw _privateConstructorUsedError;
+  String? get tax => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $DetailTransactionProductStateCopyWith<DetailTransactionProductState>
@@ -38,7 +40,9 @@ abstract class $DetailTransactionProductStateCopyWith<$Res> {
       {DataStateStatus status,
       Invoices? invoice,
       String? trxName,
-      String? err});
+      String? err,
+      String? fee,
+      String? tax});
 }
 
 /// @nodoc
@@ -59,6 +63,8 @@ class _$DetailTransactionProductStateCopyWithImpl<$Res,
     Object? invoice = freezed,
     Object? trxName = freezed,
     Object? err = freezed,
+    Object? fee = freezed,
+    Object? tax = freezed,
   }) {
     return _then(_value.copyWith(
       status: null == status
@@ -77,6 +83,14 @@ class _$DetailTransactionProductStateCopyWithImpl<$Res,
           ? _value.err
           : err // ignore: cast_nullable_to_non_nullable
               as String?,
+      fee: freezed == fee
+          ? _value.fee
+          : fee // ignore: cast_nullable_to_non_nullable
+              as String?,
+      tax: freezed == tax
+          ? _value.tax
+          : tax // ignore: cast_nullable_to_non_nullable
+              as String?,
     ) as $Val);
   }
 }
@@ -94,7 +108,9 @@ abstract class _$$DetailTransactionProductStateImplCopyWith<$Res>
       {DataStateStatus status,
       Invoices? invoice,
       String? trxName,
-      String? err});
+      String? err,
+      String? fee,
+      String? tax});
 }
 
 /// @nodoc
@@ -114,6 +130,8 @@ class __$$DetailTransactionProductStateImplCopyWithImpl<$Res>
     Object? invoice = freezed,
     Object? trxName = freezed,
     Object? err = freezed,
+    Object? fee = freezed,
+    Object? tax = freezed,
   }) {
     return _then(_$DetailTransactionProductStateImpl(
       status: null == status
@@ -132,6 +150,14 @@ class __$$DetailTransactionProductStateImplCopyWithImpl<$Res>
           ? _value.err
           : err // ignore: cast_nullable_to_non_nullable
               as String?,
+      fee: freezed == fee
+          ? _value.fee
+          : fee // ignore: cast_nullable_to_non_nullable
+              as String?,
+      tax: freezed == tax
+          ? _value.tax
+          : tax // ignore: cast_nullable_to_non_nullable
+              as String?,
     ));
   }
 }
@@ -144,7 +170,9 @@ class _$DetailTransactionProductStateImpl
       {this.status = DataStateStatus.initial,
       this.invoice,
       this.trxName,
-      this.err});
+      this.err,
+      this.fee,
+      this.tax});
 
   @override
   @JsonKey()
@@ -155,10 +183,14 @@ class _$DetailTransactionProductStateImpl
   final String? trxName;
   @override
   final String? err;
+  @override
+  final String? fee;
+  @override
+  final String? tax;
 
   @override
   String toString() {
-    return 'DetailTransactionProductState(status: $status, invoice: $invoice, trxName: $trxName, err: $err)';
+    return 'DetailTransactionProductState(status: $status, invoice: $invoice, trxName: $trxName, err: $err, fee: $fee, tax: $tax)';
   }
 
   @override
@@ -169,11 +201,14 @@ class _$DetailTransactionProductStateImpl
             (identical(other.status, status) || other.status == status) &&
             (identical(other.invoice, invoice) || other.invoice == invoice) &&
             (identical(other.trxName, trxName) || other.trxName == trxName) &&
-            (identical(other.err, err) || other.err == err));
+            (identical(other.err, err) || other.err == err) &&
+            (identical(other.fee, fee) || other.fee == fee) &&
+            (identical(other.tax, tax) || other.tax == tax));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, status, invoice, trxName, err);
+  int get hashCode =>
+      Object.hash(runtimeType, status, invoice, trxName, err, fee, tax);
 
   @JsonKey(ignore: true)
   @override
@@ -190,7 +225,9 @@ abstract class _DetailTransactionProductState
       {final DataStateStatus status,
       final Invoices? invoice,
       final String? trxName,
-      final String? err}) = _$DetailTransactionProductStateImpl;
+      final String? err,
+      final String? fee,
+      final String? tax}) = _$DetailTransactionProductStateImpl;
 
   @override
   DataStateStatus get status;
@@ -200,6 +237,10 @@ abstract class _DetailTransactionProductState
   String? get trxName;
   @override
   String? get err;
+  @override
+  String? get fee;
+  @override
+  String? get tax;
   @override
   @JsonKey(ignore: true)
   _$$DetailTransactionProductStateImplCopyWith<

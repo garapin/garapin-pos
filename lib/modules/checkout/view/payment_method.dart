@@ -61,7 +61,7 @@ class PaymentMethodsPage extends StatelessWidget {
                       children: [
                         Container(
                           width: baseWidth,
-                          height: 80,
+                          height: 140,
                           padding: const EdgeInsets.symmetric(
                               horizontal: 20, vertical: 8),
                           decoration: BoxDecoration(
@@ -97,7 +97,7 @@ class PaymentMethodsPage extends StatelessWidget {
                                       MainAxisAlignment.spaceBetween,
                                   children: [
                                     Text(
-                                      "Total pembayaran",
+                                      "Total",
                                       style: AppFont.largeBold(context),
                                     ),
                                     Text(
@@ -105,6 +105,44 @@ class PaymentMethodsPage extends StatelessWidget {
                                               .currencyFormat(symbol: 'Rp.')
                                               .toString() ??
                                           "",
+                                      style: AppFont.largeBold(context),
+                                    ),
+                                  ],
+                                ),
+                                const SizedBox(height: 8),
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text(
+                                      "Fee",
+                                      style: AppFont.largeBold(context),
+                                    ),
+                                    Text(
+                                      state.invoices?.feeGarapin
+                                              .currencyFormat(symbol: 'Rp.')
+                                              .toString() ??
+                                          "0",
+                                      style: AppFont.largeBold(context),
+                                    ),
+                                  ],
+                                ),
+                                const SizedBox(height: 4),
+                                Divider(),
+                                const SizedBox(height: 4),
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text(
+                                      "Total Pembayaran",
+                                      style: AppFont.largeBold(context),
+                                    ),
+                                    Text(
+                                      state.invoices?.totalWithFee
+                                              .currencyFormat(symbol: 'Rp.')
+                                              .toString() ??
+                                          "0",
                                       style: AppFont.largeBold(context),
                                     ),
                                   ],

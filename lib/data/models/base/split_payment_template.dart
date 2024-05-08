@@ -52,13 +52,13 @@ class RoutePayments {
   @JsonKey(name: "target")
   String? target;
   @JsonKey(name: "fee_pos")
-  dynamic feePos;
+  int? feePos;
   @JsonKey(name: "flat_amount")
-  dynamic flatAmount;
+  int? flatAmount;
   @JsonKey(name: "percent_amount")
-  dynamic percentAmount;
+  int? percentAmount;
   @JsonKey(name: "currency")
-  dynamic currency;
+  String? currency;
   @JsonKey(name: "destination_account_id")
   dynamic destinationAccountId;
   @JsonKey(name: "reference_id")

@@ -6,19 +6,21 @@ import 'package:intl/intl.dart';
 import 'package:pos/data/api/services.dart';
 import 'package:pos/data/models/base/filter_store_transaction.dart';
 import 'package:pos/data/models/base/history_transaction.dart';
-import 'package:pos/data/models/base/total_bagi.dart';
+import 'package:pos/data/models/base/total_transaction.dart';
+import 'package:pos/data/models/base/transaction_report.dart';
 import 'package:pos/engine/engine.dart';
 import 'package:pos/engine/helpers/options.dart';
 
 import '../../../data/api/response.dart';
 import '../../../data/models/base/store.dart';
 
-part 'report_state.dart';
-part 'report_cubit.freezed.dart';
+part 'report_transaction_state.dart';
+part 'report_transaction_cubit.freezed.dart';
 
-class ReportCubit extends BaseCubit<ReportState> {
+class ReportTransactionCubit extends BaseCubit<ReportTransactionState> {
   final formKey = GlobalKey<FormBuilderState>();
-  ReportCubit(BuildContext context) : super(context, ReportState());
+  ReportTransactionCubit(BuildContext context)
+      : super(context, ReportTransactionState());
 
   @override
   Future<void> initData({bool isRefresh = false, String param = ""}) async {
@@ -49,24 +51,16 @@ class ReportCubit extends BaseCubit<ReportState> {
         endDate: '${DateTime.now().toIso8601String()}Z',
         startDate:
             '${DateTime.now().subtract(Duration(days: 7)).toIso8601String()}Z'));
-    finishRefresh(state.status);
-  }
+    // if (isRefresh) {
+    //   getData(isRefresh: isRefresh, param: param);
+    // } else {
+    //   getData(
+    //       isRefresh: isRefresh,
+    //       param:
+    //           'types=PAYMENT&created[gte]=${DateTime.now().subtract(Duration(days: 7)).toIso8601String()}Z&created[lte]=${DateTime.now().toIso8601String()}Z&limit=6');
+    // }
 
-  void totalBagi(
-      {required MerchantRole role,
-      String? databaseSupport,
-      required String param,
-      required String targetDatabase}) async {
-    final data = await ApiService.totalBagi(context,
-        param: param,
-        targetDatabase: targetDatabase,
-        role: role,
-        databaseSupport: databaseSupport);
-    if (data.isSuccess) {
-      emit(state.copyWith(totalBagi: data.data));
-    } else {
-      emit(state.copyWith(totalBagi: TotalBagi(netAmount: 0)));
-    }
+    finishRefresh(state.status);
   }
 
   void selectfilterDatabase(String targetDatabase) {
@@ -75,7 +69,6 @@ class ReportCubit extends BaseCubit<ReportState> {
 
   void getDateTimeRange(String datetimeRange) {
     String dateTimeRange = datetimeRange;
-    print(dateTimeRange);
     List<String> dates = dateTimeRange.split(" - ");
     DateTime startDate = DateTime.parse(dates[0]);
     DateTime endDate = DateTime.parse(dates[1]).add(Duration(days: 1));
@@ -83,8 +76,6 @@ class ReportCubit extends BaseCubit<ReportState> {
         DateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'").format(startDate.toUtc());
     String endIsoDate =
         DateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'").format(endDate.toUtc());
-    print("StartDate: $startIsoDate");
-    print("EndDate: $endIsoDate");
     emit(state.copyWith(startDate: startIsoDate, endDate: endIsoDate));
   }
 
@@ -92,42 +83,13 @@ class ReportCubit extends BaseCubit<ReportState> {
       {bool force = false, isRefresh = false, String param = ''}) async {
     loadingState(force: force);
     final storeInfo = await ApiService.getStoreInfo(context);
-    List<Datum> dataList = state.transaction;
+    List<TransactionReportData> dataList = state.transaction;
     var store = storeInfo.data!.store;
 
-    final ApiResponse<HistoryTransaction>? response;
-    if (store!.storeType == "BUSSINESS_PARTNER") {
-      response = await ApiService.report(context,
-          param: param, targetDatabase: state.targetDatabase!);
-      totalBagi(
-          role: MerchantRole.TRX,
-          param: param,
-          targetDatabase: state.targetDatabase!);
-    } else if (store.storeType == "MERCHANT" && store.merChantRole == "SUPP") {
-      response = await ApiService.reportSupport(context,
-          param: param,
-          targetDatabase: state.targetDatabase!,
-          supportDatabse: Sessions.getDatabaseModel()!.name!);
-      totalBagi(
-          role: MerchantRole.SUPP,
-          param: param,
-          targetDatabase: state.targetDatabase!,
-          databaseSupport: Sessions.getDatabaseModel()!.name!);
-    } else if (store.merChantRole == "TRX" && store.storeType == "MERCHANT" ||
-        store.storeType == "USER" && store.merChantRole == "NOT_MERCHANT") {
-      response = await ApiService.report(
-        context,
-        param: param,
-        targetDatabase: Sessions.getDatabaseModel()!.name!,
-      );
-      totalBagi(
-          role: MerchantRole.TRX,
-          param: param,
-          targetDatabase: state.targetDatabase!);
-    } else {
-      response = null;
-    }
-    if (response!.isSuccess) {
+    final response = await ApiService.reportTransaction(context,
+        param: param, targetDatabase: state.targetDatabase!);
+
+    if (response.isSuccess) {
       if (isRefresh == true) dataList = [];
       dataList = dataList + response.data!.data!;
       DataStateStatus status = DataStateStatus.success;
@@ -152,7 +114,9 @@ class ReportCubit extends BaseCubit<ReportState> {
         ));
       }
     }
-
+    final data = await ApiService.totalTransaction(context,
+        param: param, targetDatabase: state.targetDatabase!);
+    emit(state.copyWith(totalTransaction: data.data));
     finishRefresh(state.status);
   }
 
@@ -183,5 +147,5 @@ class ReportCubit extends BaseCubit<ReportState> {
   @override
   Future<void> refreshData() => initData(
       param:
-          'types=PAYMENT&limit=6&created[gte]=${state.startDate}&created[lte]=${state.endDate}');
+          'types=PAYMENT&created[gte]=${state.startDate}&created[lte]=${state.endDate}&limit=6');
 }

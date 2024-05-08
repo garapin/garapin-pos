@@ -63,7 +63,8 @@ class ReportBagiDretail extends StatelessWidget {
                                       ),
                                       Text(
                                         "TRX ${state.trxName?.toUpperCase()}",
-                                        style: AppFont.largeBold(context),
+                                        style: AppFont.largeBold(context)!
+                                            .copyWith(fontSize: 16),
                                       ),
                                     ],
                                   ),
@@ -101,12 +102,12 @@ class ReportBagiDretail extends StatelessWidget {
                               Container(
                                   alignment: Alignment.center,
                                   width: baseWidth / 7,
-                                  child: Text('Bagi-Bagi pendapatan',
+                                  child: Text('Bagi-bagi Biaya',
                                       style: AppFont.largeBold(context))),
                               Container(
                                   alignment: Alignment.center,
                                   width: baseWidth / 7,
-                                  child: Text('Bagi-bagi Biaya',
+                                  child: Text('Bagi-Bagi pendapatan',
                                       style: AppFont.largeBold(context))),
                             ]),
                         SizedBox(height: 12),
@@ -118,14 +119,123 @@ class ReportBagiDretail extends StatelessWidget {
                             itemCount: state.split?.split?.routes?.length ?? 0,
                             itemBuilder: (context, index) {
                               var item = state.split?.split?.routes?[index];
-                              var template =
-                                  state.split?.template?.routes?[index];
                               return (state.store?.store?.merChantRole ==
-                                          "SUPP" &&
-                                      template?.type != "SUPP" &&
-                                      Sessions.getDatabaseModel()?.name !=
-                                          item?.referenceId)
-                                  ? SizedBox()
+                                      "SUPP")
+                                  ? (item?.referenceId !=
+                                          Sessions.getDatabaseModel()?.name)
+                                      ? SizedBox()
+                                      : Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                              Container(
+                                                  alignment: Alignment.center,
+                                                  width: baseWidth / 7,
+                                                  child: Text(item?.role ?? "",
+                                                      textAlign:
+                                                          TextAlign.center,
+                                                      style: AppFont.medium(
+                                                          context))),
+                                              Container(
+                                                alignment: Alignment.center,
+                                                width: baseWidth / 7,
+                                                child: Text(
+                                                  (item?.target == "Garapin")
+                                                      ? "Bagi-Bagi Pos"
+                                                      : item?.target ?? "",
+                                                  style:
+                                                      AppFont.medium(context),
+                                                  textAlign: TextAlign.center,
+                                                ),
+                                              ),
+                                              Container(
+                                                alignment: Alignment.center,
+                                                width: baseWidth / 7,
+                                                child: Text(
+                                                    item?.fee?.currencyFormat(
+                                                            symbol: "Rp.") ??
+                                                        "-",
+                                                    textAlign: TextAlign.center,
+                                                    style: AppFont.medium(
+                                                        context)),
+                                              ),
+                                              (item?.role == "TRX")
+                                                  ? Container(
+                                                      alignment:
+                                                          Alignment.center,
+                                                      width: baseWidth / 7,
+                                                      child: Column(
+                                                        children: [
+                                                          Text(
+                                                              textAlign:
+                                                                  TextAlign
+                                                                      .center,
+                                                              item?.flatAmount
+                                                                      .currencyFormat(
+                                                                          symbol:
+                                                                              "Rp") ??
+                                                                  "",
+                                                              style: AppFont
+                                                                  .medium(
+                                                                      context)),
+                                                          SizedBox(height: 4),
+                                                          Text(
+                                                            "- ${state.fee.toString().currencyDot(symbol: "Rp.")}",
+                                                            style: AppFont
+                                                                    .medium(
+                                                                        context)!
+                                                                .copyWith(
+                                                                    color: AppColor
+                                                                        .appColor
+                                                                        .error),
+                                                          ),
+                                                          SizedBox(height: 4),
+                                                          Text(
+                                                            "- ${state.tax.toString().currencyDot(symbol: "Rp.")}",
+                                                            style: AppFont
+                                                                    .medium(
+                                                                        context)!
+                                                                .copyWith(
+                                                                    color: AppColor
+                                                                        .appColor
+                                                                        .error),
+                                                          ),
+                                                          SizedBox(height: 4),
+                                                          Text(
+                                                            (state
+                                                                        .invoice
+                                                                        ?.product
+                                                                        ?.totalPrice ==
+                                                                    null)
+                                                                ? ""
+                                                                : "${(item!.flatAmount! - (int.parse(state.fee ?? "0") + int.parse(state.tax ?? "0"))).currencyFormat(symbol: "Rp.")}",
+                                                            style: AppFont
+                                                                    .medium(
+                                                                        context)!
+                                                                .copyWith(
+                                                                    color: AppColor
+                                                                        .appColor
+                                                                        .success),
+                                                          ),
+                                                        ],
+                                                      ),
+                                                    )
+                                                  : Container(
+                                                      alignment:
+                                                          Alignment.center,
+                                                      width: baseWidth / 7,
+                                                      child: Text(
+                                                          textAlign:
+                                                              TextAlign.center,
+                                                          item?.flatAmount
+                                                                  .currencyFormat(
+                                                                      symbol:
+                                                                          "Rp") ??
+                                                              "",
+                                                          style: AppFont.medium(
+                                                              context)),
+                                                    ),
+                                            ])
                                   : Row(
                                       mainAxisAlignment:
                                           MainAxisAlignment.spaceBetween,
@@ -133,7 +243,7 @@ class ReportBagiDretail extends StatelessWidget {
                                           Container(
                                               alignment: Alignment.center,
                                               width: baseWidth / 7,
-                                              child: Text(template?.type ?? "",
+                                              child: Text(item?.role ?? "",
                                                   textAlign: TextAlign.center,
                                                   style:
                                                       AppFont.medium(context))),
@@ -141,22 +251,12 @@ class ReportBagiDretail extends StatelessWidget {
                                             alignment: Alignment.center,
                                             width: baseWidth / 7,
                                             child: Text(
-                                              (template?.target == "Garapin")
+                                              (item?.target == "Garapin")
                                                   ? "Bagi-Bagi Pos"
-                                                  : template?.target ?? "",
+                                                  : item?.target ?? "",
                                               style: AppFont.medium(context),
                                               textAlign: TextAlign.center,
                                             ),
-                                          ),
-                                          Container(
-                                            alignment: Alignment.center,
-                                            width: baseWidth / 7,
-                                            child: Text(
-                                                textAlign: TextAlign.center,
-                                                item?.flatAmount.currencyFormat(
-                                                        symbol: "Rp") ??
-                                                    "",
-                                                style: AppFont.medium(context)),
                                           ),
                                           Container(
                                             alignment: Alignment.center,
@@ -168,22 +268,93 @@ class ReportBagiDretail extends StatelessWidget {
                                                 textAlign: TextAlign.center,
                                                 style: AppFont.medium(context)),
                                           ),
+                                          (item?.role == "TRX")
+                                              ? Container(
+                                                  alignment: Alignment.center,
+                                                  width: baseWidth / 7,
+                                                  child: Column(
+                                                    children: [
+                                                      Text(
+                                                          textAlign:
+                                                              TextAlign.center,
+                                                          item?.flatAmount
+                                                                  .currencyFormat(
+                                                                      symbol:
+                                                                          "Rp") ??
+                                                              "",
+                                                          style: AppFont.medium(
+                                                              context)),
+                                                      SizedBox(height: 4),
+                                                      Text(
+                                                        "- ${state.fee.toString().currencyDot(symbol: "Rp.")}",
+                                                        style: AppFont.medium(
+                                                                context)!
+                                                            .copyWith(
+                                                                color: AppColor
+                                                                    .appColor
+                                                                    .error),
+                                                      ),
+                                                      SizedBox(height: 4),
+                                                      Text(
+                                                        "- ${state.tax.toString().currencyDot(symbol: "Rp.")}",
+                                                        style: AppFont.medium(
+                                                                context)!
+                                                            .copyWith(
+                                                                color: AppColor
+                                                                    .appColor
+                                                                    .error),
+                                                      ),
+                                                      SizedBox(height: 4),
+                                                      Text(
+                                                        (state.invoice?.product
+                                                                    ?.totalPrice ==
+                                                                null)
+                                                            ? ""
+                                                            : "${(item!.flatAmount! - (int.parse(state.fee ?? "0") + int.parse(state.tax ?? "0"))).currencyFormat(symbol: "Rp.")}",
+                                                        style: AppFont.medium(
+                                                                context)!
+                                                            .copyWith(
+                                                                color: AppColor
+                                                                    .appColor
+                                                                    .success),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                )
+                                              : Container(
+                                                  alignment: Alignment.center,
+                                                  width: baseWidth / 7,
+                                                  child: Text(
+                                                      textAlign:
+                                                          TextAlign.center,
+                                                      item?.flatAmount
+                                                              .currencyFormat(
+                                                                  symbol:
+                                                                      "Rp") ??
+                                                          "",
+                                                      style: AppFont.medium(
+                                                          context)),
+                                                ),
                                         ]);
                             },
                             separatorBuilder:
                                 (BuildContext context, int index) {
                               var item = state.split?.split?.routes?[index];
-                              var template =
-                                  state.split?.template?.routes?[index];
+
                               return (state.store?.store?.merChantRole ==
-                                          "SUPP" &&
-                                      template?.type != "SUPP")
-                                  ? SizedBox()
+                                      "SUPP")
+                                  ? (item?.referenceId !=
+                                          Sessions.getDatabaseModel()?.name)
+                                      ? SizedBox()
+                                      : Padding(
+                                          padding: const EdgeInsets.symmetric(
+                                              vertical: 6),
+                                          child: Divider(thickness: 2),
+                                        )
                                   : Padding(
                                       padding: const EdgeInsets.symmetric(
                                           vertical: 6),
-                                      child: Divider(thickness: 2),
-                                    );
+                                      child: Divider(thickness: 2));
                             },
                           ),
                         ),
@@ -205,15 +376,20 @@ class ReportBagiDretail extends StatelessWidget {
                                         style: AppFont.mediumBold(context)),
                                     SizedBox(width: 12),
                                     Text(
-                                        state.split?.split?.routes
-                                                ?.map((e) => e.flatAmount)
-                                                .reduce((value, element) =>
-                                                    value! + element!)
-                                                .toString()
-                                                .currencyDot(symbol: "Rp.") ??
-                                            "",
-                                        textAlign: TextAlign.center,
-                                        style: AppFont.mediumBold(context)),
+                                      ((state.split?.split?.routes
+                                                      ?.map((e) => e.flatAmount)
+                                                      .reduce((value,
+                                                              element) =>
+                                                          value! + element!) ??
+                                                  0) -
+                                              (int.parse(state.fee ?? '0') -
+                                                  (int.parse(
+                                                      state.tax ?? '0'))))
+                                          .toString()
+                                          .currencyDot(symbol: "Rp."),
+                                      textAlign: TextAlign.center,
+                                      style: AppFont.mediumBold(context),
+                                    ),
                                   ],
                                 ),
                                 SizedBox(height: 8),
@@ -303,6 +479,7 @@ class ReportBagiDretail extends StatelessWidget {
                                   itemBuilder: (context, index) {
                                     var item =
                                         state.invoice?.product?.items?[index];
+
                                     return Row(
                                         mainAxisAlignment:
                                             MainAxisAlignment.spaceBetween,
@@ -410,9 +587,74 @@ class ReportBagiDretail extends StatelessWidget {
                                     const EdgeInsets.symmetric(horizontal: 50),
                                 child: Align(
                                   alignment: Alignment.centerRight,
-                                  child: Text(
-                                    "Total ${state.invoice?.product?.totalPrice.currencyFormat(symbol: "Rp.")}",
-                                    style: AppFont.largeBold(context),
+                                  child: Row(
+                                    crossAxisAlignment: CrossAxisAlignment.end,
+                                    mainAxisAlignment: MainAxisAlignment.end,
+                                    children: [
+                                      Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.end,
+                                        children: [
+                                          Text(
+                                            "Fee Bank",
+                                            style: AppFont.largeBold(context)!
+                                                .copyWith(
+                                                    color: AppColor
+                                                        .appColor.error),
+                                          ),
+                                          SizedBox(height: 4),
+                                          Text(
+                                            "Tax",
+                                            style: AppFont.largeBold(context)!
+                                                .copyWith(
+                                                    color: AppColor
+                                                        .appColor.error),
+                                          ),
+                                          SizedBox(height: 4),
+                                          Text(
+                                            "Total",
+                                            style: AppFont.largeBold(context)!
+                                                .copyWith(
+                                                    color: AppColor
+                                                        .appColor.success),
+                                          ),
+                                        ],
+                                      ),
+                                      SizedBox(width: 12),
+                                      Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.end,
+                                        children: [
+                                          Text(
+                                            "- ${int.parse(state.fee ?? "0").toString().currencyDot(symbol: "Rp.")}",
+                                            style: AppFont.largeBold(context)!
+                                                .copyWith(
+                                                    color: AppColor
+                                                        .appColor.error),
+                                          ),
+                                          SizedBox(height: 4),
+                                          Text(
+                                            "- ${int.parse(state.tax ?? "0").currencyFormat(symbol: "Rp.")}",
+                                            style: AppFont.largeBold(context)!
+                                                .copyWith(
+                                                    color: AppColor
+                                                        .appColor.error),
+                                          ),
+                                          SizedBox(height: 4),
+                                          Text(
+                                            (state.invoice?.product
+                                                        ?.totalPrice ==
+                                                    null)
+                                                ? ""
+                                                : "${(state.invoice!.product!.totalPrice! - int.parse(state.fee ?? "0") - int.parse(state.tax ?? "0")).currencyFormat(symbol: "Rp.")}",
+                                            style: AppFont.largeBold(context)!
+                                                .copyWith(
+                                                    color: AppColor
+                                                        .appColor.success),
+                                          ),
+                                        ],
+                                      ),
+                                    ],
                                   ),
                                 ),
                               ),

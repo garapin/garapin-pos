@@ -5,7 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:go_router/go_router.dart';
 import 'package:pos/engine/engine.dart';
-import 'package:pos/modules/report/cubit/report_cubit.dart';
+import 'package:pos/modules/report/cubit/report_transaction_cubit.dart';
 import 'package:pos/routes/routes.dart';
 import 'package:pos/themes/themes.dart';
 import 'package:pos/widgets/components/outline_form_dropdown.dart';
@@ -16,12 +16,12 @@ class ReportTransaction extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final cubit = context.read<ReportCubit>();
+    final cubit = context.read<ReportTransactionCubit>();
     return Padding(
       padding: const EdgeInsets.only(top: 24),
       child: Scaffold(
-        backgroundColor: const Color(0xffF8F9FD),
-        body: BlocBuilder<ReportCubit, ReportState>(
+        backgroundColor: Color(0xFFF8F9FD),
+        body: BlocBuilder<ReportTransactionCubit, ReportTransactionState>(
           builder: (context, state) {
             return SingleChildScrollView(
               child: Container(
@@ -145,7 +145,7 @@ class ReportTransaction extends StatelessWidget {
                                                 force: true,
                                                 isRefresh: true,
                                                 param:
-                                                    "created[gte]=${state.startDate}&created[lte]=${state.endDate}");
+                                                    "types=PAYMENT&created[gte]=${state.startDate}&created[lte]=${state.endDate}&limit=6");
                                           }
                                         },
                                         child: const Text("Cari Transaksi")),
@@ -156,9 +156,37 @@ class ReportTransaction extends StatelessWidget {
                           ),
                         ),
                       ),
-                      const SizedBox(height: 20),
+                      const SizedBox(height: 8),
                       const Divider(thickness: 2),
-                      const SizedBox(height: 20),
+                      const SizedBox(height: 8),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 40),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: [
+                            Text(
+                              "total transaction : ${state.totalTransaction?.totalAmount.currencyFormat(symbol: "Rp.") ?? 0}",
+                              style: AppFont.mediumBold(context),
+                            ),
+                            Text(
+                              "total Fee : ${state.totalTransaction?.fee.currencyFormat(symbol: "Rp.") ?? 0}",
+                              style: AppFont.mediumBold(context),
+                            ),
+                            Text(
+                              "total Tax : ${state.totalTransaction?.tax.currencyFormat(symbol: "Rp.") ?? 0}",
+                              style: AppFont.mediumBold(context),
+                            ),
+                            Text(
+                                "total Pendapatan : ${state.totalTransaction?.netAmount.currencyFormat(symbol: "Rp.") ?? 0}",
+                                style: AppFont.mediumBold(context)!.copyWith(
+                                  color: AppColor.appColor.success,
+                                )),
+                          ],
+                        ),
+                      ),
+                      const SizedBox(height: 8),
+                      const Divider(thickness: 2),
+                      const SizedBox(height: 8),
                       Expanded(
                         child: ContainerStateHandler(
                           refresherOptions: RefresherOptions(
@@ -186,6 +214,10 @@ class ReportTransaction extends StatelessWidget {
                                         var status = context.pushNamed(
                                             RouteNames.detailTransactionProduct,
                                             extra: Map<String, String>.from({
+                                              "tax": item.fee!.valueAddedTax
+                                                  .toString(),
+                                              "fee": item.fee!.xenditFee
+                                                  .toString(),
                                               "database": state.targetDatabase,
                                               "invoice": item.referenceId,
                                               "trx": state.filterTemplate
@@ -221,10 +253,10 @@ class ReportTransaction extends StatelessWidget {
                                         children: [
                                           const SizedBox(height: 4),
                                           Text(
-                                            "Transaksi : ${item.status!.name}",
+                                            "Transaksi : ${item.status!}",
                                             style: AppFont.mediumBold(context)!
                                                 .copyWith(
-                                                    color: item.status!.name ==
+                                                    color: item.status! ==
                                                             "SUCCESS"
                                                         ? AppColor
                                                             .appColor.success

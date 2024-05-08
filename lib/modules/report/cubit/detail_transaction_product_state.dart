@@ -7,5 +7,7 @@ class DetailTransactionProductState with _$DetailTransactionProductState {
     Invoices? invoice,
     String? trxName,
     String? err,
+    String? fee,
+    String? tax,
   }) = _DetailTransactionProductState;
 }

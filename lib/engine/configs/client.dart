@@ -9,7 +9,7 @@ abstract class Development {
       case EnvironmentMode.dev:
         return 'http://192.168.160.113:4000/';
       case EnvironmentMode.test:
-        return 'http://192.168.1.7:4000/';
+        return 'http://192.168.184.113:4000/';
       case EnvironmentMode.production:
         return 'https://garapinpos.garapin.cloud/'; // real device
     }
@@ -21,7 +21,7 @@ abstract class Development {
         //kantor
         return 'http://192.168.18.235:4000/';
       case EnvironmentMode.test:
-        return 'http://192.168.1.7:4000/';
+        return 'http://192.168.184.113:4000/';
       case EnvironmentMode.production:
         return 'https://garapinpos.garapin.cloud/'; // real device
     }

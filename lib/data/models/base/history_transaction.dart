@@ -7,8 +7,6 @@ import 'dart:convert';
 
 part 'history_transaction.g.dart';
 
-// test
-// test
 @JsonSerializable()
 class HistoryTransaction {
   @JsonKey(name: "has_more")
@@ -16,7 +14,7 @@ class HistoryTransaction {
   @JsonKey(name: "data")
   List<Datum>? data;
   @JsonKey(name: "links")
-  List<Link>? links;
+  String? links;
 
   HistoryTransaction({
     this.hasMore,
@@ -32,30 +30,124 @@ class HistoryTransaction {
 
 @JsonSerializable()
 class Datum {
+  @JsonKey(name: "transaction")
+  Transaction? transaction;
+  @JsonKey(name: "splitPayment")
+  SplitPayment? splitPayment;
+
+  Datum({
+    this.transaction,
+    this.splitPayment,
+  });
+
+  factory Datum.fromJson(Map<String, dynamic> json) => _$DatumFromJson(json);
+
+  Map<String, dynamic> toJson() => _$DatumToJson(this);
+}
+
+@JsonSerializable()
+class SplitPayment {
+  @JsonKey(name: "_id")
+  String? id;
+  @JsonKey(name: "id_template")
+  String? idTemplate;
+  @JsonKey(name: "invoice")
+  String? invoice;
+  @JsonKey(name: "id")
+  String? splitPaymentId;
+  @JsonKey(name: "name")
+  String? name;
+  @JsonKey(name: "description")
+  String? description;
+  @JsonKey(name: "created_at")
+  DateTime? createdAt;
+  @JsonKey(name: "updated_at")
+  DateTime? updatedAt;
+  @JsonKey(name: "routes")
+  List<Route>? routes;
+  @JsonKey(name: "__v")
+  int? v;
+
+  SplitPayment({
+    this.id,
+    this.idTemplate,
+    this.invoice,
+    this.splitPaymentId,
+    this.name,
+    this.description,
+    this.createdAt,
+    this.updatedAt,
+    this.routes,
+    this.v,
+  });
+
+  factory SplitPayment.fromJson(Map<String, dynamic> json) =>
+      _$SplitPaymentFromJson(json);
+
+  Map<String, dynamic> toJson() => _$SplitPaymentToJson(this);
+}
+
+@JsonSerializable()
+class Route {
+  @JsonKey(name: "currency")
+  String? currency;
+  @JsonKey(name: "destination_account_id")
+  String? destinationAccountId;
+  @JsonKey(name: "reference_id")
+  String? referenceId;
+  @JsonKey(name: "flat_amount")
+  int? flatAmount;
+  @JsonKey(name: "target")
+  String? target;
+  @JsonKey(name: "role")
+  String? role;
+  @JsonKey(name: "fee")
+  int? fee;
+  @JsonKey(name: "_id")
+  String? id;
+
+  Route({
+    this.currency,
+    this.destinationAccountId,
+    this.referenceId,
+    this.flatAmount,
+    this.target,
+    this.role,
+    this.fee,
+    this.id,
+  });
+
+  factory Route.fromJson(Map<String, dynamic> json) => _$RouteFromJson(json);
+
+  Map<String, dynamic> toJson() => _$RouteToJson(this);
+}
+
+@JsonSerializable()
+class Transaction {
   @JsonKey(name: "id")
   String? id;
   @JsonKey(name: "product_id")
   String? productId;
   @JsonKey(name: "type")
-  TypePayment? type;
+  String? type;
   @JsonKey(name: "status")
-  DatumStatus? status;
+  String? status;
   @JsonKey(name: "channel_category")
-  ChannelCategory? channelCategory;
+  String? channelCategory;
   @JsonKey(name: "channel_code")
   String? channelCode;
   @JsonKey(name: "reference_id")
   String? referenceId;
   @JsonKey(name: "account_identifier")
-  String? accountIdentifier;
+  dynamic accountIdentifier;
   @JsonKey(name: "currency")
-  Currency? currency;
+  String? currency;
   @JsonKey(name: "amount")
   int? amount;
   @JsonKey(name: "net_amount")
   int? netAmount;
   @JsonKey(name: "cashflow")
-  Cashflow? cashflow;
+  String? cashflow;
   @JsonKey(name: "settlement_status")
   String? settlementStatus;
   @JsonKey(name: "estimated_settlement_time")
@@ -69,7 +161,7 @@ class Datum {
   @JsonKey(name: "fee")
   Fee? fee;
 
-  Datum({
+  Transaction({
     this.id,
     this.productId,
     this.type,
@@ -90,57 +182,11 @@ class Datum {
     this.fee,
   });
 
-  factory Datum.fromJson(Map<String, dynamic> json) => _$DatumFromJson(json);
+  factory Transaction.fromJson(Map<String, dynamic> json) =>
+      _$TransactionFromJson(json);
 
-  Map<String, dynamic> toJson() => _$DatumToJson(this);
+  Map<String, dynamic> toJson() => _$TransactionToJson(this);
 }
-
-enum BusinessId {
-  @JsonValue("6018d6d4a4e74d169521a911")
-  THE_6018_D6_D4_A4_E74_D169521_A911
-}
-
-final businessIdValues = EnumValues({
-  "6018d6d4a4e74d169521a911": BusinessId.THE_6018_D6_D4_A4_E74_D169521_A911
-});
-
-enum Cashflow {
-  @JsonValue("MONEY_IN")
-  MONEY_IN,
-  @JsonValue("MONEY_OUT")
-  MONEY_OUT
-}
-
-final cashflowValues = EnumValues(
-    {"MONEY_IN": Cashflow.MONEY_IN, "MONEY_OUT": Cashflow.MONEY_OUT});
-
-enum ChannelCategory {
-  @JsonValue("QR_CODE")
-  QR_CODE,
-  @JsonValue("BANK")
-  BANK,
-  @JsonValue("EWALLET")
-  EWALLET,
-  @JsonValue("VIRTUAL_ACCOUNT")
-  VIRTUAL_ACCOUNT,
-  @JsonValue("XENPLATFORM")
-  XENPLATFORM
-}
-
-final channelCategoryValues = EnumValues({
-  "QR_CODE": ChannelCategory.QR_CODE,
-  "BANK": ChannelCategory.BANK,
-  "EWALLET": ChannelCategory.EWALLET,
-  "VIRTUAL_ACCOUNT": ChannelCategory.VIRTUAL_ACCOUNT,
-  "XENPLATFORM": ChannelCategory.XENPLATFORM
-});
-
-enum Currency {
-  @JsonValue("IDR")
-  IDR
-}
-
-final currencyValues = EnumValues({"IDR": Currency.IDR});
 
 @JsonSerializable()
 class Fee {
@@ -153,7 +199,7 @@ class Fee {
   @JsonKey(name: "third_party_withholding_tax")
   int? thirdPartyWithholdingTax;
   @JsonKey(name: "status")
-  FeeStatus? status;
+  String? status;
 
   Fee({
     this.xenditFee,
@@ -166,71 +212,4 @@ class Fee {
   factory Fee.fromJson(Map<String, dynamic> json) => _$FeeFromJson(json);
 
   Map<String, dynamic> toJson() => _$FeeToJson(this);
-}
-
-enum FeeStatus {
-  @JsonValue("COMPLETED")
-  COMPLETED,
-  @JsonValue("PENDING")
-  PENDING
-}
-
-final feeStatusValues = EnumValues(
-    {"COMPLETED": FeeStatus.COMPLETED, "PENDING": FeeStatus.PENDING});
-
-enum DatumStatus {
-  @JsonValue("SUCCESS")
-  SUCCESS,
-  @JsonValue("PENDING")
-  PENDING,
-}
-
-final datumStatusValues = EnumValues(
-    {"SUCCESS": DatumStatus.SUCCESS, "PENDING": DatumStatus.PENDING});
-
-enum TypePayment {
-  @JsonValue("PAYMENT")
-  PAYMENT,
-  @JsonValue("TRANSFER")
-  TRANSFER,
-  @JsonValue("DISBURSEMENT")
-  DISBURSEMENT,
-}
-
-final typeValues = EnumValues({
-  "PAYMENT": TypePayment.PAYMENT,
-  "TRANSFER": TypePayment.TRANSFER,
-  "DISBURSEMENT": TypePayment.DISBURSEMENT
-});
-
-@JsonSerializable()
-class Link {
-  @JsonKey(name: "href")
-  String? href;
-  @JsonKey(name: "method")
-  String? method;
-  @JsonKey(name: "rel")
-  String? rel;
-
-  Link({
-    this.href,
-    this.method,
-    this.rel,
-  });
-
-  factory Link.fromJson(Map<String, dynamic> json) => _$LinkFromJson(json);
-
-  Map<String, dynamic> toJson() => _$LinkToJson(this);
-}
-
-class EnumValues<T> {
-  Map<String, T> map;
-  late Map<T, String> reverseMap;
-
-  EnumValues(this.map);
-
-  Map<T, String> get reverse {
-    reverseMap = map.map((k, v) => MapEntry(v, k));
-    return reverseMap;
-  }
 }

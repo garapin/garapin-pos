@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/widgets.dart';
 import 'package:go_router/go_router.dart';
@@ -352,7 +354,8 @@ class DashboardPage extends StatelessWidget {
                                                         height: 65, width: 60)),
                                     const SizedBox(height: 8),
                                     CustomButton(
-                                        onPressed: () {
+                                        onPressed: () async {
+                                          log("asdasd");
                                           masterReportCubit.showPage(true);
                                           masterReportCubit.initData();
                                           cubit.changePage(2);

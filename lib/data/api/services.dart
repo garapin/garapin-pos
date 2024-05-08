@@ -19,6 +19,9 @@ import 'package:pos/data/models/base/qrcode.dart';
 import 'package:pos/data/models/base/split_payment_detail.dart';
 import 'package:pos/data/models/base/split_rule.dart';
 import 'package:pos/data/models/base/store.dart';
+import 'package:pos/data/models/base/total_bagi.dart';
+import 'package:pos/data/models/base/total_transaction.dart';
+import 'package:pos/data/models/base/transaction_report.dart';
 import 'package:pos/data/models/base/unit.dart';
 import 'package:pos/data/models/base/user_database.dart';
 import 'package:pos/data/models/base/virtual_account.dart';
@@ -36,6 +39,8 @@ import '../models/base/merchant_model.dart';
 import '../models/base/split_payment_template.dart';
 import 'configure.dart';
 import 'response.dart';
+
+enum MerchantRole { TRX, SUPP }
 
 class ApiService {
   static Future<ApiResponse<String>> getToken(BuildContext context) async {
@@ -616,6 +621,18 @@ class ApiService {
   }
 
 // report bs
+  static Future<ApiResponse<TransactionReport>> reportTransaction(
+      BuildContext context,
+      {required String param,
+      required String targetDatabase}) async {
+    print(param);
+    return await ApiConfigure(context)
+        .post('/store/transaction/history/report',
+            params: {"database": targetDatabase, "param": param})
+        .then((result) => ApiResponse<TransactionReport>.fromJson(result.data))
+        .handler((error) => ApiResponse<TransactionReport>.onError(error));
+  }
+
   static Future<ApiResponse<HistoryTransaction>> report(BuildContext context,
       {required String param, required String targetDatabase}) async {
     print(param);
@@ -624,6 +641,35 @@ class ApiService {
             params: {"database": targetDatabase, "param": param})
         .then((result) => ApiResponse<HistoryTransaction>.fromJson(result.data))
         .handler((error) => ApiResponse<HistoryTransaction>.onError(error));
+  }
+
+  static Future<ApiResponse<TotalTransaction>> totalTransaction(
+      BuildContext context,
+      {required String param,
+      required String targetDatabase}) async {
+    print(param);
+    return await ApiConfigure(context)
+        .post('/store/transaction/get_total_income',
+            params: {"database": targetDatabase, "param": param})
+        .then((result) => ApiResponse<TotalTransaction>.fromJson(result.data))
+        .handler((error) => ApiResponse<TotalTransaction>.onError(error));
+  }
+
+  static Future<ApiResponse<TotalBagi>> totalBagi(BuildContext context,
+      {required String param,
+      required String targetDatabase,
+      required MerchantRole role,
+      String? databaseSupport}) async {
+    print(param);
+    return await ApiConfigure(context)
+        .post('/store/transaction/get_total_bagi', params: {
+          "database_trx": targetDatabase,
+          "param": param,
+          "database_support": databaseSupport,
+          "role": role.name,
+        })
+        .then((result) => ApiResponse<TotalBagi>.fromJson(result.data))
+        .handler((error) => ApiResponse<TotalBagi>.onError(error));
   }
 
   static Future<ApiResponse<HistoryTransaction>> reportSupport(

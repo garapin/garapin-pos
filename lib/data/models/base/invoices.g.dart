@@ -16,6 +16,8 @@ Invoices _$InvoicesFromJson(Map<String, dynamic> json) => Invoices(
       paymentMethod: json['payment_method'] as String?,
       paymentDate: json['payment_date'],
       webhook: json['webhook'],
+      feeBank: json['fee_bank'] as int?,
+      vat: (json['vat'] as num?)?.toDouble(),
       id: json['_id'] as String?,
       createdAt: json['createdAt'] == null
           ? null
@@ -24,7 +26,9 @@ Invoices _$InvoicesFromJson(Map<String, dynamic> json) => Invoices(
           ? null
           : DateTime.parse(json['updatedAt'] as String),
       v: json['__v'] as int?,
-    );
+    )
+      ..totalWithFee = json['total_with_fee'] as int?
+      ..feeGarapin = json['fee_garapin'] as int?;
 
 Map<String, dynamic> _$InvoicesToJson(Invoices instance) => <String, dynamic>{
       'product': instance.product,
@@ -34,6 +38,10 @@ Map<String, dynamic> _$InvoicesToJson(Invoices instance) => <String, dynamic>{
       'payment_method': instance.paymentMethod,
       'payment_date': instance.paymentDate,
       'webhook': instance.webhook,
+      'total_with_fee': instance.totalWithFee,
+      'fee_garapin': instance.feeGarapin,
+      'fee_bank': instance.feeBank,
+      'vat': instance.vat,
       '_id': instance.id,
       'createdAt': instance.createdAt?.toIso8601String(),
       'updatedAt': instance.updatedAt?.toIso8601String(),

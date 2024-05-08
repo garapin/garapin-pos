@@ -74,13 +74,6 @@ class MasterCubit extends BaseCubit<MasterState> {
   Widget showRulesWidgetMaster() {
     if (state.store?.store?.storeType == "USER") {
       return Column(children: [
-        Align(
-            alignment: Alignment.topRight,
-            child: IconButton(
-                onPressed: () {
-                  showPage(false);
-                },
-                icon: Icon(Icons.close))),
         CustomButton(
             onPressed: () {
               changePage(0);

@@ -24,7 +24,8 @@ class ReportDetailCubit extends BaseCubit<ReportDetailState> {
   @override
   Future<void> initData() async {
     loadingState();
-    emit(state.copyWith(trxName: args["trx"]));
+    emit(state.copyWith(
+        trxName: args["trx"], fee: args["fee"], tax: args["tax"]));
     getInvoice();
     getStore();
     final data = await ApiService.reportDetailBagi(context,

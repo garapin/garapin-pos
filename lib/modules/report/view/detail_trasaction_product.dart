@@ -60,7 +60,8 @@ class DetailTransactionProduct extends StatelessWidget {
                                   ),
                                   Text(
                                     "TRX ${state.trxName?.toUpperCase()}",
-                                    style: AppFont.largeBold(context),
+                                    style: AppFont.largeBold(context)!
+                                        .copyWith(fontSize: 16),
                                   ),
                                 ],
                               ),
@@ -215,9 +216,58 @@ class DetailTransactionProduct extends StatelessWidget {
                       padding: const EdgeInsets.symmetric(horizontal: 50),
                       child: Align(
                         alignment: Alignment.centerRight,
-                        child: Text(
-                          "Total ${state.invoice?.product?.totalPrice.currencyFormat(symbol: "Rp.")}",
-                          style: AppFont.largeBold(context),
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.end,
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.end,
+                              children: [
+                                Text(
+                                  "Fee Bank",
+                                  style: AppFont.largeBold(context)!
+                                      .copyWith(color: AppColor.appColor.error),
+                                ),
+                                SizedBox(height: 4),
+                                Text(
+                                  "Tax",
+                                  style: AppFont.largeBold(context)!
+                                      .copyWith(color: AppColor.appColor.error),
+                                ),
+                                SizedBox(height: 4),
+                                Text(
+                                  "Total",
+                                  style: AppFont.largeBold(context)!.copyWith(
+                                      color: AppColor.appColor.success),
+                                ),
+                              ],
+                            ),
+                            SizedBox(width: 12),
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.end,
+                              children: [
+                                Text(
+                                  "- ${int.parse(state.fee ?? "0").toString().currencyDot(symbol: "Rp.")}",
+                                  style: AppFont.largeBold(context)!
+                                      .copyWith(color: AppColor.appColor.error),
+                                ),
+                                SizedBox(height: 4),
+                                Text(
+                                  "- ${int.parse(state.tax ?? "0").currencyFormat(symbol: "Rp.")}",
+                                  style: AppFont.largeBold(context)!
+                                      .copyWith(color: AppColor.appColor.error),
+                                ),
+                                SizedBox(height: 4),
+                                Text(
+                                  (state.invoice?.product?.totalPrice == null)
+                                      ? ""
+                                      : "${(state.invoice!.product!.totalPrice! - int.parse(state.fee ?? "0") - int.parse(state.tax ?? "0")).currencyFormat(symbol: "Rp.")}",
+                                  style: AppFont.largeBold(context)!.copyWith(
+                                      color: AppColor.appColor.success),
+                                ),
+                              ],
+                            ),
+                          ],
                         ),
                       ),
                     ),

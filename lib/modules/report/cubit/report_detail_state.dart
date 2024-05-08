@@ -9,5 +9,7 @@ class ReportDetailState with _$ReportDetailState {
     Store? store,
     String? err,
     String? trxName,
+    String? fee,
+    String? tax,
   }) = _ReportDetailState;
 }

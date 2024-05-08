@@ -146,7 +146,7 @@ class ReportPage extends StatelessWidget {
                                                 force: true,
                                                 isRefresh: true,
                                                 param:
-                                                    "created[gte]=${state.startDate}&created[lte]=${state.endDate}");
+                                                    "types=PAYMENT&limit=6&created[gte]=${state.startDate}&created[lte]=${state.endDate}");
                                           }
                                         },
                                         child: const Text("Cari Transaksi")),
@@ -157,9 +157,25 @@ class ReportPage extends StatelessWidget {
                           ),
                         ),
                       ),
-                      const SizedBox(height: 20),
+                      const SizedBox(height: 8),
                       const Divider(thickness: 2),
-                      const SizedBox(height: 20),
+                      const SizedBox(height: 8),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 40),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            Text(
+                                "total Pendapatan : ${state.totalBagi?.netAmount.currencyFormat(symbol: "Rp.") ?? 0}",
+                                style: AppFont.mediumBold(context)!.copyWith(
+                                  color: AppColor.appColor.success,
+                                )),
+                          ],
+                        ),
+                      ),
+                      const SizedBox(height: 8),
+                      const Divider(thickness: 2),
+                      const SizedBox(height: 8),
                       Expanded(
                         child: ContainerStateHandler(
                           refresherOptions: RefresherOptions(
@@ -193,8 +209,15 @@ class ReportPage extends StatelessWidget {
                                         var status = context.pushNamed(
                                             RouteNames.reportBagiDretail,
                                             extra: Map<String, String>.from({
+                                              "tax": item.transaction!.fee!
+                                                  .valueAddedTax
+                                                  .toString(),
+                                              "fee": item
+                                                  .transaction!.fee!.xenditFee
+                                                  .toString(),
                                               "database": state.targetDatabase,
-                                              "invoice": item.referenceId,
+                                              "invoice":
+                                                  item.transaction!.referenceId,
                                               "trx": state.filterTemplate
                                                   .where((element) =>
                                                       element.dbName ==
@@ -211,12 +234,14 @@ class ReportPage extends StatelessWidget {
                                         //       RouteNames.detailTransactionProduct,
                                         //       extra: Map<String, String>.from({
                                         //         "database": state.targetDatabase,
-                                        //         "invoice": item.referenceId
+                                        //         "invoice": item.transaction!.referenceId
                                         //       }));
                                         // }
                                       },
                                       title: Text(
-                                        item.referenceId?.split("&&")[0] ?? "",
+                                        item.transaction!.referenceId
+                                                ?.split("&&")[0] ??
+                                            "",
                                         style: AppFont.largeBold(context)!
                                             .copyWith(
                                                 fontWeight: FontWeight.bold,
@@ -228,10 +253,11 @@ class ReportPage extends StatelessWidget {
                                         children: [
                                           const SizedBox(height: 4),
                                           Text(
-                                            "Transaksi : ${item.status!.name}",
+                                            "Transaksi : ${item.transaction!.status}",
                                             style: AppFont.mediumBold(context)!
                                                 .copyWith(
-                                                    color: item.status!.name ==
+                                                    color: item.transaction!
+                                                                .status ==
                                                             "SUCCESS"
                                                         ? AppColor
                                                             .appColor.success
@@ -239,7 +265,7 @@ class ReportPage extends StatelessWidget {
                                                             .appColor.warning),
                                           ),
                                           const SizedBox(height: 2),
-                                          Text(item.created!
+                                          Text(item.transaction!.created!
                                               .toddMMMyyyyHHmmss()),
                                         ],
                                       ),
@@ -248,24 +274,43 @@ class ReportPage extends StatelessWidget {
                                             CrossAxisAlignment.end,
                                         children: [
                                           Text(
-                                            item.amount
-                                                .currencyFormat(symbol: "Rp."),
+                                            (state.store?.store?.merChantRole ==
+                                                    "SUPP")
+                                                ? item.splitPayment?.routes !=
+                                                        null
+                                                    ? item.splitPayment?.routes
+                                                            ?.where((element) =>
+                                                                element
+                                                                    .referenceId ==
+                                                                Sessions.getDatabaseModel()!
+                                                                    .name)
+                                                            .firstOrNull!
+                                                            .flatAmount
+                                                            .currencyFormat(
+                                                                symbol:
+                                                                    "Rp.") ??
+                                                        ""
+                                                    : ""
+                                                : item.transaction!.amount
+                                                    .currencyFormat(
+                                                        symbol: "Rp."),
                                             style: AppFont.largeBold(context),
                                           ),
                                           SizedBox(height: 4),
                                           Text(
-                                            "Settle : ${item.settlementStatus}",
+                                            "Settle : ${item.transaction!.settlementStatus}",
                                             style: AppFont.mediumBold(context)!
                                                 .copyWith(
-                                                    color:
-                                                        item.settlementStatus ==
-                                                                "SETTLED"
-                                                            ? AppColor.appColor
-                                                                .success
-                                                            : AppColor.appColor
-                                                                .warning),
+                                                    color: item.transaction!
+                                                                .settlementStatus ==
+                                                            "SETTLED"
+                                                        ? AppColor
+                                                            .appColor.success
+                                                        : AppColor
+                                                            .appColor.warning),
                                           ),
-                                          Text("${item.channelCode}"),
+                                          Text(
+                                              "${item.transaction!.channelCode}"),
                                         ],
                                       ),
                                     );
