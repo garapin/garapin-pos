@@ -23,7 +23,7 @@ class ReportBagiDretail extends StatelessWidget {
         builder: (context, state) {
           return ContainerStateHandler(
             status: state.status,
-            loading: Center(
+            loading: const Center(
               child: CircularProgressIndicator(),
             ),
             child: SingleChildScrollView(
@@ -110,12 +110,12 @@ class ReportBagiDretail extends StatelessWidget {
                                   child: Text('Bagi-Bagi pendapatan',
                                       style: AppFont.largeBold(context))),
                             ]),
-                        SizedBox(height: 12),
-                        Divider(thickness: 2),
+                        const SizedBox(height: 12),
+                        const Divider(thickness: 2),
                         SizedBox(
                           child: ListView.separated(
                             shrinkWrap: true,
-                            physics: NeverScrollableScrollPhysics(),
+                            physics: const NeverScrollableScrollPhysics(),
                             itemCount: state.split?.split?.routes?.length ?? 0,
                             itemBuilder: (context, index) {
                               var item = state.split?.split?.routes?[index];
@@ -123,7 +123,7 @@ class ReportBagiDretail extends StatelessWidget {
                                       "SUPP")
                                   ? (item?.referenceId !=
                                           Sessions.getDatabaseModel()?.name)
-                                      ? SizedBox()
+                                      ? const SizedBox()
                                       : Row(
                                           mainAxisAlignment:
                                               MainAxisAlignment.spaceBetween,
@@ -178,7 +178,7 @@ class ReportBagiDretail extends StatelessWidget {
                                                               style: AppFont
                                                                   .medium(
                                                                       context)),
-                                                          SizedBox(height: 4),
+                                                          const SizedBox(height: 4),
                                                           Text(
                                                             "- ${state.fee.toString().currencyDot(symbol: "Rp.")}",
                                                             style: AppFont
@@ -189,7 +189,7 @@ class ReportBagiDretail extends StatelessWidget {
                                                                         .appColor
                                                                         .error),
                                                           ),
-                                                          SizedBox(height: 4),
+                                                          const SizedBox(height: 4),
                                                           Text(
                                                             "- ${state.tax.toString().currencyDot(symbol: "Rp.")}",
                                                             style: AppFont
@@ -200,7 +200,7 @@ class ReportBagiDretail extends StatelessWidget {
                                                                         .appColor
                                                                         .error),
                                                           ),
-                                                          SizedBox(height: 4),
+                                                          const SizedBox(height: 4),
                                                           Text(
                                                             (state
                                                                         .invoice
@@ -284,9 +284,9 @@ class ReportBagiDretail extends StatelessWidget {
                                                               "",
                                                           style: AppFont.medium(
                                                               context)),
-                                                      SizedBox(height: 4),
+                                                      const SizedBox(height: 4),
                                                       Text(
-                                                        "- ${state.fee.toString().currencyDot(symbol: "Rp.")}",
+                                                        "fee bank - ${state.fee.toString().currencyDot(symbol: "Rp.")}",
                                                         style: AppFont.medium(
                                                                 context)!
                                                             .copyWith(
@@ -294,9 +294,9 @@ class ReportBagiDretail extends StatelessWidget {
                                                                     .appColor
                                                                     .error),
                                                       ),
-                                                      SizedBox(height: 4),
+                                                      const SizedBox(height: 4),
                                                       Text(
-                                                        "- ${state.tax.toString().currencyDot(symbol: "Rp.")}",
+                                                        "Tax - ${state.tax.toString().currencyDot(symbol: "Rp.")}",
                                                         style: AppFont.medium(
                                                                 context)!
                                                             .copyWith(
@@ -304,7 +304,7 @@ class ReportBagiDretail extends StatelessWidget {
                                                                     .appColor
                                                                     .error),
                                                       ),
-                                                      SizedBox(height: 4),
+                                                      const SizedBox(height: 4),
                                                       Text(
                                                         (state.invoice?.product
                                                                     ?.totalPrice ==
@@ -345,28 +345,28 @@ class ReportBagiDretail extends StatelessWidget {
                                       "SUPP")
                                   ? (item?.referenceId !=
                                           Sessions.getDatabaseModel()?.name)
-                                      ? SizedBox()
-                                      : Padding(
-                                          padding: const EdgeInsets.symmetric(
+                                      ? const SizedBox()
+                                      : const Padding(
+                                          padding: EdgeInsets.symmetric(
                                               vertical: 6),
                                           child: Divider(thickness: 2),
                                         )
-                                  : Padding(
-                                      padding: const EdgeInsets.symmetric(
+                                  : const Padding(
+                                      padding: EdgeInsets.symmetric(
                                           vertical: 6),
                                       child: Divider(thickness: 2));
                             },
                           ),
                         ),
-                        SizedBox(height: 15),
-                        Divider(thickness: 2),
-                        SizedBox(height: 15),
+                        const SizedBox(height: 15),
+                        const Divider(thickness: 2),
+                        const SizedBox(height: 15),
                         Align(
                           alignment: Alignment.centerRight,
                           child: Container(
-                            padding: EdgeInsets.symmetric(horizontal: 40),
+                            padding: const EdgeInsets.symmetric(horizontal: 40),
                             width: baseWidth,
-                            child: Column(
+                            child:(state.store?.store?.merChantRole == "SUPP")? const SizedBox(): Column(
                               crossAxisAlignment: CrossAxisAlignment.end,
                               children: [
                                 Row(
@@ -374,15 +374,15 @@ class ReportBagiDretail extends StatelessWidget {
                                   children: [
                                     Text("Total Bagi-Bagi Pendapatan",
                                         style: AppFont.mediumBold(context)),
-                                    SizedBox(width: 12),
+                                    const SizedBox(width: 12),
                                     Text(
-                                      ((state.split?.split?.routes
+                         (             (state.split?.split?.routes
                                                       ?.map((e) => e.flatAmount)
                                                       .reduce((value,
                                                               element) =>
                                                           value! + element!) ??
                                                   0) -
-                                              (int.parse(state.fee ?? '0') -
+                                              (int.parse(state.fee ?? '0') +
                                                   (int.parse(
                                                       state.tax ?? '0'))))
                                           .toString()
@@ -392,13 +392,13 @@ class ReportBagiDretail extends StatelessWidget {
                                     ),
                                   ],
                                 ),
-                                SizedBox(height: 8),
+                                const SizedBox(height: 8),
                                 Row(
                                   mainAxisAlignment: MainAxisAlignment.end,
                                   children: [
                                     Text("Total Bagi-Bagi Biaya",
                                         style: AppFont.mediumBold(context)),
-                                    SizedBox(width: 12),
+                                    const SizedBox(width: 12),
                                     Text(
                                         state.split?.split?.routes
                                                 ?.map((e) => e.fee)
@@ -415,12 +415,12 @@ class ReportBagiDretail extends StatelessWidget {
                             ),
                           ),
                         ),
-                        SizedBox(height: 30),
+                        const SizedBox(height: 30),
                       ],
                     ),
                   ),
                   (state.store?.store?.merChantRole == "SUPP")
-                      ? SizedBox()
+                      ? const SizedBox()
                       : Container(
                           margin: const EdgeInsets.symmetric(
                               horizontal: 20, vertical: 0),
@@ -467,12 +467,12 @@ class ReportBagiDretail extends StatelessWidget {
                                         child: Text('Total Harga',
                                             style: AppFont.largeBold(context))),
                                   ]),
-                              SizedBox(height: 12),
-                              Divider(thickness: 2),
+                              const SizedBox(height: 12),
+                              const Divider(thickness: 2),
                               SizedBox(
                                 child: ListView.separated(
                                   shrinkWrap: true,
-                                  physics: NeverScrollableScrollPhysics(),
+                                  physics: const NeverScrollableScrollPhysics(),
                                   itemCount:
                                       state.invoice?.product?.items?.length ??
                                           0,
@@ -572,16 +572,16 @@ class ReportBagiDretail extends StatelessWidget {
                                   },
                                   separatorBuilder:
                                       (BuildContext context, int index) {
-                                    return Padding(
-                                      padding: const EdgeInsets.symmetric(
+                                    return const Padding(
+                                      padding: EdgeInsets.symmetric(
                                           vertical: 6),
                                       child: Divider(thickness: 2),
                                     );
                                   },
                                 ),
                               ),
-                              Divider(thickness: 2),
-                              SizedBox(height: 15),
+                              const Divider(thickness: 2),
+                              const SizedBox(height: 15),
                               Padding(
                                 padding:
                                     const EdgeInsets.symmetric(horizontal: 50),
@@ -602,7 +602,7 @@ class ReportBagiDretail extends StatelessWidget {
                                                     color: AppColor
                                                         .appColor.error),
                                           ),
-                                          SizedBox(height: 4),
+                                          const SizedBox(height: 4),
                                           Text(
                                             "Tax",
                                             style: AppFont.largeBold(context)!
@@ -610,7 +610,7 @@ class ReportBagiDretail extends StatelessWidget {
                                                     color: AppColor
                                                         .appColor.error),
                                           ),
-                                          SizedBox(height: 4),
+                                          const SizedBox(height: 4),
                                           Text(
                                             "Total",
                                             style: AppFont.largeBold(context)!
@@ -620,7 +620,7 @@ class ReportBagiDretail extends StatelessWidget {
                                           ),
                                         ],
                                       ),
-                                      SizedBox(width: 12),
+                                      const SizedBox(width: 12),
                                       Column(
                                         crossAxisAlignment:
                                             CrossAxisAlignment.end,
@@ -632,7 +632,7 @@ class ReportBagiDretail extends StatelessWidget {
                                                     color: AppColor
                                                         .appColor.error),
                                           ),
-                                          SizedBox(height: 4),
+                                          const SizedBox(height: 4),
                                           Text(
                                             "- ${int.parse(state.tax ?? "0").currencyFormat(symbol: "Rp.")}",
                                             style: AppFont.largeBold(context)!
@@ -640,7 +640,7 @@ class ReportBagiDretail extends StatelessWidget {
                                                     color: AppColor
                                                         .appColor.error),
                                           ),
-                                          SizedBox(height: 4),
+                                          const SizedBox(height: 4),
                                           Text(
                                             (state.invoice?.product
                                                         ?.totalPrice ==
@@ -658,7 +658,7 @@ class ReportBagiDretail extends StatelessWidget {
                                   ),
                                 ),
                               ),
-                              SizedBox(height: 15),
+                              const SizedBox(height: 15),
                             ],
                           ),
                         ),

@@ -169,7 +169,7 @@ class ReportTransaction extends StatelessWidget {
                               style: AppFont.mediumBold(context),
                             ),
                             Text(
-                              "total Fee : ${state.totalTransaction?.fee.currencyFormat(symbol: "Rp.") ?? 0}",
+                              "total Fee Bank : ${state.totalTransaction?.fee.currencyFormat(symbol: "Rp.") ?? 0}",
                               style: AppFont.mediumBold(context),
                             ),
                             Text(

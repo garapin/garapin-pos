@@ -63,11 +63,11 @@ void checkVersion(BuildContext context) async {
                           print("ini url");
                           print(data['data']['link_playstore']);
                           await launcher(
-                            data['link_playstore'] ?? '',
+                            data['data']['link_playstore'] ?? '',
                           );
                         } else if (Platform.isIOS) {
                           await launcher(
-                            data['link_appstore'] ?? '',
+                            data['data']['link_appstore'] ?? '',
                           );
                         }
                       },

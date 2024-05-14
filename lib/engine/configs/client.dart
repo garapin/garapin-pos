@@ -7,9 +7,9 @@ abstract class Development {
   static String baseUrl() {
     switch (Environment.mode) {
       case EnvironmentMode.dev:
-        return 'http://192.168.160.113:4000/';
+        return 'http://192.168.213.113:4000/';
       case EnvironmentMode.test:
-        return 'http://192.168.184.113:4000/';
+        return 'http://192.168.213.113:4000/';
       case EnvironmentMode.production:
         return 'https://garapinpos.garapin.cloud/'; // real device
     }
@@ -18,10 +18,9 @@ abstract class Development {
   static String urlImage() {
     switch (Environment.mode) {
       case EnvironmentMode.dev:
-        //kantor
-        return 'http://192.168.18.235:4000/';
+        return 'http://192.168.213.113:4000/';
       case EnvironmentMode.test:
-        return 'http://192.168.184.113:4000/';
+        return 'http://192.168.213.113:4000/';
       case EnvironmentMode.production:
         return 'https://garapinpos.garapin.cloud/'; // real device
     }
