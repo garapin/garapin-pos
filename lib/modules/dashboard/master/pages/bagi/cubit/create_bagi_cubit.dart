@@ -13,16 +13,21 @@ import '../../../../../../themes/themes.dart';
 import '../../../../../../widgets/components/outline_form_dropdown.dart';
 
 part 'create_bagi_state.dart';
+
 part 'create_bagi_cubit.freezed.dart';
 
 class CreateBagiCubit extends BaseCubit<CreateBagiState> {
   final TextEditingController percentAmount = TextEditingController();
   final TextEditingController feePos = TextEditingController();
   final TextEditingController target = TextEditingController();
+
 //popup
   final TextEditingController referenceIdC = TextEditingController();
   final TextEditingController destinationAccountIdC = TextEditingController();
   final String id;
+
+  final TextEditingController feeCust = TextEditingController();
+
   CreateBagiCubit(BuildContext context, this.id)
       : super(context, const CreateBagiState());
 
@@ -521,5 +526,144 @@ class CreateBagiCubit extends BaseCubit<CreateBagiState> {
       showError(data.message);
     }
     dismissLoading();
+  }
+
+  void editCustomerFee() {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
+          content: Container(
+            decoration: BoxDecoration(borderRadius: BorderRadius.circular(24)),
+            height: 400,
+            width: 400,
+            child: SingleChildScrollView(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    "Target Bagi-Bagi",
+                    style: AppFont.large(context),
+                  ),
+                  const SizedBox(height: 4),
+                  const Divider(thickness: 2),
+                  const SizedBox(height: 8),
+                  SizedBox(
+                      child: OutlineFormDropdown(
+                          onChanged: (p0) {},
+                          initialValue: "Customer",
+                          label: "Target",
+                          name: "outline",
+                          hintText: "Masukan target",
+                          items: [
+                            DropdownMenuItem(
+                              onTap: () {},
+                              value: 'Customer',
+                              child: Text("Customer"),
+                            )
+                          ],
+                          uniqueKey: UniqueKey())),
+                  const SizedBox(height: 16),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 8),
+                    child: Text(
+                      "Bagi-Bagi Biaya",
+                      style: AppFont.large(context),
+                    ),
+                  ),
+                  const SizedBox(height: 8),
+                  SizedBox(
+                    height: 67,
+                    child: TextField(
+                      keyboardType: TextInputType.number,
+                      maxLength: 3,
+                      decoration: InputDecoration(
+                        suffixIcon: Icon(Icons.percent),
+                        helperStyle: AppFont.small(context)!.copyWith(
+                          color: AppColor.appColor.warning,
+                        ),
+                        helperText:
+                            "Merchant & customer ini akan membayar biaya",
+                        hintText: "Masukan persenan",
+                        border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(
+                                32)), // Menambahkan border
+                      ),
+                      controller: feeCust
+                        ..text =
+                            state.paymentTemplate?.feeCust.toString() ?? "",
+                      style: const TextStyle(
+                          height: 1.0), // Mengatur tinggi TextField
+                    ),
+                  ),
+                  const SizedBox(height: 16),
+                  Row(
+                    children: [
+                      Expanded(
+                        child: Container(
+                          height: 45,
+                          padding: const EdgeInsets.symmetric(horizontal: 24),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(32.0),
+                            border:
+                                Border.all(color: AppColor.appColor.primary),
+                          ),
+                          child: TextButton(
+                            onPressed: () {
+                              context.pop();
+                            },
+                            child: const Text(
+                              'CANCEL',
+                            ),
+                          ),
+                        ),
+                      ),
+                      const SizedBox(width: 12),
+                      Expanded(
+                        child: Container(
+                          height: 45,
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(36)),
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(36),
+                            child: ElevatedButton(
+                                onPressed: () async {
+                                  if (feeCust.text == "") {
+                                    showError(
+                                        "Bagi-bagi biaya tidak boleh kosong");
+                                  } else {
+                                    final data =
+                                        await ApiService.updateTemplateFeeCust(
+                                            context,
+                                            idTemplate: state
+                                                .paymentTemplate!.id
+                                                .toString(),
+                                            percentFeeCust:
+                                                int.parse(feeCust.text));
+                                    if (data.isSuccess) {
+                                      context.pop();
+                                      refreshData();
+                                      showSuccess(data.message);
+                                    }else{
+                                      showError(data.message);
+                                    }
+                                  }
+                                },
+                                child: const Text("EDIT")),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+          ),
+        );
+      },
+    );
   }
 }

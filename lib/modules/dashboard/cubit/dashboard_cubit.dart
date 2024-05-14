@@ -96,9 +96,9 @@ class DashboardCubit extends BaseCubit<DashboardState> {
     // ], child: ReportPage()),
     MultiBlocProvider(
       providers: [
-        BlocProvider(
-          create: (context) => MasterReportCubit(context),
-        ),
+        // BlocProvider(
+        //   create: (context) => MasterReportCubit(context),
+        // ),
         BlocProvider(
           create: (context) => ReportCubit(context),
         ),

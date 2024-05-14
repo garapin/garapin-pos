@@ -19,6 +19,8 @@ class SplitPaymentTemplate {
   String? name;
   @JsonKey(name: "description")
   dynamic description;
+  @JsonKey(name: "fee_cust")
+  int? feeCust;
   @JsonKey(name: "routes")
   List<RoutePayments>? routes;
   @JsonKey(name: "createdAt")
@@ -36,6 +38,7 @@ class SplitPaymentTemplate {
     this.routes,
     this.createdAt,
     this.updatedAt,
+    this.feeCust,
     this.v,
   });
 

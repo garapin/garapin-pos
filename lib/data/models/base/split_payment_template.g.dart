@@ -22,6 +22,7 @@ SplitPaymentTemplate _$SplitPaymentTemplateFromJson(
       updatedAt: json['updatedAt'] == null
           ? null
           : DateTime.parse(json['updatedAt'] as String),
+      feeCust: json['fee_cust'] as int?,
       v: json['__v'] as int?,
     )..dbTrx = json['db_trx'] as String?;
 
@@ -33,6 +34,7 @@ Map<String, dynamic> _$SplitPaymentTemplateToJson(
       'db_trx': instance.dbTrx,
       'name': instance.name,
       'description': instance.description,
+      'fee_cust': instance.feeCust,
       'routes': instance.routes,
       'createdAt': instance.createdAt?.toIso8601String(),
       'updatedAt': instance.updatedAt?.toIso8601String(),

@@ -530,7 +530,7 @@ class ApiService {
                 destinationAccountId: destinationAccountId),
             RoutePayments(
               type: "TRX",
-            )
+            ),
           ],
         })
         .then(
@@ -579,6 +579,17 @@ class ApiService {
       {required String id}) async {
     return await ApiConfigure(context)
         .get('/store/split/$id')
+        .then(
+            (result) => ApiResponse<SplitPaymentTemplate>.fromJson(result.data))
+        .handler((error) => ApiResponse<SplitPaymentTemplate>.onError(error));
+  }
+  static Future<ApiResponse<SplitPaymentTemplate>> updateTemplateFeeCust(
+      BuildContext context,
+      {required String idTemplate, required int percentFeeCust}) async {
+    return await ApiConfigure(context)
+        .post('/store/template/add_fee_cust',params: {
+          "id_template": idTemplate, "percent_fee_cust":percentFeeCust
+    })
         .then(
             (result) => ApiResponse<SplitPaymentTemplate>.fromJson(result.data))
         .handler((error) => ApiResponse<SplitPaymentTemplate>.onError(error));

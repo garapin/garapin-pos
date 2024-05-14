@@ -33,14 +33,14 @@ class MasterReportPage extends StatelessWidget {
                           padding:
                               const EdgeInsets.only(left: 0, top: 0, bottom: 0),
                           child: Container(
-                              decoration: BoxDecoration(
+                              decoration: const BoxDecoration(
                                 color: Colors.white,
                                 boxShadow: [],
                               ),
                               height: baseHeight,
                               width: 260,
                               child: cubit.showMaster())))
-                  : SizedBox(),
+                  : const SizedBox(),
             );
           },
         ),

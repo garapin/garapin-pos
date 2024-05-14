@@ -288,6 +288,66 @@ class CreateBagiPage extends StatelessWidget {
                       ),
                       SizedBox(height: 12),
                       Divider(thickness: 2),
+                      SizedBox(height: 12),
+                      Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Container(
+                                alignment: Alignment.center,
+                                width: baseWidth / 7,
+                                child: Text(
+                                    textAlign: TextAlign.center,
+                                    "CUST",
+                                    style: AppFont.medium(context))),
+                            Container(
+                              alignment: Alignment.center,
+                              width: baseWidth / 7,
+                              child: Text(
+                                "Customer",
+                                style: AppFont.medium(context),
+                                textAlign: TextAlign.center,
+                              ),
+                            ),
+                            Container(
+                              alignment: Alignment.center,
+                              width: baseWidth / 7,
+                              child: Text(
+                                  textAlign: TextAlign.center,
+                                  "-",
+                                  style: AppFont.medium(context)),
+                            ),
+                            Container(
+                              alignment: Alignment.center,
+                              width: baseWidth / 7,
+                              child: Text(
+                                  textAlign: TextAlign.center,
+                                  "${state.paymentTemplate?.feeCust ?? ""}%",
+                                  style: AppFont.medium(context)),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.only(right: 15),
+                              child: Row(
+                                children: [
+                                  Container(
+                                      alignment: Alignment.center,
+                                      width: 50,
+                                      child: CustomButton(
+                                          onPressed: () {
+                                            cubitCreateBagi.editCustomerFee();
+                                          },
+                                          child: Icon(
+                                            Icons.edit,
+                                            color:
+                                                Theme.of(context).primaryColor,
+                                          ))),
+                                  SizedBox(width: 12),
+                                  Container(width: 50, child: Text(""))
+                                ],
+                              ),
+                            ),
+                          ]),
+                      SizedBox(height: 12),
+                      Divider(thickness: 2),
                       Padding(
                         padding: const EdgeInsets.symmetric(
                             horizontal: 36, vertical: 4),
@@ -332,7 +392,7 @@ class CreateBagiPage extends StatelessWidget {
                                                   0) // Mengambil feePos atau 0 jika null
                                               .reduce((value, element) =>
                                                   value +
-                                                  element) // Mengurangi kemungkinan error dengan penanganan null
+                                                  element) // Mengurangi kemungkinan error dengan penanganan null, menambahkan nilai awal 0
                                           ??
                                           0)
                                       .toString(),
@@ -359,28 +419,32 @@ class CreateBagiPage extends StatelessWidget {
                               Text("Total Bagi Bagi Biaya",
                                   style: AppFont.large(context)!),
                               Text(
-                                  (state.paymentTemplate?.routes
-                                              ?.map((route) =>
-                                                  route.feePos ??
-                                                  0) // Mengambil feePos atau 0 jika null
-                                              .reduce((value, element) =>
-                                                  value +
-                                                  element) // Mengurangi kemungkinan error dengan penanganan null
-                                          ??
-                                          0)
+                                  ((state.paymentTemplate?.routes
+                                                  ?.map((route) =>
+                                                      route.feePos ??
+                                                      0) // Mengambil feePos atau 0 jika null
+                                                  .reduce((value, element) =>
+                                                      value +
+                                                      element) // Mengurangi kemungkinan error dengan penanganan null, menambahkan nilai awal 0
+                                              ??
+                                              0) +
+                                          (state.paymentTemplate?.feeCust ?? 0))
                                       .toString(),
                                   style: AppFont.largeBold(context)!.copyWith(
                                       fontSize: 20,
-                                      color: (state.paymentTemplate?.routes
-                                                      ?.map((route) =>
-                                                          route.feePos ??
-                                                          0) // Mengambil feePos atau 0 jika null
-                                                      .reduce((value,
-                                                              element) =>
-                                                          value +
-                                                          element) // Mengurangi kemungkinan error dengan penanganan null
-                                                  ??
-                                                  0) !=
+                                      color: ((state.paymentTemplate?.routes
+                                                          ?.map((route) =>
+                                                              route.feePos ??
+                                                              0) // Mengambil feePos atau 0 jika null
+                                                          .reduce((value,
+                                                                  element) =>
+                                                              value +
+                                                              element) // Mengurangi kemungkinan error dengan penanganan null, menambahkan nilai awal 0
+                                                      ??
+                                                      0) +
+                                                  (state.paymentTemplate
+                                                          ?.feeCust ??
+                                                      0)) !=
                                               100
                                           ? AppColor.appColor.error
                                           : AppColor.appColor.success)),
