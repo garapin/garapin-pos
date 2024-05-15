@@ -20,7 +20,7 @@ abstract class Development {
       case EnvironmentMode.dev:
         return 'http://192.168.121.113:4000/';
       case EnvironmentMode.test:
-        return 'http://192.168.121.113:4000/';
+        return 'https://garapinpos-test.garapin.cloud/';
       case EnvironmentMode.production:
         return 'https://garapinpos.garapin.cloud/'; // real device
     }
