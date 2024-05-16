@@ -67,6 +67,8 @@ class StoreClass {
   String? storeStatus;
   @JsonKey(name: "id_parent")
   String? dbParent;
+  @JsonKey(name: "policy")
+  bool? policy;
 
   StoreClass({
     this.businessPartner,
@@ -83,6 +85,7 @@ class StoreClass {
     this.updatedAt,
     this.v,
     this.phoneNumber,
+    this.policy,
     this.storeName,
     this.storeType,
     this.merChantRole,
