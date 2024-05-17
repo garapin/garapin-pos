@@ -459,24 +459,29 @@ class ReportBagiDretail extends StatelessWidget {
                                                   AppFont.mediumBold(context)),
                                           const SizedBox(width: 12),
                                           // harus dibuka
-                                          Text(
-                                              (((state.split?.split?.routes
-                                                              ?.map(
-                                                                  (e) => e.fee)
-                                                              .reduce((value,
-                                                                      element) =>
-                                                                  value! +
-                                                                  element!)) ??
-                                                          0 +
-                                                              (state.invoice
-                                                                      ?.feeGarapin ??
-                                                                  0)) ??
-                                                      "")
-                                                  .toString()
-                                                  .currencyDot(symbol: "Rp."),
-                                              textAlign: TextAlign.center,
-                                              style:
-                                                  AppFont.mediumBold(context)),
+                                          (state.invoice?.feeGarapin == 0 ||
+                                                  state.invoice?.feeGarapin ==
+                                                      null)
+                                              ? Text(
+                                                  (state.split?.split?.routes?.map((e) => e.fee).reduce((value, element) => value! + element!) ??
+                                                          "")
+                                                      .toString()
+                                                      .currencyDot(
+                                                          symbol: "Rp."),
+                                                  textAlign: TextAlign.center,
+                                                  style: AppFont.mediumBold(
+                                                      context))
+                                              : Text(
+                                                  (((state.split?.split?.routes
+                                                                  ?.map((e) =>
+                                                                      e.fee)
+                                                                  .reduce((value, element) => value! + element!)) ??
+                                                              0 + (state.invoice?.feeGarapin ?? 0)) ??
+                                                          "")
+                                                      .toString()
+                                                      .currencyDot(symbol: "Rp."),
+                                                  textAlign: TextAlign.center,
+                                                  style: AppFont.mediumBold(context)),
                                         ],
                                       ),
                                     ],
