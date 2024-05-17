@@ -31,8 +31,8 @@ class _PolicyWebviewState extends State<PolicyWebview> {
               children: [
                 InAppWebView(
                   initialUrlRequest: URLRequest(
-                      url: WebUri.uri(
-                          Uri.parse("https://bagibagipos.com/refund-policy/"))),
+                      url: WebUri.uri(Uri.parse(
+                          "https://bagibagipos.com/refund-policy-and-paymet/"))),
                   onWebViewCreated: (controller) {
                     _webViewController = controller;
                   },
