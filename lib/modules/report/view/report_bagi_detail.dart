@@ -178,7 +178,8 @@ class ReportBagiDretail extends StatelessWidget {
                                                               style: AppFont
                                                                   .medium(
                                                                       context)),
-                                                          const SizedBox(height: 4),
+                                                          const SizedBox(
+                                                              height: 4),
                                                           Text(
                                                             "- ${state.fee.toString().currencyDot(symbol: "Rp.")}",
                                                             style: AppFont
@@ -189,7 +190,8 @@ class ReportBagiDretail extends StatelessWidget {
                                                                         .appColor
                                                                         .error),
                                                           ),
-                                                          const SizedBox(height: 4),
+                                                          const SizedBox(
+                                                              height: 4),
                                                           Text(
                                                             "- ${state.tax.toString().currencyDot(symbol: "Rp.")}",
                                                             style: AppFont
@@ -200,7 +202,8 @@ class ReportBagiDretail extends StatelessWidget {
                                                                         .appColor
                                                                         .error),
                                                           ),
-                                                          const SizedBox(height: 4),
+                                                          const SizedBox(
+                                                              height: 4),
                                                           Text(
                                                             (state
                                                                         .invoice
@@ -347,13 +350,13 @@ class ReportBagiDretail extends StatelessWidget {
                                           Sessions.getDatabaseModel()?.name)
                                       ? const SizedBox()
                                       : const Padding(
-                                          padding: EdgeInsets.symmetric(
-                                              vertical: 6),
+                                          padding:
+                                              EdgeInsets.symmetric(vertical: 6),
                                           child: Divider(thickness: 2),
                                         )
                                   : const Padding(
-                                      padding: EdgeInsets.symmetric(
-                                          vertical: 6),
+                                      padding:
+                                          EdgeInsets.symmetric(vertical: 6),
                                       child: Divider(thickness: 2));
                             },
                           ),
@@ -366,53 +369,65 @@ class ReportBagiDretail extends StatelessWidget {
                           child: Container(
                             padding: const EdgeInsets.symmetric(horizontal: 40),
                             width: baseWidth,
-                            child:(state.store?.store?.merChantRole == "SUPP")? const SizedBox(): Column(
-                              crossAxisAlignment: CrossAxisAlignment.end,
-                              children: [
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.end,
-                                  children: [
-                                    Text("Total Bagi-Bagi Pendapatan",
-                                        style: AppFont.mediumBold(context)),
-                                    const SizedBox(width: 12),
-                                    Text(
-                         (             (state.split?.split?.routes
-                                                      ?.map((e) => e.flatAmount)
-                                                      .reduce((value,
-                                                              element) =>
-                                                          value! + element!) ??
-                                                  0) -
-                                              (int.parse(state.fee ?? '0') +
-                                                  (int.parse(
-                                                      state.tax ?? '0'))))
-                                          .toString()
-                                          .currencyDot(symbol: "Rp."),
-                                      textAlign: TextAlign.center,
-                                      style: AppFont.mediumBold(context),
-                                    ),
-                                  ],
-                                ),
-                                const SizedBox(height: 8),
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.end,
-                                  children: [
-                                    Text("Total Bagi-Bagi Biaya",
-                                        style: AppFont.mediumBold(context)),
-                                    const SizedBox(width: 12),
-                                    Text(
-                                        state.split?.split?.routes
-                                                ?.map((e) => e.fee)
-                                                .reduce((value, element) =>
-                                                    value! + element!)
+                            child: (state.store?.store?.merChantRole == "SUPP")
+                                ? const SizedBox()
+                                : Column(
+                                    crossAxisAlignment: CrossAxisAlignment.end,
+                                    children: [
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.end,
+                                        children: [
+                                          Text("Total Bagi-Bagi Pendapatan",
+                                              style:
+                                                  AppFont.mediumBold(context)),
+                                          const SizedBox(width: 12),
+                                          Text(
+                                            ((state.split?.split?.routes
+                                                            ?.map((e) =>
+                                                                e.flatAmount)
+                                                            .reduce((value,
+                                                                    element) =>
+                                                                value! +
+                                                                element!) ??
+                                                        0) -
+                                                    (int.parse(
+                                                            state.fee ?? '0') +
+                                                        (int.parse(
+                                                            state.tax ?? '0'))))
                                                 .toString()
-                                                .currencyDot(symbol: "Rp.") ??
-                                            "",
-                                        textAlign: TextAlign.center,
-                                        style: AppFont.mediumBold(context)),
-                                  ],
-                                ),
-                              ],
-                            ),
+                                                .currencyDot(symbol: "Rp."),
+                                            textAlign: TextAlign.center,
+                                            style: AppFont.mediumBold(context),
+                                          ),
+                                        ],
+                                      ),
+                                      const SizedBox(height: 8),
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.end,
+                                        children: [
+                                          Text("Total Bagi-Bagi Biaya",
+                                              style:
+                                                  AppFont.mediumBold(context)),
+                                          const SizedBox(width: 12),
+                                          Text(
+                                              state.split?.split?.routes
+                                                      ?.map((e) => e.fee)
+                                                      .reduce(
+                                                          (value, element) =>
+                                                              value! + element!)
+                                                      .toString()
+                                                      .currencyDot(
+                                                          symbol: "Rp.") ??
+                                                  "",
+                                              textAlign: TextAlign.center,
+                                              style:
+                                                  AppFont.mediumBold(context)),
+                                        ],
+                                      ),
+                                    ],
+                                  ),
                           ),
                         ),
                         const SizedBox(height: 30),
@@ -573,8 +588,8 @@ class ReportBagiDretail extends StatelessWidget {
                                   separatorBuilder:
                                       (BuildContext context, int index) {
                                     return const Padding(
-                                      padding: EdgeInsets.symmetric(
-                                          vertical: 6),
+                                      padding:
+                                          EdgeInsets.symmetric(vertical: 6),
                                       child: Divider(thickness: 2),
                                     );
                                   },
