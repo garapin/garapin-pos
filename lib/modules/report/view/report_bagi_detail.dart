@@ -367,49 +367,54 @@ class ReportBagiDretail extends StatelessWidget {
                         (state.invoice?.feeGarapin == null ||
                                 state.invoice?.feeGarapin == 0)
                             ? SizedBox()
-                            : Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                    Container(
-                                        alignment: Alignment.center,
-                                        width: baseWidth / 7,
-                                        child: Text("CUST",
+                            : (state.store?.store?.merChantRole == "SUPP")
+                                ? SizedBox()
+                                : Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                        Container(
+                                            alignment: Alignment.center,
+                                            width: baseWidth / 7,
+                                            child: Text("CUST",
+                                                textAlign: TextAlign.center,
+                                                style:
+                                                    AppFont.medium(context))),
+                                        Container(
+                                          alignment: Alignment.center,
+                                          width: baseWidth / 7,
+                                          child: Text(
+                                            "Customer",
+                                            style: AppFont.medium(context),
                                             textAlign: TextAlign.center,
-                                            style: AppFont.medium(context))),
-                                    Container(
-                                      alignment: Alignment.center,
-                                      width: baseWidth / 7,
-                                      child: Text(
-                                        "Customer",
-                                        style: AppFont.medium(context),
-                                        textAlign: TextAlign.center,
-                                      ),
-                                    ),
-                                    Container(
-                                      alignment: Alignment.center,
-                                      width: baseWidth / 7,
-                                      child: Text(
-                                          state.invoice?.feeGarapin
-                                                  .toString() ??
-                                              "0",
-                                          textAlign: TextAlign.center,
-                                          style: AppFont.medium(context)),
-                                    ),
-                                    Container(
-                                      alignment: Alignment.center,
-                                      width: baseWidth / 7,
-                                      child: Text(
-                                          textAlign: TextAlign.center,
-                                          "-",
-                                          style: AppFont.medium(context)),
-                                    )
-                                  ]),
+                                          ),
+                                        ),
+                                        Container(
+                                          alignment: Alignment.center,
+                                          width: baseWidth / 7,
+                                          child: Text(
+                                              state.invoice?.feeGarapin
+                                                      .toString() ??
+                                                  "0",
+                                              textAlign: TextAlign.center,
+                                              style: AppFont.medium(context)),
+                                        ),
+                                        Container(
+                                          alignment: Alignment.center,
+                                          width: baseWidth / 7,
+                                          child: Text(
+                                              textAlign: TextAlign.center,
+                                              "-",
+                                              style: AppFont.medium(context)),
+                                        )
+                                      ]),
                         const SizedBox(height: 15),
                         (state.invoice?.feeGarapin == null ||
                                 state.invoice?.feeGarapin == 0)
                             ? SizedBox()
-                            : const Divider(thickness: 2),
+                            : (state.store?.store?.merChantRole == "SUPP")
+                                ? SizedBox()
+                                : const Divider(thickness: 2),
                         const SizedBox(height: 15),
                         Align(
                           alignment: Alignment.centerRight,
@@ -459,29 +464,24 @@ class ReportBagiDretail extends StatelessWidget {
                                                   AppFont.mediumBold(context)),
                                           const SizedBox(width: 12),
                                           // harus dibuka
-                                          (state.invoice?.feeGarapin == 0 ||
-                                                  state.invoice?.feeGarapin ==
-                                                      null)
-                                              ? Text(
-                                                  (state.split?.split?.routes?.map((e) => e.fee).reduce((value, element) => value! + element!) ??
-                                                          "")
-                                                      .toString()
-                                                      .currencyDot(
-                                                          symbol: "Rp."),
-                                                  textAlign: TextAlign.center,
-                                                  style: AppFont.mediumBold(
-                                                      context))
-                                              : Text(
-                                                  (((state.split?.split?.routes
-                                                                  ?.map((e) =>
-                                                                      e.fee)
-                                                                  .reduce((value, element) => value! + element!)) ??
-                                                              0 + (state.invoice?.feeGarapin ?? 0)) ??
-                                                          "")
-                                                      .toString()
-                                                      .currencyDot(symbol: "Rp."),
-                                                  textAlign: TextAlign.center,
-                                                  style: AppFont.mediumBold(context)),
+                                          Text(
+                                              (((state.split?.split?.routes
+                                                              ?.map(
+                                                                  (e) => e.fee)
+                                                              .reduce((value,
+                                                                      element) =>
+                                                                  value! +
+                                                                  element!)) ??
+                                                          0 +
+                                                              (state.invoice
+                                                                      ?.feeGarapin ??
+                                                                  0)) ??
+                                                      "")
+                                                  .toString()
+                                                  .currencyDot(symbol: "Rp."),
+                                              textAlign: TextAlign.center,
+                                              style:
+                                                  AppFont.mediumBold(context)),
                                         ],
                                       ),
                                     ],
