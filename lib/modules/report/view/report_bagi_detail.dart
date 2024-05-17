@@ -4,6 +4,7 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:pos/data/models/base/total_bagi.dart';
 import 'package:pos/engine/engine.dart';
 import 'package:pos/modules/report/cubit/report_detail_cubit.dart';
 import 'package:pos/widgets/widgets.dart';
@@ -464,22 +465,23 @@ class ReportBagiDretail extends StatelessWidget {
                                                   AppFont.mediumBold(context)),
                                           const SizedBox(width: 12),
                                           // harus dibuka
-                                          Text(
-                                              ((state.split?.split?.routes
-                                                          ?.map((e) => e.fee)
-                                                          .reduce((value,
-                                                                  element) =>
-                                                              value! +
-                                                              element! +
-                                                              (state.invoice
-                                                                      ?.feeGarapin ??
-                                                                  0))) ??
-                                                      "")
-                                                  .toString()
-                                                  .currencyDot(symbol: "Rp."),
-                                              textAlign: TextAlign.center,
-                                              style:
-                                                  AppFont.mediumBold(context)),
+                                          Builder(builder: (context) {
+                                            int totalBagi = state
+                                                    .split?.split?.routes
+                                                    ?.map((e) => e.fee)
+                                                    .reduce((value, element) =>
+                                                        value! + element!) ??
+                                                0;
+                                            int feeGarapin =
+                                                state.invoice?.feeGarapin ?? 0;
+                                            return Text(
+                                                (totalBagi + feeGarapin)
+                                                    .toString()
+                                                    .currencyDot(symbol: "Rp."),
+                                                textAlign: TextAlign.center,
+                                                style: AppFont.mediumBold(
+                                                    context));
+                                          }),
                                         ],
                                       ),
                                     ],
