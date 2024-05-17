@@ -465,17 +465,15 @@ class ReportBagiDretail extends StatelessWidget {
                                           const SizedBox(width: 12),
                                           // harus dibuka
                                           Text(
-                                              (((state.split?.split?.routes
-                                                              ?.map(
-                                                                  (e) => e.fee)
-                                                              .reduce((value,
-                                                                      element) =>
-                                                                  value! +
-                                                                  element!)) ??
-                                                          0 +
+                                              ((state.split?.split?.routes
+                                                          ?.map((e) => e.fee)
+                                                          .reduce((value,
+                                                                  element) =>
+                                                              value! +
+                                                              element! +
                                                               (state.invoice
                                                                       ?.feeGarapin ??
-                                                                  0)) ??
+                                                                  0))) ??
                                                       "")
                                                   .toString()
                                                   .currencyDot(symbol: "Rp."),
