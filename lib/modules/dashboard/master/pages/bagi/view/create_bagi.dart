@@ -79,21 +79,58 @@ class CreateBagiPage extends StatelessWidget {
                                 ),
                               ],
                             ),
-                            Container(
-                              height: 40,
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 24),
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(32.0),
-                              ),
-                              child: TextButton(
-                                onPressed: () {
-                                  cubitCreateBagi.addTarget();
-                                },
-                                child: const Text(
-                                  'Add Target',
+                            Row(
+                              children: [
+                                Container(
+                                  height: 40,
+                                  width: 120,
+                                  padding:
+                                      const EdgeInsets.symmetric(horizontal: 0),
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(32.0),
+                                  ),
+                                  child: TextButton(
+                                    style: TextButton.styleFrom(
+                                        shape: RoundedRectangleBorder(
+                                            side: BorderSide(
+                                                color:
+                                                    AppColor.appColor.primary),
+                                            borderRadius:
+                                                BorderRadius.circular(24))),
+                                    onPressed: () {
+                                      cubitCreateBagi.editCustomerFee();
+                                    },
+                                    child: const Text(
+                                      'Add Customer',
+                                    ),
+                                  ),
                                 ),
-                              ),
+                                SizedBox(width: 24),
+                                Container(
+                                  width: 120,
+                                  height: 40,
+                                  padding:
+                                      const EdgeInsets.symmetric(horizontal: 0),
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(32.0),
+                                  ),
+                                  child: TextButton(
+                                    style: TextButton.styleFrom(
+                                        shape: RoundedRectangleBorder(
+                                            side: BorderSide(
+                                                color:
+                                                    AppColor.appColor.primary),
+                                            borderRadius:
+                                                BorderRadius.circular(24))),
+                                    onPressed: () {
+                                      cubitCreateBagi.addTarget();
+                                    },
+                                    child: const Text(
+                                      'Add Target',
+                                    ),
+                                  ),
+                                ),
+                              ],
                             ),
                           ],
                         ),
@@ -289,65 +326,136 @@ class CreateBagiPage extends StatelessWidget {
                       SizedBox(height: 12),
                       Divider(thickness: 2),
                       SizedBox(height: 12),
-                      Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Container(
-                                alignment: Alignment.center,
-                                width: baseWidth / 7,
-                                child: Text(
-                                    textAlign: TextAlign.center,
-                                    "CUST",
-                                    style: AppFont.medium(context))),
-                            Container(
-                              alignment: Alignment.center,
-                              width: baseWidth / 7,
-                              child: Text(
-                                "Customer",
-                                style: AppFont.medium(context),
-                                textAlign: TextAlign.center,
-                              ),
-                            ),
-                            Container(
-                              alignment: Alignment.center,
-                              width: baseWidth / 7,
-                              child: Text(
-                                  textAlign: TextAlign.center,
-                                  "-",
-                                  style: AppFont.medium(context)),
-                            ),
-                            Container(
-                              alignment: Alignment.center,
-                              width: baseWidth / 7,
-                              child: Text(
-                                  textAlign: TextAlign.center,
-                                  "${state.paymentTemplate?.feeCust ?? ""}%",
-                                  style: AppFont.medium(context)),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.only(right: 15),
-                              child: Row(
-                                children: [
+                      (state.paymentTemplate?.feeCust == 0)
+                          ? SizedBox()
+                          : Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
                                   Container(
                                       alignment: Alignment.center,
-                                      width: 50,
-                                      child: CustomButton(
-                                          onPressed: () {
-                                            cubitCreateBagi.editCustomerFee();
-                                          },
-                                          child: Icon(
-                                            Icons.edit,
-                                            color:
-                                                Theme.of(context).primaryColor,
-                                          ))),
-                                  SizedBox(width: 12),
-                                  Container(width: 50, child: Text(""))
-                                ],
-                              ),
-                            ),
-                          ]),
+                                      width: baseWidth / 7,
+                                      child: Text(
+                                          textAlign: TextAlign.center,
+                                          "CUST",
+                                          style: AppFont.medium(context))),
+                                  Container(
+                                    alignment: Alignment.center,
+                                    width: baseWidth / 7,
+                                    child: Text(
+                                      "Customer",
+                                      style: AppFont.medium(context),
+                                      textAlign: TextAlign.center,
+                                    ),
+                                  ),
+                                  Container(
+                                    alignment: Alignment.center,
+                                    width: baseWidth / 7,
+                                    child: Text(
+                                        textAlign: TextAlign.center,
+                                        "-",
+                                        style: AppFont.medium(context)),
+                                  ),
+                                  Container(
+                                    alignment: Alignment.center,
+                                    width: baseWidth / 7,
+                                    child: Text(
+                                        textAlign: TextAlign.center,
+                                        "${state.paymentTemplate?.feeCust ?? ""}%",
+                                        style: AppFont.medium(context)),
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.only(right: 15),
+                                    child: Row(
+                                      children: [
+                                        Container(
+                                            alignment: Alignment.center,
+                                            width: 50,
+                                            child: CustomButton(
+                                                onPressed: () {
+                                                  cubitCreateBagi
+                                                      .editCustomerFee();
+                                                },
+                                                child: Icon(
+                                                  Icons.edit,
+                                                  color: Theme.of(context)
+                                                      .primaryColor,
+                                                ))),
+                                        SizedBox(width: 12),
+                                        Container(
+                                            width: 50,
+                                            child: CustomButton(
+                                                onPressed: () {
+                                                  showDialog(
+                                                    context: context,
+                                                    builder: (context) {
+                                                      return SizedBox(
+                                                        height: 300,
+                                                        child: AlertDialog(
+                                                          shape: RoundedRectangleBorder(
+                                                              borderRadius:
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                          24)),
+                                                          title: Text(
+                                                              "Yakin untuk menghapus Customer"),
+                                                          actions: [
+                                                            TextButton(
+                                                                onPressed: () {
+                                                                  context.pop();
+                                                                },
+                                                                child: Text(
+                                                                    "Cancel",
+                                                                    style: AppFont.largeBold(
+                                                                            context)
+                                                                        ?.copyWith(
+                                                                      color: Colors
+                                                                          .grey,
+                                                                    ))),
+                                                            TextButton(
+                                                                onPressed:
+                                                                    () async {
+                                                                  final data = await ApiService.updateTemplateFeeCust(
+                                                                      context,
+                                                                      idTemplate: state
+                                                                          .paymentTemplate!
+                                                                          .id
+                                                                          .toString(),
+                                                                      percentFeeCust:
+                                                                          0);
+                                                                  if (data
+                                                                      .isSuccess) {
+                                                                    cubitCreateBagi
+                                                                        .refreshData();
+                                                                  } else {}
+                                                                  context.pop();
+                                                                },
+                                                                child: Text(
+                                                                    "Ya",
+                                                                    style: AppFont.largeBold(
+                                                                            context)
+                                                                        ?.copyWith(
+                                                                      color: AppColor
+                                                                          .appColor
+                                                                          .primary,
+                                                                    )))
+                                                          ],
+                                                        ),
+                                                      );
+                                                    },
+                                                  );
+                                                },
+                                                child: Icon(
+                                                  Icons.delete,
+                                                  color: Colors.red,
+                                                ))),
+                                      ],
+                                    ),
+                                  ),
+                                ]),
                       SizedBox(height: 12),
-                      Divider(thickness: 2),
+                      (state.paymentTemplate?.feeCust == 0)
+                          ? SizedBox()
+                          : Divider(thickness: 2),
                       Padding(
                         padding: const EdgeInsets.symmetric(
                             horizontal: 36, vertical: 4),

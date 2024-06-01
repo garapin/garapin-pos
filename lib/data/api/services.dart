@@ -574,6 +574,15 @@ class ApiService {
         .handler((error) => ApiResponse<SplitPaymentTemplate>.onError(error));
   }
 
+  static Future<ApiResponse> updatePolicy(
+    BuildContext context,
+  ) async {
+    return await ApiConfigure(context)
+        .post('/store/update_policy')
+        .then((result) => ApiResponse.fromJson(result.data))
+        .handler((error) => ApiResponse.onError(error));
+  }
+
   static Future<ApiResponse<SplitPaymentTemplate>> getTemplateId(
       BuildContext context,
       {required String id}) async {
@@ -583,13 +592,16 @@ class ApiService {
             (result) => ApiResponse<SplitPaymentTemplate>.fromJson(result.data))
         .handler((error) => ApiResponse<SplitPaymentTemplate>.onError(error));
   }
+
   static Future<ApiResponse<SplitPaymentTemplate>> updateTemplateFeeCust(
       BuildContext context,
-      {required String idTemplate, required int percentFeeCust}) async {
+      {required String idTemplate,
+      required int percentFeeCust}) async {
     return await ApiConfigure(context)
-        .post('/store/template/add_fee_cust',params: {
-          "id_template": idTemplate, "percent_fee_cust":percentFeeCust
-    })
+        .post('/store/template/add_fee_cust', params: {
+          "id_template": idTemplate,
+          "percent_fee_cust": percentFeeCust
+        })
         .then(
             (result) => ApiResponse<SplitPaymentTemplate>.fromJson(result.data))
         .handler((error) => ApiResponse<SplitPaymentTemplate>.onError(error));

@@ -31,6 +31,7 @@ import 'package:go_router/go_router.dart';
 import '../modules/auth/login/view/login.dart';
 import '../modules/history_transaction/cubit/history_transaction_cubit.dart';
 import '../modules/splash/cubit/splash_cubit.dart';
+import '../policy_webview.dart';
 import '../widgets/components/unknown_page.dart';
 
 part 'route_names.dart';
@@ -175,6 +176,13 @@ class Routes implements RouterInterface {
                 context, state.extra as Map<String, String>),
             child: const DetailTransactionProduct(),
           );
+        },
+      ),
+      GoRoute(
+        name: RouteNames.policyWebview,
+        path: RouteNames.policyWebview,
+        builder: (ctx, GoRouterState state) {
+          return const PolicyWebview();
         },
       ),
 

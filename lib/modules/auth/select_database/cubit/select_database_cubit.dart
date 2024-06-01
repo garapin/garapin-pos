@@ -69,7 +69,9 @@ class SelectDatabaseCubit extends BaseCubit<SelectDatabaseState> {
               jsonEncode(data.data!.store!.accountHolder));
           (data.data?.store?.storeName == null)
               ? context.pushNamed(RouteNames.profile)
-              : context.go(RouteNames.dashboard);
+              : (data.data?.store?.policy == true)
+                  ? context.go(RouteNames.dashboard)
+                  : context.go(RouteNames.policyWebview);
         }
       });
     }

@@ -60,7 +60,6 @@ class _BluetoothPrintExampleState extends State<BluetoothPrintExample> {
 
     bluetoothPrint.state.listen((state) {
       print('Current device status: $state');
-
       switch (state) {
         case BluetoothPrint.CONNECTED:
           setState(() {

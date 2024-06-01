@@ -271,33 +271,33 @@ class PaymentMethodsPage extends StatelessWidget {
                                         ),
                                         const SizedBox(height: 20),
                                       ]),
-                                  // Padding(
-                                  //   padding: const EdgeInsets.symmetric(
-                                  //       horizontal: 8),
-                                  //   child: TextButton(
-                                  //       onPressed: () {
-                                  //         cubit.tileVaController?.collapse();
-                                  //         cubit.tileQrController?.collapse();
-                                  //         cubit.changePaymentMethod(
-                                  //             PaymentMethod.cash);
-                                  //       },
-                                  //       child: Row(
-                                  //         mainAxisAlignment:
-                                  //             MainAxisAlignment.spaceBetween,
-                                  //         children: [
-                                  //           Text(
-                                  //             "Cash",
-                                  //             style: AppFont.largeBold(context),
-                                  //           ),
-                                  //           Icon((state.paymentMethod ==
-                                  //                   PaymentMethod.cash)
-                                  //               ? Icons
-                                  //                   .keyboard_arrow_up_rounded
-                                  //               : Icons
-                                  //                   .keyboard_arrow_down_rounded)
-                                  //         ],
-                                  //       )),
-                                  // ),
+                                  Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 8),
+                                    child: TextButton(
+                                        onPressed: () {
+                                          cubit.tileVaController?.collapse();
+                                          cubit.tileQrController?.collapse();
+                                          cubit.changePaymentMethod(
+                                              PaymentMethod.cash);
+                                        },
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Text(
+                                              "Cash",
+                                              style: AppFont.largeBold(context),
+                                            ),
+                                            Icon((state.paymentMethod ==
+                                                    PaymentMethod.cash)
+                                                ? Icons
+                                                    .keyboard_arrow_up_rounded
+                                                : Icons
+                                                    .keyboard_arrow_down_rounded)
+                                          ],
+                                        )),
+                                  ),
                                 ],
                               )
                             : Column(
