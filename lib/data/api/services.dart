@@ -423,10 +423,11 @@ class ApiService {
   }
 
   static Future<ApiResponseList<AvailablePayment>> paymentAvailable(
-    BuildContext context,
-  ) async {
+    BuildContext context, {
+    required String type,
+  }) async {
     return await ApiConfigure(context)
-        .get('store/transcation/payment_available')
+        .get('store/transcation/payment_available', params: {"type": type})
         .then(
             (result) => ApiResponseList<AvailablePayment>.fromJson(result.data))
         .handler((error) => ApiResponseList<AvailablePayment>.onError(error));

@@ -50,7 +50,7 @@ class CheckoutCubit extends BaseCubit<CheckoutState> {
   }
 
   getAvailablePayment() async {
-    final data = await ApiService.paymentAvailable(context);
+    final data = await ApiService.paymentAvailable(context, type: 'payment');
     emit(state.copyWith(availablePayment: data.data));
   }
 
