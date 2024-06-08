@@ -59,7 +59,7 @@ class ProfileCubit extends BaseCubit<ProfileState> {
   }
 
   getAvailablePayment() async {
-    final data = await ApiService.paymentAvailable(context);
+    final data = await ApiService.paymentAvailable(context, type: 'withdraw');
     emit(state.copyWith(availablePayment: data.data));
   }
 

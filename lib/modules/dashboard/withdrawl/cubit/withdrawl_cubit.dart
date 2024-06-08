@@ -76,7 +76,7 @@ class WithdrawlCubit extends BaseCubit<WithdrawlState> {
   }
 
   getAvailablePayment() async {
-    final data = await ApiService.paymentAvailable(context);
+    final data = await ApiService.paymentAvailable(context, type: 'withdraw');
     emit(state.copyWith(availablePayment: data.data));
   }
 
