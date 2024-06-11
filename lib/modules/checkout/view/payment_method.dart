@@ -1,9 +1,14 @@
+import 'package:bluetooth_print/bluetooth_print_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:pos/data/models/base/invoices.dart';
+import 'package:pos/data/models/base/store.dart';
 import 'package:pos/engine/engine.dart';
 import 'package:pos/modules/cart/cubit/cart_cubit.dart';
 import 'package:pos/modules/checkout/cubit/checkout_cubit.dart';
+import 'package:pos/modules/print_receipt/cubit/print_cubit.dart';
+import 'package:pos/modules/print_receipt/helpers/generate_print_layout.dart';
 import 'package:pos/resources/resources.dart';
 import 'package:pos/themes/themes.dart';
 import 'package:pos/widgets/widgets.dart';
@@ -12,8 +17,9 @@ import 'package:qr_flutter/qr_flutter.dart';
 import '../../../widgets/components/pair_bluethooth.dart';
 
 class PaymentMethodsPage extends StatelessWidget {
-  const PaymentMethodsPage({super.key, required this.cartCubit});
+  PaymentMethodsPage({super.key, required this.cartCubit});
   final CartCubit cartCubit;
+  late List<LineText> printData = [];
 
   @override
   Widget build(BuildContext context) {
@@ -215,7 +221,6 @@ class PaymentMethodsPage extends StatelessWidget {
                                         }
                                       },
                                       controller: cubit.tileVaController,
-                                      enabled: true,
                                       title: Text(
                                         "Virtual Account",
                                         style: AppFont.largeBold(context),
@@ -360,12 +365,11 @@ class PaymentMethodsPage extends StatelessWidget {
                                   ),
                                 ],
                               ),
-                        Divider(
+                        const Divider(
                           thickness: 1,
                         ),
                         const SizedBox(height: 20),
                         SizedBox(
-                          height: 300,
                           width: baseWidth,
                           child: Builder(
                             builder: (context) {
@@ -524,6 +528,10 @@ class PaymentMethodsPage extends StatelessWidget {
                             },
                           ),
                         ),
+
+                        state.paymentStatus == PaymentStatus.pending
+                            ? buttonPrintCheckout(state.store, state.invoices)
+                            : Container(),
                       ],
                     ),
                   ),
@@ -534,5 +542,188 @@ class PaymentMethodsPage extends StatelessWidget {
         },
       ),
     );
+  }
+
+  Widget buttonPrintCheckout(Store? storeData, Invoices? invoiceData) {
+    return BlocProvider(
+      create: (context) => BluetoothPrintCubit()..startScan(),
+      child: BlocBuilder<BluetoothPrintCubit, BluetoothPrintState>(
+        builder: (context, state) {
+          if (state == BluetoothPrintState.scanning) {
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          }
+
+          return Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 13, vertical: 20),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                Expanded(
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(24),
+                    child: SizedBox(
+                      height: 50,
+                      child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.black),
+                        child: context
+                                    .read<BluetoothPrintCubit>()
+                                    .selectedDevice ==
+                                null
+                            ? const Text('Select Device')
+                            : const Text('Print Receipt'),
+                        onPressed: () async {
+                          if (context
+                                  .read<BluetoothPrintCubit>()
+                                  .selectedDevice !=
+                              null) {
+                            showPaperSizeOptions(context, (selectedSize) async {
+                              context.read<BluetoothPrintCubit>().printReceipt(
+                                    await GeneratePrintLayout()
+                                        .generatePrintLayout(
+                                      invoiceData!,
+                                      storeData!,
+                                    ),
+                                    selectedSize,
+                                  );
+                            });
+                          }
+
+                          if (state == BluetoothPrintState.scanningComplete &&
+                              context
+                                      .read<BluetoothPrintCubit>()
+                                      .selectedDevice ==
+                                  null) {
+                            WidgetsBinding.instance.addPostFrameCallback((_) {
+                              showDialog(
+                                context: context,
+                                builder: (_) {
+                                  return AlertDialog(
+                                    title:
+                                        const Text("Select a Bluetooth device"),
+                                    content: SizedBox(
+                                      width: 200,
+                                      height: double.maxFinite,
+                                      child: ListView.builder(
+                                        shrinkWrap: true,
+                                        itemCount: context
+                                                .read<BluetoothPrintCubit>()
+                                                .devices
+                                                ?.length ??
+                                            0,
+                                        itemBuilder: (_, int index) {
+                                          var device = context
+                                              .read<BluetoothPrintCubit>()
+                                              .devices![index];
+                                          return ListTile(
+                                            title: Text(device.name ??
+                                                "Unknown device"),
+                                            subtitle:
+                                                Text(device.address ?? ''),
+                                            onTap: () {
+                                              context
+                                                  .read<BluetoothPrintCubit>()
+                                                  .selectDevice(device);
+                                              Navigator.of(context).pop();
+                                            },
+                                          );
+                                        },
+                                      ),
+                                    ),
+                                  );
+                                },
+                              );
+                            });
+                          }
+                        },
+                      ),
+                    ),
+                  ),
+                ),
+                const SizedBox(
+                  width: 8,
+                ),
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(24),
+                  child: SizedBox(
+                    height: 50,
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: context
+                                    .read<BluetoothPrintCubit>()
+                                    .selectedDevice ==
+                                null
+                            ? Colors.grey
+                            : Colors.black,
+                      ),
+                      onPressed: context
+                                  .read<BluetoothPrintCubit>()
+                                  .selectedDevice ==
+                              null
+                          ? null
+                          : () {
+                              context.read<BluetoothPrintCubit>().disconnect();
+                              context.read<BluetoothPrintCubit>().startScan();
+                            },
+                      child: const Text('Disconnect'),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          );
+        },
+      ),
+    );
+  }
+
+  void showPaperSizeOptions(
+      BuildContext context, Function(int) onSizeSelected) {
+    showModalBottomSheet(
+      context: context,
+      builder: (BuildContext context) {
+        return Container(
+          padding: const EdgeInsets.all(20),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              const Text(
+                "Select Paper Size",
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+              ),
+              ListTile(
+                title: const Text("40mm"),
+                onTap: () {
+                  onSizeSelected(40);
+                  Navigator.pop(context);
+                },
+              ),
+              ListTile(
+                title: const Text("50mm"),
+                onTap: () {
+                  onSizeSelected(50);
+                  Navigator.pop(context);
+                },
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
+
+  void setDataPrintCheckout(Store storeData, Invoices invoiceData) async {
+    print("INI DATA STORE");
+    print(storeData.store?.storeName);
+    var data = await GeneratePrintLayout().generatePrintLayout(
+      invoiceData,
+      storeData,
+    );
+
+    data.forEach((element) {
+      print(element.content);
+    });
   }
 }
