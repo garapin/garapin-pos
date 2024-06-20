@@ -24,10 +24,12 @@ if (flutterVersionName == null) {
     flutterVersionName = '1.0'
 }
 def keystoreProperties = new Properties()
-
 def keystorePropertiesFile = rootProject.file('key.properties')
+println "Looking for key.properties at: ${keystorePropertiesFile.absolutePath}"
 if (keystorePropertiesFile.exists()) {
 	keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+} else {
+    println "key.properties file not found"
 }
 
 
@@ -63,10 +65,10 @@ android {
 
   signingConfigs {
     release {
-       keyAlias keystoreProperties['keyAlias']
-       keyPassword keystoreProperties['keyPassword']
-       storeFile file(keystoreProperties['storeFile'])
-       storePassword keystoreProperties['storePassword']
+               keyAlias keystoreProperties['keyAlias']
+               keyPassword keystoreProperties['keyPassword']
+               storeFile file(keystoreProperties['storeFile'])
+               storePassword keystoreProperties['storePassword']
             }
     }
      buildTypes {

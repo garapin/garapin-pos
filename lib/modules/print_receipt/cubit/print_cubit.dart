@@ -16,12 +16,17 @@ class BluetoothPrintCubit extends Cubit<BluetoothPrintState> {
 
     bluetoothPrint.scanResults.listen((List<BluetoothDevice> results) {
       devices = results;// Update state to refresh UI with the list of devices
+      print("Devices");
+      devices?.forEach((element) {
+        print(element.name);
+      });
       emit(BluetoothPrintState.scanningComplete);
     });
   }
 
-  void selectDevice(BluetoothDevice device) {
+  void selectDevice(BluetoothDevice device) async {
     bluetoothPrint.stopScan(); // Stop scanning when a device is selected
+    await bluetoothPrint.connect(device);
     selectedDevice = device;
     emit(BluetoothPrintState.deviceSelected);
   }
@@ -39,7 +44,7 @@ class BluetoothPrintCubit extends Cubit<BluetoothPrintState> {
     config['width'] = paperSize;
     config['height'] = 70;
     config['gap'] = 1;
-    config['fontSize'] = 10;
+    config['fontSize'] = 20;
 
     for (var line in data) {
       print("${line.content}");
@@ -48,7 +53,9 @@ class BluetoothPrintCubit extends Cubit<BluetoothPrintState> {
     try {
       bool connected = await bluetoothPrint.connect(selectedDevice!);
       if (connected) {
-        await bluetoothPrint.printReceipt(config, data);
+        Future.delayed(const Duration(seconds: 3), () async {
+          await bluetoothPrint.printLabel(config, data);
+        });
         emit(BluetoothPrintState.completed);
         bluetoothPrint.disconnect();
       } else {

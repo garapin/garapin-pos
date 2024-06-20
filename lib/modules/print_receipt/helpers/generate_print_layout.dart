@@ -193,28 +193,28 @@ class GeneratePrintLayout {
         weight: 1,
         align: LineText.ALIGN_CENTER,
         linefeed: 1));
-    list.add(
-      LineText(
-        type: LineText.TYPE_TEXT,
-        content: "Payment Method:",
-        align: LineText.ALIGN_LEFT,
-        weight: 1,
-        x: 0,
-        relativeX: 0,
-        linefeed: 0,
-      ),
-    );
-    list.add(
-      LineText(
-        type: LineText.TYPE_TEXT,
-        content: inv.paymentMethod,
-        align: LineText.ALIGN_LEFT,
-        weight: 1,
-        x: 300,
-        relativeX: 0,
-        linefeed: 1,
-      ),
-    );
+    // list.add(
+    //   LineText(
+    //     type: LineText.TYPE_TEXT,
+    //     content: "Payment Method:",
+    //     align: LineText.ALIGN_LEFT,
+    //     weight: 1,
+    //     x: 0,
+    //     relativeX: 0,
+    //     linefeed: 0,
+    //   ),
+    // );
+    // list.add(
+    //   LineText(
+    //     type: LineText.TYPE_TEXT,
+    //     content: inv.paymentMethod,
+    //     align: LineText.ALIGN_LEFT,
+    //     weight: 1,
+    //     x: 300,
+    //     relativeX: 0,
+    //     linefeed: 1,
+    //   ),
+    // );
     list.add(LineText(linefeed: 1));
     return list;
   }

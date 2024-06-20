@@ -685,7 +685,7 @@ class PaymentMethodsPage extends StatelessWidget {
       context: context,
       builder: (BuildContext context) {
         return Container(
-          padding: const EdgeInsets.all(20),
+          padding: const EdgeInsets.only(left: 20, right: 20, top: 20),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
@@ -693,19 +693,31 @@ class PaymentMethodsPage extends StatelessWidget {
                 "Select Paper Size",
                 style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
               ),
-              ListTile(
-                title: const Text("40mm"),
-                onTap: () {
-                  onSizeSelected(40);
-                  Navigator.pop(context);
-                },
-              ),
-              ListTile(
-                title: const Text("50mm"),
-                onTap: () {
-                  onSizeSelected(50);
-                  Navigator.pop(context);
-                },
+              ListView(
+                shrinkWrap: true,
+                children: [
+                  ListTile(
+                    title: const Text("40mm"),
+                    onTap: () {
+                      onSizeSelected(40);
+                      Navigator.pop(context);
+                    },
+                  ),
+                  ListTile(
+                    title: const Text("50mm"),
+                    onTap: () {
+                      onSizeSelected(50);
+                      Navigator.pop(context);
+                    },
+                  ),
+                  ListTile(
+                    title: const Text("80mm"),
+                    onTap: () {
+                      onSizeSelected(80);
+                      Navigator.pop(context);
+                    },
+                  ),
+                ],
               ),
             ],
           ),
