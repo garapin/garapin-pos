@@ -15,11 +15,8 @@ class BluetoothPrintCubit extends Cubit<BluetoothPrintState> {
     bluetoothPrint.startScan(timeout: const Duration(seconds: 4));
 
     bluetoothPrint.scanResults.listen((List<BluetoothDevice> results) {
+      print('Current device status: $results');
       devices = results;// Update state to refresh UI with the list of devices
-      print("Devices");
-      devices?.forEach((element) {
-        print(element.name);
-      });
       emit(BluetoothPrintState.scanningComplete);
     });
   }

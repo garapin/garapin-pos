@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:pos/data/api/error_handler.dart';
 import 'package:pos/data/models/base/account_balance.dart';
+import 'package:pos/data/models/base/amount_pending_transaction.dart';
 import 'package:pos/data/models/base/available_payment.dart';
 import 'package:pos/data/models/base/brand.dart';
 import 'package:pos/data/models/base/cart.dart';
@@ -374,12 +375,34 @@ class ApiService {
         .handler((error) => ApiResponse<Invoices>.onError(error));
   }
 
+  static Future<ApiResponse<Invoices>> createInvoiceTopUp(
+    BuildContext context, {
+    required int amount,
+    required String payerEmail,
+    required String targetDatabase,
+  }) async {
+    return await ApiConfigure(context)
+        .post(
+          'store/transaction/create-invoices-topup',
+          params: {
+            "target_database": targetDatabase,
+            "amount": amount,
+            "payer_email": payerEmail,
+          },
+        )
+        .then((result) => ApiResponse<Invoices>.fromJson(result.data))
+        .handler((error) => ApiResponse<Invoices>.onError(error));
+  }
+
   static Future<ApiResponse<Invoices>> getSingleInvoices(
     BuildContext context, {
     required String invoices,
+    String targetDatabase = "",
   }) async {
     return await ApiConfigure(context)
-        .get('store/transcation/invoces/$invoices')
+        .get('store/transcation/invoces/$invoices', params: {
+          if (targetDatabase.isNotEmpty) "target_database": targetDatabase
+        })
         .then((result) => ApiResponse<Invoices>.fromJson(result.data))
         .handler((error) => ApiResponse<Invoices>.onError(error));
   }
@@ -403,6 +426,22 @@ class ApiService {
         .handler((error) => ApiResponse<QrCode>.onError(error));
   }
 
+  static Future<ApiResponse<QrCode>> createQrcodeTopUp(
+    BuildContext context, {
+    required String targetDatabase,
+    required String invoices,
+    required int amount,
+  }) async {
+    return await ApiConfigure(context)
+        .post('store/transaction/create-qrcode-topup', params: {
+          "target_database": targetDatabase,
+          "reference_id": invoices,
+          "amount": amount,
+        })
+        .then((result) => ApiResponse<QrCode>.fromJson(result.data))
+        .handler((error) => ApiResponse<QrCode>.onError(error));
+  }
+
   static Future<ApiResponse<VirtualAccount>> createVirtualAccount(
       BuildContext context,
       {required String invoice,
@@ -410,6 +449,20 @@ class ApiService {
     return await ApiConfigure(context)
         .post('store/transcation/create-va',
             params: {"external_id": invoice, "bank_code": bankCode})
+        .then((result) => ApiResponse<VirtualAccount>.fromJson(result.data))
+        .handler((error) => ApiResponse<VirtualAccount>.onError(error));
+  }
+
+  static Future<ApiResponse<VirtualAccount>> createVirtualAccountTopUp(
+    BuildContext context, {
+    required String invoice,
+    required String bankCode,
+  }) async {
+    return await ApiConfigure(context)
+        .post('store/transaction/create-va-topup', params: {
+          "external_id": invoice,
+          "bank_code": bankCode,
+        })
         .then((result) => ApiResponse<VirtualAccount>.fromJson(result.data))
         .handler((error) => ApiResponse<VirtualAccount>.onError(error));
   }
@@ -762,6 +815,16 @@ class ApiService {
         .get('/store/balance/get_balance')
         .then((result) => ApiResponse<AccountBalance>.fromJson(result.data))
         .handler((error) => ApiResponse<AccountBalance>.onError(error));
+  }
+
+  static Future<ApiResponse<AmountPendingTransaction>> getAmountPending(
+      BuildContext context) async {
+    return await ApiConfigure(context)
+        .get('/store/amount/pending_transaction')
+        .then((result) =>
+            ApiResponse<AmountPendingTransaction>.fromJson(result.data))
+        .handler(
+            (error) => ApiResponse<AmountPendingTransaction>.onError(error));
   }
 
   static Future<ApiResponse> verifyPin(BuildContext context,

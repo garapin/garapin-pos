@@ -4,6 +4,7 @@ import 'package:pos/data/models/base/config_version_apps.dart';
 import 'package:pos/data/models/base/split_rule.dart';
 
 import '../base/account_balance.dart';
+import '../base/amount_pending_transaction.dart';
 import '../base/available_payment.dart';
 import '../base/brand.dart';
 import '../base/cart.dart';
@@ -108,6 +109,10 @@ Object factoryModel(String type, {Map<String, dynamic>? json}) {
       return json != null
           ? CheckAmountWithdraw.fromJson(json)
           : CheckAmountWithdraw();
+    case 'AmountPendingTransaction':
+      return json != null
+          ? AmountPendingTransaction.fromJson(json)
+          : AmountPendingTransaction();
     case 'dynamic':
       return json != null ? DefaultModel(json) : DefaultModel({});
     default:
