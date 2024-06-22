@@ -596,6 +596,8 @@ class PaymentMethodsPage extends StatelessWidget {
                                       .read<BluetoothPrintCubit>()
                                       .selectedDevice ==
                                   null) {
+                            context
+                                .read<BluetoothPrintCubit>().startScan();
                             WidgetsBinding.instance.addPostFrameCallback((_) {
                               showDialog(
                                 context: context,

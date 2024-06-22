@@ -53,15 +53,20 @@ class GeneratePrintLayout {
         align: LineText.ALIGN_LEFT,
         fontZoom: 2,
         linefeed: 1,
+        x: 45,
       ),
     );
     list.add(LineText(linefeed: 1));
-    list.add(LineText(
+    list.add(
+      LineText(
         type: LineText.TYPE_TEXT,
         content: "Invoice : ${inv.invoiceLabel ?? ''}",
         weight: 1,
         align: LineText.ALIGN_LEFT,
-        linefeed: 1));
+        linefeed: 1,
+        x: 45,
+      ),
+    );
     list.add(LineText(linefeed: 1));
     list.add(
       LineText(
@@ -71,6 +76,7 @@ class GeneratePrintLayout {
         weight: 1,
         align: LineText.ALIGN_LEFT,
         linefeed: 1,
+        x: 45,
       ),
     );
     list.add(LineText(linefeed: 1));
@@ -81,6 +87,7 @@ class GeneratePrintLayout {
         weight: 1,
         align: LineText.ALIGN_CENTER,
         linefeed: 1,
+        x: 45,
       ),
     );
     list.add(
@@ -89,7 +96,7 @@ class GeneratePrintLayout {
         content: 'Items',
         weight: 0,
         align: LineText.ALIGN_LEFT,
-        x: 0,
+        x: 45,
         relativeX: 0,
         linefeed: 0,
       ),
@@ -100,7 +107,7 @@ class GeneratePrintLayout {
         content: 'Qty',
         weight: 0,
         align: LineText.ALIGN_LEFT,
-        x: 200,
+        x: 245,
         relativeX: 0,
         linefeed: 0,
       ),
@@ -111,7 +118,7 @@ class GeneratePrintLayout {
         content: 'Price',
         weight: 0,
         align: LineText.ALIGN_LEFT,
-        x: 250,
+        x: 295,
         relativeX: 0,
         linefeed: 1,
       ),
@@ -128,6 +135,7 @@ class GeneratePrintLayout {
           align: LineText.ALIGN_LEFT,
           relativeX: 0,
           y: 200,
+          x: 45,
           linefeed: 0,
         ),
       );
@@ -137,7 +145,7 @@ class GeneratePrintLayout {
           content: "${e.quantity}",
           align: LineText.ALIGN_LEFT,
           weight: 1,
-          x: 200,
+          x: 245,
           relativeX: 0,
           linefeed: 0,
         ),
@@ -148,7 +156,7 @@ class GeneratePrintLayout {
           content: "${e.product?.price.currencyFormat(symbol: "Rp.")}",
           align: LineText.ALIGN_LEFT,
           weight: 1,
-          x: 250,
+          x: 295,
           relativeX: 0,
           linefeed: 0,
         ),
@@ -171,7 +179,7 @@ class GeneratePrintLayout {
         content: "Total Transaction",
         align: LineText.ALIGN_LEFT,
         weight: 1,
-        x: 0,
+        x: 45,
         relativeX: 0,
         linefeed: 0,
       ),
@@ -179,42 +187,24 @@ class GeneratePrintLayout {
     list.add(
       LineText(
         type: LineText.TYPE_TEXT,
-        content: inv.product!.totalPrice.currencyFormat(symbol: "Rp."),
+        content: inv.product!.totalPrice.currencyFormat(symbol: "Rp "),
         align: LineText.ALIGN_LEFT,
         weight: 1,
-        x: 250,
+        x: 295,
         relativeX: 0,
         linefeed: 1,
       ),
     );
-    list.add(LineText(
+    list.add(
+      LineText(
         type: LineText.TYPE_TEXT,
         content: '--------------------------------',
         weight: 1,
         align: LineText.ALIGN_CENTER,
-        linefeed: 1));
-    // list.add(
-    //   LineText(
-    //     type: LineText.TYPE_TEXT,
-    //     content: "Payment Method:",
-    //     align: LineText.ALIGN_LEFT,
-    //     weight: 1,
-    //     x: 0,
-    //     relativeX: 0,
-    //     linefeed: 0,
-    //   ),
-    // );
-    // list.add(
-    //   LineText(
-    //     type: LineText.TYPE_TEXT,
-    //     content: inv.paymentMethod,
-    //     align: LineText.ALIGN_LEFT,
-    //     weight: 1,
-    //     x: 300,
-    //     relativeX: 0,
-    //     linefeed: 1,
-    //   ),
-    // );
+        linefeed: 1,
+      ),
+    );
+    list.add(LineText(linefeed: 1));
     list.add(LineText(linefeed: 1));
     return list;
   }

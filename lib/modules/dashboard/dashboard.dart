@@ -1,11 +1,9 @@
 import 'dart:developer';
 
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/widgets.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:pos/engine/base/app.dart';
 import 'package:pos/engine/engine.dart';
+import 'package:pos/modules/checkout/cubit/checkout_cubit.dart';
 import 'package:pos/modules/dashboard/catalog/cubit/catalog_cubit.dart';
 import 'package:pos/modules/dashboard/cubit/dashboard_cubit.dart';
 import 'package:pos/modules/dashboard/profile/cubit/profile_cubit.dart';
@@ -14,7 +12,6 @@ import 'package:pos/modules/report/master_report/cubit/master_report_cubit.dart'
 import 'package:pos/resources/resources.dart';
 import 'package:pos/routes/routes.dart';
 import 'package:pos/themes/themes.dart';
-import 'package:pos/widgets/components/custom_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../widgets/widgets.dart';
@@ -29,6 +26,7 @@ class DashboardPage extends StatelessWidget {
     final masterCubit = context.read<MasterCubit>();
     final masterReportCubit = context.read<MasterReportCubit>();
     final cubit = context.read<DashboardCubit>();
+
     return BlocBuilder<ProfileCubit, ProfileState>(
       builder: (context, state) {
         return ContainerStateHandler(
@@ -68,7 +66,8 @@ class DashboardPage extends StatelessWidget {
                               return Column(
                                 children: [
                                   const SizedBox(height: 8),
-                                  (Sessions.getDatabaseModel()?.role != "ADMIN")
+                                  (Sessions.getDatabaseModel()?.role !=
+                                          "ADMIN")
                                       ? SizedBox()
                                       : CustomButton(
                                           onPressed: () {
@@ -78,8 +77,10 @@ class DashboardPage extends StatelessWidget {
                                           },
                                           child: state.index == 1
                                               ? Resources.images.catalogActive
-                                                  .image(height: 65, width: 60)
-                                              : Resources.images.catalogInactive
+                                                  .image(
+                                                      height: 65, width: 60)
+                                              : Resources
+                                                  .images.catalogInactive
                                                   .image(
                                                       height: 65, width: 60)),
                                   const SizedBox(height: 8),
@@ -95,7 +96,8 @@ class DashboardPage extends StatelessWidget {
                                           : Resources.images.reportInactive
                                               .image(height: 65, width: 60)),
                                   const SizedBox(height: 8),
-                                  (Sessions.getDatabaseModel()?.role != "ADMIN")
+                                  (Sessions.getDatabaseModel()?.role !=
+                                          "ADMIN")
                                       ? SizedBox()
                                       : CustomButton(
                                           onPressed: () {
@@ -107,13 +109,15 @@ class DashboardPage extends StatelessWidget {
                                           child: state.index == 5
                                               ? Resources
                                                   .images.icWithdrawlActive
-                                                  .image(height: 65, width: 60)
+                                                  .image(
+                                                      height: 65, width: 60)
                                               : Resources
                                                   .images.icWithdrawlInactive
                                                   .image(
                                                       height: 65, width: 60)),
                                   const SizedBox(height: 8),
-                                  (Sessions.getDatabaseModel()?.role != "ADMIN")
+                                  (Sessions.getDatabaseModel()?.role !=
+                                          "ADMIN")
                                       ? SizedBox()
                                       : CustomButton(
                                           onPressed: () {
@@ -124,8 +128,10 @@ class DashboardPage extends StatelessWidget {
                                           },
                                           child: state.index == 3
                                               ? Resources.images.profileActive
-                                                  .image(height: 65, width: 60)
-                                              : Resources.images.profileInactive
+                                                  .image(
+                                                      height: 65, width: 60)
+                                              : Resources
+                                                  .images.profileInactive
                                                   .image(
                                                       height: 65, width: 60)),
                                   SizedBox(height: 30),
@@ -163,7 +169,8 @@ class DashboardPage extends StatelessWidget {
                                               .images.appetizercashierInactive
                                               .image(height: 65, width: 60)),
                                   const SizedBox(height: 8),
-                                  (Sessions.getDatabaseModel()?.role != "ADMIN")
+                                  (Sessions.getDatabaseModel()?.role !=
+                                          "ADMIN")
                                       ? SizedBox()
                                       : CustomButton(
                                           onPressed: () {
@@ -173,8 +180,10 @@ class DashboardPage extends StatelessWidget {
                                           },
                                           child: state.index == 1
                                               ? Resources.images.catalogActive
-                                                  .image(height: 65, width: 60)
-                                              : Resources.images.catalogInactive
+                                                  .image(
+                                                      height: 65, width: 60)
+                                              : Resources
+                                                  .images.catalogInactive
                                                   .image(
                                                       height: 65, width: 60)),
                                   const SizedBox(height: 8),
@@ -190,7 +199,8 @@ class DashboardPage extends StatelessWidget {
                                           : Resources.images.reportInactive
                                               .image(height: 65, width: 60)),
                                   const SizedBox(height: 8),
-                                  (Sessions.getDatabaseModel()?.role != "ADMIN")
+                                  (Sessions.getDatabaseModel()?.role !=
+                                          "ADMIN")
                                       ? SizedBox()
                                       : CustomButton(
                                           onPressed: () {
@@ -202,13 +212,15 @@ class DashboardPage extends StatelessWidget {
                                           child: state.index == 5
                                               ? Resources
                                                   .images.icWithdrawlActive
-                                                  .image(height: 65, width: 60)
+                                                  .image(
+                                                      height: 65, width: 60)
                                               : Resources
                                                   .images.icWithdrawlInactive
                                                   .image(
                                                       height: 65, width: 60)),
                                   const SizedBox(height: 8),
-                                  (Sessions.getDatabaseModel()?.role != "ADMIN")
+                                  (Sessions.getDatabaseModel()?.role !=
+                                          "ADMIN")
                                       ? SizedBox()
                                       : CustomButton(
                                           onPressed: () {
@@ -219,8 +231,10 @@ class DashboardPage extends StatelessWidget {
                                           },
                                           child: state.index == 3
                                               ? Resources.images.profileActive
-                                                  .image(height: 65, width: 60)
-                                              : Resources.images.profileInactive
+                                                  .image(
+                                                      height: 65, width: 60)
+                                              : Resources
+                                                  .images.profileInactive
                                                   .image(
                                                       height: 65, width: 60)),
                                   SizedBox(height: 30),
@@ -243,7 +257,8 @@ class DashboardPage extends StatelessWidget {
                                 ],
                               );
                             } else if (store?.storeType == "MERCHANT") {
-                              if (state.store?.store?.merChantRole == "SUPP") {
+                              if (state.store?.store?.merChantRole ==
+                                  "SUPP") {
                                 return Column(
                                   children: [
                                     const SizedBox(height: 8),
@@ -257,7 +272,8 @@ class DashboardPage extends StatelessWidget {
                                             ? Resources.images.reportActive
                                                 .image(height: 65, width: 60)
                                             : Resources.images.reportInactive
-                                                .image(height: 65, width: 60)),
+                                                .image(
+                                                    height: 65, width: 60)),
                                     const SizedBox(height: 8),
                                     (Sessions.getDatabaseModel()?.role !=
                                             "ADMIN")
@@ -274,10 +290,11 @@ class DashboardPage extends StatelessWidget {
                                                     .images.icWithdrawlActive
                                                     .image(
                                                         height: 65, width: 60)
-                                                : Resources
-                                                    .images.icWithdrawlInactive
+                                                : Resources.images
+                                                    .icWithdrawlInactive
                                                     .image(
-                                                        height: 65, width: 60)),
+                                                        height: 65,
+                                                        width: 60)),
                                     const SizedBox(height: 8),
                                     (Sessions.getDatabaseModel()?.role !=
                                             "ADMIN")
@@ -290,20 +307,23 @@ class DashboardPage extends StatelessWidget {
                                               cubit.changePage(3);
                                             },
                                             child: state.index == 3
-                                                ? Resources.images.profileActive
+                                                ? Resources
+                                                    .images.profileActive
                                                     .image(
                                                         height: 65, width: 60)
                                                 : Resources
                                                     .images.profileInactive
                                                     .image(
-                                                        height: 65, width: 60)),
+                                                        height: 65,
+                                                        width: 60)),
                                     SizedBox(height: 30),
                                     Align(
                                       alignment: Alignment.bottomCenter,
                                       child: CustomButton(
                                           onPressed: () async {
                                             final GoogleSignInAccount? s =
-                                                await GoogleSignIn().signOut();
+                                                await GoogleSignIn()
+                                                    .signOut();
                                             Sessions.clear().then((value) =>
                                                 context.go(RouteNames.root));
                                           },
@@ -331,9 +351,10 @@ class DashboardPage extends StatelessWidget {
                                             ? Resources
                                                 .images.appetizercashierActive
                                                 .image(height: 65, width: 60)
-                                            : Resources
-                                                .images.appetizercashierInactive
-                                                .image(height: 65, width: 60)),
+                                            : Resources.images
+                                                .appetizercashierInactive
+                                                .image(
+                                                    height: 65, width: 60)),
                                     const SizedBox(height: 8),
                                     (Sessions.getDatabaseModel()?.role !=
                                             "ADMIN")
@@ -345,13 +366,15 @@ class DashboardPage extends StatelessWidget {
                                               cubit.changePage(1);
                                             },
                                             child: state.index == 1
-                                                ? Resources.images.catalogActive
+                                                ? Resources
+                                                    .images.catalogActive
                                                     .image(
                                                         height: 65, width: 60)
                                                 : Resources
                                                     .images.catalogInactive
                                                     .image(
-                                                        height: 65, width: 60)),
+                                                        height: 65,
+                                                        width: 60)),
                                     const SizedBox(height: 8),
                                     CustomButton(
                                         onPressed: () async {
@@ -364,7 +387,8 @@ class DashboardPage extends StatelessWidget {
                                             ? Resources.images.reportActive
                                                 .image(height: 65, width: 60)
                                             : Resources.images.reportInactive
-                                                .image(height: 65, width: 60)),
+                                                .image(
+                                                    height: 65, width: 60)),
                                     const SizedBox(height: 8),
                                     (Sessions.getDatabaseModel()?.role !=
                                             "ADMIN")
@@ -381,10 +405,11 @@ class DashboardPage extends StatelessWidget {
                                                     .images.icWithdrawlActive
                                                     .image(
                                                         height: 65, width: 60)
-                                                : Resources
-                                                    .images.icWithdrawlInactive
+                                                : Resources.images
+                                                    .icWithdrawlInactive
                                                     .image(
-                                                        height: 65, width: 60)),
+                                                        height: 65,
+                                                        width: 60)),
                                     const SizedBox(height: 8),
                                     (Sessions.getDatabaseModel()?.role !=
                                             "ADMIN")
@@ -397,20 +422,23 @@ class DashboardPage extends StatelessWidget {
                                               cubit.changePage(3);
                                             },
                                             child: state.index == 3
-                                                ? Resources.images.profileActive
+                                                ? Resources
+                                                    .images.profileActive
                                                     .image(
                                                         height: 65, width: 60)
                                                 : Resources
                                                     .images.profileInactive
                                                     .image(
-                                                        height: 65, width: 60)),
+                                                        height: 65,
+                                                        width: 60)),
                                     SizedBox(height: 30),
                                     Align(
                                       alignment: Alignment.bottomCenter,
                                       child: CustomButton(
                                           onPressed: () async {
                                             final GoogleSignInAccount? s =
-                                                await GoogleSignIn().signOut();
+                                                await GoogleSignIn()
+                                                    .signOut();
                                             Sessions.clear().then((value) =>
                                                 context.go(RouteNames.root));
                                           },
