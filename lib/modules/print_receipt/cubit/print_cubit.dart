@@ -1,60 +1,75 @@
 import 'package:bluetooth_print/bluetooth_print.dart';
 import 'package:bluetooth_print/bluetooth_print_model.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:thermal_printer/thermal_printer.dart';
 
-enum BluetoothPrintState { initial, scanning, scanningComplete, deviceSelected, printing, completed, error }
+enum BluetoothPrintState {
+  initial,
+  scanning,
+  scanningComplete,
+  deviceSelected,
+  printing,
+  completed,
+  error
+}
 
 class BluetoothPrintCubit extends Cubit<BluetoothPrintState> {
   BluetoothPrintCubit() : super(BluetoothPrintState.initial);
-  final BluetoothPrint bluetoothPrint = BluetoothPrint.instance;
-  List<BluetoothDevice>? devices = [];
-  BluetoothDevice? selectedDevice;
+  var printerManager = PrinterManager.instance;
+  List<PrinterDevice>? devices = [];
+  PrinterDevice? selectedDevice;
 
   void startScan() async {
+    devices = [];
     emit(BluetoothPrintState.scanning);
-    bluetoothPrint.startScan(timeout: const Duration(seconds: 4));
 
-    bluetoothPrint.scanResults.listen((List<BluetoothDevice> results) {
-      print('Current device status: $results');
-      devices = results;// Update state to refresh UI with the list of devices
+    // Find printers
+    PrinterManager.instance
+        .discovery(type: PrinterType.bluetooth, isBle: true)
+        .listen((device) {
+      devices?.add(device);
       emit(BluetoothPrintState.scanningComplete);
     });
   }
 
-  void selectDevice(BluetoothDevice device) async {
-    bluetoothPrint.stopScan(); // Stop scanning when a device is selected
-    await bluetoothPrint.connect(device);
+  void selectDevice(PrinterDevice device) async {
+    // Stop scanning when a device is selected
     selectedDevice = device;
+
+    PrinterManager.instance.stateBluetooth.listen((status) {
+      print(' ----------------- status bt $status ------------------ ');
+    });
     emit(BluetoothPrintState.deviceSelected);
   }
 
-  void disconnect() {
-    bluetoothPrint.disconnect();
+  void disconnect() async {
+    await PrinterManager.instance.disconnect(type: PrinterType.bluetooth);
     selectedDevice = null;
     emit(BluetoothPrintState.initial);
   }
 
-  Future<void> printReceipt(List<LineText> data, int paperSize) async {
+  Future<void> printReceipt(List<int> byteData, int paperSize) async {
     emit(BluetoothPrintState.printing);
 
-    Map<String, dynamic> config = {};
-    config['width'] = paperSize;
-    config['height'] = 70;
-    config['gap'] = 1;
-    config['fontSize'] = 20;
-
-    for (var line in data) {
-      print("${line.content}");
-    }
-
     try {
-      bool connected = await bluetoothPrint.connect(selectedDevice!);
+      bool connected = await PrinterManager.instance.connect(
+        type: PrinterType.bluetooth,
+        model: BluetoothPrinterInput(
+          name: selectedDevice?.name,
+          address: selectedDevice!.address!,
+          isBle: false,
+          autoConnect: false,
+        ),
+      );
+
       if (connected) {
-        Future.delayed(const Duration(seconds: 3), () async {
-          await bluetoothPrint.printLabel(config, data);
+        Future.delayed(const Duration(milliseconds: 1000), () {
+          PrinterManager.instance.send(
+            type: PrinterType.bluetooth,
+            bytes: byteData,
+          );
         });
         emit(BluetoothPrintState.completed);
-        bluetoothPrint.disconnect();
       } else {
         emit(BluetoothPrintState.error);
       }
