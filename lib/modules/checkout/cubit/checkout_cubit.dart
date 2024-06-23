@@ -115,7 +115,7 @@ class CheckoutCubit extends BaseCubit<CheckoutState> {
             await ApiService.getSingleInvoices(context, invoices: invoices);
         if (data.isSuccess) {
           emit(state.copyWith(invoices: data.data));
-          if (data.data?.status == "SUCCEEDED") {
+          if (data.data?.status == "SUCCEEDED" || data.data?.status == "PENDING_TRANSFER") {
             timer.cancel();
             emit(state.copyWith(
                 paymentStatus: PaymentStatus.success,
