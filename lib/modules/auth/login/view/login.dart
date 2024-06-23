@@ -57,16 +57,18 @@ class LoginPage extends StatelessWidget {
                   onPressed: () async {
                     PackageInfo packageInfo = await PackageInfo.fromPlatform();
                     String version = packageInfo.version;
-                    final data = await ApiService.getConfigVersionV2(context);
-                    if (data.data.isNotEmpty) {
-                      for (var item in data.data) {
-                        if (item.currentVersion == version) {
-                          await cubit.signInWithGoogle(
-                              isTest: item.testLogin == "Y" ? true : false);
-                          break;
-                        }
-                      }
-                    }
+                    // final data = await ApiService.getConfigVersionV2(context);
+                    // if (data.data.isNotEmpty) {
+                    //   for (var item in data.data) {
+                    //     if (item.currentVersion == version) {
+                    //       await cubit.signInWithGoogle(
+                    //           isTest: item.testLogin == "Y" ? true : false);
+                    //       break;
+                    //     }
+                    //   }
+                    // }
+                    await cubit.signInWithGoogle(
+                        isTest: false);
                   },
                   child: Container(
                     height: 48,

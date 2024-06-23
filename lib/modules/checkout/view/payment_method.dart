@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pos/data/models/base/invoices.dart';
 import 'package:pos/data/models/base/store.dart';
+import 'package:pos/data/models/base/virtual_account.dart';
 import 'package:pos/engine/engine.dart';
 import 'package:pos/modules/cart/cubit/cart_cubit.dart';
 import 'package:pos/modules/checkout/cubit/checkout_cubit.dart';
@@ -13,6 +14,7 @@ import 'package:pos/resources/resources.dart';
 import 'package:pos/themes/themes.dart';
 import 'package:pos/widgets/widgets.dart';
 import 'package:qr_flutter/qr_flutter.dart';
+import 'package:pos/data/models/base/qrcode.dart' as qr_model;
 
 import '../../../widgets/components/pair_bluethooth.dart';
 
@@ -380,8 +382,9 @@ class PaymentMethodsPage extends StatelessWidget {
                                       "Pembayaran QRIS",
                                       style: AppFont.largePrimary(context)!
                                           .copyWith(
-                                              fontSize: 18,
-                                              fontWeight: FontWeight.bold),
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.bold,
+                                      ),
                                     ),
                                     Align(
                                       alignment: Alignment.center,
@@ -393,19 +396,31 @@ class PaymentMethodsPage extends StatelessWidget {
                                     ),
                                     const SizedBox(height: 12),
                                     Align(
-                                        alignment: Alignment.center,
-                                        child: Text(
-                                          "Scan untuk lakukan pembayaran",
-                                          style: AppFont.large(context)!
-                                              .copyWith(fontSize: 18),
-                                        )),
+                                      alignment: Alignment.center,
+                                      child: Text(
+                                        "Scan untuk lakukan pembayaran",
+                                        style: AppFont.large(context)!.copyWith(
+                                          fontSize: 18,
+                                        ),
+                                      ),
+                                    ),
                                     Align(
-                                        alignment: Alignment.center,
-                                        child: Text(
-                                          "Expired at ${state.qrData?.expiresAt!.toddMMMyyyyHHmmss()}",
-                                          style: AppFont.large(context)!
-                                              .copyWith(fontSize: 18),
-                                        ))
+                                      alignment: Alignment.center,
+                                      child: Text(
+                                        "Expired at ${state.qrData?.expiresAt!.toddMMMyyyyHHmmss()}",
+                                        style: AppFont.large(context)!.copyWith(
+                                          fontSize: 18,
+                                        ),
+                                      ),
+                                    ),
+                                    const SizedBox(height: 12),
+                                    buttonPrintCheckout(
+                                      state.qrData!,
+                                      null,
+                                      invoiceData: state.invoices,
+                                      storeData: state.store,
+                                      paymentMethod: "QRIS",
+                                    ),
                                   ],
                                 );
                               } else if (state.paymentMethod ==
@@ -450,6 +465,14 @@ class PaymentMethodsPage extends StatelessWidget {
                                     Text(
                                       "Expired at ${state.virtualAccountResponse?.expirationDate!.toddMMMyyyyHHmmss() ?? ""}",
                                       style: AppFont.medium(context),
+                                    ),
+                                    const SizedBox(height: 12),
+                                    buttonPrintCheckout(
+                                      null,
+                                      state.virtualAccountResponse,
+                                      invoiceData: state.invoices,
+                                      storeData: state.store,
+                                      paymentMethod: "Virtual Account",
                                     ),
                                   ],
                                 );
@@ -504,23 +527,32 @@ class PaymentMethodsPage extends StatelessWidget {
                                         width: baseWidth,
                                         height: 50,
                                         child: ElevatedButton(
-                                            onPressed: () {
-                                              String removeCurrency = cubit
-                                                  .amountCashController.text
-                                                  .replaceAll(
-                                                      RegExp(r'[^\d]'), '');
-                                              cubit.doSelectPayment(
-                                                PaymentMethod.cash,
-                                                cartCubit.state.invoces!,
-                                                int.parse(removeCurrency),
-                                              );
-                                            },
-                                            child: const Text(
-                                                "Konfirmasi Bayar Cash")),
+                                          onPressed: () {
+                                            String removeCurrency = cubit
+                                                .amountCashController.text
+                                                .replaceAll(
+                                                    RegExp(r'[^\d]'), '');
+                                            cubit.doSelectPayment(
+                                              PaymentMethod.cash,
+                                              cartCubit.state.invoces!,
+                                              int.parse(removeCurrency),
+                                            );
+                                          },
+                                          child: const Text(
+                                            "Konfirmasi Bayar Cash",
+                                          ),
+                                        ),
                                       ),
                                     ),
                                   ),
                                   const SizedBox(height: 20),
+                                  buttonPrintCheckout(
+                                    null,
+                                    null,
+                                    invoiceData: state.invoices,
+                                    storeData: state.store,
+                                    paymentMethod: "Cash",
+                                  ),
                                 ]);
                               } else {
                                 return const SizedBox();
@@ -528,10 +560,6 @@ class PaymentMethodsPage extends StatelessWidget {
                             },
                           ),
                         ),
-
-                        state.paymentStatus == PaymentStatus.pending
-                            ? buttonPrintCheckout(state.store, state.invoices)
-                            : Container(),
                       ],
                     ),
                   ),
@@ -544,16 +572,22 @@ class PaymentMethodsPage extends StatelessWidget {
     );
   }
 
-  Widget buttonPrintCheckout(Store? storeData, Invoices? invoiceData) {
+  Widget buttonPrintCheckout(
+    qr_model.QrCode? qrData,
+    VirtualAccount? vaData, {
+    Store? storeData,
+    Invoices? invoiceData,
+    required String paymentMethod,
+  }) {
     return BlocProvider(
       create: (context) => BluetoothPrintCubit()..startScan(),
       child: BlocBuilder<BluetoothPrintCubit, BluetoothPrintState>(
         builder: (context, state) {
-          if (state == BluetoothPrintState.scanning) {
-            return const Center(
-              child: CircularProgressIndicator(),
-            );
-          }
+          // if (state == BluetoothPrintState.scanning) {
+          //   return const Center(
+          //     child: CircularProgressIndicator(),
+          //   );
+          // }
 
           return Padding(
             padding: const EdgeInsets.symmetric(horizontal: 13, vertical: 20),
@@ -582,22 +616,24 @@ class PaymentMethodsPage extends StatelessWidget {
                             showPaperSizeOptions(context, (selectedSize) async {
                               context.read<BluetoothPrintCubit>().printReceipt(
                                     await GeneratePrintLayout()
-                                        .generatePrintLayout(
+                                        .generateCheckoutPrintLayout(
                                       invoiceData!,
                                       storeData!,
+                                      paymentMethod,
+                                      qrData,
+                                      vaData,
+                                      selectedSize,
                                     ),
                                     selectedSize,
                                   );
                             });
                           }
 
-                          if (state == BluetoothPrintState.scanningComplete &&
-                              context
+                          if (context
                                       .read<BluetoothPrintCubit>()
                                       .selectedDevice ==
                                   null) {
-                            context
-                                .read<BluetoothPrintCubit>().startScan();
+                            context.read<BluetoothPrintCubit>().startScan();
                             WidgetsBinding.instance.addPostFrameCallback((_) {
                               showDialog(
                                 context: context,
@@ -699,16 +735,9 @@ class PaymentMethodsPage extends StatelessWidget {
                 shrinkWrap: true,
                 children: [
                   ListTile(
-                    title: const Text("40mm"),
+                    title: const Text("58mm"),
                     onTap: () {
-                      onSizeSelected(40);
-                      Navigator.pop(context);
-                    },
-                  ),
-                  ListTile(
-                    title: const Text("50mm"),
-                    onTap: () {
-                      onSizeSelected(50);
+                      onSizeSelected(58);
                       Navigator.pop(context);
                     },
                   ),
@@ -726,18 +755,5 @@ class PaymentMethodsPage extends StatelessWidget {
         );
       },
     );
-  }
-
-  void setDataPrintCheckout(Store storeData, Invoices invoiceData) async {
-    print("INI DATA STORE");
-    print(storeData.store?.storeName);
-    var data = await GeneratePrintLayout().generatePrintLayout(
-      invoiceData,
-      storeData,
-    );
-
-    data.forEach((element) {
-      print(element.content);
-    });
   }
 }
