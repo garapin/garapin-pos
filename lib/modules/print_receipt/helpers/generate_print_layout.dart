@@ -25,9 +25,6 @@ class GeneratePrintLayout {
     VirtualAccount? vaData,
     int paperSize,
   ) async {
-
-    /// Ini Paper SIZE
-    print("Paper size $paperSize");
     /// SET PAPER SIZE
     final profile = await CapabilityProfile.load();
     final generator = Generator(
@@ -49,37 +46,32 @@ class GeneratePrintLayout {
     //   ),
     // );
     // bytes += generator.image(image!);
+
     bytes += generator.text(
-      '--------------------------------',
+      '${store.store?.address}, ${store.store?.city}, ${store.store?.postalCode}',
+      styles: const PosStyles(
+        align: PosAlign.center,
+      ),
+    );
+    bytes += generator.text(
+      '${store.store?.state}, ${store.store?.country}',
+      styles: const PosStyles(
+        align: PosAlign.center,
+      ),
+    );
+    bytes += generator.text(
+      'Phone: ${store.store?.phoneNumber}',
       styles: const PosStyles(
         align: PosAlign.center,
       ),
     );
 
-    bytes += generator.row([
-      PosColumn(
-        text: 'Merchant',
-        width: 5,
-        styles: const PosStyles(align: PosAlign.left),
-      ),
-      PosColumn(
-        text: ':',
-        width: 1,
-        styles: const PosStyles(align: PosAlign.left),
-      ),
-      PosColumn(
-        text: store.store?.storeName ?? '',
-        width: 6,
-        styles: const PosStyles(align: PosAlign.left),
-      ),
-    ]);
-
-    bytes += generator.feed(1);
+    bytes += generator.feed(2);
 
     bytes += generator.row([
       PosColumn(
-        text: 'Invoice',
-        width: 5,
+        text: 'No Invoice',
+        width: 4,
         styles: const PosStyles(align: PosAlign.left),
       ),
       PosColumn(
@@ -89,8 +81,8 @@ class GeneratePrintLayout {
       ),
       PosColumn(
         text: inv.invoiceLabel ?? '',
-        width: 6,
-        styles: const PosStyles(align: PosAlign.left),
+        width: 7,
+        styles: const PosStyles(align: PosAlign.right),
       ),
     ]);
 
@@ -98,8 +90,8 @@ class GeneratePrintLayout {
 
     bytes += generator.row([
       PosColumn(
-        text: 'Date & Time',
-        width: 5,
+        text: 'Tanggal',
+        width: 4,
         styles: const PosStyles(align: PosAlign.left),
       ),
       PosColumn(
@@ -111,8 +103,8 @@ class GeneratePrintLayout {
         text: inv.paymentDate == null
             ? DateTime.now().format(pattern: 'dd MMM yyyy, HH:mm:ss')
             : DateTime.parse(inv.paymentDate).toddMMMyyyyHHmmss(),
-        width: 6,
-        styles: const PosStyles(align: PosAlign.left),
+        width: 7,
+        styles: const PosStyles(align: PosAlign.right),
       ),
     ]);
 
@@ -125,26 +117,17 @@ class GeneratePrintLayout {
       ),
     );
 
-    bytes += generator.row([
-      PosColumn(
-        text: 'Items',
-        width: 6,
-        styles: const PosStyles(align: PosAlign.left),
-      ),
-      PosColumn(
-        text: 'QTY',
-        width: 2,
-        styles: const PosStyles(align: PosAlign.left),
-      ),
-      PosColumn(
-        text: 'Price',
-        width: 4,
-        styles: const PosStyles(align: PosAlign.left),
-      ),
-    ]);
+    bytes += generator.feed(1);
 
     inv.product?.items?.forEach((e) {
+      int totalPriceItem = e.product!.price! * e.quantity! ?? 0;
+      // Parent Item
       bytes += generator.row([
+        PosColumn(
+          text: e.quantity.toString(),
+          width: 2,
+          styles: const PosStyles(align: PosAlign.left),
+        ),
         PosColumn(
           text: e.product!.name!.length > 16
               ? e.product!.name!.substring(0, 16)
@@ -153,54 +136,67 @@ class GeneratePrintLayout {
           styles: const PosStyles(align: PosAlign.left),
         ),
         PosColumn(
-          text: e.quantity.toString(),
+          text: totalPriceItem.currencyFormat(symbol: "Rp."),
+          width: 4,
+          styles: const PosStyles(align: PosAlign.right),
+        ),
+      ]);
+
+      // Child Item
+      bytes += generator.row([
+        PosColumn(
+          text: '',
           width: 2,
           styles: const PosStyles(align: PosAlign.left),
         ),
         PosColumn(
-          text: '${e.product?.price.currencyFormat(symbol: "Rp.")}',
+          text:
+              '${e.quantity}x ${e.product?.price.currencyFormat(symbol: "Rp.")}',
+          width: 6,
+          styles: const PosStyles(
+            align: PosAlign.left,
+            height: PosTextSize.size5,
+            fontType: PosFontType.fontA,
+          ),
+        ),
+        PosColumn(
+          text: '',
           width: 4,
-          styles: const PosStyles(align: PosAlign.left),
+          styles: const PosStyles(align: PosAlign.right),
         ),
       ]);
+      bytes += generator.feed(1);
     });
 
-    bytes += generator.feed(1);
-
-    bytes += generator.text(
-      '--------------------------------',
-      styles: const PosStyles(
-        align: PosAlign.center,
-      ),
-    );
+    bytes += generator.feed(2);
 
     bytes += generator.row([
       PosColumn(
-        text: 'Total Transaction',
+        text: 'Subtotal',
         width: paperSize == 58 ? 7 : 6,
         styles: const PosStyles(align: PosAlign.left),
       ),
       PosColumn(
         text: inv.product!.totalPrice.currencyFormat(symbol: "Rp "),
         width: paperSize == 58 ? 5 : 6,
-        styles: const PosStyles(align: PosAlign.left),
-      ),
-    ]);
-
-    bytes += generator.row([
-      PosColumn(
-        text: 'Payment Method',
-        width: paperSize == 58 ? 7 : 6,
-        styles: const PosStyles(align: PosAlign.left),
-      ),
-      PosColumn(
-        text: paymentMethod,
-        width: paperSize == 58 ? 5 : 6,
-        styles: const PosStyles(align: PosAlign.left),
+        styles: const PosStyles(align: PosAlign.right),
       ),
     ]);
 
     bytes += generator.feed(1);
+
+    bytes += generator.row([
+      PosColumn(
+        text: 'Total',
+        width: paperSize == 58 ? 7 : 6,
+        styles: const PosStyles(align: PosAlign.left),
+      ),
+      PosColumn(
+        text: inv.product!.totalPrice.currencyFormat(symbol: "Rp "),
+        width: paperSize == 58 ? 5 : 6,
+        styles: const PosStyles(align: PosAlign.right),
+      ),
+    ]);
 
     bytes += generator.text(
       '--------------------------------',
@@ -209,24 +205,51 @@ class GeneratePrintLayout {
       ),
     );
 
+    bytes += generator.feed(1);
+
+    bytes += generator.row([
+      PosColumn(
+        text: 'Pembayaran',
+        width: paperSize == 58 ? 4 : 6,
+        styles: const PosStyles(align: PosAlign.left),
+      ),
+      PosColumn(
+        text: paymentMethod,
+        width: paperSize == 58 ? 8 : 6,
+        styles: const PosStyles(align: PosAlign.right),
+      ),
+    ]);
+
+    bytes += generator.feed(1);
+
     if (paymentMethod == 'Virtual Account') {
-      bytes += generator.text(
-        'Pembayaran Virtual Account',
-        styles: const PosStyles(
-          align: PosAlign.center,
+      bytes += generator.row([
+        PosColumn(
+          text: 'No.VA',
+          width: paperSize == 58 ? 4 : 6,
+          styles: const PosStyles(align: PosAlign.left),
         ),
-      );
+        PosColumn(
+          text: '${vaData?.accountNumber}',
+          width: paperSize == 58 ? 8 : 6,
+          styles: const PosStyles(align: PosAlign.right),
+        ),
+      ]);
 
       bytes += generator.feed(1);
 
-      bytes += generator.text(
-        '${vaData?.accountNumber}',
-        styles: const PosStyles(
-          align: PosAlign.center,
-          bold: true,
-          height: PosTextSize.size2,
+      bytes += generator.row([
+        PosColumn(
+          text: 'Merchant',
+          width: paperSize == 58 ? 4 : 6,
+          styles: const PosStyles(align: PosAlign.left),
         ),
-      );
+        PosColumn(
+          text: '${store.store?.storeName}',
+          width: paperSize == 58 ? 8 : 6,
+          styles: const PosStyles(align: PosAlign.right),
+        ),
+      ]);
 
       bytes += generator.feed(1);
 
@@ -236,28 +259,15 @@ class GeneratePrintLayout {
           align: PosAlign.center,
         ),
       );
+
+      bytes += generator.feed(3);
     }
 
     if (paymentMethod == 'QRIS') {
-      bytes += generator.text(
-        'Pembayaran QRIS',
-        styles: const PosStyles(
-          align: PosAlign.center,
-        ),
-      );
-
-      bytes += generator.feed(1);
 
       bytes += generator.qrcode(qrData!.qrString!);
 
       bytes += generator.feed(1);
-
-      bytes += generator.text(
-        'Scan untuk lakukan pembayaran',
-        styles: const PosStyles(
-          align: PosAlign.center,
-        ),
-      );
 
       bytes += generator.text(
         'Expired at ${qrData.expiresAt!.toddMMMyyyyHHmmss()}',
@@ -265,7 +275,16 @@ class GeneratePrintLayout {
           align: PosAlign.center,
         ),
       );
+
+      bytes += generator.feed(3);
     }
+
+    bytes += generator.text(
+      'Terima kasih',
+      styles: const PosStyles(
+        align: PosAlign.center,
+      ),
+    );
 
     bytes += generator.cut();
     return bytes;

@@ -25,7 +25,7 @@ class BluetoothPrintCubit extends Cubit<BluetoothPrintState> {
 
     // Find printers
     PrinterManager.instance
-        .discovery(type: PrinterType.bluetooth, isBle: true)
+        .discovery(type: PrinterType.bluetooth, isBle: false)
         .listen((device) {
       devices?.add(device);
       emit(BluetoothPrintState.scanningComplete);
