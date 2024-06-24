@@ -155,7 +155,7 @@ class GeneratePrintLayout {
           width: 6,
           styles: const PosStyles(
             align: PosAlign.left,
-            height: PosTextSize.size5,
+            height: PosTextSize.size8,
             fontType: PosFontType.fontA,
           ),
         ),
@@ -264,8 +264,10 @@ class GeneratePrintLayout {
     }
 
     if (paymentMethod == 'QRIS') {
-
-      bytes += generator.qrcode(qrData!.qrString!);
+      bytes += generator.qrcode(
+        qrData!.qrString!,
+        size: QRSize.Size8,
+      );
 
       bytes += generator.feed(1);
 
