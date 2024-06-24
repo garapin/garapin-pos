@@ -291,11 +291,10 @@ class CatalogPage extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                SizedBox(height: 50),
                 Container(
+                  width: 202,
+                  height: 100,
                   padding: EdgeInsets.all(8),
-                  width: 60,
-                  height: 60,
                   decoration: BoxDecoration(
                       color: Colors.white,
                       borderRadius: BorderRadius.circular(12)),
@@ -306,12 +305,14 @@ class CatalogPage extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(height: 16),
-                Text(
-                  product.name ?? "",
-                  style: AppFont.whiteLarge(context)!.copyWith(fontSize: 14),
-                  maxLines: 2,
-                  overflow: TextOverflow.ellipsis,
-                  textAlign: TextAlign.start,
+                Expanded(
+                  child: Text(
+                    product.name ?? "",
+                    style: AppFont.whiteLarge(context)!.copyWith(fontSize: 14),
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    textAlign: TextAlign.start,
+                  ),
                 ),
                 const SizedBox(height: 8),
                 Text(
@@ -390,12 +391,14 @@ Container catalogWithImage(CatalogState state, BuildContext context,
               ),
             ),
             const SizedBox(height: 16),
-            Text(
-              product.name ?? "",
-              style: AppFont.largeBold(context)!.copyWith(fontSize: 14),
-              maxLines: 2,
-              overflow: TextOverflow.ellipsis,
-              textAlign: TextAlign.center,
+            Expanded(
+              child: Text(
+                product.name ?? "",
+                style: AppFont.largeBold(context)!.copyWith(fontSize: 14),
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                textAlign: TextAlign.center,
+              ),
             ),
             const SizedBox(height: 8),
             Text(
