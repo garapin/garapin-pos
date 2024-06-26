@@ -16,6 +16,7 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$LockedAccountState {
+  DataStateStatus get status => throw _privateConstructorUsedError;
   String? get error => throw _privateConstructorUsedError;
   QrCode? get qrData => throw _privateConstructorUsedError;
   Invoices? get invoices => throw _privateConstructorUsedError;
@@ -23,6 +24,7 @@ mixin _$LockedAccountState {
       throw _privateConstructorUsedError;
   VirtualAccount? get virtualAccountResponse =>
       throw _privateConstructorUsedError;
+  Store? get store => throw _privateConstructorUsedError;
   List<AvailablePayment> get availablePayment =>
       throw _privateConstructorUsedError;
   PaymentStatus get paymentStatus => throw _privateConstructorUsedError;
@@ -40,11 +42,13 @@ abstract class $LockedAccountStateCopyWith<$Res> {
       _$LockedAccountStateCopyWithImpl<$Res, LockedAccountState>;
   @useResult
   $Res call(
-      {String? error,
+      {DataStateStatus status,
+      String? error,
       QrCode? qrData,
       Invoices? invoices,
       AmountPendingTransaction? amountPendingTransaction,
       VirtualAccount? virtualAccountResponse,
+      Store? store,
       List<AvailablePayment> availablePayment,
       PaymentStatus paymentStatus,
       PaymentMethod paymentMethod});
@@ -63,16 +67,22 @@ class _$LockedAccountStateCopyWithImpl<$Res, $Val extends LockedAccountState>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? status = null,
     Object? error = freezed,
     Object? qrData = freezed,
     Object? invoices = freezed,
     Object? amountPendingTransaction = freezed,
     Object? virtualAccountResponse = freezed,
+    Object? store = freezed,
     Object? availablePayment = null,
     Object? paymentStatus = null,
     Object? paymentMethod = null,
   }) {
     return _then(_value.copyWith(
+      status: null == status
+          ? _value.status
+          : status // ignore: cast_nullable_to_non_nullable
+              as DataStateStatus,
       error: freezed == error
           ? _value.error
           : error // ignore: cast_nullable_to_non_nullable
@@ -93,6 +103,10 @@ class _$LockedAccountStateCopyWithImpl<$Res, $Val extends LockedAccountState>
           ? _value.virtualAccountResponse
           : virtualAccountResponse // ignore: cast_nullable_to_non_nullable
               as VirtualAccount?,
+      store: freezed == store
+          ? _value.store
+          : store // ignore: cast_nullable_to_non_nullable
+              as Store?,
       availablePayment: null == availablePayment
           ? _value.availablePayment
           : availablePayment // ignore: cast_nullable_to_non_nullable
@@ -118,11 +132,13 @@ abstract class _$$LockedAccountStateImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {String? error,
+      {DataStateStatus status,
+      String? error,
       QrCode? qrData,
       Invoices? invoices,
       AmountPendingTransaction? amountPendingTransaction,
       VirtualAccount? virtualAccountResponse,
+      Store? store,
       List<AvailablePayment> availablePayment,
       PaymentStatus paymentStatus,
       PaymentMethod paymentMethod});
@@ -139,16 +155,22 @@ class __$$LockedAccountStateImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? status = null,
     Object? error = freezed,
     Object? qrData = freezed,
     Object? invoices = freezed,
     Object? amountPendingTransaction = freezed,
     Object? virtualAccountResponse = freezed,
+    Object? store = freezed,
     Object? availablePayment = null,
     Object? paymentStatus = null,
     Object? paymentMethod = null,
   }) {
     return _then(_$LockedAccountStateImpl(
+      status: null == status
+          ? _value.status
+          : status // ignore: cast_nullable_to_non_nullable
+              as DataStateStatus,
       error: freezed == error
           ? _value.error
           : error // ignore: cast_nullable_to_non_nullable
@@ -169,6 +191,10 @@ class __$$LockedAccountStateImplCopyWithImpl<$Res>
           ? _value.virtualAccountResponse
           : virtualAccountResponse // ignore: cast_nullable_to_non_nullable
               as VirtualAccount?,
+      store: freezed == store
+          ? _value.store
+          : store // ignore: cast_nullable_to_non_nullable
+              as Store?,
       availablePayment: null == availablePayment
           ? _value._availablePayment
           : availablePayment // ignore: cast_nullable_to_non_nullable
@@ -189,16 +215,21 @@ class __$$LockedAccountStateImplCopyWithImpl<$Res>
 
 class _$LockedAccountStateImpl implements _LockedAccountState {
   const _$LockedAccountStateImpl(
-      {this.error,
+      {this.status = DataStateStatus.initial,
+      this.error,
       this.qrData,
       this.invoices,
       this.amountPendingTransaction,
       this.virtualAccountResponse,
+      this.store,
       final List<AvailablePayment> availablePayment = const [],
       this.paymentStatus = PaymentStatus.pending,
       this.paymentMethod = PaymentMethod.none})
       : _availablePayment = availablePayment;
 
+  @override
+  @JsonKey()
+  final DataStateStatus status;
   @override
   final String? error;
   @override
@@ -209,6 +240,8 @@ class _$LockedAccountStateImpl implements _LockedAccountState {
   final AmountPendingTransaction? amountPendingTransaction;
   @override
   final VirtualAccount? virtualAccountResponse;
+  @override
+  final Store? store;
   final List<AvailablePayment> _availablePayment;
   @override
   @JsonKey()
@@ -228,7 +261,7 @@ class _$LockedAccountStateImpl implements _LockedAccountState {
 
   @override
   String toString() {
-    return 'LockedAccountState(error: $error, qrData: $qrData, invoices: $invoices, amountPendingTransaction: $amountPendingTransaction, virtualAccountResponse: $virtualAccountResponse, availablePayment: $availablePayment, paymentStatus: $paymentStatus, paymentMethod: $paymentMethod)';
+    return 'LockedAccountState(status: $status, error: $error, qrData: $qrData, invoices: $invoices, amountPendingTransaction: $amountPendingTransaction, virtualAccountResponse: $virtualAccountResponse, store: $store, availablePayment: $availablePayment, paymentStatus: $paymentStatus, paymentMethod: $paymentMethod)';
   }
 
   @override
@@ -236,6 +269,7 @@ class _$LockedAccountStateImpl implements _LockedAccountState {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$LockedAccountStateImpl &&
+            (identical(other.status, status) || other.status == status) &&
             (identical(other.error, error) || other.error == error) &&
             (identical(other.qrData, qrData) || other.qrData == qrData) &&
             (identical(other.invoices, invoices) ||
@@ -245,6 +279,7 @@ class _$LockedAccountStateImpl implements _LockedAccountState {
                 other.amountPendingTransaction == amountPendingTransaction) &&
             (identical(other.virtualAccountResponse, virtualAccountResponse) ||
                 other.virtualAccountResponse == virtualAccountResponse) &&
+            (identical(other.store, store) || other.store == store) &&
             const DeepCollectionEquality()
                 .equals(other._availablePayment, _availablePayment) &&
             (identical(other.paymentStatus, paymentStatus) ||
@@ -256,11 +291,13 @@ class _$LockedAccountStateImpl implements _LockedAccountState {
   @override
   int get hashCode => Object.hash(
       runtimeType,
+      status,
       error,
       qrData,
       invoices,
       amountPendingTransaction,
       virtualAccountResponse,
+      store,
       const DeepCollectionEquality().hash(_availablePayment),
       paymentStatus,
       paymentMethod);
@@ -275,15 +312,19 @@ class _$LockedAccountStateImpl implements _LockedAccountState {
 
 abstract class _LockedAccountState implements LockedAccountState {
   const factory _LockedAccountState(
-      {final String? error,
+      {final DataStateStatus status,
+      final String? error,
       final QrCode? qrData,
       final Invoices? invoices,
       final AmountPendingTransaction? amountPendingTransaction,
       final VirtualAccount? virtualAccountResponse,
+      final Store? store,
       final List<AvailablePayment> availablePayment,
       final PaymentStatus paymentStatus,
       final PaymentMethod paymentMethod}) = _$LockedAccountStateImpl;
 
+  @override
+  DataStateStatus get status;
   @override
   String? get error;
   @override
@@ -294,6 +335,8 @@ abstract class _LockedAccountState implements LockedAccountState {
   AmountPendingTransaction? get amountPendingTransaction;
   @override
   VirtualAccount? get virtualAccountResponse;
+  @override
+  Store? get store;
   @override
   List<AvailablePayment> get availablePayment;
   @override

@@ -5,7 +5,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:pos/data/models/base/user.dart';
-import 'package:pos/engine/configs/environment.dart';
 import 'package:pos/engine/engine.dart';
 import 'package:pos/modules/auth/locked_account/cubit/locked_account_cubit.dart';
 import 'package:pos/modules/auth/locked_account/cubit/locked_account_state.dart';
@@ -14,11 +13,15 @@ import 'package:pos/resources/resources.dart';
 import 'package:pos/routes/routes.dart';
 import 'package:pos/themes/themes.dart';
 import 'package:pos/widgets/components/image_load.dart';
+import 'package:pos/widgets/components/notify.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 
 class LockedAccountPage extends StatefulWidget {
   final User user;
-  const LockedAccountPage({super.key, required this.user});
+  final String selectedDB;
+  final bool fromDashboard;
+  const LockedAccountPage(
+      {super.key, required this.user, required this.selectedDB, this.fromDashboard = false});
 
   @override
   State<LockedAccountPage> createState() => _LockedAccountPageState();
@@ -31,15 +34,23 @@ class _LockedAccountPageState extends State<LockedAccountPage> {
   @override
   void initState() {
     super.initState();
-    Sessions.setDatabase(jsonEncode(widget.user.storeDatabaseName
-        ?.where((e) =>
-            e.name.toString() ==
-            widget.user.storeDatabaseName!.first.name!.toString())
-        .first));
+    if (!widget.fromDashboard) {
+      Sessions.setDatabase(
+        jsonEncode(
+          widget.user.storeDatabaseName
+              ?.where((e) => e.name.toString() == widget.selectedDB)
+              .first,
+        ),
+      );
+    }
 
     final blocLockedAccount = context.read<LockedAccountCubit>();
     blocLockedAccount.initData().then((value) {
-      blocLockedAccount.createInvoice(widget.user);
+      if (blocLockedAccount.state.amountPendingTransaction!.amount! > 0) {
+        blocLockedAccount.createInvoice(widget.user);
+      } else {
+        ShowNotify.success(context, msg: "Tidak ada transaksi pending");
+      }
     });
   }
 
@@ -151,7 +162,8 @@ class _LockedAccountPageState extends State<LockedAccountPage> {
                                     tileVaController?.collapse();
                                     context
                                         .read<LockedAccountCubit>()
-                                        .changePaymentMethod(PaymentMethod.none);
+                                        .changePaymentMethod(
+                                            PaymentMethod.none);
                                   }
                                 },
                                 children: [
@@ -190,7 +202,8 @@ class _LockedAccountPageState extends State<LockedAccountPage> {
                                           borderRadius:
                                               BorderRadius.circular(10.0),
                                         ),
-                                        child: Resources.images.paymentQris.image(
+                                        child:
+                                            Resources.images.paymentQris.image(
                                           height: 30,
                                         ),
                                       ),
@@ -210,7 +223,8 @@ class _LockedAccountPageState extends State<LockedAccountPage> {
                                     tileQrController?.collapse();
                                     context
                                         .read<LockedAccountCubit>()
-                                        .changePaymentMethod(PaymentMethod.none);
+                                        .changePaymentMethod(
+                                            PaymentMethod.none);
                                   }
                                 },
                                 children: [
@@ -252,13 +266,15 @@ class _LockedAccountPageState extends State<LockedAccountPage> {
                                                       ),
                                                 width: 4.0,
                                               ),
-                                              borderRadius: BorderRadius.circular(
+                                              borderRadius:
+                                                  BorderRadius.circular(
                                                 10.0,
                                               ),
                                             ),
                                             child: ImageLoad(
                                               height: 50,
-                                              imageUrl: Environment.showUrlImage(
+                                              imageUrl:
+                                                  Environment.showUrlImage(
                                                 path: e.image ?? "",
                                               ),
                                             ),
@@ -279,10 +295,12 @@ class _LockedAccountPageState extends State<LockedAccountPage> {
                                         children: [
                                           Text(
                                             "Pembayaran QRIS",
-                                            style: AppFont.largePrimary(context)!
-                                                .copyWith(
-                                                    fontSize: 18,
-                                                    fontWeight: FontWeight.bold),
+                                            style:
+                                                AppFont.largePrimary(context)!
+                                                    .copyWith(
+                                                        fontSize: 18,
+                                                        fontWeight:
+                                                            FontWeight.bold),
                                           ),
                                           Align(
                                             alignment: Alignment.center,
@@ -321,8 +339,9 @@ class _LockedAccountPageState extends State<LockedAccountPage> {
                                         children: [
                                           Text(
                                             "Pembayaran Virtual Account",
-                                            style: AppFont.largePrimary(context)!
-                                                .copyWith(
+                                            style:
+                                                AppFont.largePrimary(context)!
+                                                    .copyWith(
                                               fontSize: 18,
                                               fontWeight: FontWeight.bold,
                                             ),

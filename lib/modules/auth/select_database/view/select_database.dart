@@ -135,13 +135,19 @@ class SelectDatabasePage extends StatelessWidget {
                                 borderRadius: BorderRadius.circular(58),
                                 child: ElevatedButton(
                                   onPressed: () {
-                                    if (state.databaseStore.first.storesData
-                                            ?.storeStatus ==
+                                    DatabaseStore selectedDB = state
+                                        .databaseStore
+                                        .where((e) =>
+                                            e.dbName == state.selectedDatabase)
+                                        .first;
+                                    if (selectedDB.storesData?.storeStatus ==
                                         "PENDING_ACTIVE") {
-                                      ShowNotify.success(context,
-                                          msg: "Sedang diproses");
-                                    } else if (state.databaseStore.first.storesData
-                                            ?.storeStatus ==
+                                      ShowNotify.success(
+                                        context,
+                                        msg: "Sedang diproses",
+                                      );
+                                    } else if (selectedDB
+                                            .storesData?.storeStatus ==
                                         "LOCKED") {
                                       showDialog(
                                         context: context,
@@ -166,25 +172,35 @@ class SelectDatabasePage extends StatelessWidget {
                                                                 .pending
                                                         ? TextButton(
                                                             onPressed: () {
-                                                              context
-                                                                  .read<
-                                                                      LockedAccountCubit>()
-                                                                  .cancelCheckout(stateLck
-                                                                      .invoices!
-                                                                      .invoice!);
+                                                              if (stateLck
+                                                                      .invoices !=
+                                                                  null) {
+                                                                context
+                                                                    .read<
+                                                                        LockedAccountCubit>()
+                                                                    .cancelCheckout(
+                                                                      stateLck
+                                                                          .invoices!
+                                                                          .invoice!,
+                                                                    );
+                                                              }
+
                                                               Navigator.pop(
-                                                                  context);
+                                                                context,
+                                                              );
                                                             },
                                                             child: const Text(
-                                                                "Batalkan"),
+                                                              "Batalkan",
+                                                            ),
                                                           )
                                                         : Container(),
                                                   ],
                                                   content: SizedBox(
                                                     width: baseWidth,
                                                     child: LockedAccountPage(
-                                                      user: state.databaseStore
-                                                          .first.user!,
+                                                      user: selectedDB.user!,
+                                                      selectedDB:
+                                                          selectedDB.dbName!,
                                                     ),
                                                   ),
                                                 );
