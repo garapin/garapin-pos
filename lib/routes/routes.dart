@@ -1,5 +1,6 @@
 import 'package:pos/modules/auth/create_new_database/cubit/create_new_database_cubit.dart';
 import 'package:pos/modules/auth/create_new_database/view/create_new_database.dart';
+import 'package:pos/modules/auth/locked_account/cubit/locked_account_cubit.dart';
 import 'package:pos/modules/auth/login/cubit/login_cubit.dart';
 import 'package:pos/modules/auth/select_database/cubit/select_database_cubit.dart';
 import 'package:pos/modules/auth/select_database/view/select_database.dart';
@@ -85,6 +86,9 @@ class Routes implements RouterInterface {
         builder: (ctx, GoRouterState state) {
           return MultiBlocProvider(
             providers: [
+              BlocProvider(
+                create: (context) => LockedAccountCubit(ctx),
+              ),
               BlocProvider(
                 create: (context) => DashboardCubit(ctx),
               ),

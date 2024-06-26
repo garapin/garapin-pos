@@ -27,6 +27,16 @@ class LockedAccountCubit extends BaseCubit<LockedAccountState> {
     }
   }
 
+  getStore() async {
+    emit(state.copyWith(status: DataStateStatus.loading));
+    final data = await ApiService.getStoreInfo(context);
+    if (data.isSuccess) {
+      emit(state.copyWith(status: DataStateStatus.success, store: data.data));
+    } else {
+      emit(state.copyWith(status: DataStateStatus.error));
+    }
+  }
+
   getAmountPendingTransaction() async {
     final data = await ApiService.getAmountPending(
       context,

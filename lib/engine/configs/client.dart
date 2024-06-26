@@ -7,7 +7,7 @@ abstract class Development {
   static String baseUrl() {
     switch (Environment.mode) {
       case EnvironmentMode.dev:
-        return 'https://7bbb-158-140-162-144.ngrok-free.app/';
+        return 'https://74a4-36-90-3-162.ngrok-free.app/';
       case EnvironmentMode.test:
         return 'https://fad2-158-140-162-158.ngrok-free.app/';
       case EnvironmentMode.production:
@@ -18,7 +18,7 @@ abstract class Development {
   static String urlImage() {
     switch (Environment.mode) {
       case EnvironmentMode.dev:
-        return 'https://7bbb-158-140-162-144.ngrok-free.app/';
+        return 'https://74a4-36-90-3-162.ngrok-free.app/';
       case EnvironmentMode.test:
         return 'http://192.168.1.15:4000/';
       case EnvironmentMode.production:
