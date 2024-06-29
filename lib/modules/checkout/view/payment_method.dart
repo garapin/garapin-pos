@@ -337,9 +337,11 @@ class PaymentMethodsPage extends StatelessWidget {
                                     noInvoices:
                                         state.invoices?.invoiceLabel ?? "",
                                     item: state.invoices?.product?.items ?? [],
-                                    date: DateTime.parse(
-                                            state.invoices!.paymentDate!)
-                                        .toddMMMyyyyHHmmss(),
+                                    date: state.invoices!.paymentDate != null
+                                        ? DateTime.parse(
+                                                state.invoices!.paymentDate!)
+                                            .toddMMMyyyyHHmmss()
+                                        : "",
                                     nameMerchant:
                                         state.store?.store?.storeName ?? "",
                                     totalPrice: state
@@ -414,12 +416,29 @@ class PaymentMethodsPage extends StatelessWidget {
                                       ),
                                     ),
                                     const SizedBox(height: 12),
-                                    buttonPrintCheckout(
-                                      state.qrData!,
-                                      null,
-                                      invoiceData: state.invoices,
-                                      storeData: state.store,
-                                      paymentMethod: "QRIS",
+                                    Text(
+                                      "Print",
+                                      style: AppFont.largePrimary(context)!
+                                          .copyWith(
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                    const SizedBox(height: 5),
+                                    Container(
+                                      decoration: BoxDecoration(
+                                        border: Border.all(
+                                          color: AppColor.appColor.primary,
+                                        ),
+                                        borderRadius: BorderRadius.circular(10),
+                                      ),
+                                      child: buttonPrintCheckout(
+                                        state.qrData!,
+                                        null,
+                                        invoiceData: state.invoices,
+                                        storeData: state.store,
+                                        paymentMethod: "QRIS",
+                                      ),
                                     ),
                                   ],
                                 );
@@ -467,12 +486,29 @@ class PaymentMethodsPage extends StatelessWidget {
                                       style: AppFont.medium(context),
                                     ),
                                     const SizedBox(height: 12),
-                                    buttonPrintCheckout(
-                                      null,
-                                      state.virtualAccountResponse,
-                                      invoiceData: state.invoices,
-                                      storeData: state.store,
-                                      paymentMethod: "Virtual Account",
+                                    Text(
+                                      "Print",
+                                      style: AppFont.largePrimary(context)!
+                                          .copyWith(
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                    const SizedBox(height: 5),
+                                    Container(
+                                      decoration: BoxDecoration(
+                                        border: Border.all(
+                                          color: AppColor.appColor.primary,
+                                        ),
+                                        borderRadius: BorderRadius.circular(10),
+                                      ),
+                                      child: buttonPrintCheckout(
+                                        null,
+                                        state.virtualAccountResponse,
+                                        invoiceData: state.invoices,
+                                        storeData: state.store,
+                                        paymentMethod: "Virtual Account",
+                                      ),
                                     ),
                                   ],
                                 );
@@ -546,12 +582,29 @@ class PaymentMethodsPage extends StatelessWidget {
                                     ),
                                   ),
                                   const SizedBox(height: 20),
-                                  buttonPrintCheckout(
-                                    null,
-                                    null,
-                                    invoiceData: state.invoices,
-                                    storeData: state.store,
-                                    paymentMethod: "Cash",
+                                  Text(
+                                    "Print",
+                                    style:
+                                        AppFont.largePrimary(context)!.copyWith(
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                  const SizedBox(height: 5),
+                                  Container(
+                                    decoration: BoxDecoration(
+                                      border: Border.all(
+                                        color: AppColor.appColor.primary,
+                                      ),
+                                      borderRadius: BorderRadius.circular(10),
+                                    ),
+                                    child: buttonPrintCheckout(
+                                      null,
+                                      null,
+                                      invoiceData: state.invoices,
+                                      storeData: state.store,
+                                      paymentMethod: "Cash",
+                                    ),
                                   ),
                                 ]);
                               } else {
@@ -630,9 +683,9 @@ class PaymentMethodsPage extends StatelessWidget {
                           }
 
                           if (context
-                                      .read<BluetoothPrintCubit>()
-                                      .selectedDevice ==
-                                  null) {
+                                  .read<BluetoothPrintCubit>()
+                                  .selectedDevice ==
+                              null) {
                             context.read<BluetoothPrintCubit>().startScan();
                             WidgetsBinding.instance.addPostFrameCallback((_) {
                               showDialog(

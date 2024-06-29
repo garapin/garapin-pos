@@ -50,6 +50,7 @@ class LockedAccountCubit extends BaseCubit<LockedAccountState> {
     final data = await ApiService.getSingleInvoices(context, invoices: invoice);
     if (data.isSuccess) {
       emit(state.copyWith(invoices: data.data));
+
       getInvoicesInterval(data.data!.invoice!);
     }
   }

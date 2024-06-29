@@ -161,10 +161,14 @@ class SelectDatabasePage extends StatelessWidget {
                                                 LockedAccountState>(
                                               builder: (context, stateLck) {
                                                 return AlertDialog(
-                                                  title: const Center(
-                                                    child: Text(
-                                                      "Akun terkunci, silahkan bayar tagihan",
+                                                  title: const Text(
+                                                    "Informasi",
+                                                    style: TextStyle(
+                                                      fontWeight: FontWeight.w700,
                                                     ),
+                                                  ),
+                                                  shape: RoundedRectangleBorder(
+                                                    borderRadius: BorderRadius.circular(16),
                                                   ),
                                                   actions: [
                                                     stateLck.paymentStatus ==
@@ -196,11 +200,11 @@ class SelectDatabasePage extends StatelessWidget {
                                                         : Container(),
                                                   ],
                                                   content: SizedBox(
-                                                    width: baseWidth,
+                                                    width: 500,
                                                     child: LockedAccountPage(
                                                       user: selectedDB.user!,
                                                       selectedDB:
-                                                          selectedDB.dbName!,
+                                                      selectedDB.dbName!,
                                                     ),
                                                   ),
                                                 );
@@ -325,11 +329,15 @@ class CardSelectDatabase extends StatelessWidget {
                     ),
                   ),
                   (database?.storesData?.storeStatus == "PENDING")
-                      ? Text(
-                          "Anda mendapatkan undangan untuk menggunakan database ini.",
-                          style: AppFont.large(context)!.copyWith(
-                            fontSize: 14,
-                            color: AppColor.appColor.warning,
+                      ? Container(
+                          width: 320,
+                          child: Text(
+                            "Anda mendapatkan undangan untuk menggunakan database ini.",
+                            maxLines: 2,
+                            style: AppFont.large(context)!.copyWith(
+                              fontSize: 14,
+                              color: AppColor.appColor.warning,
+                            ),
                           ),
                         )
                       : SizedBox()

@@ -45,17 +45,21 @@ class DashboardPage extends StatelessWidget {
             if (state.store?.store?.storeStatus == "LOCKED") {
               showDialog(
                 context: context,
-                barrierDismissible: false,
+                barrierDismissible: true,
                 builder: (context) {
                   return BlocProvider(
                     create: (context) => LockedAccountCubit(context),
                     child: BlocBuilder<LockedAccountCubit, LockedAccountState>(
                       builder: (context, stateLck) {
                         return AlertDialog(
-                          title: const Center(
-                            child: Text(
-                              "Akun terkunci, silahkan bayar tagihan",
+                          title: const Text(
+                            "Informasi",
+                            style: TextStyle(
+                              fontWeight: FontWeight.w700,
                             ),
+                          ),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(16),
                           ),
                           actions: [
                             stateLck.paymentStatus == PaymentStatus.pending
@@ -82,7 +86,7 @@ class DashboardPage extends StatelessWidget {
                                 : Container(),
                           ],
                           content: SizedBox(
-                            width: baseWidth,
+                            width: 500,
                             child: LockedAccountPage(
                               fromDashboard: true,
                               user: user!,
