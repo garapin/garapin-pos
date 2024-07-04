@@ -567,25 +567,16 @@ class ApiService {
   static Future<ApiResponse<SplitPaymentTemplate>> createTemplate(
     BuildContext context, {
     required String name,
-    required String storeName,
-    required String referenceId,
-    required String destinationAccountId,
+    required List<RoutePayments> routes,
+    String? dbTrx,
     String? description,
   }) async {
     return await ApiConfigure(context)
         .post('/store/crate_template', params: {
           "name": name,
           "description": description,
-          "routes": [
-            RoutePayments(
-                type: "ADMIN",
-                target: storeName,
-                referenceId: referenceId,
-                destinationAccountId: destinationAccountId),
-            RoutePayments(
-              type: "TRX",
-            ),
-          ],
+          "db_trx": dbTrx,
+          "routes": routes,
         })
         .then(
             (result) => ApiResponse<SplitPaymentTemplate>.fromJson(result.data))
@@ -798,13 +789,28 @@ class ApiService {
 
   static Future<ApiResponseList<FilterStoreTransaction>> filterReport(
     BuildContext context, {
+    required String role,
     required String bussinessPartnerDB,
   }) async {
     return await ApiConfigure(context)
-        .post('/store/transaction/history/filter/TRX',
+        .post('/store/transaction/history/filter/$role',
             params: {"bs_database": bussinessPartnerDB})
         .then((result) =>
             ApiResponseList<FilterStoreTransaction>.fromJson(result.data))
+        .handler(
+            (error) => ApiResponseList<FilterStoreTransaction>.onError(error));
+  }
+
+  static Future<ApiResponseList<FilterStoreTransaction>> filterReportBagiBagi(
+      BuildContext context, {
+        required String role,
+        required String bussinessPartnerDB,
+      }) async {
+    return await ApiConfigure(context)
+        .post('/store/bagibagi/history/merchant',
+        params: {"bs_database": bussinessPartnerDB})
+        .then((result) =>
+    ApiResponseList<FilterStoreTransaction>.fromJson(result.data))
         .handler(
             (error) => ApiResponseList<FilterStoreTransaction>.onError(error));
   }

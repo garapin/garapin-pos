@@ -1,4 +1,3 @@
-import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
@@ -8,7 +7,6 @@ import 'package:pos/modules/dashboard/catalog/cubit/catalog_cubit.dart';
 import 'package:pos/modules/dashboard/master/pages/bagi/cubit/bagi_cubit.dart';
 import 'package:pos/modules/dashboard/master/pages/bagi/view/bagi.dart';
 import 'package:pos/modules/dashboard/master/pages/cubit/my_merchant_cubit.dart';
-import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 import '../../../../data/models/base/store.dart';
 import '../../../../themes/themes.dart';
@@ -59,15 +57,15 @@ class MasterCubit extends BaseCubit<MasterState> {
   List<Widget> page = [
     BlocProvider(
       create: (context) => CatalogCubit(context),
-      child: CatalogPage(modeCatalog: ModeCatalog.edit),
+      child: const CatalogPage(modeCatalog: ModeCatalog.edit),
     ),
     BlocProvider(
       create: (context) => MyMerchantCubit(context),
-      child: MyMerchantPage(),
+      child: const MyMerchantPage(),
     ),
     BlocProvider(
       create: (context) => BagiCubit(context),
-      child: BagiPage(),
+      child: const BagiPage(),
     ),
   ];
 
@@ -75,10 +73,75 @@ class MasterCubit extends BaseCubit<MasterState> {
     if (state.store?.store?.storeType == "USER") {
       return Column(children: [
         CustomButton(
+          onPressed: () {
+            changePage(0);
+            // context.read<CatalogCubit>().initData();
+            showPage(false);
+          },
+          child: Container(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(24),
+              color: AppColor.appColor.primary.withOpacity(0.15),
+            ),
+            height: 40,
+            child: Center(
+              child: Text(
+                "Product",
+                style: AppFont.largePrimary(context),
+              ),
+            ),
+          ),
+        ),
+        const SizedBox(height: 20),
+        CustomButton(
+          onPressed: () {
+            changePage(1);
+            showPage(false);
+            // context.read<MyMerchantCubit>().initData();
+          },
+          child: Container(
+            decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(24),
+                color: AppColor.appColor.primary.withOpacity(0.15)),
+            height: 40,
+            child: Center(
+              child: Text(
+                "My Merchant",
+                style: AppFont.largePrimary(context),
+              ),
+            ),
+          ),
+        ),
+        const SizedBox(height: 20),
+        CustomButton(
+          onPressed: () {
+            changePage(2);
+            showPage(false);
+            // context.read<BagiCubit>().initData();
+          },
+          child: Container(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(24),
+              color: AppColor.appColor.primary.withOpacity(0.15),
+            ),
+            height: 40,
+            child: Center(
+              child: Text(
+                "Bagi - Bagi",
+                style: AppFont.largePrimary(context),
+              ),
+            ),
+          ),
+        )
+      ]);
+    } else if (state.store?.store?.storeType == "BUSSINESS_PARTNER") {
+      return Column(
+        children: [
+          CustomButton(
             onPressed: () {
-              changePage(0);
-              // context.read<CatalogCubit>().initData();
+              changePage(1);
               showPage(false);
+              // context.read<MyMerchantCubit>().initData();
             },
             child: Container(
               decoration: BoxDecoration(
@@ -86,17 +149,105 @@ class MasterCubit extends BaseCubit<MasterState> {
                   color: AppColor.appColor.primary.withOpacity(0.15)),
               height: 40,
               child: Center(
-                  child: Text(
-                "Product",
-                style: AppFont.largePrimary(context),
-              )),
-            )),
-        SizedBox(height: 20)
-      ]);
-    } else if (state.store?.store?.storeType == "BUSSINESS_PARTNER") {
-      return Column(
-        children: [
+                child: Text(
+                  "My Merchant",
+                  style: AppFont.largePrimary(context),
+                ),
+              ),
+            ),
+          ),
+          const SizedBox(height: 20),
           CustomButton(
+            onPressed: () {
+              changePage(2);
+              showPage(false);
+              // context.read<BagiCubit>().initData();
+            },
+            child: Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(24),
+                color: AppColor.appColor.primary.withOpacity(0.15),
+              ),
+              height: 40,
+              child: Center(
+                child: Text(
+                  "Bagi - Bagi",
+                  style: AppFont.largePrimary(context),
+                ),
+              ),
+            ),
+          )
+        ],
+      );
+    } else if (state.store?.store?.storeType == "MERCHANT") {
+      if (state.store?.store?.merChantRole == "TRX") {
+        return Column(children: [
+          CustomButton(
+            onPressed: () {
+              changePage(0);
+              showPage(false);
+              // context.read<CatalogCubit>().initData();
+            },
+            child: Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(24),
+                color: AppColor.appColor.primary.withOpacity(0.15),
+              ),
+              height: 40,
+              child: Center(
+                child: Text(
+                  "Product",
+                  style: AppFont.largePrimary(context),
+                ),
+              ),
+            ),
+          ),
+          const SizedBox(height: 20),
+          CustomButton(
+            onPressed: () {
+              changePage(1);
+              showPage(false);
+              // context.read<MyMerchantCubit>().initData();
+            },
+            child: Container(
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(24),
+                  color: AppColor.appColor.primary.withOpacity(0.15)),
+              height: 40,
+              child: Center(
+                child: Text(
+                  "My Merchant",
+                  style: AppFont.largePrimary(context),
+                ),
+              ),
+            ),
+          ),
+          const SizedBox(height: 20),
+          CustomButton(
+            onPressed: () {
+              changePage(2);
+              showPage(false);
+              // context.read<BagiCubit>().initData();
+            },
+            child: Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(24),
+                color: AppColor.appColor.primary.withOpacity(0.15),
+              ),
+              height: 40,
+              child: Center(
+                child: Text(
+                  "Bagi - Bagi",
+                  style: AppFont.largePrimary(context),
+                ),
+              ),
+            ),
+          )
+        ]);
+      } else if (state.store?.store?.merChantRole == "SUPP") {
+        return Column(
+          children: [
+            CustomButton(
               onPressed: () {
                 changePage(1);
                 showPage(false);
@@ -104,17 +255,20 @@ class MasterCubit extends BaseCubit<MasterState> {
               },
               child: Container(
                 decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(24),
-                    color: AppColor.appColor.primary.withOpacity(0.15)),
+                  borderRadius: BorderRadius.circular(24),
+                  color: AppColor.appColor.primary.withOpacity(0.15),
+                ),
                 height: 40,
                 child: Center(
-                    child: Text(
-                  "My Merchant",
-                  style: AppFont.largePrimary(context),
-                )),
-              )),
-          SizedBox(height: 20),
-          CustomButton(
+                  child: Text(
+                    "My Merchant",
+                    style: AppFont.largePrimary(context),
+                  ),
+                ),
+              ),
+            ),
+            const SizedBox(height: 20),
+            CustomButton(
               onPressed: () {
                 changePage(2);
                 showPage(false);
@@ -122,101 +276,18 @@ class MasterCubit extends BaseCubit<MasterState> {
               },
               child: Container(
                 decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(24),
-                    color: AppColor.appColor.primary.withOpacity(0.15)),
+                  borderRadius: BorderRadius.circular(24),
+                  color: AppColor.appColor.primary.withOpacity(0.15),
+                ),
                 height: 40,
                 child: Center(
-                    child: Text(
-                  "Bagi - Bagi",
-                  style: AppFont.largePrimary(context),
-                )),
-              ))
-        ],
-      );
-    } else if (state.store?.store?.storeType == "MERCHANT") {
-      if (state.store?.store?.merChantRole == "TRX") {
-        return Column(children: [
-          CustomButton(
-              onPressed: () {
-                changePage(0);
-                showPage(false);
-                // context.read<CatalogCubit>().initData();
-              },
-              child: Container(
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(24),
-                    color: AppColor.appColor.primary.withOpacity(0.15)),
-                height: 40,
-                child: Center(
-                    child: Text(
-                  "Product",
-                  style: AppFont.largePrimary(context),
-                )),
-              ))
-        ]);
-      } else if (state.store?.store?.merChantRole == "SUPP") {
-        return Column(
-          children: [
-            Align(
-                alignment: Alignment.topRight,
-                child: IconButton(
-                    onPressed: () {
-                      showPage(false);
-                    },
-                    icon: Icon(Icons.close))),
-            CustomButton(
-                onPressed: () {
-                  changePage(0);
-                  showPage(false);
-                  // context.read<CatalogCubit>().initData();
-                },
-                child: Container(
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(24),
-                      color: AppColor.appColor.primary.withOpacity(0.15)),
-                  height: 40,
-                  child: Center(
-                      child: Text(
-                    "Product",
-                    style: AppFont.largePrimary(context),
-                  )),
-                )),
-            SizedBox(height: 20),
-            CustomButton(
-                onPressed: () {
-                  changePage(1);
-                  showPage(false);
-                  // context.read<MyMerchantCubit>().initData();
-                },
-                child: Container(
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(24),
-                      color: AppColor.appColor.primary.withOpacity(0.15)),
-                  height: 40,
-                  child: Center(
-                      child: Text(
-                    "My Merchant",
-                    style: AppFont.largePrimary(context),
-                  )),
-                )),
-            SizedBox(height: 20),
-            CustomButton(
-                onPressed: () {
-                  changePage(2);
-                  showPage(false);
-                  // context.read<BagiCubit>().initData();
-                },
-                child: Container(
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(24),
-                      color: AppColor.appColor.primary.withOpacity(0.15)),
-                  height: 40,
-                  child: Center(
-                      child: Text(
+                  child: Text(
                     "Bagi - Bagi",
                     style: AppFont.largePrimary(context),
-                  )),
-                ))
+                  ),
+                ),
+              ),
+            )
           ],
         );
       } else if (state.store?.store?.merChantRole == "CUST") {

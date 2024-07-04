@@ -60,98 +60,142 @@ class BagiCubit extends BaseCubit<BagiState> {
       context: context,
       builder: (context) {
         return AlertDialog(
-          shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(24),
+          ),
           content: SingleChildScrollView(
             child: Container(
-                padding: const EdgeInsets.symmetric(vertical: 10),
-                width: 400,
-                height: 170,
-                decoration:
-                    BoxDecoration(borderRadius: BorderRadius.circular(24)),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Text(
-                      "Nama Template",
-                      style: AppFont.large(context),
-                    ),
-                    const SizedBox(height: 16),
-                    TextField(
-                      decoration: InputDecoration(
-                        hintText: "Masukan nama template",
-                        border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(
-                                32)), // Menambahkan border
+              padding: const EdgeInsets.symmetric(vertical: 10),
+              width: 400,
+              height: 170,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(24),
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Text(
+                    "Nama Template",
+                    style: AppFont.large(context),
+                  ),
+                  const SizedBox(height: 16),
+                  TextField(
+                    decoration: InputDecoration(
+                      hintText: "Masukkan nama template",
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(
+                          32,
+                        ),
                       ),
-                      controller: createTemplateController,
-                      style: const TextStyle(
-                          height: 1.0), // Mengatur tinggi TextField
                     ),
-                    const SizedBox(height: 16),
-                    Row(
-                      children: [
-                        Expanded(
-                          child: Container(
-                            height: 45,
-                            padding: const EdgeInsets.symmetric(horizontal: 24),
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(32.0),
-                              border:
-                                  Border.all(color: AppColor.appColor.primary),
+                    controller: createTemplateController,
+                    style: const TextStyle(
+                      height: 1.0,
+                    ),
+                  ),
+                  const SizedBox(height: 16),
+                  Row(
+                    children: [
+                      Expanded(
+                        child: Container(
+                          height: 45,
+                          padding: const EdgeInsets.symmetric(horizontal: 24),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(32.0),
+                            border: Border.all(
+                              color: AppColor.appColor.primary,
                             ),
-                            child: TextButton(
-                              onPressed: () {
-                                context.pop();
+                          ),
+                          child: TextButton(
+                            onPressed: () {
+                              context.pop();
+                            },
+                            child: const Text(
+                              'Cancel',
+                            ),
+                          ),
+                        ),
+                      ),
+                      const SizedBox(width: 12),
+                      Expanded(
+                        child: Container(
+                          height: 45,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(36),
+                          ),
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(36),
+                            child: ElevatedButton(
+                              onPressed: () async {
+                                List<RoutePayments> routes = [];
+                                if (state.store?.store?.merChantRole ==
+                                    "SUPP" || state.store?.store?.merChantRole == "TRX") {
+                                  routes.add(
+                                    RoutePayments(
+                                      type: "ADMIN",
+                                      target:
+                                      state.store?.store?.storeName ?? "",
+                                      referenceId:
+                                      Sessions.getDatabaseModel()!.name!,
+                                      destinationAccountId: state
+                                          .store!.store!.accountHolder!.id!,
+                                    ),
+                                  );
+                                } else {
+                                  routes.add(
+                                    RoutePayments(
+                                      type: "ADMIN",
+                                      target:
+                                          state.store?.store?.storeName ?? "",
+                                      referenceId:
+                                          Sessions.getDatabaseModel()!.name!,
+                                      destinationAccountId: state
+                                          .store!.store!.accountHolder!.id!,
+                                    ),
+                                  );
+                                  routes.add(
+                                    RoutePayments(
+                                      type: "TRX",
+                                    ),
+                                  );
+                                }
+
+                                final data = await ApiService.createTemplate(
+                                  context,
+                                  name: createTemplateController.text,
+                                  description: null,
+                                  dbTrx:
+                                      state.store?.store?.merChantRole == "SUPP" || state.store?.store?.merChantRole == "TRX"
+                                          ? Sessions.getDatabaseModel()!.name!
+                                          : null,
+                                  routes: routes,
+                                );
+                                if (data.isSuccess) {
+                                  context.pop();
+                                  createTemplateController.clear();
+                                  context
+                                      .pushNamed(
+                                        RouteNames.createBagi,
+                                        extra: data.data?.id ?? "",
+                                      )
+                                      .then(
+                                        (value) => getAllTemplate(),
+                                      );
+                                } else {
+                                  showError(data.message);
+                                }
                               },
-                              child: const Text(
-                                'Cancel',
-                              ),
+                              child: const Text("Create Template"),
                             ),
                           ),
                         ),
-                        const SizedBox(width: 12),
-                        Expanded(
-                          child: Container(
-                            height: 45,
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(36)),
-                            child: ClipRRect(
-                              borderRadius: BorderRadius.circular(36),
-                              child: ElevatedButton(
-                                  onPressed: () async {
-                                    final data =
-                                        await ApiService.createTemplate(context,
-                                            name: createTemplateController.text,
-                                            storeName:
-                                                state.store?.store?.storeName ??
-                                                    "",
-                                            description: null,
-                                            referenceId:
-                                                Sessions.getDatabaseModel()!
-                                                    .name!,
-                                            destinationAccountId: state.store!
-                                                .store!.accountHolder!.id!);
-                                    if (data.isSuccess) {
-                                      context.pop();
-                                      createTemplateController.clear();
-                                      context
-                                          .pushNamed(RouteNames.createBagi,
-                                              extra: data.data?.id ?? "")
-                                          .then((value) => getAllTemplate());
-                                    } else {
-                                      showError(data.message);
-                                    }
-                                  },
-                                  child: const Text("Create Template")),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ],
-                )),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
           ),
         );
       },
