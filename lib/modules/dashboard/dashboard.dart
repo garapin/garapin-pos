@@ -138,7 +138,7 @@ class DashboardPage extends StatelessWidget {
                           child: SingleChildScrollView(
                             child: Builder(builder: (context) {
                               var store = state.store?.store;
-                              if (store?.storeType == "BUSSINESS_PARTNER") {
+                              if (store?.storeType == "BUSSINESS_PARTNER" ) {
                                 return Column(
                                   children: [
                                     const SizedBox(height: 8),
@@ -337,6 +337,24 @@ class DashboardPage extends StatelessWidget {
                                     "SUPP") {
                                   return Column(
                                     children: [
+                                      const SizedBox(height: 8),
+                                      (Sessions.getDatabaseModel()?.role !=
+                                          "ADMIN")
+                                          ? const SizedBox()
+                                          : CustomButton(
+                                          onPressed: () {
+                                            masterCubit.showPage(true);
+                                            masterCubit.initData();
+                                            cubit.changePage(1);
+                                          },
+                                          child: state.index == 1
+                                              ? Resources.images.catalogActive
+                                              .image(
+                                              height: 65, width: 60)
+                                              : Resources
+                                              .images.catalogInactive
+                                              .image(
+                                              height: 65, width: 60)),
                                       const SizedBox(height: 8),
                                       CustomButton(
                                           onPressed: () {

@@ -18,13 +18,13 @@ class ReportPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final cubit = context.read<ReportCubit>();
-    return Padding(
-      padding: const EdgeInsets.only(top: 24),
-      child: Scaffold(
-        backgroundColor: const Color(0xffF8F9FD),
-        body: BlocBuilder<ReportCubit, ReportState>(
-          builder: (context, state) {
-            return SingleChildScrollView(
+    return Scaffold(
+      backgroundColor: const Color(0xffF8F9FD),
+      body: BlocBuilder<ReportCubit, ReportState>(
+        builder: (context, state) {
+          return SingleChildScrollView(
+            child: Padding(
+              padding: const EdgeInsets.only(top: 20),
               child: Container(
                 margin: const EdgeInsets.symmetric(horizontal: 120),
                 width: baseWidth,
@@ -55,7 +55,7 @@ class ReportPage extends StatelessWidget {
                       ),
                       const Divider(),
                       const SizedBox(height: 24),
-                      Container(
+                      SizedBox(
                         width: baseWidth,
                         child: Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 24),
@@ -65,30 +65,32 @@ class ReportPage extends StatelessWidget {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  "Pilih TRX",
+                                  "Pilih Merchant",
                                   style: AppFont.largeBold(context),
                                 ),
                                 const SizedBox(height: 12),
                                 OutlineFormDropdown(
-                                    initialValue:
-                                        (state.store?.store?.merChantRole ==
-                                                    "TRX" ||
-                                                state.store?.store?.storeType ==
-                                                    "USER")
-                                            ? Sessions.getDatabaseModel()!.name
-                                            : null,
+                                    initialValue: (state.store?.store
+                                                    ?.merChantRole ==
+                                                "TRX" ||
+                                            state.store?.store?.merChantRole ==
+                                                "SUPP" ||
+                                            state.store?.store?.storeType ==
+                                                "USER")
+                                        ? Sessions.getDatabaseModel()!.name
+                                        : null,
                                     onChanged: (p0) {
                                       log(p0);
                                       cubit.cleanTransaction();
                                       cubit.selectfilterDatabase(p0);
                                     },
                                     name: "template",
-                                    hintText: "Pilih Trx",
+                                    hintText: "Pilih Merchant",
                                     items: state.filterTemplate.map(
                                       (e) {
                                         return DropdownMenuItem(
-                                          child: Text(e.storeName ?? "-"),
                                           value: e.dbName,
+                                          child: Text(e.storeName ?? "-"),
                                         );
                                       },
                                     ).toList(),
@@ -146,7 +148,7 @@ class ReportPage extends StatelessWidget {
                                                 force: true,
                                                 isRefresh: true,
                                                 param:
-                                                    "types=PAYMENT&limit=6&created[gte]=${state.startDate}&created[lte]=${state.endDate}");
+                                                    "types=TRANSFER&limit=6&created[gte]=${state.startDate}&created[lte]=${state.endDate}");
                                           }
                                         },
                                         child: const Text("Cari Transaksi")),
@@ -331,9 +333,9 @@ class ReportPage extends StatelessWidget {
                   ),
                 ),
               ),
-            );
-          },
-        ),
+            ),
+          );
+        },
       ),
     );
   }

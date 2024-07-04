@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:pos/data/api/services.dart';
+import 'package:pos/data/models/base/store.dart';
 import 'package:pos/engine/engine.dart';
 import '../../../../../data/models/base/database_store.dart';
 import '../../cubit/master_cubit.dart';
@@ -19,6 +20,7 @@ class MyMerchantCubit extends BaseCubit<MyMerchantState> {
   Future<void> initData() async {
     loadingState();
     getAllMerhcant();
+    getStore();
     emit(state.copyWith(status: DataStateStatus.success));
     finishRefresh(state.status);
   }
@@ -31,6 +33,15 @@ class MyMerchantCubit extends BaseCubit<MyMerchantState> {
   @override
   Future<void> refreshData() async {
     initData();
+  }
+
+  getStore() async {
+    final data = await ApiService.getStoreInfo(context);
+    if (data.isSuccess) {
+      emit(state.copyWith(status: DataStateStatus.success, store: data.data));
+    } else {
+      emit(state.copyWith(status: DataStateStatus.error));
+    }
   }
 
   void getAllMerhcant() async {
