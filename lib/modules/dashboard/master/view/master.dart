@@ -18,49 +18,52 @@ class MasterPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final cubit = context.read<MasterCubit>();
     return Scaffold(
-        backgroundColor: const Color(0xffF8F9FD),
-        floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-        floatingActionButton: BlocBuilder<MasterCubit, MasterState>(
-          builder: (context, state) {
-            return ContainerStateHandler(
-              status: state.status,
-              loading: SizedBox(),
-              child: state.showPage
-                  ? Align(
-                      alignment: Alignment.topLeft,
-                      child: Padding(
-                        padding:
-                            const EdgeInsets.only(left: 0, top: 0, bottom: 0),
-                        child: Container(
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            boxShadow: [],
-                          ),
-                          height: baseHeight,
-                          width: 260,
-                          child: Padding(
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: 12, vertical: 20),
-                              child: cubit.showRulesWidgetMaster()),
+      backgroundColor: const Color(0xffF8F9FD),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      floatingActionButton: BlocBuilder<MasterCubit, MasterState>(
+        builder: (context, state) {
+          return ContainerStateHandler(
+            status: state.status,
+            loading: const SizedBox(),
+            child: state.showPage
+                ? Align(
+                    alignment: Alignment.topLeft,
+                    child: Padding(
+                      padding:
+                          const EdgeInsets.only(left: 0, top: 0, bottom: 0),
+                      child: Container(
+                        decoration: const BoxDecoration(
+                          color: Colors.white,
+                          boxShadow: [],
+                        ),
+                        height: baseHeight,
+                        width: 260,
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 12, vertical: 20),
+                          child: cubit.showRulesWidgetMaster(),
                         ),
                       ),
-                    )
-                  : SizedBox(),
+                    ),
+                  )
+                : const SizedBox(),
+          );
+        },
+      ),
+      body: SizedBox(
+        width: baseWidth * 0.925,
+        child: BlocBuilder<MasterCubit, MasterState>(
+          builder: (context, state) {
+            return ContainerStateHandler(
+              loading: const Center(
+                child: CircularProgressIndicator(),
+              ),
+              status: state.status,
+              child: state.widget,
             );
           },
         ),
-        body: SizedBox(
-          width: baseWidth * 0.925,
-          child: BlocBuilder<MasterCubit, MasterState>(
-            builder: (context, state) {
-              return ContainerStateHandler(
-                  loading: Center(
-                    child: CircularProgressIndicator(),
-                  ),
-                  status: state.status,
-                  child: state.widget);
-            },
-          ),
-        ));
+      ),
+    );
   }
 }

@@ -15,8 +15,37 @@ class MyMerchantPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final cubit = context.read<MyMerchantCubit>();
+
+    List<DropdownMenuItem> listDropdown = [];
+
+
     return BlocBuilder<MyMerchantCubit, MyMerchantState>(
       builder: (context, state) {
+
+        if (state.status == DataStateStatus.success) {
+          if (state.store?.store?.storeType == "BUSSINESS_PARTNER") {
+            listDropdown.addAll([
+              const DropdownMenuItem(
+                value: "TRX",
+                child: Text("TRX"),
+              ),
+              const DropdownMenuItem(
+                value: "SUPP",
+                child: Text("SUPP"),
+              ),
+            ]);
+          } else {
+            listDropdown.addAll(
+                [
+                  const DropdownMenuItem(
+                    value: "SUPP",
+                    child: Text("SUPP"),
+                  ),
+                ]
+            );
+          }
+        }
+
         return ContainerStateHandler(
           refresherOptions: RefresherOptions(
             controller: cubit.defaultRefresh.controller,
@@ -35,7 +64,9 @@ class MyMerchantPage extends StatelessWidget {
               margin: const EdgeInsets.symmetric(horizontal: 120, vertical: 26),
               width: baseWidth,
               decoration: BoxDecoration(
-                  color: Colors.white, borderRadius: BorderRadius.circular(16)),
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(16),
+              ),
               child: Column(
                 children: [
                   Padding(
@@ -62,14 +93,14 @@ class MyMerchantPage extends StatelessWidget {
                         children: [
                           const OutlineFormText(
                             name: 'email',
-                            hintText: 'Masukan email',
+                            hintText: 'Masukkan email',
                             label: 'Email',
                           ),
                           const SizedBox(height: 16),
                           const OutlineFormText(
                             maxLength: 30,
                             name: 'store_name',
-                            hintText: 'Masukan nama database',
+                            hintText: 'Masukkan nama database',
                             label: 'Database Name',
                           ),
                           const SizedBox(height: 16),
@@ -85,16 +116,7 @@ class MyMerchantPage extends StatelessWidget {
                             name: 'merchant_role',
                             hintText: 'Pilih Role',
                             label: 'Role',
-                            items: const [
-                              DropdownMenuItem(
-                                value: "TRX",
-                                child: Text("TRX"),
-                              ),
-                              DropdownMenuItem(
-                                value: "SUPP",
-                                child: Text("SUPP"),
-                              ),
-                            ],
+                            items: listDropdown.toSet().toList(),
                             uniqueKey: const Key("100"),
                           ),
                           const SizedBox(height: 32),
