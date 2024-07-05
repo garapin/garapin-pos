@@ -40,6 +40,7 @@ class _LockedAccountPageState extends State<LockedAccountPage> {
   void initState() {
     super.initState();
     if (!widget.fromDashboard) {
+      print("SET SESSION");
       Sessions.setDatabase(
         jsonEncode(
           widget.user.storeDatabaseName
@@ -52,7 +53,9 @@ class _LockedAccountPageState extends State<LockedAccountPage> {
     final blocLockedAccount = context.read<LockedAccountCubit>();
     blocLockedAccount.initData().then((value) {
       if (blocLockedAccount.state.amountPendingTransaction!.amount! > 0) {
-        blocLockedAccount.createInvoice(widget.user);
+        print("BBIKIN INVOICE");
+        print(widget.user);
+        blocLockedAccount.createInvoice(widget.user, targetDatabase: widget.selectedDB);
       } else {
         ShowNotify.success(context, msg: "Tidak ada transaksi pending");
       }
@@ -192,6 +195,7 @@ class _LockedAccountPageState extends State<LockedAccountPage> {
                                             state.amountPendingTransaction
                                                     ?.amount ??
                                                 0,
+                                          widget.selectedDB,
                                           );
                                     } else if (value == PaymentMethod.va) {
                                       // context
@@ -235,6 +239,7 @@ class _LockedAccountPageState extends State<LockedAccountPage> {
                                                     state.amountPendingTransaction
                                                             ?.amount ??
                                                         0,
+                                                widget.selectedDB,
                                                     bankCode: e.bank,
                                                   );
                                             },
