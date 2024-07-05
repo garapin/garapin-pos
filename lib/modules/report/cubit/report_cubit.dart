@@ -1,4 +1,3 @@
-import 'package:bloc/bloc.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
@@ -8,7 +7,6 @@ import 'package:pos/data/models/base/filter_store_transaction.dart';
 import 'package:pos/data/models/base/history_transaction.dart';
 import 'package:pos/data/models/base/total_bagi.dart';
 import 'package:pos/engine/engine.dart';
-import 'package:pos/engine/helpers/options.dart';
 
 import '../../../data/api/response.dart';
 import '../../../data/models/base/store.dart';
@@ -36,27 +34,30 @@ class ReportCubit extends BaseCubit<ReportState> {
       emit(state.copyWith(targetDatabase: Sessions.getDatabaseModel()!.name));
       filter = null;
     }
-    emit(state.copyWith(
-        store: storeInfo.data,
-        status: DataStateStatus.success,
-        filterTemplate: filter?.data ??
-            [
-              FilterStoreTransaction(
-                  dbName: Sessions.getDatabaseModel()!.name!,
-                  templateName: storeInfo.data?.store?.storeName,
-                  storeName: storeInfo.data?.store?.storeName)
-            ],
-        endDate: '${DateTime.now().toIso8601String()}Z',
-        startDate:
-            '${DateTime.now().subtract(Duration(days: 7)).toIso8601String()}Z'));
+    emit(
+      state.copyWith(
+          store: storeInfo.data,
+          status: DataStateStatus.success,
+          filterTemplate: filter?.data ??
+              [
+                FilterStoreTransaction(
+                    dbName: Sessions.getDatabaseModel()!.name!,
+                    templateName: storeInfo.data?.store?.storeName,
+                    storeName: storeInfo.data?.store?.storeName)
+              ],
+          endDate: '${DateTime.now().toIso8601String()}Z',
+          startDate:
+              '${DateTime.now().subtract(const Duration(days: 7)).toIso8601String()}Z'),
+    );
     finishRefresh(state.status);
   }
 
-  void totalBagi(
-      {required MerchantRole role,
-      String? databaseSupport,
-      required String param,
-      required String targetDatabase}) async {
+  void totalBagi({
+    required MerchantRole role,
+    String? databaseSupport,
+    required String param,
+    required String targetDatabase,
+  }) async {
     final data = await ApiService.totalBagi(context,
         param: param,
         targetDatabase: targetDatabase,

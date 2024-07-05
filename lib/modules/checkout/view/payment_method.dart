@@ -1,19 +1,27 @@
+import 'package:bluetooth_print/bluetooth_print_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:pos/data/models/base/invoices.dart';
+import 'package:pos/data/models/base/store.dart';
+import 'package:pos/data/models/base/virtual_account.dart';
 import 'package:pos/engine/engine.dart';
 import 'package:pos/modules/cart/cubit/cart_cubit.dart';
 import 'package:pos/modules/checkout/cubit/checkout_cubit.dart';
+import 'package:pos/modules/print_receipt/cubit/print_cubit.dart';
+import 'package:pos/modules/print_receipt/helpers/generate_print_layout.dart';
 import 'package:pos/resources/resources.dart';
 import 'package:pos/themes/themes.dart';
 import 'package:pos/widgets/widgets.dart';
 import 'package:qr_flutter/qr_flutter.dart';
+import 'package:pos/data/models/base/qrcode.dart' as qr_model;
 
 import '../../../widgets/components/pair_bluethooth.dart';
 
 class PaymentMethodsPage extends StatelessWidget {
-  const PaymentMethodsPage({super.key, required this.cartCubit});
+  PaymentMethodsPage({super.key, required this.cartCubit});
   final CartCubit cartCubit;
+  late List<LineText> printData = [];
 
   @override
   Widget build(BuildContext context) {
@@ -215,7 +223,6 @@ class PaymentMethodsPage extends StatelessWidget {
                                         }
                                       },
                                       controller: cubit.tileVaController,
-                                      enabled: true,
                                       title: Text(
                                         "Virtual Account",
                                         style: AppFont.largeBold(context),
@@ -330,9 +337,11 @@ class PaymentMethodsPage extends StatelessWidget {
                                     noInvoices:
                                         state.invoices?.invoiceLabel ?? "",
                                     item: state.invoices?.product?.items ?? [],
-                                    date: DateTime.parse(
-                                            state.invoices!.paymentDate!)
-                                        .toddMMMyyyyHHmmss(),
+                                    date: state.invoices!.paymentDate != null
+                                        ? DateTime.parse(
+                                                state.invoices!.paymentDate!)
+                                            .toddMMMyyyyHHmmss()
+                                        : "",
                                     nameMerchant:
                                         state.store?.store?.storeName ?? "",
                                     totalPrice: state
@@ -360,12 +369,11 @@ class PaymentMethodsPage extends StatelessWidget {
                                   ),
                                 ],
                               ),
-                        Divider(
+                        const Divider(
                           thickness: 1,
                         ),
                         const SizedBox(height: 20),
                         SizedBox(
-                          height: 300,
                           width: baseWidth,
                           child: Builder(
                             builder: (context) {
@@ -376,8 +384,9 @@ class PaymentMethodsPage extends StatelessWidget {
                                       "Pembayaran QRIS",
                                       style: AppFont.largePrimary(context)!
                                           .copyWith(
-                                              fontSize: 18,
-                                              fontWeight: FontWeight.bold),
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.bold,
+                                      ),
                                     ),
                                     Align(
                                       alignment: Alignment.center,
@@ -389,19 +398,48 @@ class PaymentMethodsPage extends StatelessWidget {
                                     ),
                                     const SizedBox(height: 12),
                                     Align(
-                                        alignment: Alignment.center,
-                                        child: Text(
-                                          "Scan untuk lakukan pembayaran",
-                                          style: AppFont.large(context)!
-                                              .copyWith(fontSize: 18),
-                                        )),
+                                      alignment: Alignment.center,
+                                      child: Text(
+                                        "Scan untuk lakukan pembayaran",
+                                        style: AppFont.large(context)!.copyWith(
+                                          fontSize: 18,
+                                        ),
+                                      ),
+                                    ),
                                     Align(
-                                        alignment: Alignment.center,
-                                        child: Text(
-                                          "Expired at ${state.qrData?.expiresAt!.toddMMMyyyyHHmmss()}",
-                                          style: AppFont.large(context)!
-                                              .copyWith(fontSize: 18),
-                                        ))
+                                      alignment: Alignment.center,
+                                      child: Text(
+                                        "Expired at ${state.qrData?.expiresAt!.toddMMMyyyyHHmmss()}",
+                                        style: AppFont.large(context)!.copyWith(
+                                          fontSize: 18,
+                                        ),
+                                      ),
+                                    ),
+                                    const SizedBox(height: 12),
+                                    Text(
+                                      "Print",
+                                      style: AppFont.largePrimary(context)!
+                                          .copyWith(
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                    const SizedBox(height: 5),
+                                    Container(
+                                      decoration: BoxDecoration(
+                                        border: Border.all(
+                                          color: AppColor.appColor.primary,
+                                        ),
+                                        borderRadius: BorderRadius.circular(10),
+                                      ),
+                                      child: buttonPrintCheckout(
+                                        state.qrData!,
+                                        null,
+                                        invoiceData: state.invoices,
+                                        storeData: state.store,
+                                        paymentMethod: "QRIS",
+                                      ),
+                                    ),
                                   ],
                                 );
                               } else if (state.paymentMethod ==
@@ -446,6 +484,31 @@ class PaymentMethodsPage extends StatelessWidget {
                                     Text(
                                       "Expired at ${state.virtualAccountResponse?.expirationDate!.toddMMMyyyyHHmmss() ?? ""}",
                                       style: AppFont.medium(context),
+                                    ),
+                                    const SizedBox(height: 12),
+                                    Text(
+                                      "Print",
+                                      style: AppFont.largePrimary(context)!
+                                          .copyWith(
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                    const SizedBox(height: 5),
+                                    Container(
+                                      decoration: BoxDecoration(
+                                        border: Border.all(
+                                          color: AppColor.appColor.primary,
+                                        ),
+                                        borderRadius: BorderRadius.circular(10),
+                                      ),
+                                      child: buttonPrintCheckout(
+                                        null,
+                                        state.virtualAccountResponse,
+                                        invoiceData: state.invoices,
+                                        storeData: state.store,
+                                        paymentMethod: "Virtual Account",
+                                      ),
                                     ),
                                   ],
                                 );
@@ -500,23 +563,49 @@ class PaymentMethodsPage extends StatelessWidget {
                                         width: baseWidth,
                                         height: 50,
                                         child: ElevatedButton(
-                                            onPressed: () {
-                                              String removeCurrency = cubit
-                                                  .amountCashController.text
-                                                  .replaceAll(
-                                                      RegExp(r'[^\d]'), '');
-                                              cubit.doSelectPayment(
-                                                PaymentMethod.cash,
-                                                cartCubit.state.invoces!,
-                                                int.parse(removeCurrency),
-                                              );
-                                            },
-                                            child: const Text(
-                                                "Konfirmasi Bayar Cash")),
+                                          onPressed: () {
+                                            String removeCurrency = cubit
+                                                .amountCashController.text
+                                                .replaceAll(
+                                                    RegExp(r'[^\d]'), '');
+                                            cubit.doSelectPayment(
+                                              PaymentMethod.cash,
+                                              cartCubit.state.invoces!,
+                                              int.parse(removeCurrency),
+                                            );
+                                          },
+                                          child: const Text(
+                                            "Konfirmasi Bayar Cash",
+                                          ),
+                                        ),
                                       ),
                                     ),
                                   ),
                                   const SizedBox(height: 20),
+                                  Text(
+                                    "Print",
+                                    style:
+                                        AppFont.largePrimary(context)!.copyWith(
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                  const SizedBox(height: 5),
+                                  Container(
+                                    decoration: BoxDecoration(
+                                      border: Border.all(
+                                        color: AppColor.appColor.primary,
+                                      ),
+                                      borderRadius: BorderRadius.circular(10),
+                                    ),
+                                    child: buttonPrintCheckout(
+                                      null,
+                                      null,
+                                      invoiceData: state.invoices,
+                                      storeData: state.store,
+                                      paymentMethod: "Cash",
+                                    ),
+                                  ),
                                 ]);
                               } else {
                                 return const SizedBox();
@@ -533,6 +622,191 @@ class PaymentMethodsPage extends StatelessWidget {
           );
         },
       ),
+    );
+  }
+
+  Widget buttonPrintCheckout(
+    qr_model.QrCode? qrData,
+    VirtualAccount? vaData, {
+    Store? storeData,
+    Invoices? invoiceData,
+    required String paymentMethod,
+  }) {
+    return BlocProvider(
+      create: (context) => BluetoothPrintCubit()..startScan(),
+      child: BlocBuilder<BluetoothPrintCubit, BluetoothPrintState>(
+        builder: (context, state) {
+          // if (state == BluetoothPrintState.scanning) {
+          //   return const Center(
+          //     child: CircularProgressIndicator(),
+          //   );
+          // }
+
+          return Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 13, vertical: 20),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                Expanded(
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(24),
+                    child: SizedBox(
+                      height: 50,
+                      child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.black),
+                        child: context
+                                    .read<BluetoothPrintCubit>()
+                                    .selectedDevice ==
+                                null
+                            ? const Text('Select Device')
+                            : const Text('Print Receipt'),
+                        onPressed: () async {
+                          if (context
+                                  .read<BluetoothPrintCubit>()
+                                  .selectedDevice !=
+                              null) {
+                            showPaperSizeOptions(context, (selectedSize) async {
+                              context.read<BluetoothPrintCubit>().printReceipt(
+                                    await GeneratePrintLayout()
+                                        .generateCheckoutPrintLayout(
+                                      invoiceData!,
+                                      storeData!,
+                                      paymentMethod,
+                                      qrData,
+                                      vaData,
+                                      selectedSize,
+                                    ),
+                                    selectedSize,
+                                  );
+                            });
+                          }
+
+                          if (context
+                                  .read<BluetoothPrintCubit>()
+                                  .selectedDevice ==
+                              null) {
+                            context.read<BluetoothPrintCubit>().startScan();
+                            WidgetsBinding.instance.addPostFrameCallback((_) {
+                              showDialog(
+                                context: context,
+                                builder: (_) {
+                                  return AlertDialog(
+                                    title:
+                                        const Text("Select a Bluetooth device"),
+                                    content: SizedBox(
+                                      width: 200,
+                                      height: double.maxFinite,
+                                      child: ListView.builder(
+                                        shrinkWrap: true,
+                                        itemCount: context
+                                                .read<BluetoothPrintCubit>()
+                                                .devices
+                                                ?.length ??
+                                            0,
+                                        itemBuilder: (_, int index) {
+                                          var device = context
+                                              .read<BluetoothPrintCubit>()
+                                              .devices![index];
+                                          return ListTile(
+                                            title: Text(device.name ??
+                                                "Unknown device"),
+                                            subtitle:
+                                                Text(device.address ?? ''),
+                                            onTap: () {
+                                              context
+                                                  .read<BluetoothPrintCubit>()
+                                                  .selectDevice(device);
+                                              Navigator.of(context).pop();
+                                            },
+                                          );
+                                        },
+                                      ),
+                                    ),
+                                  );
+                                },
+                              );
+                            });
+                          }
+                        },
+                      ),
+                    ),
+                  ),
+                ),
+                const SizedBox(
+                  width: 8,
+                ),
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(24),
+                  child: SizedBox(
+                    height: 50,
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: context
+                                    .read<BluetoothPrintCubit>()
+                                    .selectedDevice ==
+                                null
+                            ? Colors.grey
+                            : Colors.black,
+                      ),
+                      onPressed: context
+                                  .read<BluetoothPrintCubit>()
+                                  .selectedDevice ==
+                              null
+                          ? null
+                          : () {
+                              context.read<BluetoothPrintCubit>().disconnect();
+                              context.read<BluetoothPrintCubit>().startScan();
+                            },
+                      child: const Text('Disconnect'),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          );
+        },
+      ),
+    );
+  }
+
+  void showPaperSizeOptions(
+      BuildContext context, Function(int) onSizeSelected) {
+    showModalBottomSheet(
+      context: context,
+      builder: (BuildContext context) {
+        return Container(
+          padding: const EdgeInsets.only(left: 20, right: 20, top: 20),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              const Text(
+                "Select Paper Size",
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+              ),
+              ListView(
+                shrinkWrap: true,
+                children: [
+                  ListTile(
+                    title: const Text("58mm"),
+                    onTap: () {
+                      onSizeSelected(58);
+                      Navigator.pop(context);
+                    },
+                  ),
+                  ListTile(
+                    title: const Text("80mm"),
+                    onTap: () {
+                      onSizeSelected(80);
+                      Navigator.pop(context);
+                    },
+                  ),
+                ],
+              ),
+            ],
+          ),
+        );
+      },
     );
   }
 }

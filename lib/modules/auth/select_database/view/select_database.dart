@@ -3,7 +3,11 @@ import 'package:flutter/widgets.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:pos/data/models/base/database_store.dart';
 import 'package:pos/engine/base/app.dart';
+import 'package:pos/modules/auth/locked_account/cubit/locked_account_cubit.dart';
+import 'package:pos/modules/auth/locked_account/cubit/locked_account_state.dart';
+import 'package:pos/modules/auth/locked_account/view/locked_account_page.dart';
 import 'package:pos/modules/auth/select_database/cubit/select_database_cubit.dart';
+import 'package:pos/modules/checkout/cubit/checkout_cubit.dart';
 import 'package:pos/routes/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -36,22 +40,24 @@ class SelectDatabasePage extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       SizedBox(
-                          height: 77,
-                          width: 623,
-                          child: ClipRRect(
-                            borderRadius: BorderRadius.circular(58),
-                            child: ElevatedButton(
-                                style: ElevatedButton.styleFrom(),
-                                onPressed: () {
-                                  context
-                                      .pushNamed(RouteNames.createNewDatabase)
-                                      .then((value) => cubit.refreshData());
-                                },
-                                child: Text(
-                                  "Create New Database",
-                                  style: AppFont.whiteLarge(context),
-                                )),
-                          )),
+                        height: 77,
+                        width: 623,
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(58),
+                          child: ElevatedButton(
+                            style: ElevatedButton.styleFrom(),
+                            onPressed: () {
+                              context
+                                  .pushNamed(RouteNames.createNewDatabase)
+                                  .then((value) => cubit.refreshData());
+                            },
+                            child: Text(
+                              "Create New Database",
+                              style: AppFont.whiteLarge(context),
+                            ),
+                          ),
+                        ),
+                      ),
                       const SizedBox(height: 32),
                       Container(
                         width: 623,
@@ -86,10 +92,14 @@ class SelectDatabasePage extends StatelessWidget {
                             const SizedBox(height: 24),
                             ConstrainedBox(
                               constraints: const BoxConstraints(
-                                  minHeight: 0, maxHeight: 260),
+                                minHeight: 0,
+                                maxHeight: 260,
+                              ),
                               child: ListView.builder(
                                 padding: const EdgeInsets.symmetric(
-                                    horizontal: 2, vertical: 2),
+                                  horizontal: 2,
+                                  vertical: 2,
+                                ),
                                 shrinkWrap: true,
                                 itemCount: state.databaseStore.length,
                                 itemBuilder: (context, index) {
@@ -99,7 +109,8 @@ class SelectDatabasePage extends StatelessWidget {
                                     child: CustomButton(
                                       onPressed: () {
                                         cubit.selectedDatabase(
-                                            database.dbName ?? "");
+                                          database.dbName ?? "",
+                                        );
                                       },
                                       child: CardSelectDatabase(
                                         selected: database.dbName ==
@@ -118,16 +129,100 @@ class SelectDatabasePage extends StatelessWidget {
                             ),
                             const SizedBox(height: 32),
                             SizedBox(
-                                height: 48,
-                                width: baseWidth,
-                                child: ClipRRect(
-                                    borderRadius: BorderRadius.circular(58),
-                                    child: ElevatedButton(
-                                        onPressed: () {
-                                          cubit.doSelecteDatabase(
-                                              state.databaseStore.first.user!);
+                              height: 48,
+                              width: baseWidth,
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.circular(58),
+                                child: ElevatedButton(
+                                  onPressed: () {
+                                    DatabaseStore selectedDB = state
+                                        .databaseStore
+                                        .where((e) =>
+                                            e.dbName == state.selectedDatabase)
+                                        .first;
+                                    if (selectedDB.storesData?.storeStatus ==
+                                        "PENDING_ACTIVE") {
+                                      ShowNotify.success(
+                                        context,
+                                        msg: "Sedang diproses",
+                                      );
+                                    } else if (selectedDB
+                                            .storesData?.storeStatus ==
+                                        "LOCKED") {
+                                      showDialog(
+                                        context: context,
+                                        barrierDismissible: false,
+                                        builder: (context) {
+                                          return BlocProvider(
+                                            create: (context) =>
+                                                LockedAccountCubit(context),
+                                            child: BlocBuilder<
+                                                LockedAccountCubit,
+                                                LockedAccountState>(
+                                              builder: (context, stateLck) {
+                                                return AlertDialog(
+                                                  title: const Text(
+                                                    "Informasi",
+                                                    style: TextStyle(
+                                                      fontWeight: FontWeight.w700,
+                                                    ),
+                                                  ),
+                                                  shape: RoundedRectangleBorder(
+                                                    borderRadius: BorderRadius.circular(16),
+                                                  ),
+                                                  actions: [
+                                                    stateLck.paymentStatus ==
+                                                            PaymentStatus
+                                                                .pending
+                                                        ? TextButton(
+                                                            onPressed: () {
+                                                              if (stateLck
+                                                                      .invoices !=
+                                                                  null) {
+                                                                context
+                                                                    .read<
+                                                                        LockedAccountCubit>()
+                                                                    .cancelCheckout(
+                                                                      stateLck
+                                                                          .invoices!
+                                                                          .invoice!,
+                                                                    );
+                                                              }
+
+                                                              Navigator.pop(
+                                                                context,
+                                                              );
+                                                            },
+                                                            child: const Text(
+                                                              "Batalkan",
+                                                            ),
+                                                          )
+                                                        : Container(),
+                                                  ],
+                                                  content: SizedBox(
+                                                    width: 500,
+                                                    child: LockedAccountPage(
+                                                      user: selectedDB.user!,
+                                                      selectedDB:
+                                                      selectedDB.dbName!,
+                                                    ),
+                                                  ),
+                                                );
+                                              },
+                                            ),
+                                          );
                                         },
-                                        child: const Text("Load")))),
+                                      );
+                                    } else {
+                                      cubit.doSelecteDatabase(
+                                        state.databaseStore.first.user!,
+                                      );
+                                    }
+                                  },
+                                  child: const Text("Load"),
+                                ),
+                              ),
+                            ),
                           ],
                         ),
                       ),
@@ -152,13 +247,13 @@ class SelectDatabasePage extends StatelessWidget {
                                 borderRadius: BorderRadius.circular(58),
                               ),
                               side: BorderSide(
-                                  color: AppColor
-                                      .appColor.primary), // Warna garis outline
+                                color: AppColor.appColor.primary,
+                              ), // Warna garis outline
                             ),
                             child: const Text("Cancel"),
                           ),
                         ),
-                      )
+                      ),
                     ],
                   ),
                 ),
@@ -202,84 +297,90 @@ class CardSelectDatabase extends StatelessWidget {
             ),
           ],
         ),
-        child:
-            Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-          SizedBox(
-            width: 330,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  database?.dbName ?? "",
-                  style: AppFont.largeBold(context)!.copyWith(
-                      fontSize: 16,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            SizedBox(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    database?.dbName ?? "",
+                    style: AppFont.largeBold(context)!.copyWith(
+                        fontSize: 16,
+                        color: selected ? AppColor.appColor.primary : null,
+                        overflow: TextOverflow.ellipsis),
+                  ),
+                  const SizedBox(height: 6),
+                  Text(
+                    "${FirebaseAuth.instance.currentUser?.displayName ?? ""} - ${database?.user?.storeDatabaseName?.where((element) => element.name == database?.dbName).first.role}",
+                    style: AppFont.large(context)!.copyWith(
+                      fontSize: 14,
                       color: selected ? AppColor.appColor.primary : null,
-                      overflow: TextOverflow.ellipsis),
+                    ),
+                  ),
+                  const SizedBox(height: 2),
+                  Text(
+                    "${database?.storesData?.storeType?.replaceAll('_', " ") ?? ""} - ${database?.storesData?.merchantRole == "NOT_MERCHANT" ? "" : database?.storesData?.merchantRole}",
+                    style: AppFont.large(context)!.copyWith(
+                      fontSize: 14,
+                      color: selected ? AppColor.appColor.primary : null,
+                    ),
+                  ),
+                  (database?.storesData?.storeStatus == "PENDING")
+                      ? Container(
+                          width: 320,
+                          child: Text(
+                            "Anda mendapatkan undangan untuk menggunakan database ini.",
+                            maxLines: 2,
+                            style: AppFont.large(context)!.copyWith(
+                              fontSize: 14,
+                              color: AppColor.appColor.warning,
+                            ),
+                          ),
+                        )
+                      : SizedBox()
+                ],
+              ),
+            ),
+            Column(
+              children: [
+                Container(
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    border: Border.all(
+                      color: selected ? AppColor.appColor.primary : Colors.grey,
+                      width: 3.0,
+                    ),
+                  ),
+                  child: Padding(
+                      padding: const EdgeInsets.all(3),
+                      child: Column(
+                        children: [
+                          Icon(
+                            Icons.verified,
+                            size: 30.0,
+                            color: selected
+                                ? AppColor.appColor.primary
+                                : Colors.grey,
+                          ),
+                        ],
+                      )),
                 ),
                 const SizedBox(height: 6),
                 Text(
-                  "${FirebaseAuth.instance.currentUser?.displayName ?? ""} - ${database?.user?.storeDatabaseName?.where((element) => element.name == database?.dbName).first.role}",
-                  style: AppFont.large(context)!.copyWith(
-                    fontSize: 14,
-                    color: selected ? AppColor.appColor.primary : null,
-                  ),
-                ),
-                const SizedBox(height: 2),
-                Text(
-                  "${database?.storesData?.storeType?.replaceAll('_', " ") ?? ""} - ${database?.storesData?.merchantRole == "NOT_MERCHANT" ? "" : database?.storesData?.merchantRole}",
-                  style: AppFont.large(context)!.copyWith(
-                    fontSize: 14,
-                    color: selected ? AppColor.appColor.primary : null,
-                  ),
-                ),
-                (database?.storesData?.storeStatus == "PENDING")
-                    ? Text(
-                        "Anda mendapatkan undangan untuk menggunakan database ini.",
-                        style: AppFont.large(context)!.copyWith(
-                          fontSize: 14,
-                          color: AppColor.appColor.warning,
-                        ),
-                      )
-                    : SizedBox()
-              ],
-            ),
-          ),
-          Column(
-            children: [
-              Container(
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  border: Border.all(
-                    color: selected ? AppColor.appColor.primary : Colors.grey,
-                    width: 3.0,
-                  ),
-                ),
-                child: Padding(
-                    padding: const EdgeInsets.all(3),
-                    child: Column(
-                      children: [
-                        Icon(
-                          Icons.verified,
-                          size: 30.0,
-                          color: selected
-                              ? AppColor.appColor.primary
-                              : Colors.grey,
-                        ),
-                      ],
-                    )),
-              ),
-              SizedBox(height: 6),
-              Text(
-                database?.storesData?.storeStatus ?? "",
-                style: AppFont.smallBold(context)!.copyWith(
+                  database?.storesData?.storeStatus ?? "",
+                  style: AppFont.smallBold(context)!.copyWith(
                     color: database?.storesData?.storeStatus == "ACTIVE"
                         ? AppColor.appColor.success
-                        : AppColor.appColor.warning),
-              )
-            ],
-          )
-        ]),
+                        : AppColor.appColor.warning,
+                  ),
+                ),
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }
