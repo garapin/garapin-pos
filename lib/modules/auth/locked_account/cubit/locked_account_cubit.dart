@@ -13,10 +13,10 @@ class LockedAccountCubit extends BaseCubit<LockedAccountState> {
   LockedAccountCubit(BuildContext context)
       : super(context, const LockedAccountState());
 
-  createInvoice(User user) async {
+  createInvoice(User user, {required String targetDatabase}) async {
     final data = await ApiService.createInvoiceTopUp(
       context,
-      targetDatabase: user.storeDatabaseName!.first.name!,
+      targetDatabase: targetDatabase,
       amount: state.amountPendingTransaction?.amount ?? 0,
       payerEmail: user.email ?? "",
     );
@@ -61,14 +61,14 @@ class LockedAccountCubit extends BaseCubit<LockedAccountState> {
   }
 
   doSelectPayment(
-      PaymentMethod paymentMethod, User user, String invoices, int amount,
+      PaymentMethod paymentMethod, User user, String invoices, int amount, String targetDatabase,
       {String? bankCode}) async {
     showLoading();
     if (paymentMethod == PaymentMethod.qris) {
       final data = await ApiService.createQrcodeTopUp(
         context,
         invoices: invoices,
-        targetDatabase: user.storeDatabaseName!.first.name!,
+        targetDatabase: targetDatabase,
         amount: amount,
       );
       if (data.isSuccess) {
