@@ -65,7 +65,7 @@ class ReportPage extends StatelessWidget {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  "Pilih Merchant",
+                                  "Pilih TRX",
                                   style: AppFont.largeBold(context),
                                 ),
                                 const SizedBox(height: 12),
@@ -85,7 +85,7 @@ class ReportPage extends StatelessWidget {
                                       cubit.selectfilterDatabase(p0);
                                     },
                                     name: "template",
-                                    hintText: "Pilih Merchant",
+                                    hintText: "Pilih TRX",
                                     items: state.filterTemplate.map(
                                       (e) {
                                         return DropdownMenuItem(
@@ -148,7 +148,7 @@ class ReportPage extends StatelessWidget {
                                                 force: true,
                                                 isRefresh: true,
                                                 param:
-                                                    "types=TRANSFER&limit=6&created[gte]=${state.startDate}&created[lte]=${state.endDate}");
+                                                    "types=PAYMENT&limit=6&created[gte]=${state.startDate}&created[lte]=${state.endDate}");
                                           }
                                         },
                                         child: const Text("Cari Transaksi")),

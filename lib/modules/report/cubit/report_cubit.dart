@@ -24,28 +24,21 @@ class ReportCubit extends BaseCubit<ReportState> {
     final storeInfo = await ApiService.getStoreInfo(context);
     ApiResponseList<FilterStoreTransaction>? filter;
     var store = storeInfo.data!.store;
-
-    filter = await ApiService.filterReportBagiBagi(context,
-        role: "TRX", bussinessPartnerDB: Sessions.getDatabaseModel()!.name!);
-    // if (store!.storeType == "BUSSINESS_PARTNER") {
-    //   filter = await ApiService.filterReport(context,
-    //       role: "TRX",
-    //       bussinessPartnerDB: Sessions.getDatabaseModel()!.name!);
-    // } else if (store.storeType == "MERCHANT" && store.merChantRole == "SUPP") {
-    //   filter = await ApiService.filterReport(context,
-    //       role: "SUPP",
-    //       bussinessPartnerDB: Sessions.getDatabaseModel()!.name!);
-    //   print("INI FILTER");
-    //   print(filter.data.length);
-    // } else {
-    //   emit(state.copyWith(targetDatabase: Sessions.getDatabaseModel()!.name));
-    //   filter = null;
-    // }
+    if (store!.storeType == "BUSSINESS_PARTNER") {
+      filter = await ApiService.filterReport(context,
+          bussinessPartnerDB: Sessions.getDatabaseModel()!.name!);
+    } else if (store.storeType == "MERCHANT" && store.merChantRole == "SUPP") {
+      filter = await ApiService.filterReport(context,
+          bussinessPartnerDB: store.dbParent!);
+    } else {
+      emit(state.copyWith(targetDatabase: Sessions.getDatabaseModel()!.name));
+      filter = null;
+    }
     emit(
       state.copyWith(
           store: storeInfo.data,
           status: DataStateStatus.success,
-          filterTemplate: filter.data ??
+          filterTemplate: filter?.data ??
               [
                 FilterStoreTransaction(
                     dbName: Sessions.getDatabaseModel()!.name!,
