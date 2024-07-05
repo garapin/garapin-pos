@@ -75,7 +75,7 @@ class CreateBagiCubit extends BaseCubit<CreateBagiState> {
                       child: OutlineFormDropdown(
                           label: "Target",
                           name: "outline",
-                          hintText: "Masukan target",
+                          hintText: "Masukkan target",
                           items: state.merchants
                               .where((element) =>
                                   element.storesData?.storeName != null)
@@ -122,20 +122,23 @@ class CreateBagiCubit extends BaseCubit<CreateBagiState> {
                         keyboardType: TextInputType.number,
                         maxLength: 3,
                         decoration: InputDecoration(
-                          suffixIcon: Icon(Icons.percent),
+                          suffixIcon: const Icon(Icons.percent),
                           helperStyle: AppFont.small(context)!.copyWith(
                             color: AppColor.appColor.warning,
                           ),
                           helperText:
-                              "Merchant ini akan mendapat bagian dari hasil transaksi ppenjualan",
-                          hintText: "Masukan persenan",
+                              "Merchant ini akan mendapat bagian dari hasil transaksi penjualan",
+                          hintText: "Masukkan persenan",
                           border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(
-                                  32)), // Menambahkan border
+                            borderRadius: BorderRadius.circular(
+                              32,
+                            ),
+                          ), // Menambahkan border
                         ),
                         controller: percentAmount,
                         style: const TextStyle(
-                            height: 1.0), // Mengatur tinggi TextField
+                          height: 1.0,
+                        ), // Mengatur tinggi TextField
                       ),
                     ),
                     const SizedBox(height: 16),
@@ -153,20 +156,23 @@ class CreateBagiCubit extends BaseCubit<CreateBagiState> {
                         keyboardType: TextInputType.number,
                         maxLength: 3,
                         decoration: InputDecoration(
-                          suffixIcon: Icon(Icons.percent),
+                          suffixIcon: const Icon(Icons.percent),
                           helperStyle: AppFont.small(context)!.copyWith(
                             color: AppColor.appColor.warning,
                           ),
                           helperText:
                               "Merchant & customer ini akan membayar biaya",
-                          hintText: "Masukan persenan",
+                          hintText: "Masukkan persenan",
                           border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(
-                                  32)), // Menambahkan border
+                            borderRadius: BorderRadius.circular(
+                              32,
+                            ),
+                          ), // Menambahkan border
                         ),
                         controller: feePos,
                         style: const TextStyle(
-                            height: 1.0), // Mengatur tinggi TextField
+                          height: 1.0,
+                        ), // Mengatur tinggi TextField
                       ),
                     ),
                     const SizedBox(height: 16),
@@ -286,7 +292,7 @@ class CreateBagiCubit extends BaseCubit<CreateBagiState> {
                           initialValue: target.text,
                           label: "Target",
                           name: "outline",
-                          hintText: "Masukan target",
+                          hintText: "Masukkan target",
                           items: state.merchants
                               .where((element) =>
                                   element.storesData?.storeName != null)
@@ -493,7 +499,7 @@ class CreateBagiCubit extends BaseCubit<CreateBagiState> {
   }
 
   getAllMerchant() async {
-    final data = await ApiService.getStoreDatabaseTrxByParent(context);
+    final data = await ApiService.getStoreDatabaseByParent(context);
     List<DatabaseStore> newData = data.data ?? [];
     newData.insert(
         0,
@@ -647,7 +653,7 @@ class CreateBagiCubit extends BaseCubit<CreateBagiState> {
                                       context.pop();
                                       refreshData();
                                       showSuccess(data.message);
-                                    }else{
+                                    } else {
                                       showError(data.message);
                                     }
                                   }

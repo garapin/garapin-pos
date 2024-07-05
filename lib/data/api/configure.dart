@@ -30,7 +30,7 @@ class ApiConfigure {
   }
 
   void config(String path) async {
-    checkVersion(context);
+    // checkVersion(context);
     String? token = Sessions.getToken();
     if (token != null) {
       Map<String, dynamic> headers = {'Authorization': token};

@@ -57,8 +57,6 @@ class LoginPage extends StatelessWidget {
                   onPressed: () async {
                     PackageInfo packageInfo = await PackageInfo.fromPlatform();
                     String version = packageInfo.version;
-                    //buat test
-                    log("asdasd");
                     final data = await ApiService.getConfigVersionV2(context);
                     if (data.data.isNotEmpty) {
                       for (var item in data.data) {

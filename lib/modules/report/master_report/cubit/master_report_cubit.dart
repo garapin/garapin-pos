@@ -66,13 +66,14 @@ class MasterReportCubit extends BaseCubit<MasterReportState> {
   ];
   Widget showMaster() {
     if (state.store == null) {
-      return SizedBox();
+      return const SizedBox();
     } else {
       return Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 20),
-          child: Column(children: [
+        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 20),
+        child: Column(
+          children: [
             (state.store?.store?.merChantRole == "SUPP")
-                ? SizedBox()
+                ? const SizedBox()
                 : CustomButton(
                     onPressed: () {
                       showPage(false);
@@ -81,35 +82,45 @@ class MasterReportCubit extends BaseCubit<MasterReportState> {
                     },
                     child: Container(
                       decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(24),
-                          color: AppColor.appColor.primary.withOpacity(0.15)),
+                        borderRadius: BorderRadius.circular(24),
+                        color: AppColor.appColor.primary.withOpacity(0.15),
+                      ),
                       height: 40,
                       child: Center(
-                          child: Text(
-                        "Report Transaksi Penjualan",
-                        style: AppFont.largePrimary(context),
-                      )),
-                    )),
-            SizedBox(height: 20),
+                        child: Text(
+                          "Report Transaksi Penjualan",
+                          style: AppFont.largePrimary(context),
+                        ),
+                      ),
+                    ),
+                  ),
+            (state.store?.store?.merChantRole == "SUPP")
+                ? const SizedBox()
+                : const SizedBox(height: 20),
             CustomButton(
-                onPressed: () {
-                  showPage(false);
-                  changePage(1);
-                  // context.read<CatalogCubit>().initData();
-                },
-                child: Container(
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(24),
-                      color: AppColor.appColor.primary.withOpacity(0.15)),
-                  height: 40,
-                  child: Center(
-                      child: Text(
-                    "Report Bagi Bagi",
+              onPressed: () {
+                showPage(false);
+                changePage(1);
+                // context.read<CatalogCubit>().initData();
+              },
+              child: Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(24),
+                  color: AppColor.appColor.primary.withOpacity(0.15),
+                ),
+                height: 40,
+                child: Center(
+                  child: Text(
+                    "Report Bagi-Bagi",
                     style: AppFont.largePrimary(context),
-                  )),
-                )),
-            SizedBox(height: 20)
-          ]));
+                  ),
+                ),
+              ),
+            ),
+            const SizedBox(height: 20)
+          ],
+        ),
+      );
     }
   }
 }
