@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:package_info_plus/package_info_plus.dart';
+import 'package:pos/engine/helpers/firebase_helper.dart';
 
 import 'engine/base/app.dart';
 import 'engine/configs/environment.dart';
@@ -40,6 +41,7 @@ class InitialApps {
 
   static firebaseInit() async {
     await initializeFirebase();
+    FirebaseHelper.listenToUserSignInStatus();
   }
 }
 
