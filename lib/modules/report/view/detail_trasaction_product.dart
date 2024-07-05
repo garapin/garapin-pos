@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -5,9 +7,11 @@ import 'package:go_router/go_router.dart';
 import 'package:pos/engine/engine.dart';
 import 'package:pos/modules/report/cubit/detail_transaction_product_cubit.dart';
 import 'package:pos/modules/report/cubit/report_detail_cubit.dart';
+import 'package:pos/modules/report/export/view/pdf_invoice_widget.dart';
 import 'package:pos/widgets/widgets.dart';
 import '../../../../../../engine/base/app.dart';
 import '../../../../../../themes/themes.dart';
+import '../export/view/pdf_widget.dart';
 
 class DetailTransactionProduct extends StatelessWidget {
   const DetailTransactionProduct({
@@ -23,7 +27,7 @@ class DetailTransactionProduct extends StatelessWidget {
         builder: (context, state) {
           return ContainerStateHandler(
             status: state.status,
-            loading: Center(
+            loading: const Center(
               child: CircularProgressIndicator(),
             ),
             child: SingleChildScrollView(
@@ -116,12 +120,12 @@ class DetailTransactionProduct extends StatelessWidget {
                                   textAlign: TextAlign.center,
                                   style: AppFont.largeBold(context))),
                         ]),
-                    SizedBox(height: 12),
-                    Divider(thickness: 2),
+                    const SizedBox(height: 12),
+                    const Divider(thickness: 2),
                     SizedBox(
                       child: ListView.separated(
                         shrinkWrap: true,
-                        physics: NeverScrollableScrollPhysics(),
+                        physics: const NeverScrollableScrollPhysics(),
                         itemCount: state.invoice?.product?.items?.length ?? 0,
                         itemBuilder: (context, index) {
                           var item = state.invoice?.product?.items?[index];
@@ -203,67 +207,110 @@ class DetailTransactionProduct extends StatelessWidget {
                               ]);
                         },
                         separatorBuilder: (BuildContext context, int index) {
-                          return Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 12),
+                          return const Padding(
+                            padding: EdgeInsets.symmetric(vertical: 12),
                             child: Divider(thickness: 2),
                           );
                         },
                       ),
                     ),
-                    Divider(thickness: 2),
-                    SizedBox(height: 15),
+                    const Divider(thickness: 2),
+                    const SizedBox(height: 15),
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 50),
                       child: Align(
                         alignment: Alignment.centerRight,
                         child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.end,
-                          mainAxisAlignment: MainAxisAlignment.end,
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.end,
-                              children: [
-                                Text(
-                                  "Fee Bank",
-                                  style: AppFont.largeBold(context)!
-                                      .copyWith(color: AppColor.appColor.error),
+                            ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: AppColor.appColor.primary,
+                                foregroundColor: Colors.white,
+                              ),
+                              onPressed: () async {
+                                final pdfFile = await PdfInvoiceWidget.generate(
+                                  detailTransaction: state,
+                                );
+                                if (pdfFile != null) {
+                                  await PdfWidget.openFile(pdfFile);
+
+                                  await Future.delayed(
+                                      const Duration(seconds: 5));
+
+                                  if (pdfFile.existsSync()) {
+                                    await pdfFile.delete();
+                                  }
+                                }
+                              },
+                              child: Text(
+                                "Export PDF",
+                                style: AppFont.largeBold(context)!.copyWith(
+                                  color: Colors.white,
                                 ),
-                                SizedBox(height: 4),
-                                Text(
-                                  "Tax",
-                                  style: AppFont.largeBold(context)!
-                                      .copyWith(color: AppColor.appColor.error),
-                                ),
-                                SizedBox(height: 4),
-                                Text(
-                                  "Total",
-                                  style: AppFont.largeBold(context)!.copyWith(
-                                      color: AppColor.appColor.success),
-                                ),
-                              ],
+                              ),
                             ),
-                            SizedBox(width: 12),
-                            Column(
+                            Row(
                               crossAxisAlignment: CrossAxisAlignment.end,
+                              mainAxisAlignment: MainAxisAlignment.end,
                               children: [
-                                Text(
-                                  "- ${int.parse(state.fee ?? "0").toString().currencyDot(symbol: "Rp.")}",
-                                  style: AppFont.largeBold(context)!
-                                      .copyWith(color: AppColor.appColor.error),
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.end,
+                                  children: [
+                                    Text(
+                                      "Fee Bank",
+                                      style: AppFont.largeBold(context)!
+                                          .copyWith(
+                                              color: AppColor.appColor.error),
+                                    ),
+                                    const SizedBox(height: 4),
+                                    Text(
+                                      "Tax",
+                                      style: AppFont.largeBold(context)!
+                                          .copyWith(
+                                              color: AppColor.appColor.error),
+                                    ),
+                                    const SizedBox(height: 4),
+                                    Text(
+                                      "Total",
+                                      style: AppFont.largeBold(context)!
+                                          .copyWith(
+                                              color: AppColor.appColor.success),
+                                    ),
+                                  ],
                                 ),
-                                SizedBox(height: 4),
-                                Text(
-                                  "- ${int.parse(state.tax ?? "0").currencyFormat(symbol: "Rp.")}",
-                                  style: AppFont.largeBold(context)!
-                                      .copyWith(color: AppColor.appColor.error),
-                                ),
-                                SizedBox(height: 4),
-                                Text(
-                                  (state.invoice?.product?.totalPrice == null)
-                                      ? ""
-                                      : "${(state.invoice!.product!.totalPrice! - int.parse(state.fee ?? "0") - int.parse(state.tax ?? "0")).currencyFormat(symbol: "Rp.")}",
-                                  style: AppFont.largeBold(context)!.copyWith(
-                                      color: AppColor.appColor.success),
+                                const SizedBox(width: 12),
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.end,
+                                  children: [
+                                    Text(
+                                      "- ${int.parse(state.fee ?? "0").toString().currencyDot(symbol: "Rp.")}",
+                                      style: AppFont.largeBold(context)!
+                                          .copyWith(
+                                              color: AppColor.appColor.error),
+                                    ),
+                                    const SizedBox(height: 4),
+                                    Text(
+                                      "- ${int.parse(state.tax ?? "0").currencyFormat(symbol: "Rp.")}",
+                                      style: AppFont.largeBold(context)!
+                                          .copyWith(
+                                              color: AppColor.appColor.error),
+                                    ),
+                                    const SizedBox(height: 4),
+                                    Text(
+                                      (state.invoice?.product?.totalPrice ==
+                                              null)
+                                          ? ""
+                                          : (state.invoice!.product!
+                                                      .totalPrice! -
+                                                  int.parse(state.fee ?? "0") -
+                                                  int.parse(state.tax ?? "0"))
+                                              .currencyFormat(symbol: "Rp."),
+                                      style: AppFont.largeBold(context)!
+                                          .copyWith(
+                                              color: AppColor.appColor.success),
+                                    ),
+                                  ],
                                 ),
                               ],
                             ),
@@ -271,7 +318,7 @@ class DetailTransactionProduct extends StatelessWidget {
                         ),
                       ),
                     ),
-                    SizedBox(height: 15),
+                    const SizedBox(height: 15),
                   ],
                 ),
               ),

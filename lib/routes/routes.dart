@@ -1,3 +1,7 @@
+import 'dart:developer';
+
+import 'package:pos/engine/base/app.dart';
+import 'package:pos/engine/helpers/sessions.dart';
 import 'package:pos/modules/auth/create_new_database/cubit/create_new_database_cubit.dart';
 import 'package:pos/modules/auth/create_new_database/view/create_new_database.dart';
 import 'package:pos/modules/auth/locked_account/cubit/locked_account_cubit.dart';
@@ -39,6 +43,7 @@ part 'route_names.dart';
 
 class Routes implements RouterInterface {
   static final route = GoRouter(
+    navigatorKey: MyApp.navigator,
     routes: <RouteBase>[
       GoRoute(
         name: RouteNames.root,

@@ -38,6 +38,14 @@
           }
         },
         {
+          "client_id": "205261320352-jh18d8tvcskdpdg7070pb6j8vp7387o7.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.garapinpos.app",
+            "certificate_hash": "e67996fadda4873857aa7146f5d4b2e717249a5b"
+          }
+        },
+        {
           "client_id": "205261320352-lovtkmlqblj4e7ksuh8u7ubanbm9j97i.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
@@ -51,6 +59,14 @@
           "android_info": {
             "package_name": "com.garapinpos.app",
             "certificate_hash": "19ce34485d0cba797e434aa115621a28ef1408b2"
+          }
+        },
+        {
+          "client_id": "205261320352-n0fu49jd9jhl4k0p24c0ss97c94rlr6f.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.garapinpos.app",
+            "certificate_hash": "47ee9cd89a422432e01404acb6690dfb281f90b6"
           }
         },
         {
@@ -111,6 +127,14 @@
           "android_info": {
             "package_name": "com.raku.apps",
             "certificate_hash": "8e055d01ea237da650f3081608fe125f8f6d437f"
+          }
+        },
+        {
+          "client_id": "205261320352-v9gicq201j6nmkhn0g3a2t7dok52913o.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.raku.apps",
+            "certificate_hash": "47ee9cd89a422432e01404acb6690dfb281f90b6"
           }
         },
         {

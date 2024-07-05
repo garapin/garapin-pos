@@ -58,21 +58,21 @@ class ApiService {
       brand = webBrowserInfo.browserName.name;
     } else if (Platform.isIOS) {
       IosDeviceInfo iosInfo = await deviceInfo.iosInfo;
-      deviceId = iosInfo.identifierForVendor ?? '${iosInfo.systemName}';
+      deviceId = iosInfo.identifierForVendor ?? iosInfo.systemName;
       brand = 'iOS - ${iosInfo.model}';
 
-      log('${iosInfo.name}');
-      log('${iosInfo.systemName}');
-      log('${iosInfo.systemVersion}');
-      log('${iosInfo.model}');
-      log('${iosInfo.localizedModel}');
+      log(iosInfo.name);
+      log(iosInfo.systemName);
+      log(iosInfo.systemVersion);
+      log(iosInfo.model);
+      log(iosInfo.localizedModel);
       log('${iosInfo.identifierForVendor}');
       log('${iosInfo.isPhysicalDevice}');
-      log('${iosInfo.utsname.sysname}');
-      log('${iosInfo.utsname.nodename}');
-      log('${iosInfo.utsname.release}');
-      log('${iosInfo.utsname.version}');
-      log('${iosInfo.utsname.machine}');
+      log(iosInfo.utsname.sysname);
+      log(iosInfo.utsname.nodename);
+      log(iosInfo.utsname.release);
+      log(iosInfo.utsname.version);
+      log(iosInfo.utsname.machine);
     } else {
       AndroidDeviceInfo androidInfo = await deviceInfo.androidInfo;
       deviceId = androidInfo.id;
@@ -110,9 +110,9 @@ class ApiService {
 
   static Future<ApiResponse<UserDatabase>> signinWithGoogle(
       BuildContext context,
-      {required String email}) async {
+      {required String firebaseToken}) async {
     return await ApiConfigure(context)
-        .post('auth/signin_with_google', params: {"email": email})
+        .post('auth/signin_with_google', params: {"token": firebaseToken})
         .then((result) => ApiResponse<UserDatabase>.fromJson(result.data))
         .handler((error) => ApiResponse<UserDatabase>.onError(error));
   }

@@ -72,8 +72,8 @@ class MyApp extends StatelessWidget {
                           baseHeight = MediaQuery.of(context).size.height;
                           baseWidth = MediaQuery.of(context).size.width;
                           return MediaQuery(
-                            data: MediaQuery.of(context)
-                                .copyWith(textScaler: TextScaler.linear(1.0)),
+                            data: MediaQuery.of(context).copyWith(
+                                textScaler: const TextScaler.linear(1.0)),
                             child: child ?? Container(),
                           );
                         }
@@ -94,7 +94,7 @@ class MyApp extends StatelessWidget {
                       value: style,
                       child: MediaQuery(
                         data: MediaQuery.of(context)
-                            .copyWith(textScaler: TextScaler.linear(1.0)),
+                            .copyWith(textScaler: const TextScaler.linear(1.0)),
                         child: child ?? Container(),
                       ),
                     );

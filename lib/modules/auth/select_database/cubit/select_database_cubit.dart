@@ -14,13 +14,13 @@ part 'select_database_cubit.freezed.dart';
 
 class SelectDatabaseCubit extends BaseCubit<SelectDatabaseState> {
   SelectDatabaseCubit(BuildContext context)
-      : super(context, SelectDatabaseState());
+      : super(context, const SelectDatabaseState());
 
   @override
   Future<void> initData() async {
     loadingState();
     final data = await ApiService.signinWithGoogle(context,
-        email: Sessions.getUserModel()!.email!);
+        firebaseToken: Sessions.getToken()!);
     if (data.isSuccess) {
       if (data.data!.database!.isNotEmpty) {
         String firstSelected = data.data?.database?.first.dbName ?? "";

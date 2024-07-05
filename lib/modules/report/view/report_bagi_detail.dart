@@ -10,6 +10,8 @@ import 'package:pos/modules/report/cubit/report_detail_cubit.dart';
 import 'package:pos/widgets/widgets.dart';
 import '../../../../../../engine/base/app.dart';
 import '../../../../../../themes/themes.dart';
+import '../export/view/pdf_invoice_widget.dart';
+import '../export/view/pdf_widget.dart';
 
 class ReportBagiDretail extends StatelessWidget {
   const ReportBagiDretail({
@@ -212,7 +214,14 @@ class ReportBagiDretail extends StatelessWidget {
                                                                         ?.totalPrice ==
                                                                     null)
                                                                 ? ""
-                                                                : "${(item!.flatAmount! - (int.parse(state.fee ?? "0") + int.parse(state.tax ?? "0"))).currencyFormat(symbol: "Rp.")}",
+                                                                : (item!.flatAmount! -
+                                                                        (int.parse(state.fee ??
+                                                                                "0") +
+                                                                            int.parse(state.tax ??
+                                                                                "0")))
+                                                                    .currencyFormat(
+                                                                        symbol:
+                                                                            "Rp."),
                                                             style: AppFont
                                                                     .medium(
                                                                         context)!
@@ -314,7 +323,14 @@ class ReportBagiDretail extends StatelessWidget {
                                                                     ?.totalPrice ==
                                                                 null)
                                                             ? ""
-                                                            : "${(item!.flatAmount! - (int.parse(state.fee ?? "0") + int.parse(state.tax ?? "0"))).currencyFormat(symbol: "Rp.")}",
+                                                            : (item!.flatAmount! -
+                                                                    (int.parse(state.fee ??
+                                                                            "0") +
+                                                                        int.parse(state.tax ??
+                                                                            "0")))
+                                                                .currencyFormat(
+                                                                    symbol:
+                                                                        "Rp."),
                                                         style: AppFont.medium(
                                                                 context)!
                                                             .copyWith(
@@ -367,9 +383,9 @@ class ReportBagiDretail extends StatelessWidget {
                         const SizedBox(height: 15),
                         (state.invoice?.feeGarapin == null ||
                                 state.invoice?.feeGarapin == 0)
-                            ? SizedBox()
+                            ? const SizedBox()
                             : (state.store?.store?.merChantRole == "SUPP")
-                                ? SizedBox()
+                                ? const SizedBox()
                                 : Row(
                                     mainAxisAlignment:
                                         MainAxisAlignment.spaceBetween,
@@ -412,9 +428,9 @@ class ReportBagiDretail extends StatelessWidget {
                         const SizedBox(height: 15),
                         (state.invoice?.feeGarapin == null ||
                                 state.invoice?.feeGarapin == 0)
-                            ? SizedBox()
+                            ? const SizedBox()
                             : (state.store?.store?.merChantRole == "SUPP")
-                                ? SizedBox()
+                                ? const SizedBox()
                                 : const Divider(thickness: 2),
                         const SizedBox(height: 15),
                         Align(
@@ -661,69 +677,128 @@ class ReportBagiDretail extends StatelessWidget {
                                 child: Align(
                                   alignment: Alignment.centerRight,
                                   child: Row(
-                                    crossAxisAlignment: CrossAxisAlignment.end,
-                                    mainAxisAlignment: MainAxisAlignment.end,
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
                                     children: [
-                                      Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.end,
-                                        children: [
-                                          Text(
-                                            "Fee Bank",
-                                            style: AppFont.largeBold(context)!
-                                                .copyWith(
-                                                    color: AppColor
-                                                        .appColor.error),
+                                      ElevatedButton(
+                                        style: ElevatedButton.styleFrom(
+                                          backgroundColor:
+                                              AppColor.appColor.primary,
+                                          foregroundColor: Colors.white,
+                                        ),
+                                        onPressed: () async {
+                                          final pdfFile =
+                                              await PdfInvoiceWidget.generate(
+                                            reportDetail: state,
+                                          );
+                                          if (pdfFile != null) {
+                                            await PdfWidget.openFile(pdfFile);
+
+                                            await Future.delayed(
+                                                const Duration(seconds: 5));
+
+                                            if (pdfFile.existsSync()) {
+                                              await pdfFile.delete();
+                                            }
+                                          }
+                                        },
+                                        child: Text(
+                                          "Export PDF",
+                                          style: AppFont.largeBold(context)!
+                                              .copyWith(
+                                            color: Colors.white,
                                           ),
-                                          const SizedBox(height: 4),
-                                          Text(
-                                            "Tax",
-                                            style: AppFont.largeBold(context)!
-                                                .copyWith(
-                                                    color: AppColor
-                                                        .appColor.error),
-                                          ),
-                                          const SizedBox(height: 4),
-                                          Text(
-                                            "Total",
-                                            style: AppFont.largeBold(context)!
-                                                .copyWith(
-                                                    color: AppColor
-                                                        .appColor.success),
-                                          ),
-                                        ],
+                                        ),
                                       ),
-                                      const SizedBox(width: 12),
-                                      Column(
+                                      Row(
                                         crossAxisAlignment:
                                             CrossAxisAlignment.end,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.end,
                                         children: [
-                                          Text(
-                                            "- ${int.parse(state.fee ?? "0").toString().currencyDot(symbol: "Rp.")}",
-                                            style: AppFont.largeBold(context)!
-                                                .copyWith(
-                                                    color: AppColor
-                                                        .appColor.error),
+                                          Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.end,
+                                            children: [
+                                              Text(
+                                                "Fee Bank",
+                                                style:
+                                                    AppFont.largeBold(context)!
+                                                        .copyWith(
+                                                            color: AppColor
+                                                                .appColor
+                                                                .error),
+                                              ),
+                                              const SizedBox(height: 4),
+                                              Text(
+                                                "Tax",
+                                                style:
+                                                    AppFont.largeBold(context)!
+                                                        .copyWith(
+                                                            color: AppColor
+                                                                .appColor
+                                                                .error),
+                                              ),
+                                              const SizedBox(height: 4),
+                                              Text(
+                                                "Total",
+                                                style:
+                                                    AppFont.largeBold(context)!
+                                                        .copyWith(
+                                                            color: AppColor
+                                                                .appColor
+                                                                .success),
+                                              ),
+                                            ],
                                           ),
-                                          const SizedBox(height: 4),
-                                          Text(
-                                            "- ${int.parse(state.tax ?? "0").currencyFormat(symbol: "Rp.")}",
-                                            style: AppFont.largeBold(context)!
-                                                .copyWith(
-                                                    color: AppColor
-                                                        .appColor.error),
-                                          ),
-                                          const SizedBox(height: 4),
-                                          Text(
-                                            (state.invoice?.product
-                                                        ?.totalPrice ==
-                                                    null)
-                                                ? ""
-                                                : "${(state.invoice!.product!.totalPrice! - int.parse(state.fee ?? "0") - int.parse(state.tax ?? "0")).currencyFormat(symbol: "Rp.")}",
-                                            style: AppFont.largeBold(context)!
-                                                .copyWith(
-                                                    color: AppColor
-                                                        .appColor.success),
+                                          const SizedBox(width: 12),
+                                          Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.end,
+                                            children: [
+                                              Text(
+                                                "- ${int.parse(state.fee ?? "0").toString().currencyDot(symbol: "Rp.")}",
+                                                style:
+                                                    AppFont.largeBold(context)!
+                                                        .copyWith(
+                                                            color: AppColor
+                                                                .appColor
+                                                                .error),
+                                              ),
+                                              const SizedBox(height: 4),
+                                              Text(
+                                                "- ${int.parse(state.tax ?? "0").currencyFormat(symbol: "Rp.")}",
+                                                style:
+                                                    AppFont.largeBold(context)!
+                                                        .copyWith(
+                                                            color: AppColor
+                                                                .appColor
+                                                                .error),
+                                              ),
+                                              const SizedBox(height: 4),
+                                              Text(
+                                                (state.invoice?.product
+                                                            ?.totalPrice ==
+                                                        null)
+                                                    ? ""
+                                                    : (state.invoice!.product!
+                                                                .totalPrice! -
+                                                            int.parse(
+                                                                state.fee ??
+                                                                    "0") -
+                                                            int.parse(
+                                                                state.tax ??
+                                                                    "0"))
+                                                        .currencyFormat(
+                                                            symbol: "Rp."),
+                                                style:
+                                                    AppFont.largeBold(context)!
+                                                        .copyWith(
+                                                            color: AppColor
+                                                                .appColor
+                                                                .success),
+                                              ),
+                                            ],
                                           ),
                                         ],
                                       ),
