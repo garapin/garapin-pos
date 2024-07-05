@@ -789,11 +789,10 @@ class ApiService {
 
   static Future<ApiResponseList<FilterStoreTransaction>> filterReport(
     BuildContext context, {
-    required String role,
     required String bussinessPartnerDB,
   }) async {
     return await ApiConfigure(context)
-        .post('/store/transaction/history/filter/$role',
+        .post('/store/transaction/history/filter/TRX',
             params: {"bs_database": bussinessPartnerDB})
         .then((result) =>
             ApiResponseList<FilterStoreTransaction>.fromJson(result.data))

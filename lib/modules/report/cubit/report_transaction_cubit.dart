@@ -30,11 +30,9 @@ class ReportTransactionCubit extends BaseCubit<ReportTransactionState> {
     var store = storeInfo.data!.store;
     if (store!.storeType == "BUSSINESS_PARTNER") {
       filter = await ApiService.filterReport(context,
-          role: "TRX",
           bussinessPartnerDB: Sessions.getDatabaseModel()!.name!);
     } else if (store.storeType == "MERCHANT" && store.merChantRole == "SUPP") {
       filter = await ApiService.filterReport(context,
-          role: "SUPP",
           bussinessPartnerDB: store.dbParent!);
     } else {
       emit(state.copyWith(targetDatabase: Sessions.getDatabaseModel()!.name));
