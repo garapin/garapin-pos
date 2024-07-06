@@ -16,7 +16,7 @@ part 'login_state.dart';
 part 'login_cubit.freezed.dart';
 
 class LoginCubit extends BaseCubit<LoginState> {
-  LoginCubit(BuildContext context) : super(context, LoginState());
+  LoginCubit(BuildContext context) : super(context, const LoginState());
 
   @override
   Future<void> initData() async {
@@ -37,16 +37,15 @@ class LoginCubit extends BaseCubit<LoginState> {
       if (isTest) {
         final data = await ApiService.signinWithGoogle(
           context,
-          email: "test.app@garapin.cloud",
+          firebaseToken: "test.app@garapin.cloud",
         );
         if (data.isSuccess) {
-          // final GoogleSignInAccount? s = await GoogleSignIn().signOut();
           Sessions.setToken(data.data!.user!.token!);
           Sessions.setUsers(jsonEncode(data.data!.user))
               .then((value) => context.pushNamed(RouteNames.selectDatababase));
         } else {
           showError("Email tidak terdaftar");
-          // final GoogleSignInAccount? s = await GoogleSignIn().signOut();
+          await GoogleSignIn().signOut();
         }
       } else {
         final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
@@ -58,33 +57,41 @@ class LoginCubit extends BaseCubit<LoginState> {
         final GoogleSignInAuthentication googleAuth =
             await googleUser.authentication;
 
+        final credential = GoogleAuthProvider.credential(
+          accessToken: googleAuth.accessToken,
+          idToken: googleAuth.idToken,
+        );
+
+        UserCredential userCredential =
+            await FirebaseAuth.instance.signInWithCredential(credential);
+
+        String? firebaseToken = await userCredential.user?.getIdToken();
+
+        if (firebaseToken == null) {
+          showError("Email tidak terdaftar");
+          dismissLoading();
+          await GoogleSignIn().signOut();
+          return;
+        }
+
         final data = await ApiService.signinWithGoogle(
           context,
-          email: googleUser.email,
+          firebaseToken: firebaseToken,
         );
-        if (data.isSuccess) {
-          final credential = GoogleAuthProvider.credential(
-            accessToken: googleAuth.accessToken,
-            idToken: googleAuth.idToken,
-          );
-          await FirebaseAuth.instance.signInWithCredential(credential);
 
-          // final GoogleSignInAccount? s = await GoogleSignIn().signOut();
-          log("ini token");
-          log(data.data!.user!.token!);
-          Sessions.setToken(data.data!.user!.token!);
+        if (data.isSuccess) {
+          Sessions.setToken(firebaseToken);
           Sessions.setUsers(jsonEncode(data.data!.user))
               .then((value) => context.pushNamed(RouteNames.selectDatababase));
         } else {
           showError("Email tidak terdaftar");
-          // final GoogleSignInAccount? s = await GoogleSignIn().signOut();
+          await GoogleSignIn().signOut();
         }
       }
     } catch (e) {
-      // Handle exceptions
-      print('Exception->$e');
-      // showError("Gagal sign-in");
-      // final GoogleSignInAccount? s = await GoogleSignIn().signOut();
+      log('Exception->$e');
+      showError("Error during Google Sign-In: $e");
+      await GoogleSignIn().signOut();
     }
     dismissLoading();
   }

@@ -35,6 +35,19 @@ abstract class Sessions {
   static String? getDeviceBluethooth() =>
       box.read<String>(SessionKeys.bluetooth);
 
+  ///REMOVE
+  static Future<void> removeUser() async => await box.remove(SessionKeys.user);
+  static Future<void> removeIsLogin() async =>
+      await box.remove(SessionKeys.isLogin);
+  static Future<void> removeToken() async =>
+      await box.remove(SessionKeys.token);
+  static Future<void> removeDatabase() async =>
+      await box.remove(SessionKeys.database);
+  static Future<void> removeAccountHolder() async =>
+      await box.remove(SessionKeys.accountHolder);
+  static Future<void> removeDeviceBluethooth() async =>
+      await box.remove(SessionKeys.bluetooth);
+
   static User? getUserModel() {
     String? data = getUser();
     if (data != null) {
