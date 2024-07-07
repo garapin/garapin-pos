@@ -7,10 +7,10 @@ part 'client.dart';
 enum EnvironmentMode { test, dev, production }
 
 abstract class Environment {
-  static EnvironmentMode mode = EnvironmentMode.dev;
+  static EnvironmentMode mode = EnvironmentMode.test;
   static String uri = 'Mobile Apps';
 
-  static bool isDev = mode == EnvironmentMode.dev;
+  static bool isDev = mode == EnvironmentMode.test;
 
   static String baseAPIUrl() => baseUrl();
 
