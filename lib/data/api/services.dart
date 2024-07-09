@@ -801,15 +801,15 @@ class ApiService {
   }
 
   static Future<ApiResponseList<FilterStoreTransaction>> filterReportBagiBagi(
-      BuildContext context, {
-        required String role,
-        required String bussinessPartnerDB,
-      }) async {
+    BuildContext context, {
+    required String role,
+    required String bussinessPartnerDB,
+  }) async {
     return await ApiConfigure(context)
         .post('/store/bagibagi/history/merchant',
-        params: {"bs_database": bussinessPartnerDB})
+            params: {"bs_database": bussinessPartnerDB})
         .then((result) =>
-    ApiResponseList<FilterStoreTransaction>.fromJson(result.data))
+            ApiResponseList<FilterStoreTransaction>.fromJson(result.data))
         .handler(
             (error) => ApiResponseList<FilterStoreTransaction>.onError(error));
   }

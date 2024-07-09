@@ -80,7 +80,10 @@ class LoginCubit extends BaseCubit<LoginState> {
         );
 
         if (data.isSuccess) {
-          Sessions.setToken(firebaseToken);
+          log("ini token");
+          log(data.data!.user!.token!);
+          Sessions.setToken(data.data!.user!.token!);
+          Sessions.setFirebaseToken(firebaseToken);
           Sessions.setUsers(jsonEncode(data.data!.user))
               .then((value) => context.pushNamed(RouteNames.selectDatababase));
         } else {

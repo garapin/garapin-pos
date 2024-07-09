@@ -7,6 +7,7 @@ abstract class APIResult {
 abstract class SessionKeys {
   static const String user = 'userData';
   static const String token = 'token';
+  static const String firebaseToken = 'firebase_token';
   static const String isLogin = 'islogin';
   static const String database = 'database';
   static const String accountHolder = 'account_holder';
