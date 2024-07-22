@@ -5,6 +5,7 @@ class DashboardState with _$DashboardState {
   const factory DashboardState({
     @Default(DataStateStatus.initial) DataStateStatus status,
     Store? store,
+    AmountPendingTransaction? amountPendingTransaction,
     @Default(3) int index,
     @Default(ProfilePage()) Widget widget,
     @Default(false) showCreateProduct,
