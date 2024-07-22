@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pos/data/api/services.dart';
+import 'package:pos/data/models/base/amount_pending_transaction.dart';
 import 'package:pos/data/models/base/available_payment.dart';
 import 'package:pos/data/models/base/qrcode.dart';
 import 'package:pos/data/models/base/user.dart';
@@ -35,9 +36,27 @@ class DashboardCubit extends BaseCubit<DashboardState> {
   Future<void> initData() async {
     loadingState();
     getStore();
+    getAmountPendingTransaction();
     context.read<ProfileCubit>().initData();
     emit(state.copyWith(status: DataStateStatus.success, widget: page[3]));
     finishRefresh(state.status);
+  }
+
+  getAmountPendingTransaction() async {
+    Timer.periodic(const Duration(minutes: 2), (timer) async {
+      final data = await ApiService.getAmountPending(
+        context,
+      );
+      if (data.isSuccess) {
+        if (data.data!.amount! > 0) {
+          Sessions.setPayedQuickRelease(false);
+        } else {
+          Sessions.setPayedQuickRelease(true);
+        }
+
+        emit(state.copyWith(amountPendingTransaction: data.data));
+      }
+    });
   }
 
   getStore() async {
