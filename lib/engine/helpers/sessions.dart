@@ -26,6 +26,8 @@ abstract class Sessions {
       box.write(SessionKeys.accountHolder, accountHolder);
   static Future setDeviceBluethooth(String deviceBluethooth) async =>
       box.write(SessionKeys.bluetooth, deviceBluethooth);
+  static Future setPayedQuickRelease(bool isPayed) async =>
+      box.write(SessionKeys.isPayedQuickRelease, isPayed);
 
   ///GET
   static String? getUser() => box.read<String>(SessionKeys.user);
@@ -38,6 +40,8 @@ abstract class Sessions {
       box.read<String>(SessionKeys.accountHolder);
   static String? getDeviceBluethooth() =>
       box.read<String>(SessionKeys.bluetooth);
+  static bool? getIsPayedQuickRelease() =>
+      box.read<bool>(SessionKeys.isPayedQuickRelease);
 
   ///REMOVE
   static Future<void> removeUser() async => await box.remove(SessionKeys.user);
@@ -45,14 +49,16 @@ abstract class Sessions {
       await box.remove(SessionKeys.isLogin);
   static Future<void> removeToken() async =>
       await box.remove(SessionKeys.token);
-  static Future<void> removeFirebaseToken() async =>
-      await box.remove(SessionKeys.firebaseToken);
   static Future<void> removeDatabase() async =>
       await box.remove(SessionKeys.database);
   static Future<void> removeAccountHolder() async =>
       await box.remove(SessionKeys.accountHolder);
   static Future<void> removeDeviceBluethooth() async =>
       await box.remove(SessionKeys.bluetooth);
+  static Future<void> removeIsPayedQuickRelease() async =>
+      await box.remove(SessionKeys.isPayedQuickRelease);
+  static Future<void> removeFirebaseToken() async =>
+      await box.remove(SessionKeys.firebaseToken);
 
   static User? getUserModel() {
     String? data = getUser();

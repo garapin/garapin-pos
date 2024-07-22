@@ -380,6 +380,7 @@ class ApiService {
     required int amount,
     required String payerEmail,
     required String targetDatabase,
+    required bool isQuickRelease,
   }) async {
     return await ApiConfigure(context)
         .post(
@@ -388,6 +389,7 @@ class ApiService {
             "target_database": targetDatabase,
             "amount": amount,
             "payer_email": payerEmail,
+            "is_quick_release": isQuickRelease,
           },
         )
         .then((result) => ApiResponse<Invoices>.fromJson(result.data))
@@ -431,12 +433,14 @@ class ApiService {
     required String targetDatabase,
     required String invoices,
     required int amount,
+    required bool isQuickRelease,
   }) async {
     return await ApiConfigure(context)
         .post('store/transaction/create-qrcode-topup', params: {
           "target_database": targetDatabase,
           "reference_id": invoices,
           "amount": amount,
+          "is_quick_release": isQuickRelease
         })
         .then((result) => ApiResponse<QrCode>.fromJson(result.data))
         .handler((error) => ApiResponse<QrCode>.onError(error));
@@ -457,11 +461,13 @@ class ApiService {
     BuildContext context, {
     required String invoice,
     required String bankCode,
+    required bool isQuickRelease,
   }) async {
     return await ApiConfigure(context)
         .post('store/transaction/create-va-topup', params: {
           "external_id": invoice,
           "bank_code": bankCode,
+          "is_quick_release": isQuickRelease
         })
         .then((result) => ApiResponse<VirtualAccount>.fromJson(result.data))
         .handler((error) => ApiResponse<VirtualAccount>.onError(error));

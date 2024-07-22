@@ -18,6 +18,8 @@ final _privateConstructorUsedError = UnsupportedError(
 mixin _$DashboardState {
   DataStateStatus get status => throw _privateConstructorUsedError;
   Store? get store => throw _privateConstructorUsedError;
+  AmountPendingTransaction? get amountPendingTransaction =>
+      throw _privateConstructorUsedError;
   int get index => throw _privateConstructorUsedError;
   Widget get widget => throw _privateConstructorUsedError;
   dynamic get showCreateProduct => throw _privateConstructorUsedError;
@@ -37,6 +39,7 @@ abstract class $DashboardStateCopyWith<$Res> {
   $Res call(
       {DataStateStatus status,
       Store? store,
+      AmountPendingTransaction? amountPendingTransaction,
       int index,
       Widget widget,
       dynamic showCreateProduct,
@@ -58,6 +61,7 @@ class _$DashboardStateCopyWithImpl<$Res, $Val extends DashboardState>
   $Res call({
     Object? status = null,
     Object? store = freezed,
+    Object? amountPendingTransaction = freezed,
     Object? index = null,
     Object? widget = null,
     Object? showCreateProduct = freezed,
@@ -72,6 +76,10 @@ class _$DashboardStateCopyWithImpl<$Res, $Val extends DashboardState>
           ? _value.store
           : store // ignore: cast_nullable_to_non_nullable
               as Store?,
+      amountPendingTransaction: freezed == amountPendingTransaction
+          ? _value.amountPendingTransaction
+          : amountPendingTransaction // ignore: cast_nullable_to_non_nullable
+              as AmountPendingTransaction?,
       index: null == index
           ? _value.index
           : index // ignore: cast_nullable_to_non_nullable
@@ -103,6 +111,7 @@ abstract class _$$DashboardStateImplCopyWith<$Res>
   $Res call(
       {DataStateStatus status,
       Store? store,
+      AmountPendingTransaction? amountPendingTransaction,
       int index,
       Widget widget,
       dynamic showCreateProduct,
@@ -122,6 +131,7 @@ class __$$DashboardStateImplCopyWithImpl<$Res>
   $Res call({
     Object? status = null,
     Object? store = freezed,
+    Object? amountPendingTransaction = freezed,
     Object? index = null,
     Object? widget = null,
     Object? showCreateProduct = freezed,
@@ -136,6 +146,10 @@ class __$$DashboardStateImplCopyWithImpl<$Res>
           ? _value.store
           : store // ignore: cast_nullable_to_non_nullable
               as Store?,
+      amountPendingTransaction: freezed == amountPendingTransaction
+          ? _value.amountPendingTransaction
+          : amountPendingTransaction // ignore: cast_nullable_to_non_nullable
+              as AmountPendingTransaction?,
       index: null == index
           ? _value.index
           : index // ignore: cast_nullable_to_non_nullable
@@ -161,6 +175,7 @@ class _$DashboardStateImpl implements _DashboardState {
   const _$DashboardStateImpl(
       {this.status = DataStateStatus.initial,
       this.store,
+      this.amountPendingTransaction,
       this.index = 3,
       this.widget = const ProfilePage(),
       this.showCreateProduct = false,
@@ -171,6 +186,8 @@ class _$DashboardStateImpl implements _DashboardState {
   final DataStateStatus status;
   @override
   final Store? store;
+  @override
+  final AmountPendingTransaction? amountPendingTransaction;
   @override
   @JsonKey()
   final int index;
@@ -185,7 +202,7 @@ class _$DashboardStateImpl implements _DashboardState {
 
   @override
   String toString() {
-    return 'DashboardState(status: $status, store: $store, index: $index, widget: $widget, showCreateProduct: $showCreateProduct, user: $user)';
+    return 'DashboardState(status: $status, store: $store, amountPendingTransaction: $amountPendingTransaction, index: $index, widget: $widget, showCreateProduct: $showCreateProduct, user: $user)';
   }
 
   @override
@@ -195,6 +212,9 @@ class _$DashboardStateImpl implements _DashboardState {
             other is _$DashboardStateImpl &&
             (identical(other.status, status) || other.status == status) &&
             (identical(other.store, store) || other.store == store) &&
+            (identical(
+                    other.amountPendingTransaction, amountPendingTransaction) ||
+                other.amountPendingTransaction == amountPendingTransaction) &&
             (identical(other.index, index) || other.index == index) &&
             (identical(other.widget, widget) || other.widget == widget) &&
             const DeepCollectionEquality()
@@ -203,8 +223,15 @@ class _$DashboardStateImpl implements _DashboardState {
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, status, store, index, widget,
-      const DeepCollectionEquality().hash(showCreateProduct), user);
+  int get hashCode => Object.hash(
+      runtimeType,
+      status,
+      store,
+      amountPendingTransaction,
+      index,
+      widget,
+      const DeepCollectionEquality().hash(showCreateProduct),
+      user);
 
   @JsonKey(ignore: true)
   @override
@@ -218,6 +245,7 @@ abstract class _DashboardState implements DashboardState {
   const factory _DashboardState(
       {final DataStateStatus status,
       final Store? store,
+      final AmountPendingTransaction? amountPendingTransaction,
       final int index,
       final Widget widget,
       final dynamic showCreateProduct,
@@ -227,6 +255,8 @@ abstract class _DashboardState implements DashboardState {
   DataStateStatus get status;
   @override
   Store? get store;
+  @override
+  AmountPendingTransaction? get amountPendingTransaction;
   @override
   int get index;
   @override

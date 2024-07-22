@@ -12,4 +12,5 @@ abstract class SessionKeys {
   static const String database = 'database';
   static const String accountHolder = 'account_holder';
   static const String bluetooth = "bluethooth";
+  static const String isPayedQuickRelease = "isPayedQuickRelease";
 }

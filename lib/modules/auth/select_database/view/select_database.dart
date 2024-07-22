@@ -140,6 +140,8 @@ class SelectDatabasePage extends StatelessWidget {
                                         .where((e) =>
                                             e.dbName == state.selectedDatabase)
                                         .first;
+                                    print("INI SELECTED DB");
+                                    print(selectedDB.toJson());
                                     if (selectedDB.storesData?.storeStatus ==
                                         "PENDING_ACTIVE") {
                                       ShowNotify.success(

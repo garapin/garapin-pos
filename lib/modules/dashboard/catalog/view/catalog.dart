@@ -1,24 +1,26 @@
-import 'dart:developer';
-
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/widgets.dart';
 import 'package:go_router/go_router.dart';
+import 'package:pos/data/models/base/database.dart';
 import 'package:pos/data/models/base/product.dart';
+import 'package:pos/data/models/base/user.dart';
 import 'package:pos/engine/engine.dart';
-import 'package:pos/modules/cart/view/modal_add_to_cart.dart';
+import 'package:pos/modules/auth/locked_account/cubit/locked_account_cubit.dart';
+import 'package:pos/modules/auth/locked_account/cubit/locked_account_state.dart';
+import 'package:pos/modules/auth/locked_account/view/locked_account_page.dart';
+import 'package:pos/modules/checkout/cubit/checkout_cubit.dart';
 import 'package:pos/modules/dashboard/catalog/cubit/catalog_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pos/modules/dashboard/cubit/dashboard_cubit.dart';
 import 'package:pos/modules/dashboard/profile/cubit/profile_cubit.dart';
-import 'package:pos/modules/history_transaction/cubit/history_transaction_cubit.dart';
 import 'package:pos/routes/routes.dart';
 import 'package:pos/themes/themes.dart';
 import 'package:pos/widgets/components/empty_widget_image.dart';
 import '../../../../widgets/widgets.dart';
 import '../../../cart/cubit/cart_cubit.dart';
 import '../../../cart/view/order_detail_view.dart';
+import 'package:pos/data/models/base/user.dart' as userBase;
+
 
 class CatalogPage extends StatelessWidget {
   const CatalogPage({super.key, this.modeCatalog});
@@ -28,223 +30,336 @@ class CatalogPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final cubit = context.read<CatalogCubit>();
     cubit.setMode(modeCatalog ?? ModeCatalog.cashier);
-    return Row(
+    return Column(
       children: [
-        Expanded(
-          flex: 2,
-          child: Column(children: [
-            Container(
-              decoration: BoxDecoration(border: Border.all(color: Colors.grey)),
-              height: 78,
-              width: baseWidth * 0.91,
-              child: Row(
-                children: [
-                  const SizedBox(width: 12),
-                  SizedBox(
-                    width: 350,
-                    height: 50,
-                    child: TextFormField(
-                      controller: cubit.searchController,
-                      onChanged: (value) {
-                        cubit.searchProduct(value);
-                      },
-                      decoration: InputDecoration(
-                          suffixIcon: InkWell(
-                            onTap: () {
-                              cubit.searchController.clear();
-                              cubit.searchProduct("");
-                            },
-                            child: const Icon(
-                              Icons.close,
-                              size: 16,
-                            ),
-                          ),
-                          hintText: "Cari Barang kode product | Nama",
-                          border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(12))),
+        BlocBuilder<DashboardCubit, DashboardState>(
+          builder: (context, state) {
+            if (state.amountPendingTransaction != null &&
+                state.amountPendingTransaction!.amount != 0) {
+              return InkWell(
+                onTap: () {
+                  print("QUICK RELEASE");
+
+                  bool? isPayed = Sessions.getIsPayedQuickRelease();
+
+                  if (isPayed!) {
+                    print(isPayed);
+                    ShowNotify.success(context, msg: 'Transaksi sedang diproses');
+                    return;
+                  }
+
+                  userBase.User? user = Sessions.getUserModel();
+                  Database? database = Sessions.getDatabaseModel();
+                  showDialog(
+                    context: context,
+                    barrierDismissible: true,
+                    builder: (context) {
+                      return BlocProvider(
+                        create: (context) => LockedAccountCubit(context),
+                        child: BlocBuilder<LockedAccountCubit, LockedAccountState>(
+                          builder: (context, stateLck) {
+                            return AlertDialog(
+                              title: const Text(
+                                "Informasi",
+                                style: TextStyle(
+                                  fontWeight: FontWeight.w700,
+                                ),
+                              ),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(16),
+                              ),
+                              actions: [
+                                stateLck.paymentStatus == PaymentStatus.pending
+                                    ? TextButton(
+                                  onPressed: () async {
+                                    if (stateLck.invoices != null) {
+                                      context
+                                          .read<LockedAccountCubit>()
+                                          .cancelCheckout(
+                                        stateLck.invoices!.invoice!,
+                                      );
+                                    }
+                                    Sessions.setPayedQuickRelease(false);
+                                    context.pop();
+                                  },
+                                  child: const Text(
+                                    "Batalkan",
+                                  ),
+                                )
+                                    : Container(),
+                              ],
+                              content: SizedBox(
+                                width: 500,
+                                child: LockedAccountPage(
+                                  fromDashboard: true,
+                                  user: user!,
+                                  selectedDB: database!.name!,
+                                  isQuickRelease: true,
+                                ),
+                              ),
+                            );
+                          },
+                        ),
+                      );
+                    },
+                  );
+                },
+                child: Container(
+                  color: Colors.amber,
+                  width: baseWidth,
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text(
+                      "Harap melunasi tagihan sebesar ${state.amountPendingTransaction!.amount.currencyFormat(symbol: 'Rp.').toString()}, sebelum jam 23.30 WIB, sebelum akun anda tidak dapat digunakan. Terima kasih.",
                     ),
                   ),
-                  const SizedBox(width: 24),
-                  Container(
-                    height: 78,
-                    width: 1,
-                    color: Colors.grey,
-                  ),
-                  Expanded(
-                    child: BlocBuilder<CatalogCubit, CatalogState>(
-                      builder: (context, state) {
-                        return ContainerStateHandler(
-                          status: DataStateStatus.success,
-                          loading: const SizedBox(),
-                          emptyOptions: EmptyOptions(
-                            customEmpty: CategoryWidget(cubit: cubit),
-                          ),
-                          child: CategoryWidget(cubit: cubit),
-                        );
-                      },
-                    ),
-                  )
-                ],
-              ),
-            ),
-            Expanded(child: Scaffold(body:
-                BlocBuilder<CatalogCubit, CatalogState>(
-                    builder: (context, state) {
-              return ContainerStateHandler(
-                refresherOptions: cubit.defaultRefresh,
-                status: state.status,
-                loading: const Center(
-                  child: CircularProgressIndicator(),
-                ),
-                emptyOptions: EmptyOptions(
-                    customEmpty: Column(
-                  children: [
-                    (state.modeCatalog == ModeCatalog.cashier)
-                        ? SizedBox()
-                        : Padding(
-                            padding: const EdgeInsets.all(12.0),
-                            child: Row(
-                              children: [
-                                SizedBox(
-                                  height: 40,
-                                  width: 200,
-                                  child: TextButton(
-                                      style: OutlinedButton.styleFrom(
-                                        backgroundColor:
-                                            AppColor.appColor.primary,
-                                        shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(40),
-                                          side: BorderSide(
-                                            width: 1.5,
-                                            color: AppColor.appColor.primary,
-                                          ),
-                                        ),
-                                      ),
-                                      onPressed: () {
-                                        context
-                                            .pushNamed(RouteNames.cretaeProduct)
-                                            .then(
-                                                (value) => cubit.refreshData());
-                                      },
-                                      child: Padding(
-                                        padding: const EdgeInsets.symmetric(
-                                            horizontal: 24, vertical: 0),
-                                        child: Text(
-                                          "Buat Produk",
-                                          style: AppFont.largeBold(context)!
-                                              .copyWith(color: Colors.white),
-                                        ),
-                                      )),
-                                ),
-                              ],
-                            ),
-                          ),
-                    (modeCatalog == ModeCatalog.edit)
-                        ? SizedBox()
-                        : SizedBox(height: 60),
-                    const EmptyImageData(
-                      text: "Produk Kosong",
-                    ),
-                  ],
-                )),
-                child: ListView(
-                  shrinkWrap: true,
-                  children: [
-                    (state.modeCatalog == ModeCatalog.cashier)
-                        ? const SizedBox(height: 0)
-                        : SizedBox(height: 12),
-                    (state.modeCatalog == ModeCatalog.cashier)
-                        ? SizedBox()
-                        : Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 12),
-                            child: Row(
-                              children: [
-                                SizedBox(
-                                  height: 40,
-                                  width: 200,
-                                  child: TextButton(
-                                      style: OutlinedButton.styleFrom(
-                                        backgroundColor:
-                                            AppColor.appColor.primary,
-                                        shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(40),
-                                          side: BorderSide(
-                                            width: 1.5,
-                                            color: AppColor.appColor.primary,
-                                          ),
-                                        ),
-                                      ),
-                                      onPressed: () {
-                                        context
-                                            .pushNamed(RouteNames.cretaeProduct)
-                                            .then(
-                                                (value) => cubit.refreshData());
-                                      },
-                                      child: Padding(
-                                        padding: const EdgeInsets.symmetric(
-                                            horizontal: 24, vertical: 0),
-                                        child: Text(
-                                          "Buat Produk",
-                                          style: AppFont.largeBold(context)!
-                                              .copyWith(color: Colors.white),
-                                        ),
-                                      )),
-                                ),
-                              ],
-                            ),
-                          ),
-                    Container(
-                      child: GridView.builder(
-                        shrinkWrap: true,
-                        physics: const NeverScrollableScrollPhysics(),
-                        padding: const EdgeInsets.all(12),
-                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                            crossAxisCount:
-                                MediaQuery.of(context).size.width ~/ 259,
-                            crossAxisSpacing: 8,
-                            mainAxisSpacing: 20,
-                            childAspectRatio: 200 / 272),
-                        itemBuilder: (BuildContext context, int index) {
-                          var product = state.product[index];
-                          return InkWell(
-                            onTap: () {
-                              if (state.modeCatalog == ModeCatalog.edit) {
-                                context
-                                    .pushNamed(RouteNames.editProduct,
-                                        extra: product.id)
-                                    .then((value) => cubit.refreshData());
-                              } else {
-                                cubit
-                                    .addToCart(
-                                        idProduct: product.id!, quantity: 1)
-                                    .then((value) => context
-                                        .read<CartCubit>()
-                                        .refreshData());
-                              }
-                            },
-                            child: (product.image == "")
-                                ? catalogWithIcon(
-                                    state, context, product, cubit)
-                                : catalogWithImage(
-                                    state, context, product, cubit),
-                          );
-                        },
-                        itemCount:
-                            state.product.length, // Jumlah total item produk
-                      ),
-                    ),
-                  ],
                 ),
               );
-            })))
-          ]),
+            }
+
+            return Container();
+          },
         ),
-        const Expanded(
-          flex: 1,
-          child: OrderDetailView(),
-        )
+        Expanded(
+          child: Row(
+            children: [
+              Expanded(
+                flex: 2,
+                child: Column(children: [
+                  Container(
+                    decoration:
+                        BoxDecoration(border: Border.all(color: Colors.grey)),
+                    height: 78,
+                    width: baseWidth * 0.91,
+                    child: Row(
+                      children: [
+                        const SizedBox(width: 12),
+                        SizedBox(
+                          width: 350,
+                          height: 50,
+                          child: TextFormField(
+                            controller: cubit.searchController,
+                            onChanged: (value) {
+                              cubit.searchProduct(value);
+                            },
+                            decoration: InputDecoration(
+                                suffixIcon: InkWell(
+                                  onTap: () {
+                                    cubit.searchController.clear();
+                                    cubit.searchProduct("");
+                                  },
+                                  child: const Icon(
+                                    Icons.close,
+                                    size: 16,
+                                  ),
+                                ),
+                                hintText: "Cari Barang kode product | Nama",
+                                border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(12))),
+                          ),
+                        ),
+                        const SizedBox(width: 24),
+                        Container(
+                          height: 78,
+                          width: 1,
+                          color: Colors.grey,
+                        ),
+                        Expanded(
+                          child: BlocBuilder<CatalogCubit, CatalogState>(
+                            builder: (context, state) {
+                              return ContainerStateHandler(
+                                status: DataStateStatus.success,
+                                loading: const SizedBox(),
+                                emptyOptions: EmptyOptions(
+                                  customEmpty: CategoryWidget(cubit: cubit),
+                                ),
+                                child: CategoryWidget(cubit: cubit),
+                              );
+                            },
+                          ),
+                        )
+                      ],
+                    ),
+                  ),
+                  Expanded(child: Scaffold(body:
+                      BlocBuilder<CatalogCubit, CatalogState>(
+                          builder: (context, state) {
+                    return ContainerStateHandler(
+                      refresherOptions: cubit.defaultRefresh,
+                      status: state.status,
+                      loading: const Center(
+                        child: CircularProgressIndicator(),
+                      ),
+                      emptyOptions: EmptyOptions(
+                          customEmpty: Column(
+                        children: [
+                          (state.modeCatalog == ModeCatalog.cashier)
+                              ? SizedBox()
+                              : Padding(
+                                  padding: const EdgeInsets.all(12.0),
+                                  child: Row(
+                                    children: [
+                                      SizedBox(
+                                        height: 40,
+                                        width: 200,
+                                        child: TextButton(
+                                            style: OutlinedButton.styleFrom(
+                                              backgroundColor:
+                                                  AppColor.appColor.primary,
+                                              shape: RoundedRectangleBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(40),
+                                                side: BorderSide(
+                                                  width: 1.5,
+                                                  color:
+                                                      AppColor.appColor.primary,
+                                                ),
+                                              ),
+                                            ),
+                                            onPressed: () {
+                                              context
+                                                  .pushNamed(
+                                                      RouteNames.cretaeProduct)
+                                                  .then((value) =>
+                                                      cubit.refreshData());
+                                            },
+                                            child: Padding(
+                                              padding:
+                                                  const EdgeInsets.symmetric(
+                                                      horizontal: 24,
+                                                      vertical: 0),
+                                              child: Text(
+                                                "Buat Produk",
+                                                style:
+                                                    AppFont.largeBold(context)!
+                                                        .copyWith(
+                                                            color:
+                                                                Colors.white),
+                                              ),
+                                            )),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                          (modeCatalog == ModeCatalog.edit)
+                              ? SizedBox()
+                              : SizedBox(height: 60),
+                          const EmptyImageData(
+                            text: "Produk Kosong",
+                          ),
+                        ],
+                      )),
+                      child: ListView(
+                        shrinkWrap: true,
+                        children: [
+                          (state.modeCatalog == ModeCatalog.cashier)
+                              ? const SizedBox(height: 0)
+                              : SizedBox(height: 12),
+                          (state.modeCatalog == ModeCatalog.cashier)
+                              ? SizedBox()
+                              : Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 12),
+                                  child: Row(
+                                    children: [
+                                      SizedBox(
+                                        height: 40,
+                                        width: 200,
+                                        child: TextButton(
+                                            style: OutlinedButton.styleFrom(
+                                              backgroundColor:
+                                                  AppColor.appColor.primary,
+                                              shape: RoundedRectangleBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(40),
+                                                side: BorderSide(
+                                                  width: 1.5,
+                                                  color:
+                                                      AppColor.appColor.primary,
+                                                ),
+                                              ),
+                                            ),
+                                            onPressed: () {
+                                              context
+                                                  .pushNamed(
+                                                      RouteNames.cretaeProduct)
+                                                  .then((value) =>
+                                                      cubit.refreshData());
+                                            },
+                                            child: Padding(
+                                              padding:
+                                                  const EdgeInsets.symmetric(
+                                                      horizontal: 24,
+                                                      vertical: 0),
+                                              child: Text(
+                                                "Buat Produk",
+                                                style:
+                                                    AppFont.largeBold(context)!
+                                                        .copyWith(
+                                                            color:
+                                                                Colors.white),
+                                              ),
+                                            )),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                          Container(
+                            child: GridView.builder(
+                              shrinkWrap: true,
+                              physics: const NeverScrollableScrollPhysics(),
+                              padding: const EdgeInsets.all(12),
+                              gridDelegate:
+                                  SliverGridDelegateWithFixedCrossAxisCount(
+                                      crossAxisCount:
+                                          MediaQuery.of(context).size.width ~/
+                                              259,
+                                      crossAxisSpacing: 8,
+                                      mainAxisSpacing: 20,
+                                      childAspectRatio: 200 / 272),
+                              itemBuilder: (BuildContext context, int index) {
+                                var product = state.product[index];
+                                return InkWell(
+                                  onTap: () {
+                                    if (state.modeCatalog == ModeCatalog.edit) {
+                                      context
+                                          .pushNamed(RouteNames.editProduct,
+                                              extra: product.id)
+                                          .then((value) => cubit.refreshData());
+                                    } else {
+                                      cubit
+                                          .addToCart(
+                                              idProduct: product.id!,
+                                              quantity: 1)
+                                          .then((value) => context
+                                              .read<CartCubit>()
+                                              .refreshData());
+                                    }
+                                  },
+                                  child: (product.image == "")
+                                      ? catalogWithIcon(
+                                          state, context, product, cubit)
+                                      : catalogWithImage(
+                                          state, context, product, cubit),
+                                );
+                              },
+                              itemCount: state
+                                  .product.length, // Jumlah total item produk
+                            ),
+                          ),
+                        ],
+                      ),
+                    );
+                  })))
+                ]),
+              ),
+              const Expanded(
+                flex: 1,
+                child: OrderDetailView(),
+              )
+            ],
+          ),
+        ),
       ],
     );
   }

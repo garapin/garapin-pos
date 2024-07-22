@@ -20,11 +20,14 @@ class LockedAccountPage extends StatefulWidget {
   final User user;
   final String selectedDB;
   final bool fromDashboard;
+  final bool isQuickRelease;
+
   const LockedAccountPage(
       {super.key,
       required this.user,
       required this.selectedDB,
-      this.fromDashboard = false});
+      this.fromDashboard = false,
+      this.isQuickRelease = false});
 
   @override
   State<LockedAccountPage> createState() => _LockedAccountPageState();
@@ -40,6 +43,7 @@ class _LockedAccountPageState extends State<LockedAccountPage> {
   void initState() {
     super.initState();
     if (!widget.fromDashboard) {
+      print("SET SESSION");
       Sessions.setDatabase(
         jsonEncode(
           widget.user.storeDatabaseName
@@ -52,7 +56,13 @@ class _LockedAccountPageState extends State<LockedAccountPage> {
     final blocLockedAccount = context.read<LockedAccountCubit>();
     blocLockedAccount.initData().then((value) {
       if (blocLockedAccount.state.amountPendingTransaction!.amount! > 0) {
-        blocLockedAccount.createInvoice(widget.user);
+        print("BIKIN INVOICE TOP UP");
+        print(widget.user);
+        blocLockedAccount.createInvoice(
+          widget.user,
+          targetDatabase: widget.selectedDB,
+          isQuickRelease: widget.isQuickRelease,
+        );
       } else {
         ShowNotify.success(context, msg: "Tidak ada transaksi pending");
       }
@@ -76,17 +86,21 @@ class _LockedAccountPageState extends State<LockedAccountPage> {
                         const SizedBox(height: 20),
                         Center(
                           child: Text(
-                            "Oops Akun anda telah di Lock Sementara",
+                            widget.isQuickRelease
+                                ? "Quick Release"
+                                : "Oops Akun anda telah di Lock Sementara",
                             style: AppFont.largeBold(context)
                                 ?.copyWith(fontSize: 20),
                           ),
                         ),
                         const SizedBox(height: 20),
-                        const Center(
+                        Center(
                           child: Text(
-                            "Selesaikan pembayaran agar dapat menggunakan layanan kami kembali",
+                            widget.isQuickRelease
+                                ? "Silahkan melakukan pembayaran dengan Quick Release sekarang sebelum jam 23.30 WIB"
+                                : "Selesaikan pembayaran agar dapat menggunakan layanan kami kembali",
                             textAlign: TextAlign.center,
-                            style: TextStyle(
+                            style: const TextStyle(
                               fontSize: 15,
                               color: Colors.grey,
                             ),
@@ -131,7 +145,138 @@ class _LockedAccountPageState extends State<LockedAccountPage> {
                                     ),
                                   ],
                                 ),
-                                const SizedBox(height: 8),
+                                widget.isQuickRelease
+                                    ? const SizedBox(height: 4)
+                                    : const SizedBox(),
+                                widget.isQuickRelease
+                                    ? Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Text(
+                                            "Quick Release Cost ",
+                                            style: AppFont.large(context),
+                                          ),
+                                          Text(
+                                            state.amountPendingTransaction
+                                                    ?.costQuickRelease
+                                                    .currencyFormat(
+                                                        symbol: 'Rp.')
+                                                    .toString() ??
+                                                "",
+                                            style: AppFont.largeBold(context)
+                                                ?.copyWith(
+                                                    fontSize: 19,
+                                                    color: HexColor("#713F97")),
+                                          ),
+                                        ],
+                                      )
+                                    : const SizedBox(),
+                                widget.isQuickRelease
+                                    ? const SizedBox(height: 20)
+                                    : const SizedBox(height: 8),
+
+                                widget.isQuickRelease
+                                    ? const SizedBox(height: 20)
+                                    : const SizedBox(height: 0),
+                                widget.isQuickRelease
+                                    ? Row(
+                                  mainAxisAlignment:
+                                  MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text(
+                                      "Fee using QRIS ",
+                                      style: AppFont.large(context),
+                                    ),
+                                    Text(
+                                      state.amountPendingTransaction
+                                          ?.feeUsingQR
+                                          .currencyFormat(
+                                          symbol: 'Rp.')
+                                          .toString() ??
+                                          "",
+                                      style: AppFont.largeBold(context)
+                                          ?.copyWith(
+                                          fontSize: 19,
+                                          color: HexColor("#713F97")),
+                                    ),
+                                  ],
+                                )
+                                    : const SizedBox(),
+                                widget.isQuickRelease
+                                    ? Row(
+                                  mainAxisAlignment:
+                                  MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text(
+                                      "Total pembayaran QRIS ",
+                                      style: AppFont.large(context),
+                                    ),
+                                    Text(
+                                        state.amountPendingTransaction?.totalPaymentUsingQR
+                                          .currencyFormat(
+                                          symbol: 'Rp.')
+                                          .toString() ??
+                                          "",
+                                      style: AppFont.largeBold(context)
+                                          ?.copyWith(
+                                          fontSize: 19,
+                                          color: HexColor("#713F97")),
+                                    ),
+                                  ],
+                                )
+                                    : const SizedBox(),
+
+                                widget.isQuickRelease
+                                    ? const SizedBox(height: 20)
+                                    : const SizedBox(height: 0),
+                                widget.isQuickRelease
+                                    ? Row(
+                                  mainAxisAlignment:
+                                  MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text(
+                                      "Fee using Virtual Account ",
+                                      style: AppFont.large(context),
+                                    ),
+                                    Text(
+                                      state.amountPendingTransaction
+                                          ?.feeUsingVA
+                                          .currencyFormat(
+                                          symbol: 'Rp.')
+                                          .toString() ??
+                                          "",
+                                      style: AppFont.largeBold(context)
+                                          ?.copyWith(
+                                          fontSize: 19,
+                                          color: HexColor("#713F97")),
+                                    ),
+                                  ],
+                                )
+                                    : const SizedBox(),
+                                widget.isQuickRelease
+                                    ? Row(
+                                  mainAxisAlignment:
+                                  MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text(
+                                      "Total pembayaran Virtual Account ",
+                                      style: AppFont.large(context),
+                                    ),
+                                    Text(
+                                      state.amountPendingTransaction?.totalPaymentUsingVA
+                                          .currencyFormat(
+                                          symbol: 'Rp.')
+                                          .toString() ??
+                                          "",
+                                      style: AppFont.largeBold(context)
+                                          ?.copyWith(
+                                          fontSize: 19,
+                                          color: HexColor("#713F97")),
+                                    ),
+                                  ],
+                                )
+                                    : const SizedBox(),
                               ],
                             ),
                           ),
@@ -192,6 +337,9 @@ class _LockedAccountPageState extends State<LockedAccountPage> {
                                             state.amountPendingTransaction
                                                     ?.amount ??
                                                 0,
+                                            widget.selectedDB,
+                                            isQuickRelease:
+                                                widget.isQuickRelease,
                                           );
                                     } else if (value == PaymentMethod.va) {
                                       // context
@@ -235,7 +383,10 @@ class _LockedAccountPageState extends State<LockedAccountPage> {
                                                     state.amountPendingTransaction
                                                             ?.amount ??
                                                         0,
+                                                    widget.selectedDB,
                                                     bankCode: e.bank,
+                                                    isQuickRelease:
+                                                        widget.isQuickRelease,
                                                   );
                                             },
                                             child: Container(
@@ -412,10 +563,17 @@ class _LockedAccountPageState extends State<LockedAccountPage> {
                                 backgroundColor: AppColor.appColor.primary,
                               ),
                               onPressed: () async {
-                                final GoogleSignInAccount? s =
-                                    await GoogleSignIn().signOut();
-                                Sessions.clear().then(
-                                    (value) => context.go(RouteNames.root));
+                                if (!widget.isQuickRelease) {
+                                  final GoogleSignInAccount? s =
+                                      await GoogleSignIn().signOut();
+                                  Sessions.clear().then(
+                                      (value) => context.go(RouteNames.root));
+                                }
+
+                                if (widget.isQuickRelease) {
+                                  Sessions.setPayedQuickRelease(true);
+                                }
+
                                 context.pop();
                               },
                               child: const Text("Done"),

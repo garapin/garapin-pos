@@ -130,14 +130,16 @@ class BagiCubit extends BaseCubit<BagiState> {
                               onPressed: () async {
                                 List<RoutePayments> routes = [];
                                 if (state.store?.store?.merChantRole ==
-                                    "SUPP" || state.store?.store?.merChantRole == "TRX") {
+                                        "SUPP" ||
+                                    state.store?.store?.merChantRole == "TRX" ||
+                                    state.store?.store?.storeType == "USER") {
                                   routes.add(
                                     RoutePayments(
                                       type: "ADMIN",
                                       target:
-                                      state.store?.store?.storeName ?? "",
+                                          state.store?.store?.storeName ?? "",
                                       referenceId:
-                                      Sessions.getDatabaseModel()!.name!,
+                                          Sessions.getDatabaseModel()!.name!,
                                       destinationAccountId: state
                                           .store!.store!.accountHolder!.id!,
                                     ),
@@ -165,10 +167,12 @@ class BagiCubit extends BaseCubit<BagiState> {
                                   context,
                                   name: createTemplateController.text,
                                   description: null,
-                                  dbTrx:
-                                      state.store?.store?.merChantRole == "SUPP" || state.store?.store?.merChantRole == "TRX"
-                                          ? Sessions.getDatabaseModel()!.name!
-                                          : null,
+                                  dbTrx: state.store?.store?.merChantRole ==
+                                              "SUPP" ||
+                                          state.store?.store?.merChantRole ==
+                                              "TRX" || state.store?.store?.storeType == "USER"
+                                      ? Sessions.getDatabaseModel()!.name!
+                                      : null,
                                   routes: routes,
                                 );
                                 if (data.isSuccess) {
