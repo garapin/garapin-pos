@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_date_pickers/flutter_date_pickers.dart' as dp;
 import 'package:flutter_form_builder/flutter_form_builder.dart';
+import 'package:intl/intl.dart';
 import 'package:pos/data/models/base/report_transaction.dart';
 import 'package:pos/engine/engine.dart';
 import 'package:pos/modules/report/refactor_cubit/report_transaction_cubit.dart';
@@ -22,9 +23,13 @@ class _ReportTransactionPageState extends State<ReportTransactionPage> {
   bool showChart = false;
 
   late DateTime _selectedDate = DateTime.now();
+  late DateTime _selectedDateStart = DateTime.now();
+  late DateTime _selectedDateEnd = DateTime.now();
   late DateTime _selectedDateDaily = DateTime.now();
   late DateTime _selectedDateStartWeek = DateTime.now();
   late DateTime _selectedDateEndWeek = DateTime.now();
+
+  final TextEditingController _startDateController = TextEditingController();
 
   final DateTime _firstDate =
       DateTime.now().subtract(const Duration(days: 350));
@@ -38,6 +43,9 @@ class _ReportTransactionPageState extends State<ReportTransactionPage> {
   @override
   void initState() {
     super.initState();
+
+    _startDateController.text =
+        "${DateFormat("yyyy-MM-dd").format(_selectedDate)} - ${DateFormat("yyyy-MM-dd").format(_selectedDate)}";
   }
 
   @override
@@ -181,10 +189,16 @@ class _ReportTransactionPageState extends State<ReportTransactionPage> {
                               print("$value - $value");
                               newSetState(() {
                                 _selectedDateDaily = value;
+                                _selectedDateStart = value;
+                                _selectedDateEnd = value;
                               });
+                              print(_selectedDateStart);
                               contextBloc
                                   .read<ReportTransactionCubit>()
                                   .setDateTimeRange("$value - $value");
+
+                              _startDateController.text =
+                                  "${contextBloc.read<ReportTransactionCubit>().state.startDate ?? ""} - ${contextBloc.read<ReportTransactionCubit>().state.startDate ?? ""}";
                               Navigator.pop(context);
                             },
                             firstDate: _firstDate,
@@ -206,6 +220,8 @@ class _ReportTransactionPageState extends State<ReportTransactionPage> {
                             selectedDate: _selectedDateStartWeek,
                             onChanged: (value) {
                               newSetState(() {
+                                _selectedDateStart = value.start;
+                                _selectedDateEnd = value.end;
                                 _selectedDateStartWeek = value.start;
                                 _selectedDateEndWeek = value.end;
                               });
@@ -213,6 +229,9 @@ class _ReportTransactionPageState extends State<ReportTransactionPage> {
                                   .read<ReportTransactionCubit>()
                                   .setDateTimeRange(
                                       "$_selectedDateStartWeek - $_selectedDateEndWeek");
+
+                              _startDateController.text =
+                                  "${contextBloc.read<ReportTransactionCubit>().state.startDate ?? ""} - ${contextBloc.read<ReportTransactionCubit>().state.endDate ?? ""}";
                               Navigator.pop(context);
                             },
                             firstDate: _firstDate,
@@ -237,11 +256,17 @@ class _ReportTransactionPageState extends State<ReportTransactionPage> {
                               print(value.add(const Duration(days: 30)));
                               newSetState(() {
                                 _selectedDate = value;
+                                _selectedDateStart = value;
+                                _selectedDateEnd =
+                                    value.add(const Duration(days: 30));
                               });
                               contextBloc
                                   .read<ReportTransactionCubit>()
                                   .setDateTimeRange(
                                       "$value - ${value.add(const Duration(days: 30))}");
+
+                              _startDateController.text =
+                                  "${contextBloc.read<ReportTransactionCubit>().state.startDate ?? ""} - ${contextBloc.read<ReportTransactionCubit>().state.endDate ?? ""}";
                               Navigator.pop(context);
                             },
                             firstDate: _firstDate,
@@ -266,7 +291,10 @@ class _ReportTransactionPageState extends State<ReportTransactionPage> {
                               print(value.add(const Duration(days: 364)));
                               newSetState(() {
                                 _selectedDate = value;
-
+                                _startDateController.text = value.toString();
+                                _selectedDateStart = value;
+                                _selectedDateEnd =
+                                    value.add(const Duration(days: 364));
                                 contextBloc
                                     .read<ReportTransactionCubit>()
                                     .setDateTimeRange(
@@ -274,6 +302,9 @@ class _ReportTransactionPageState extends State<ReportTransactionPage> {
                                       filter: "Yearly",
                                     );
                               });
+
+                              _startDateController.text =
+                                  "${contextBloc.read<ReportTransactionCubit>().state.startDate ?? ""} - ${contextBloc.read<ReportTransactionCubit>().state.endDate ?? ""}";
                               Navigator.pop(context);
                             },
                             firstDate: _firstDate,
@@ -324,12 +355,8 @@ class _ReportTransactionPageState extends State<ReportTransactionPage> {
             ),
             const SizedBox(height: 12),
             FormBuilderDateRangePicker(
-              initialValue: DateTimeRange(
-                start: DateTime.now().subtract(
-                  const Duration(days: 7),
-                ),
-                end: DateTime.now(),
-              ),
+              currentDate: _selectedDateStart,
+              controller: _startDateController,
               onChanged: (value) {
                 print(value.toString());
                 context
@@ -423,7 +450,8 @@ class _ReportTransactionPageState extends State<ReportTransactionPage> {
     );
   }
 
-  Widget pagedTable(List<Transaction> transaction, int lengthData, String buffer) {
+  Widget pagedTable(
+      List<Transaction> transaction, int lengthData, String buffer) {
     final PaginationController paginationController = PaginationController(
       rowCount: lengthData,
       rowsPerPage: 10,
@@ -537,7 +565,9 @@ class _ReportTransactionPageState extends State<ReportTransactionPage> {
                     const Spacer(),
                     TextButton(
                       onPressed: () {
-                        context.read<ReportTransactionCubit>().saveToExcel(buffer);
+                        context
+                            .read<ReportTransactionCubit>()
+                            .saveToExcel(buffer);
                       },
                       child: const Text("Export"),
                     ),
@@ -562,6 +592,8 @@ class _ReportTransactionPageState extends State<ReportTransactionPage> {
       TimeGroup(
         id: '1',
         data: numericDataList,
+        color: Colors.purple,
+        chartType: ChartType.bar,
       ),
     ];
 
@@ -569,10 +601,15 @@ class _ReportTransactionPageState extends State<ReportTransactionPage> {
       padding: const EdgeInsets.symmetric(horizontal: 24),
       child: AspectRatio(
         aspectRatio: 16 / 6,
-        child: DChartLineT(
+        child: DChartBarT(
           allowSliding: true,
           animate: true,
           groupList: numericGroupList,
+          configRenderBar: ConfigRenderBar(
+            maxBarWidthPx: 10,
+            minBarLengthPx: 10,
+            strokeWidthPx: 10,
+          ),
         ),
       ),
     );

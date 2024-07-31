@@ -3,6 +3,7 @@ import 'package:d_chart/d_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
+import 'package:intl/intl.dart';
 import 'package:pos/data/models/base/report_transaction_by_payment_method.dart';
 import 'package:pos/engine/engine.dart';
 import 'package:pos/modules/report/refactor_cubit/report_transaction_by_payment_method_cubit.dart';
@@ -29,6 +30,8 @@ class _ReportTransactionPaymentMethodPageState
   late DateTime _selectedDateStartWeek = DateTime.now();
   late DateTime _selectedDateEndWeek = DateTime.now();
 
+  final TextEditingController _startDateController = TextEditingController();
+
   final DateTime _firstDate =
       DateTime.now().subtract(const Duration(days: 350));
   final DateTime _lastDate = DateTime.now().add(const Duration(days: 350));
@@ -41,6 +44,9 @@ class _ReportTransactionPaymentMethodPageState
   @override
   void initState() {
     super.initState();
+
+    _startDateController.text =
+    "${DateFormat("yyyy-MM-dd").format(_selectedDate)} - ${DateFormat("yyyy-MM-dd").format(_selectedDate)}";
   }
 
   @override
@@ -142,7 +148,7 @@ class _ReportTransactionPaymentMethodPageState
                               : Container(),
                           const SizedBox(height: 12),
                           showChart
-                              ? lineChart(state.transaction?.transactions ?? [])
+                              ? lineChart(state.transaction?.transactions ?? [], state.transaction!)
                               : Container(),
                           showChart ? const SizedBox(height: 12) : Container(),
                         ],
@@ -190,6 +196,10 @@ class _ReportTransactionPaymentMethodPageState
                               contextBloc
                                   .read<ReportTransactionByPaymentMethodCubit>()
                                   .setDateTimeRange("$value - $value");
+
+                              _startDateController.text = "${contextBloc
+                                  .read<ReportTransactionByPaymentMethodCubit>().state.startDate ?? ""} - ${contextBloc
+                                  .read<ReportTransactionByPaymentMethodCubit>().state.endDate ?? ""}";
                               Navigator.pop(context);
                             },
                             firstDate: _firstDate,
@@ -218,6 +228,10 @@ class _ReportTransactionPaymentMethodPageState
                                   .read<ReportTransactionByPaymentMethodCubit>()
                                   .setDateTimeRange(
                                       "$_selectedDateStartWeek - $_selectedDateEndWeek");
+
+                              _startDateController.text = "${contextBloc
+                                  .read<ReportTransactionByPaymentMethodCubit>().state.startDate ?? ""} - ${contextBloc
+                                  .read<ReportTransactionByPaymentMethodCubit>().state.endDate ?? ""}";
                               Navigator.pop(context);
                             },
                             firstDate: _firstDate,
@@ -247,6 +261,10 @@ class _ReportTransactionPaymentMethodPageState
                                   .read<ReportTransactionByPaymentMethodCubit>()
                                   .setDateTimeRange(
                                       "$value - ${value.add(const Duration(days: 30))}");
+
+                              _startDateController.text = "${contextBloc
+                                  .read<ReportTransactionByPaymentMethodCubit>().state.startDate ?? ""} - ${contextBloc
+                                  .read<ReportTransactionByPaymentMethodCubit>().state.endDate ?? ""}";
                               Navigator.pop(context);
                             },
                             firstDate: _firstDate,
@@ -280,6 +298,10 @@ class _ReportTransactionPaymentMethodPageState
                                       filter: "Yearly",
                                     );
                               });
+
+                              _startDateController.text = "${contextBloc
+                                  .read<ReportTransactionByPaymentMethodCubit>().state.startDate ?? ""} - ${contextBloc
+                                  .read<ReportTransactionByPaymentMethodCubit>().state.endDate ?? ""}";
                               Navigator.pop(context);
                             },
                             firstDate: _firstDate,
@@ -330,6 +352,7 @@ class _ReportTransactionPaymentMethodPageState
             ),
             const SizedBox(height: 12),
             FormBuilderDateRangePicker(
+              controller: _startDateController,
               initialValue: DateTimeRange(
                 start: DateTime.now().subtract(
                   const Duration(days: 7),
@@ -368,82 +391,91 @@ class _ReportTransactionPaymentMethodPageState
   }
 
   Widget cardSummary(int cash, int qris, int va, int totalNett) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceAround,
-      children: [
-        Container(
-          padding: const EdgeInsets.all(20),
-          child: Column(
-            children: [
-              Text(
-                'CASH',
-                style: AppFont.largeBold(context),
-              ),
-              const SizedBox(height: 40),
-              Text(
-                cash.currencyFormat(symbol: "Rp "),
-                style: AppFont.largeBold(context)?.copyWith(
-                  fontSize: 24,
+    return SizedBox(
+      height: 150.0,
+      child: ListView(
+        shrinkWrap: true,
+        physics: const ClampingScrollPhysics(),
+        scrollDirection: Axis.horizontal,
+        children: [
+          Container(
+            padding: const EdgeInsets.all(20),
+            width: 250,
+            child: Column(
+              children: [
+                Text(
+                  'CASH',
+                  style: AppFont.largeBold(context),
                 ),
-              ),
-            ],
-          ),
-        ),
-        Container(
-          padding: const EdgeInsets.all(20),
-          child: Column(
-            children: [
-              Text(
-                'QRIS',
-                style: AppFont.largeBold(context),
-              ),
-              const SizedBox(height: 40),
-              Text(
-                qris.currencyFormat(symbol: "Rp "),
-                style: AppFont.largeBold(context)?.copyWith(
-                  fontSize: 24,
+                const SizedBox(height: 40),
+                Text(
+                  cash.currencyFormat(symbol: "Rp "),
+                  style: AppFont.largeBold(context)?.copyWith(
+                    fontSize: 24,
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
-        ),
-        Container(
-          padding: const EdgeInsets.all(20),
-          child: Column(
-            children: [
-              Text(
-                'VA',
-                style: AppFont.largeBold(context),
-              ),
-              const SizedBox(height: 40),
-              Text(
-                va.currencyFormat(symbol: "Rp "),
-                style: AppFont.largeBold(context)?.copyWith(
-                  fontSize: 24,
+          Container(
+            width: 250,
+            padding: const EdgeInsets.all(20),
+            child: Column(
+              children: [
+                Text(
+                  'QRIS',
+                  style: AppFont.largeBold(context),
                 ),
-              ),
-            ],
-          ),
-        ),
-        Container(
-          padding: const EdgeInsets.all(20),
-          child: Column(
-            children: [
-              Text(
-                'Total Sales',
-                style: AppFont.largeBold(context),
-              ),
-              const SizedBox(height: 40),
-              Text(
-                totalNett.currencyFormat(symbol: "Rp "),
-                style: AppFont.largeBold(context)?.copyWith(
-                  fontSize: 24,
+                const SizedBox(height: 40),
+                Text(
+                  qris.currencyFormat(symbol: "Rp "),
+                  style: AppFont.largeBold(context)?.copyWith(
+                    fontSize: 24,
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
-        ),
-      ],
+          Container(
+            width: 250,
+            padding: const EdgeInsets.all(20),
+            child: Column(
+              children: [
+                Text(
+                  'VA',
+                  style: AppFont.largeBold(context),
+                ),
+                const SizedBox(height: 40),
+                Text(
+                  va.currencyFormat(symbol: "Rp "),
+                  style: AppFont.largeBold(context)?.copyWith(
+                    fontSize: 24,
+                  ),
+                ),
+              ],
+            ),
+          ),
+          Container(
+            width: 250,
+            padding: const EdgeInsets.all(20),
+            child: Column(
+              children: [
+                Text(
+                  'Total Sales',
+                  style: AppFont.largeBold(context),
+                ),
+                const SizedBox(height: 40),
+                Text(
+                  totalNett.currencyFormat(symbol: "Rp "),
+                  style: AppFont.largeBold(context)?.copyWith(
+                    fontSize: 24,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
     );
   }
 
@@ -480,7 +512,7 @@ class _ReportTransactionPaymentMethodPageState
                   cells: [
                     TableViewCell(
                       child: Text(
-                        item.date!.toddMMMyyyyHHmmss(),
+                        item.date!.toddMMMMyyyy(),
                         style: AppFont.largeBold(context),
                       ),
                     ),
@@ -573,19 +605,26 @@ class _ReportTransactionPaymentMethodPageState
     );
   }
 
-  Widget lineChart(List<Transaction> transaction) {
+  Widget lineChart(List<Transaction> transaction, ReportTransactionByPaymentMethod item) {
     List<OrdinalData> numericDataList = [];
 
-    for (var item in transaction) {
-      numericDataList.add(
-        OrdinalData(domain: item.paymentMethod!, measure: item.grossSales!),
-      );
-    }
+    numericDataList.add(
+      OrdinalData(domain: "VA", measure: item.totalVa!),
+    );
+
+    numericDataList.add(
+      OrdinalData(domain: "QRIS", measure: item.totalQris!),
+    );
+
+    numericDataList.add(
+      OrdinalData(domain: "CASH", measure: item.totalCash!),
+    );
 
     final numericGroupList = [
       OrdinalGroup(
         id: '1',
         data: numericDataList,
+        color: Colors.purple,
       ),
     ];
 

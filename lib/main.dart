@@ -1,8 +1,10 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:intl/date_symbol_data_local.dart';
+import 'package:open_filex/open_filex.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:pos/engine/helpers/firebase_helper.dart';
 
@@ -24,6 +26,7 @@ class InitialApps {
     ]);
     await setup();
     await firebaseInit();
+    await setupNotification();
   }
 
   static setup() async {
@@ -37,6 +40,26 @@ class InitialApps {
 
     observers.clear();
     observers.add(RouteObserver<PageRoute>());
+  }
+
+  static setupNotification() async {
+    final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+        FlutterLocalNotificationsPlugin();
+
+    const AndroidInitializationSettings initializationSettingsAndroid =
+        AndroidInitializationSettings('@mipmap/ic_launcher');
+
+    const InitializationSettings initializationSettings =
+        InitializationSettings(
+      android: initializationSettingsAndroid,
+    );
+
+    flutterLocalNotificationsPlugin.initialize(
+      initializationSettings,
+      onDidReceiveNotificationResponse: (NotificationResponse response) async {
+        OpenFilex.open('/storage/emulated/0/Download/');
+      },
+    );
   }
 
   static firebaseInit() async {
