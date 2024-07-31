@@ -4,8 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_date_pickers/flutter_date_pickers.dart' as dp;
 import 'package:flutter_form_builder/flutter_form_builder.dart';
+import 'package:intl/intl.dart';
 import 'package:pos/data/models/base/report_transaction_by_product.dart';
-import 'package:pos/engine/base/app.dart';
 import 'package:pos/engine/engine.dart';
 import 'package:pos/modules/report/refactor_cubit/report_transaction_by_product_cubit.dart';
 import 'package:pos/themes/themes.dart';
@@ -28,6 +28,8 @@ class _ReportTransactionByProductPageState extends State<ReportTransactionByProd
   late DateTime _selectedDateStartWeek = DateTime.now();
   late DateTime _selectedDateEndWeek = DateTime.now();
 
+  final TextEditingController _startDateController = TextEditingController();
+
   final DateTime _firstDate =
   DateTime.now().subtract(const Duration(days: 350));
   final DateTime _lastDate = DateTime.now().add(const Duration(days: 350));
@@ -40,6 +42,9 @@ class _ReportTransactionByProductPageState extends State<ReportTransactionByProd
   @override
   void initState() {
     super.initState();
+
+    _startDateController.text =
+    "${DateFormat("yyyy-MM-dd").format(_selectedDate)} - ${DateFormat("yyyy-MM-dd").format(_selectedDate)}";
   }
 
   @override
@@ -188,6 +193,10 @@ class _ReportTransactionByProductPageState extends State<ReportTransactionByProd
                               contextBloc
                                   .read<ReportTransactionByProductCubit>()
                                   .setDateTimeRange("$value - $value");
+
+                              _startDateController.text = "${contextBloc
+                                  .read<ReportTransactionByProductCubit>().state.startDate ?? ""} - ${contextBloc
+                                  .read<ReportTransactionByProductCubit>().state.endDate ?? ""}";
                               Navigator.pop(context);
                             },
                             firstDate: _firstDate,
@@ -216,6 +225,10 @@ class _ReportTransactionByProductPageState extends State<ReportTransactionByProd
                                   .read<ReportTransactionByProductCubit>()
                                   .setDateTimeRange(
                                   "$_selectedDateStartWeek - $_selectedDateEndWeek");
+
+                              _startDateController.text = "${contextBloc
+                                  .read<ReportTransactionByProductCubit>().state.startDate ?? ""} - ${contextBloc
+                                  .read<ReportTransactionByProductCubit>().state.endDate ?? ""}";
                               Navigator.pop(context);
                             },
                             firstDate: _firstDate,
@@ -245,6 +258,10 @@ class _ReportTransactionByProductPageState extends State<ReportTransactionByProd
                                   .read<ReportTransactionByProductCubit>()
                                   .setDateTimeRange(
                                   "$value - ${value.add(const Duration(days: 30))}");
+
+                              _startDateController.text = "${contextBloc
+                                  .read<ReportTransactionByProductCubit>().state.startDate ?? ""} - ${contextBloc
+                                  .read<ReportTransactionByProductCubit>().state.endDate ?? ""}";
                               Navigator.pop(context);
                             },
                             firstDate: _firstDate,
@@ -277,6 +294,10 @@ class _ReportTransactionByProductPageState extends State<ReportTransactionByProd
                                   filter: "Yearly",
                                 );
                               });
+
+                              _startDateController.text = "${contextBloc
+                                  .read<ReportTransactionByProductCubit>().state.startDate ?? ""} - ${contextBloc
+                                  .read<ReportTransactionByProductCubit>().state.endDate ?? ""}";
                               Navigator.pop(context);
                             },
                             firstDate: _firstDate,
@@ -327,12 +348,7 @@ class _ReportTransactionByProductPageState extends State<ReportTransactionByProd
             ),
             const SizedBox(height: 12),
             FormBuilderDateRangePicker(
-              initialValue: DateTimeRange(
-                start: DateTime.now().subtract(
-                  const Duration(days: 7),
-                ),
-                end: DateTime.now(),
-              ),
+              controller: _startDateController,
               onChanged: (value) {
                 print(value.toString());
                 context
@@ -365,82 +381,91 @@ class _ReportTransactionByProductPageState extends State<ReportTransactionByProd
   }
 
   Widget cardSummary(int totalGross, int totalDiscount, int totalNett, int totalTrx) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceAround,
-      children: [
-        Container(
-          padding: const EdgeInsets.all(20),
-          child: Column(
-            children: [
-              Text(
-                'Total Gross Sales',
-                style: AppFont.largeBold(context),
-              ),
-              const SizedBox(height: 40),
-              Text(
-                totalGross.currencyFormat(symbol: "Rp "),
-                style: AppFont.largeBold(context)?.copyWith(
-                  fontSize: 24,
+    return SizedBox(
+      height: 150.0,
+      child: ListView(
+        shrinkWrap: true,
+        physics: const ClampingScrollPhysics(),
+        scrollDirection: Axis.horizontal,
+        children: [
+          Container(
+            width: 250,
+            padding: const EdgeInsets.all(20),
+            child: Column(
+              children: [
+                Text(
+                  'Total Gross Sales',
+                  style: AppFont.largeBold(context),
                 ),
-              ),
-            ],
-          ),
-        ),
-        Container(
-          padding: const EdgeInsets.all(20),
-          child: Column(
-            children: [
-              Text(
-                'Total Discount Sales',
-                style: AppFont.largeBold(context),
-              ),
-              const SizedBox(height: 40),
-              Text(
-                totalDiscount.currencyFormat(symbol: "Rp "),
-                style: AppFont.largeBold(context)?.copyWith(
-                  fontSize: 24,
+                const SizedBox(height: 40),
+                Text(
+                  totalGross.currencyFormat(symbol: "Rp "),
+                  style: AppFont.largeBold(context)?.copyWith(
+                    fontSize: 24,
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
-        ),
-        Container(
-          padding: const EdgeInsets.all(20),
-          child: Column(
-            children: [
-              Text(
-                'Total Nett Sales',
-                style: AppFont.largeBold(context),
-              ),
-              const SizedBox(height: 40),
-              Text(
-                totalNett.currencyFormat(symbol: "Rp "),
-                style: AppFont.largeBold(context)?.copyWith(
-                  fontSize: 24,
+          Container(
+            width: 250,
+            padding: const EdgeInsets.all(20),
+            child: Column(
+              children: [
+                Text(
+                  'Total Discount Sales',
+                  style: AppFont.largeBold(context),
                 ),
-              ),
-            ],
-          ),
-        ),
-        Container(
-          padding: const EdgeInsets.all(20),
-          child: Column(
-            children: [
-              Text(
-                'Total Transaction',
-                style: AppFont.largeBold(context),
-              ),
-              const SizedBox(height: 40),
-              Text(
-                totalTrx.toString(),
-                style: AppFont.largeBold(context)?.copyWith(
-                  fontSize: 24,
+                const SizedBox(height: 40),
+                Text(
+                  totalDiscount.currencyFormat(symbol: "Rp "),
+                  style: AppFont.largeBold(context)?.copyWith(
+                    fontSize: 24,
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
-        ),
-      ],
+          Container(
+            width: 250,
+            padding: const EdgeInsets.all(20),
+            child: Column(
+              children: [
+                Text(
+                  'Total Nett Sales',
+                  style: AppFont.largeBold(context),
+                ),
+                const SizedBox(height: 40),
+                Text(
+                  totalNett.currencyFormat(symbol: "Rp "),
+                  style: AppFont.largeBold(context)?.copyWith(
+                    fontSize: 24,
+                  ),
+                ),
+              ],
+            ),
+          ),
+          Container(
+            width: 250,
+            padding: const EdgeInsets.all(20),
+            child: Column(
+              children: [
+                Text(
+                  'Total Transaction',
+                  style: AppFont.largeBold(context),
+                ),
+                const SizedBox(height: 40),
+                Text(
+                  totalTrx.toString(),
+                  style: AppFont.largeBold(context)?.copyWith(
+                    fontSize: 24,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
     );
   }
 
@@ -459,6 +484,7 @@ class _ReportTransactionByProductPageState extends State<ReportTransactionByProd
             headers: [
               "Transaction Date",
               "Invoice No",
+              "Product",
               "Brand",
               "Category",
               "Gross Sales",
@@ -487,6 +513,13 @@ class _ReportTransactionByProductPageState extends State<ReportTransactionByProd
                       child: Text(
                         item.invoice!,
                         style: AppFont.largeBold(context),
+                      ),
+                    ),
+                    TableViewCell(
+                      child: Text(
+                        item.productName!,
+                        style: AppFont.largeBold(context),
+                        textAlign: TextAlign.center,
                       ),
                     ),
                     TableViewCell(
@@ -597,6 +630,7 @@ class _ReportTransactionByProductPageState extends State<ReportTransactionByProd
       OrdinalGroup(
         id: '1',
         data: numericDataList,
+        color: Colors.purple,
       ),
     ];
 

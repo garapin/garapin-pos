@@ -3,6 +3,7 @@ import 'dart:io';
 import 'dart:typed_data';
 
 import 'package:flutter/cupertino.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:intl/intl.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:pos/data/api/response.dart';
@@ -21,6 +22,9 @@ class ReportTransactionByProductCubit
     extends BaseCubit<ReportTransactionByProductState> {
   ReportTransactionByProductCubit(BuildContext context)
       : super(context, const ReportTransactionByProductState());
+
+  final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+  FlutterLocalNotificationsPlugin();
 
   void getData(String startDate, String endDate, {String filter = ""}) async {
     final data = await ApiService.getReportTransactionByProduct(
@@ -104,7 +108,23 @@ class ReportTransactionByProductCubit
     File file = File(
         "$dir/""report_transaction_by_product_${DateTime.now().millisecondsSinceEpoch}.xlsx");
     await file.writeAsBytes(bytes);
+    showInfo("Export excel to Download Folder");
+    await showNotification("Success", "Exported Report Transaction by Product");
     return file.path;
+  }
+
+  Future<void> showNotification(String title, String body) async {
+    const AndroidNotificationDetails androidPlatformChannelSpecifics =
+    AndroidNotificationDetails(
+      'channel_id',
+      'channel_name',
+      importance: Importance.max,
+      priority: Priority.high,
+    );
+    const NotificationDetails platformChannelSpecifics =
+    NotificationDetails(android: androidPlatformChannelSpecifics);
+    await flutterLocalNotificationsPlugin.show(
+        0, title, body, platformChannelSpecifics);
   }
 
   @override

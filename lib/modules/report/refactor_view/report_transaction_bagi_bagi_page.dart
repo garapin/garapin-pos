@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_date_pickers/flutter_date_pickers.dart' as dp;
+import 'package:intl/intl.dart';
 import 'package:pos/data/models/base/report_transaction_bagi_bagi.dart';
 import 'package:pos/engine/engine.dart';
 import 'package:pos/modules/report/refactor_cubit/report_transaction_bagi_bagi_cubit.dart';
@@ -27,6 +28,8 @@ class _ReportTransactionBagiBagiPageState extends State<ReportTransactionBagiBag
   late DateTime _selectedDateStartWeek = DateTime.now();
   late DateTime _selectedDateEndWeek = DateTime.now();
 
+  final TextEditingController _startDateController = TextEditingController();
+
   final DateTime _firstDate =
   DateTime.now().subtract(const Duration(days: 350));
   final DateTime _lastDate = DateTime.now().add(const Duration(days: 350));
@@ -39,6 +42,9 @@ class _ReportTransactionBagiBagiPageState extends State<ReportTransactionBagiBag
   @override
   void initState() {
     super.initState();
+
+    _startDateController.text =
+    "${DateFormat("yyyy-MM-dd").format(_selectedDate)} - ${DateFormat("yyyy-MM-dd").format(_selectedDate)}";
   }
 
   @override
@@ -187,6 +193,10 @@ class _ReportTransactionBagiBagiPageState extends State<ReportTransactionBagiBag
                               contextBloc
                                   .read<ReportTransactionBagiBagiCubit>()
                                   .setDateTimeRange("$value - $value");
+
+                              _startDateController.text = "${contextBloc
+                                  .read<ReportTransactionBagiBagiCubit>().state.startDate ?? ""} - ${contextBloc
+                                  .read<ReportTransactionBagiBagiCubit>().state.endDate ?? ""}";
                               Navigator.pop(context);
                             },
                             firstDate: _firstDate,
@@ -215,6 +225,10 @@ class _ReportTransactionBagiBagiPageState extends State<ReportTransactionBagiBag
                                   .read<ReportTransactionBagiBagiCubit>()
                                   .setDateTimeRange(
                                   "$_selectedDateStartWeek - $_selectedDateEndWeek");
+
+                              _startDateController.text = "${contextBloc
+                                  .read<ReportTransactionBagiBagiCubit>().state.startDate ?? ""} - ${contextBloc
+                                  .read<ReportTransactionBagiBagiCubit>().state.endDate ?? ""}";
                               Navigator.pop(context);
                             },
                             firstDate: _firstDate,
@@ -244,6 +258,10 @@ class _ReportTransactionBagiBagiPageState extends State<ReportTransactionBagiBag
                                   .read<ReportTransactionBagiBagiCubit>()
                                   .setDateTimeRange(
                                   "$value - ${value.add(const Duration(days: 30))}");
+
+                              _startDateController.text = "${contextBloc
+                                  .read<ReportTransactionBagiBagiCubit>().state.startDate ?? ""} - ${contextBloc
+                                  .read<ReportTransactionBagiBagiCubit>().state.endDate ?? ""}";
                               Navigator.pop(context);
                             },
                             firstDate: _firstDate,
@@ -276,6 +294,10 @@ class _ReportTransactionBagiBagiPageState extends State<ReportTransactionBagiBag
                                   filter: "Yearly",
                                 );
                               });
+
+                              _startDateController.text = "${contextBloc
+                                  .read<ReportTransactionBagiBagiCubit>().state.startDate ?? ""} - ${contextBloc
+                                  .read<ReportTransactionBagiBagiCubit>().state.endDate ?? ""}";
                               Navigator.pop(context);
                             },
                             firstDate: _firstDate,
@@ -326,12 +348,7 @@ class _ReportTransactionBagiBagiPageState extends State<ReportTransactionBagiBag
             ),
             const SizedBox(height: 12),
             FormBuilderDateRangePicker(
-              initialValue: DateTimeRange(
-                start: DateTime.now().subtract(
-                  const Duration(days: 7),
-                ),
-                end: DateTime.now(),
-              ),
+              controller: _startDateController,
               onChanged: (value) {
                 print(value.toString());
                 context
@@ -364,83 +381,93 @@ class _ReportTransactionBagiBagiPageState extends State<ReportTransactionBagiBag
   }
 
   Widget cardSummary(int totalNett, int bagiBagiTotal, int bagiBagiPendapatan, int totalTrx) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceAround,
-      children: [
-        Container(
-          padding: const EdgeInsets.all(20),
-          child: Column(
-            children: [
-              Text(
-                'Total Net Sales',
-                style: AppFont.largeBold(context),
-              ),
-              const SizedBox(height: 40),
-              Text(
-                totalNett.currencyFormat(symbol: "Rp "),
-                style: AppFont.largeBold(context)?.copyWith(
-                  fontSize: 24,
+    return SizedBox(
+      height: 150.0,
+      child: ListView(
+        shrinkWrap: true,
+        physics: const ClampingScrollPhysics(),
+        scrollDirection: Axis.horizontal,
+        children: [
+          Container(
+            width: 250,
+            padding: const EdgeInsets.all(20),
+            child: Column(
+              children: [
+                Text(
+                  'Total Net Sales',
+                  style: AppFont.largeBold(context),
                 ),
-              ),
-            ],
-          ),
-        ),
-        Container(
-          padding: const EdgeInsets.all(20),
-          child: Column(
-            children: [
-              Text(
-                'BagiBagi Biaya',
-                style: AppFont.largeBold(context),
-              ),
-              const SizedBox(height: 40),
-              Text(
-                bagiBagiTotal.currencyFormat(symbol: "Rp "),
-                style: AppFont.largeBold(context)?.copyWith(
-                  fontSize: 24,
+                const SizedBox(height: 40),
+                Text(
+                  totalNett.currencyFormat(symbol: "Rp "),
+                  style: AppFont.largeBold(context)?.copyWith(
+                    fontSize: 24,
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
-        ),
-        Container(
-          padding: const EdgeInsets.all(20),
-          child: Column(
-            children: [
-              Text(
-                'BagiBagi Pendapatan',
-                style: AppFont.largeBold(context),
-              ),
-              const SizedBox(height: 40),
-              Text(
-                bagiBagiPendapatan.currencyFormat(symbol: "Rp "),
-                style: AppFont.largeBold(context)?.copyWith(
-                  fontSize: 24,
+          Container(
+            width: 250,
+            padding: const EdgeInsets.all(20),
+            child: Column(
+              children: [
+                Text(
+                  'BagiBagi Biaya',
+                  style: AppFont.largeBold(context),
                 ),
-                textAlign: TextAlign.center,
-              ),
-            ],
-          ),
-        ),
-        Container(
-          padding: const EdgeInsets.all(20),
-          child: Column(
-            children: [
-              Text(
-                'Total Transaction\n(Group by Invoice No)',
-                style: AppFont.largeBold(context),
-              ),
-              const SizedBox(height: 40),
-              Text(
-                totalTrx.toString(),
-                style: AppFont.largeBold(context)?.copyWith(
-                  fontSize: 24,
+                const SizedBox(height: 40),
+                Text(
+                  bagiBagiTotal.currencyFormat(symbol: "Rp "),
+                  style: AppFont.largeBold(context)?.copyWith(
+                    fontSize: 24,
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
-        ),
-      ],
+          Container(
+            width: 250,
+            padding: const EdgeInsets.all(20),
+            child: Column(
+              children: [
+                Text(
+                  'BagiBagi Pendapatan',
+                  style: AppFont.largeBold(context),
+                ),
+                const SizedBox(height: 40),
+                Text(
+                  bagiBagiPendapatan.currencyFormat(symbol: "Rp "),
+                  style: AppFont.largeBold(context)?.copyWith(
+                    fontSize: 24,
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+              ],
+            ),
+          ),
+          Container(
+            width: 250,
+            padding: const EdgeInsets.all(20),
+            child: Column(
+              children: [
+                Text(
+                  'Total Transaction\n(Group by Invoice No)',
+                  style: AppFont.largeBold(context),
+                  textAlign: TextAlign.center,
+                ),
+                const SizedBox(height: 40),
+                Text(
+                  totalTrx.toString(),
+                  style: AppFont.largeBold(context)?.copyWith(
+                    fontSize: 24,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
     );
   }
 
