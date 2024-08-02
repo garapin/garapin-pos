@@ -55,6 +55,8 @@ class Transaction {
   DateTime? date;
   @JsonKey(name: "invoice")
   String? invoice;
+  @JsonKey(name: "sku")
+  String? sku;
   @JsonKey(name: "productId")
   String? productId;
   @JsonKey(name: "productName")
@@ -77,6 +79,7 @@ class Transaction {
   Transaction({
     this.date,
     this.invoice,
+    this.sku,
     this.productId,
     this.productName,
     this.category,

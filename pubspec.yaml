@@ -64,6 +64,7 @@ dependencies:
   flutter_date_pickers: ^0.4.3
   flutter_local_notifications: ^17.2.1+2
   open_filex: ^4.4.0
+  downloadsfolder: ^1.1.0
       
 dev_dependencies:
   flutter_test:

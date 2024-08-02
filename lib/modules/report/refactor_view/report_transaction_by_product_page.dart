@@ -250,14 +250,16 @@ class _ReportTransactionByProductPageState extends State<ReportTransactionByProd
                             selectedDate: _selectedDate,
                             onChanged: (value) {
                               print(value.toString());
-                              print(value.add(const Duration(days: 30)));
+                              int lastDay =
+                                  DateTime(value.year, value.month + 1, 0).day;
+                              print(value.add(Duration(days: lastDay - 1)));
                               newSetState(() {
                                 _selectedDate = value;
                               });
                               contextBloc
                                   .read<ReportTransactionByProductCubit>()
                                   .setDateTimeRange(
-                                  "$value - ${value.add(const Duration(days: 30))}");
+                                  "$value - ${value.add(Duration(days: lastDay - 1))}");
 
                               _startDateController.text = "${contextBloc
                                   .read<ReportTransactionByProductCubit>().state.startDate ?? ""} - ${contextBloc
@@ -283,14 +285,14 @@ class _ReportTransactionByProductPageState extends State<ReportTransactionByProd
                             selectedDate: _selectedDate,
                             onChanged: (value) {
                               print(value.toString());
-                              print(value.add(const Duration(days: 364)));
+                              print(value.add(const Duration(days: 365)));
                               newSetState(() {
                                 _selectedDate = value;
 
                                 contextBloc
                                     .read<ReportTransactionByProductCubit>()
                                     .setDateTimeRange(
-                                  "$value - ${value.add(const Duration(days: 364))}",
+                                  "$value - ${value.add(const Duration(days: 365))}",
                                   filter: "Yearly",
                                 );
                               });
@@ -484,6 +486,7 @@ class _ReportTransactionByProductPageState extends State<ReportTransactionByProd
             headers: [
               "Transaction Date",
               "Invoice No",
+              "SKU",
               "Product",
               "Brand",
               "Category",
@@ -505,13 +508,19 @@ class _ReportTransactionByProductPageState extends State<ReportTransactionByProd
                   cells: [
                     TableViewCell(
                       child: Text(
-                        item.date!.toddMMMyyyyHHmmss(),
+                        item.date!.toddMMMyyyy(),
                         style: AppFont.largeBold(context),
                       ),
                     ),
                     TableViewCell(
                       child: Text(
                         item.invoice!,
+                        style: AppFont.largeBold(context),
+                      ),
+                    ),
+                    TableViewCell(
+                      child: Text(
+                        item.sku!,
                         style: AppFont.largeBold(context),
                       ),
                     ),

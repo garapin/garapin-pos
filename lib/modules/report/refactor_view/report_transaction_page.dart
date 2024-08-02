@@ -253,17 +253,21 @@ class _ReportTransactionPageState extends State<ReportTransactionPage> {
                             selectedDate: _selectedDate,
                             onChanged: (value) {
                               print(value.toString());
-                              print(value.add(const Duration(days: 30)));
+
+                              int lastDay =
+                                  DateTime(value.year, value.month + 1, 0).day;
+                              print(value.add(Duration(days: lastDay - 1)));
                               newSetState(() {
                                 _selectedDate = value;
                                 _selectedDateStart = value;
                                 _selectedDateEnd =
-                                    value.add(const Duration(days: 30));
+                                    value.add(Duration(days: lastDay - 1));
                               });
                               contextBloc
                                   .read<ReportTransactionCubit>()
-                                  .setDateTimeRange(
-                                      "$value - ${value.add(const Duration(days: 30))}");
+                                  .setDateTimeRange("$value - ${value.add(
+                                    Duration(days: lastDay - 1),
+                                  )}");
 
                               _startDateController.text =
                                   "${contextBloc.read<ReportTransactionCubit>().state.startDate ?? ""} - ${contextBloc.read<ReportTransactionCubit>().state.endDate ?? ""}";
@@ -288,17 +292,17 @@ class _ReportTransactionPageState extends State<ReportTransactionPage> {
                             selectedDate: _selectedDate,
                             onChanged: (value) {
                               print(value.toString());
-                              print(value.add(const Duration(days: 364)));
+                              print(value.add(const Duration(days: 365)));
                               newSetState(() {
                                 _selectedDate = value;
                                 _startDateController.text = value.toString();
                                 _selectedDateStart = value;
                                 _selectedDateEnd =
-                                    value.add(const Duration(days: 364));
+                                    value.add(const Duration(days: 365));
                                 contextBloc
                                     .read<ReportTransactionCubit>()
                                     .setDateTimeRange(
-                                      "$value - ${value.add(const Duration(days: 364))}",
+                                      "$value - ${value.add(const Duration(days: 365))}",
                                       filter: "Yearly",
                                     );
                               });
@@ -453,7 +457,7 @@ class _ReportTransactionPageState extends State<ReportTransactionPage> {
   Widget pagedTable(
       List<Transaction> transaction, int lengthData, String buffer) {
     final PaginationController paginationController = PaginationController(
-      rowCount: lengthData,
+      rowCount: transaction.length,
       rowsPerPage: 10,
     );
     return Column(
@@ -465,7 +469,6 @@ class _ReportTransactionPageState extends State<ReportTransactionPage> {
             paginationController: paginationController,
             headers: [
               "Transaction Date",
-              "Invoice Number",
               "Gross Sales",
               "Discount Sales",
               "Nett Sales (Amount - Discount)",
@@ -484,13 +487,7 @@ class _ReportTransactionPageState extends State<ReportTransactionPage> {
                   cells: [
                     TableViewCell(
                       child: Text(
-                        item.date!.toddMMMyyyyHHmmss(),
-                        style: AppFont.largeBold(context),
-                      ),
-                    ),
-                    TableViewCell(
-                      child: Text(
-                        item.invoice!,
+                        item.date!.toddMMMMyyyy(),
                         style: AppFont.largeBold(context),
                       ),
                     ),

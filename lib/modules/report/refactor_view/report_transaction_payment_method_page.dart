@@ -253,14 +253,17 @@ class _ReportTransactionPaymentMethodPageState
                             selectedDate: _selectedDate,
                             onChanged: (value) {
                               print(value.toString());
-                              print(value.add(const Duration(days: 30)));
+
+                              int lastDay =
+                                  DateTime(value.year, value.month + 1, 0).day;
+                              print(value.add(Duration(days: lastDay - 1)));
                               newSetState(() {
                                 _selectedDate = value;
                               });
                               contextBloc
                                   .read<ReportTransactionByPaymentMethodCubit>()
                                   .setDateTimeRange(
-                                      "$value - ${value.add(const Duration(days: 30))}");
+                                      "$value - ${value.add(Duration(days: lastDay - 1))}");
 
                               _startDateController.text = "${contextBloc
                                   .read<ReportTransactionByPaymentMethodCubit>().state.startDate ?? ""} - ${contextBloc
@@ -286,7 +289,7 @@ class _ReportTransactionPaymentMethodPageState
                             selectedDate: _selectedDate,
                             onChanged: (value) {
                               print(value.toString());
-                              print(value.add(const Duration(days: 364)));
+                              print(value.add(const Duration(days: 365)));
                               newSetState(() {
                                 _selectedDate = value;
 
@@ -294,7 +297,7 @@ class _ReportTransactionPaymentMethodPageState
                                     .read<
                                         ReportTransactionByPaymentMethodCubit>()
                                     .setDateTimeRange(
-                                      "$value - ${value.add(const Duration(days: 364))}",
+                                      "$value - ${value.add(const Duration(days: 365))}",
                                       filter: "Yearly",
                                     );
                               });
