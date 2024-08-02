@@ -24,6 +24,7 @@ class SelectDatabasePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final cubit = context.read<SelectDatabaseCubit>();
+    bool quickReleaseMode = false;
     return BlocBuilder<SelectDatabaseCubit, SelectDatabaseState>(
       builder: (context, state) {
         return ContainerStateHandler(
@@ -163,11 +164,26 @@ class SelectDatabasePage extends StatelessWidget {
                                                 LockedAccountState>(
                                               builder: (context, stateLck) {
                                                 return AlertDialog(
-                                                  title: const Text(
-                                                    "Informasi",
-                                                    style: TextStyle(
-                                                      fontWeight: FontWeight.w700,
-                                                    ),
+                                                  title: Row(
+                                                    children: [
+                                                      const Text(
+                                                        "Informasi",
+                                                        style: TextStyle(
+                                                          fontWeight: FontWeight.w700,
+                                                        ),
+                                                      ),
+                                                      const Spacer(),
+                                                      Text(
+                                                        "Quick Release",
+                                                        style: AppFont.largeBold(context),
+                                                      ),
+                                                      Switch(
+                                                        value: quickReleaseMode,
+                                                        onChanged: (value) {
+                                                          quickReleaseMode = value;
+                                                        },
+                                                      ),
+                                                    ],
                                                   ),
                                                   shape: RoundedRectangleBorder(
                                                     borderRadius: BorderRadius.circular(16),
@@ -207,6 +223,7 @@ class SelectDatabasePage extends StatelessWidget {
                                                       user: selectedDB.user!,
                                                       selectedDB:
                                                       selectedDB.dbName!,
+                                                      isQuickRelease: quickReleaseMode,
                                                     ),
                                                   ),
                                                 );

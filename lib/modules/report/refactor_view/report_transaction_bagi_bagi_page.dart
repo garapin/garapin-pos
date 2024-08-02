@@ -250,14 +250,16 @@ class _ReportTransactionBagiBagiPageState extends State<ReportTransactionBagiBag
                             selectedDate: _selectedDate,
                             onChanged: (value) {
                               print(value.toString());
-                              print(value.add(const Duration(days: 30)));
+                              int lastDay =
+                                  DateTime(value.year, value.month + 1, 0).day;
+                              print(value.add(Duration(days: lastDay - 1)));
                               newSetState(() {
                                 _selectedDate = value;
                               });
                               contextBloc
                                   .read<ReportTransactionBagiBagiCubit>()
                                   .setDateTimeRange(
-                                  "$value - ${value.add(const Duration(days: 30))}");
+                                  "$value - ${value.add(Duration(days: lastDay - 1))}");
 
                               _startDateController.text = "${contextBloc
                                   .read<ReportTransactionBagiBagiCubit>().state.startDate ?? ""} - ${contextBloc
@@ -283,14 +285,14 @@ class _ReportTransactionBagiBagiPageState extends State<ReportTransactionBagiBag
                             selectedDate: _selectedDate,
                             onChanged: (value) {
                               print(value.toString());
-                              print(value.add(const Duration(days: 364)));
+                              print(value.add(const Duration(days: 365)));
                               newSetState(() {
                                 _selectedDate = value;
 
                                 contextBloc
                                     .read<ReportTransactionBagiBagiCubit>()
                                     .setDateTimeRange(
-                                  "$value - ${value.add(const Duration(days: 364))}",
+                                  "$value - ${value.add(const Duration(days: 365))}",
                                   filter: "Yearly",
                                 );
                               });
@@ -398,6 +400,7 @@ class _ReportTransactionBagiBagiPageState extends State<ReportTransactionBagiBag
                   style: AppFont.largeBold(context),
                 ),
                 const SizedBox(height: 40),
+                const Spacer(),
                 Text(
                   totalNett.currencyFormat(symbol: "Rp "),
                   style: AppFont.largeBold(context)?.copyWith(
@@ -417,6 +420,7 @@ class _ReportTransactionBagiBagiPageState extends State<ReportTransactionBagiBag
                   style: AppFont.largeBold(context),
                 ),
                 const SizedBox(height: 40),
+                const Spacer(),
                 Text(
                   bagiBagiTotal.currencyFormat(symbol: "Rp "),
                   style: AppFont.largeBold(context)?.copyWith(
@@ -436,6 +440,7 @@ class _ReportTransactionBagiBagiPageState extends State<ReportTransactionBagiBag
                   style: AppFont.largeBold(context),
                 ),
                 const SizedBox(height: 40),
+                const Spacer(),
                 Text(
                   bagiBagiPendapatan.currencyFormat(symbol: "Rp "),
                   style: AppFont.largeBold(context)?.copyWith(
@@ -457,6 +462,7 @@ class _ReportTransactionBagiBagiPageState extends State<ReportTransactionBagiBag
                   textAlign: TextAlign.center,
                 ),
                 const SizedBox(height: 40),
+                const Spacer(),
                 Text(
                   totalTrx.toString(),
                   style: AppFont.largeBold(context)?.copyWith(
@@ -652,6 +658,7 @@ class _ReportTransactionBagiBagiPageState extends State<ReportTransactionBagiBag
       TimeGroup(
         id: '1',
         data: numericDataList,
+        color: Colors.purple,
       ),
     ];
 
@@ -659,7 +666,7 @@ class _ReportTransactionBagiBagiPageState extends State<ReportTransactionBagiBag
       padding: const EdgeInsets.symmetric(horizontal: 24),
       child: AspectRatio(
         aspectRatio: 16 / 6,
-        child: DChartLineT(
+        child: DChartBarT(
           allowSliding: true,
           animate: true,
           groupList: numericGroupList,

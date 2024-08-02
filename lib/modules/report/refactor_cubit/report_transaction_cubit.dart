@@ -100,8 +100,10 @@ class ReportTransactionCubit extends BaseCubit<ReportTransactionState> {
   Future<String> saveToExcel(String bufferExcel) async {
     final encodedStr = bufferExcel;
     Uint8List bytes = base64.decode(encodedStr);
+    Directory? downloadDirectory = await getDownloadsDirectory();
     String dir = '/storage/emulated/0/Download/';
     print(dir);
+
     File file = File(
         "$dir/""report_transaction_${DateTime.now().millisecondsSinceEpoch}.xlsx");
     await file.writeAsBytes(bytes);

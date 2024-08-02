@@ -40,6 +40,7 @@ Transaction _$TransactionFromJson(Map<String, dynamic> json) => Transaction(
       date:
           json['date'] == null ? null : DateTime.parse(json['date'] as String),
       invoice: json['invoice'] as String?,
+      sku: json['sku'] as String?,
       productId: json['productId'] as String?,
       productName: json['productName'] as String?,
       category: json['category'] == null
@@ -59,6 +60,7 @@ Map<String, dynamic> _$TransactionToJson(Transaction instance) =>
     <String, dynamic>{
       'date': instance.date?.toIso8601String(),
       'invoice': instance.invoice,
+      'sku': instance.sku,
       'productId': instance.productId,
       'productName': instance.productName,
       'category': instance.category,
