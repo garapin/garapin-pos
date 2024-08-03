@@ -24,6 +24,7 @@ class ReportTransactionPaymentMethodPage extends StatefulWidget {
 class _ReportTransactionPaymentMethodPageState
     extends State<ReportTransactionPaymentMethodPage> {
   bool showChart = false;
+  String selectedChart = 'Daily';
 
   late DateTime _selectedDate = DateTime.now();
   late DateTime _selectedDateDaily = DateTime.now();
@@ -191,6 +192,7 @@ class _ReportTransactionPaymentMethodPageState
                             onChanged: (value) {
                               print("$value - $value");
                               newSetState(() {
+                                selectedChart = "Daily";
                                 _selectedDateDaily = value;
                               });
                               contextBloc
@@ -221,6 +223,7 @@ class _ReportTransactionPaymentMethodPageState
                             selectedDate: _selectedDateStartWeek,
                             onChanged: (value) {
                               newSetState(() {
+                                selectedChart = "Weekly";
                                 _selectedDateStartWeek = value.start;
                                 _selectedDateEndWeek = value.end;
                               });
@@ -258,6 +261,7 @@ class _ReportTransactionPaymentMethodPageState
                                   DateTime(value.year, value.month + 1, 0).day;
                               print(value.add(Duration(days: lastDay - 1)));
                               newSetState(() {
+                                selectedChart = "Monthly";
                                 _selectedDate = value;
                               });
                               contextBloc
@@ -291,6 +295,7 @@ class _ReportTransactionPaymentMethodPageState
                               print(value.toString());
                               print(value.add(const Duration(days: 365)));
                               newSetState(() {
+                                selectedChart = "Yearly";
                                 _selectedDate = value;
 
                                 contextBloc
@@ -356,6 +361,7 @@ class _ReportTransactionPaymentMethodPageState
             const SizedBox(height: 12),
             FormBuilderDateRangePicker(
               controller: _startDateController,
+              format: DateFormat('yyyy-MM-dd'),
               initialValue: DateTimeRange(
                 start: DateTime.now().subtract(
                   const Duration(days: 7),
@@ -515,7 +521,7 @@ class _ReportTransactionPaymentMethodPageState
                   cells: [
                     TableViewCell(
                       child: Text(
-                        item.date!.toddMMMMyyyy(),
+                        selectedChart == 'Yearly' ? item.date!.toMMMyyyy() : item.date!.toddMMMyyyy(),
                         style: AppFont.largeBold(context),
                       ),
                     ),

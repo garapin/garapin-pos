@@ -21,6 +21,7 @@ class ReportTransactionPage extends StatefulWidget {
 
 class _ReportTransactionPageState extends State<ReportTransactionPage> {
   bool showChart = false;
+  String selectedChart = 'Daily';
 
   late DateTime _selectedDate = DateTime.now();
   late DateTime _selectedDateStart = DateTime.now();
@@ -188,6 +189,7 @@ class _ReportTransactionPageState extends State<ReportTransactionPage> {
                             onChanged: (value) {
                               print("$value - $value");
                               newSetState(() {
+                                selectedChart = "Daily";
                                 _selectedDateDaily = value;
                                 _selectedDateStart = value;
                                 _selectedDateEnd = value;
@@ -220,6 +222,7 @@ class _ReportTransactionPageState extends State<ReportTransactionPage> {
                             selectedDate: _selectedDateStartWeek,
                             onChanged: (value) {
                               newSetState(() {
+                                selectedChart = "Weekly";
                                 _selectedDateStart = value.start;
                                 _selectedDateEnd = value.end;
                                 _selectedDateStartWeek = value.start;
@@ -252,6 +255,7 @@ class _ReportTransactionPageState extends State<ReportTransactionPage> {
                           content: dp.MonthPicker.single(
                             selectedDate: _selectedDate,
                             onChanged: (value) {
+                              selectedChart = "Monthly";
                               print(value.toString());
 
                               int lastDay =
@@ -291,6 +295,7 @@ class _ReportTransactionPageState extends State<ReportTransactionPage> {
                           content: dp.YearPicker.single(
                             selectedDate: _selectedDate,
                             onChanged: (value) {
+                              selectedChart = "Yearly";
                               print(value.toString());
                               print(value.add(const Duration(days: 365)));
                               newSetState(() {
@@ -361,6 +366,7 @@ class _ReportTransactionPageState extends State<ReportTransactionPage> {
             FormBuilderDateRangePicker(
               currentDate: _selectedDateStart,
               controller: _startDateController,
+              format: DateFormat('yyyy-MM-dd'),
               onChanged: (value) {
                 print(value.toString());
                 context
@@ -469,6 +475,7 @@ class _ReportTransactionPageState extends State<ReportTransactionPage> {
             paginationController: paginationController,
             headers: [
               "Transaction Date",
+              "Invoice No",
               "Gross Sales",
               "Discount Sales",
               "Nett Sales (Amount - Discount)",
@@ -487,7 +494,13 @@ class _ReportTransactionPageState extends State<ReportTransactionPage> {
                   cells: [
                     TableViewCell(
                       child: Text(
-                        item.date!.toddMMMMyyyy(),
+                         selectedChart == "Yearly" ? item.date!.toMMMyyyy() : item.date!.toddMMMyyyy(),
+                        style: AppFont.largeBold(context),
+                      ),
+                    ),
+                    TableViewCell(
+                      child: Text(
+                        item.invoice!,
                         style: AppFont.largeBold(context),
                       ),
                     ),

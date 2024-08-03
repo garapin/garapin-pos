@@ -351,6 +351,7 @@ class _ReportTransactionByProductPageState extends State<ReportTransactionByProd
             const SizedBox(height: 12),
             FormBuilderDateRangePicker(
               controller: _startDateController,
+              format: DateFormat('yyyy-MM-dd'),
               onChanged: (value) {
                 print(value.toString());
                 context

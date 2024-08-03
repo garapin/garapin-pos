@@ -12,6 +12,9 @@ extension DateTimeExtensions on DateTime {
     }
   }
 
+  String toMMMyyyy({String? locale}) =>
+      format(pattern: 'MMM yyyy', locale: locale);
+
   String toddMMMMyyyy({String? locale}) =>
       format(pattern: 'dd MMMM yyyy', locale: locale);
 

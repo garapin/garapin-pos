@@ -154,83 +154,158 @@ class SelectDatabasePage extends StatelessWidget {
                                         "LOCKED") {
                                       showDialog(
                                         context: context,
-                                        barrierDismissible: false,
                                         builder: (context) {
-                                          return BlocProvider(
-                                            create: (context) =>
-                                                LockedAccountCubit(context),
-                                            child: BlocBuilder<
-                                                LockedAccountCubit,
-                                                LockedAccountState>(
-                                              builder: (context, stateLck) {
-                                                return AlertDialog(
-                                                  title: Row(
-                                                    children: [
-                                                      const Text(
-                                                        "Informasi",
-                                                        style: TextStyle(
-                                                          fontWeight: FontWeight.w700,
-                                                        ),
-                                                      ),
-                                                      const Spacer(),
-                                                      Text(
-                                                        "Quick Release",
-                                                        style: AppFont.largeBold(context),
-                                                      ),
-                                                      Switch(
-                                                        value: quickReleaseMode,
-                                                        onChanged: (value) {
-                                                          quickReleaseMode = value;
-                                                        },
-                                                      ),
-                                                    ],
-                                                  ),
-                                                  shape: RoundedRectangleBorder(
-                                                    borderRadius: BorderRadius.circular(16),
-                                                  ),
-                                                  actions: [
-                                                    stateLck.paymentStatus ==
-                                                            PaymentStatus
-                                                                .pending
-                                                        ? TextButton(
-                                                            onPressed: () {
-                                                              if (stateLck
-                                                                      .invoices !=
-                                                                  null) {
-                                                                context
-                                                                    .read<
-                                                                        LockedAccountCubit>()
-                                                                    .cancelCheckout(
-                                                                      stateLck
-                                                                          .invoices!
-                                                                          .invoice!,
-                                                                    );
-                                                              }
+                                          return AlertDialog(
+                                            title: const Text('Info'),
+                                            content: const Text('Silahkan pilih salah satu pembayaran untuk melanjutkan transaksi'),
+                                            actions: [
+                                              TextButton(
+                                                onPressed: () {
+                                                  Navigator.pop(context);
 
-                                                              Navigator.pop(
-                                                                context,
-                                                              );
-                                                            },
-                                                            child: const Text(
-                                                              "Batalkan",
-                                                            ),
-                                                          )
-                                                        : Container(),
-                                                  ],
-                                                  content: SizedBox(
-                                                    width: 500,
-                                                    child: LockedAccountPage(
-                                                      user: selectedDB.user!,
-                                                      selectedDB:
-                                                      selectedDB.dbName!,
-                                                      isQuickRelease: quickReleaseMode,
-                                                    ),
-                                                  ),
-                                                );
-                                              },
-                                            ),
+                                                  showDialog(
+                                                    context: context,
+                                                    barrierDismissible: false,
+                                                    builder: (context) {
+                                                      return BlocProvider(
+                                                        create: (context) =>
+                                                            LockedAccountCubit(context),
+                                                        child: BlocBuilder<
+                                                            LockedAccountCubit,
+                                                            LockedAccountState>(
+                                                          builder: (context, stateLck) {
+                                                            return AlertDialog(
+                                                              title: const Text(
+                                                                "Informasi",
+                                                                style: TextStyle(
+                                                                  fontWeight: FontWeight.w700,
+                                                                ),
+                                                              ),
+                                                              shape: RoundedRectangleBorder(
+                                                                borderRadius: BorderRadius.circular(16),
+                                                              ),
+                                                              actions: [
+                                                                stateLck.paymentStatus ==
+                                                                    PaymentStatus
+                                                                        .pending
+                                                                    ? TextButton(
+                                                                  onPressed: () {
+                                                                    if (stateLck
+                                                                        .invoices !=
+                                                                        null) {
+                                                                      context
+                                                                          .read<
+                                                                          LockedAccountCubit>()
+                                                                          .cancelCheckout(
+                                                                        stateLck
+                                                                            .invoices!
+                                                                            .invoice!,
+                                                                      );
+                                                                    }
+
+                                                                    Navigator.pop(
+                                                                      context,
+                                                                    );
+                                                                  },
+                                                                  child: const Text(
+                                                                    "Batalkan",
+                                                                  ),
+                                                                )
+                                                                    : Container(),
+                                                              ],
+                                                              content: SizedBox(
+                                                                width: 500,
+                                                                child: LockedAccountPage(
+                                                                  user: selectedDB.user!,
+                                                                  selectedDB:
+                                                                  selectedDB.dbName!,
+                                                                  isQuickRelease: true,
+                                                                ),
+                                                              ),
+                                                            );
+                                                          },
+                                                        ),
+                                                      );
+                                                    },
+                                                  );
+                                                },
+                                                child: const Text("Quick Release"),
+                                              ),
+                                              TextButton(
+                                                onPressed: () {
+                                                  Navigator.pop(context);
+
+                                                  showDialog(
+                                                    context: context,
+                                                    barrierDismissible: false,
+                                                    builder: (context) {
+                                                      return BlocProvider(
+                                                        create: (context) =>
+                                                            LockedAccountCubit(context),
+                                                        child: BlocBuilder<
+                                                            LockedAccountCubit,
+                                                            LockedAccountState>(
+                                                          builder: (context, stateLck) {
+                                                            return AlertDialog(
+                                                              title: const Text(
+                                                                "Informasi",
+                                                                style: TextStyle(
+                                                                  fontWeight: FontWeight.w700,
+                                                                ),
+                                                              ),
+                                                              shape: RoundedRectangleBorder(
+                                                                borderRadius: BorderRadius.circular(16),
+                                                              ),
+                                                              actions: [
+                                                                stateLck.paymentStatus ==
+                                                                    PaymentStatus
+                                                                        .pending
+                                                                    ? TextButton(
+                                                                  onPressed: () {
+                                                                    if (stateLck
+                                                                        .invoices !=
+                                                                        null) {
+                                                                      context
+                                                                          .read<
+                                                                          LockedAccountCubit>()
+                                                                          .cancelCheckout(
+                                                                        stateLck
+                                                                            .invoices!
+                                                                            .invoice!,
+                                                                      );
+                                                                    }
+
+                                                                    Navigator.pop(
+                                                                      context,
+                                                                    );
+                                                                  },
+                                                                  child: const Text(
+                                                                    "Batalkan",
+                                                                  ),
+                                                                )
+                                                                    : Container(),
+                                                              ],
+                                                              content: SizedBox(
+                                                                width: 500,
+                                                                child: LockedAccountPage(
+                                                                  user: selectedDB.user!,
+                                                                  selectedDB:
+                                                                  selectedDB.dbName!,
+                                                                  isQuickRelease: false,
+                                                                ),
+                                                              ),
+                                                            );
+                                                          },
+                                                        ),
+                                                      );
+                                                    },
+                                                  );
+                                                },
+                                                child: const Text("Normal Payment"),
+                                              ),
+                                            ],
                                           );
-                                        },
+                                        }
                                       );
                                     } else {
                                       cubit.doSelecteDatabase(
