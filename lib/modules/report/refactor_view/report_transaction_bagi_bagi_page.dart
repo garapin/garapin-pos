@@ -517,7 +517,7 @@ class _ReportTransactionBagiBagiPageState extends State<ReportTransactionBagiBag
                   cells: [
                     TableViewCell(
                       child: Text(
-                        item.date!.toddMMMyyyy(),
+                        item.date!.toddMMMyyyyHHmmss(),
                         style: AppFont.largeBold(context),
                       ),
                     ),

@@ -36,6 +36,7 @@ Transaction _$TransactionFromJson(Map<String, dynamic> json) => Transaction(
       date:
           json['date'] == null ? null : DateTime.parse(json['date'] as String),
       invoice: json['invoice'] as String?,
+      settlement: json['settlement_status'] as String?,
       grossSales: json['grossSales'] as int?,
       discount: json['discount'] as int?,
       netSales: json['netSales'] as int?,
@@ -45,6 +46,7 @@ Map<String, dynamic> _$TransactionToJson(Transaction instance) =>
     <String, dynamic>{
       'date': instance.date?.toIso8601String(),
       'invoice': instance.invoice,
+      'settlement_status': instance.settlement,
       'grossSales': instance.grossSales,
       'discount': instance.discount,
       'netSales': instance.netSales,

@@ -509,7 +509,7 @@ class _ReportTransactionByProductPageState extends State<ReportTransactionByProd
                   cells: [
                     TableViewCell(
                       child: Text(
-                        item.date!.toddMMMyyyy(),
+                        item.date!.toddMMMyyyyHHmmss(),
                         style: AppFont.largeBold(context),
                       ),
                     ),
