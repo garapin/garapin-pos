@@ -20,7 +20,7 @@ class SelectDatabaseCubit extends BaseCubit<SelectDatabaseState> {
   Future<void> initData() async {
     loadingState();
     final data = await ApiService.signinWithGoogle(context,
-        firebaseToken: Sessions.getToken()!);
+        firebaseToken: Sessions.getFirebaseToken()!);
     if (data.isSuccess) {
       if (data.data!.database!.isNotEmpty) {
         String firstSelected = data.data?.database?.first.dbName ?? "";

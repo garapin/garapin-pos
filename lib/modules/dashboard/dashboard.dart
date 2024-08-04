@@ -3,7 +3,7 @@ import 'dart:developer';
 import 'package:go_router/go_router.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:pos/data/models/base/database.dart';
-import 'package:pos/data/models/base/user.dart';
+import 'package:pos/data/models/base/user.dart' as userModel;
 import 'package:pos/engine/engine.dart';
 import 'package:pos/modules/auth/locked_account/cubit/locked_account_cubit.dart';
 import 'package:pos/modules/auth/locked_account/cubit/locked_account_state.dart';
@@ -22,6 +22,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../widgets/widgets.dart';
 import 'catalog/view/catalog.dart';
 import 'master/cubit/master_cubit.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class DashboardPage extends StatelessWidget {
   const DashboardPage({super.key});
@@ -39,7 +40,7 @@ class DashboardPage extends StatelessWidget {
         BlocListener<LockedAccountCubit, LockedAccountState>(
             listener: (context, state) {
           if (state.status == DataStateStatus.success) {
-            User? user = Sessions.getUserModel();
+            userModel.User? user = Sessions.getUserModel();
             Database? database = Sessions.getDatabaseModel();
 
             if (state.store?.store?.storeStatus == "LOCKED") {
@@ -128,7 +129,7 @@ class DashboardPage extends StatelessWidget {
                     builder: (context, state) {
                       return ContainerStateHandler(
                         status: state.status,
-                        loading: SizedBox(),
+                        loading: const SizedBox(),
                         child: Container(
                           decoration: BoxDecoration(
                               border: Border.all(
@@ -144,7 +145,7 @@ class DashboardPage extends StatelessWidget {
                                     const SizedBox(height: 8),
                                     (Sessions.getDatabaseModel()?.role !=
                                             "ADMIN")
-                                        ? SizedBox()
+                                        ? const SizedBox()
                                         : CustomButton(
                                             onPressed: () {
                                               masterCubit.showPage(true);
@@ -174,7 +175,7 @@ class DashboardPage extends StatelessWidget {
                                     const SizedBox(height: 8),
                                     (Sessions.getDatabaseModel()?.role !=
                                             "ADMIN")
-                                        ? SizedBox()
+                                        ? const SizedBox()
                                         : CustomButton(
                                             onPressed: () {
                                               context
@@ -194,7 +195,7 @@ class DashboardPage extends StatelessWidget {
                                     const SizedBox(height: 8),
                                     (Sessions.getDatabaseModel()?.role !=
                                             "ADMIN")
-                                        ? SizedBox()
+                                        ? const SizedBox()
                                         : CustomButton(
                                             onPressed: () {
                                               context
@@ -210,13 +211,14 @@ class DashboardPage extends StatelessWidget {
                                                     .images.profileInactive
                                                     .image(
                                                         height: 65, width: 60)),
-                                    SizedBox(height: 30),
+                                    const SizedBox(height: 30),
                                     Align(
                                       alignment: Alignment.bottomCenter,
                                       child: CustomButton(
                                           onPressed: () async {
-                                            final GoogleSignInAccount? s =
-                                                await GoogleSignIn().signOut();
+                                            await GoogleSignIn().signOut();
+                                            await FirebaseAuth.instance
+                                                .signOut();
                                             Sessions.clear().then((value) =>
                                                 context.go(RouteNames.root));
                                           },
@@ -247,7 +249,7 @@ class DashboardPage extends StatelessWidget {
                                     const SizedBox(height: 8),
                                     (Sessions.getDatabaseModel()?.role !=
                                             "ADMIN")
-                                        ? SizedBox()
+                                        ? const SizedBox()
                                         : CustomButton(
                                             onPressed: () {
                                               masterCubit.showPage(true);
@@ -277,7 +279,7 @@ class DashboardPage extends StatelessWidget {
                                     const SizedBox(height: 8),
                                     (Sessions.getDatabaseModel()?.role !=
                                             "ADMIN")
-                                        ? SizedBox()
+                                        ? const SizedBox()
                                         : CustomButton(
                                             onPressed: () {
                                               context
@@ -297,7 +299,7 @@ class DashboardPage extends StatelessWidget {
                                     const SizedBox(height: 8),
                                     (Sessions.getDatabaseModel()?.role !=
                                             "ADMIN")
-                                        ? SizedBox()
+                                        ? const SizedBox()
                                         : CustomButton(
                                             onPressed: () {
                                               context
@@ -313,13 +315,14 @@ class DashboardPage extends StatelessWidget {
                                                     .images.profileInactive
                                                     .image(
                                                         height: 65, width: 60)),
-                                    SizedBox(height: 30),
+                                    const SizedBox(height: 30),
                                     Align(
                                       alignment: Alignment.bottomCenter,
                                       child: CustomButton(
                                           onPressed: () async {
-                                            final GoogleSignInAccount? s =
-                                                await GoogleSignIn().signOut();
+                                            await GoogleSignIn().signOut();
+                                            await FirebaseAuth.instance
+                                                .signOut();
                                             Sessions.clear().then((value) =>
                                                 context.go(RouteNames.root));
                                           },
@@ -371,7 +374,7 @@ class DashboardPage extends StatelessWidget {
                                       const SizedBox(height: 8),
                                       (Sessions.getDatabaseModel()?.role !=
                                               "ADMIN")
-                                          ? SizedBox()
+                                          ? const SizedBox()
                                           : CustomButton(
                                               onPressed: () {
                                                 context
@@ -392,7 +395,7 @@ class DashboardPage extends StatelessWidget {
                                       const SizedBox(height: 8),
                                       (Sessions.getDatabaseModel()?.role !=
                                               "ADMIN")
-                                          ? SizedBox()
+                                          ? const SizedBox()
                                           : CustomButton(
                                               onPressed: () {
                                                 context
@@ -410,14 +413,14 @@ class DashboardPage extends StatelessWidget {
                                                       .image(
                                                           height: 65,
                                                           width: 60)),
-                                      SizedBox(height: 30),
+                                      const SizedBox(height: 30),
                                       Align(
                                         alignment: Alignment.bottomCenter,
                                         child: CustomButton(
                                             onPressed: () async {
-                                              final GoogleSignInAccount? s =
-                                                  await GoogleSignIn()
-                                                      .signOut();
+                                              await GoogleSignIn().signOut();
+                                              await FirebaseAuth.instance
+                                                  .signOut();
                                               Sessions.clear().then((value) =>
                                                   context.go(RouteNames.root));
                                             },
@@ -452,7 +455,7 @@ class DashboardPage extends StatelessWidget {
                                       const SizedBox(height: 8),
                                       (Sessions.getDatabaseModel()?.role !=
                                               "ADMIN")
-                                          ? SizedBox()
+                                          ? const SizedBox()
                                           : CustomButton(
                                               onPressed: () {
                                                 masterCubit.showPage(true);
@@ -486,7 +489,7 @@ class DashboardPage extends StatelessWidget {
                                       const SizedBox(height: 8),
                                       (Sessions.getDatabaseModel()?.role !=
                                               "ADMIN")
-                                          ? SizedBox()
+                                          ? const SizedBox()
                                           : CustomButton(
                                               onPressed: () {
                                                 context
@@ -507,7 +510,7 @@ class DashboardPage extends StatelessWidget {
                                       const SizedBox(height: 8),
                                       (Sessions.getDatabaseModel()?.role !=
                                               "ADMIN")
-                                          ? SizedBox()
+                                          ? const SizedBox()
                                           : CustomButton(
                                               onPressed: () {
                                                 context
@@ -525,14 +528,14 @@ class DashboardPage extends StatelessWidget {
                                                       .image(
                                                           height: 65,
                                                           width: 60)),
-                                      SizedBox(height: 30),
+                                      const SizedBox(height: 30),
                                       Align(
                                         alignment: Alignment.bottomCenter,
                                         child: CustomButton(
                                             onPressed: () async {
-                                              final GoogleSignInAccount? s =
-                                                  await GoogleSignIn()
-                                                      .signOut();
+                                              await GoogleSignIn().signOut();
+                                              await FirebaseAuth.instance
+                                                  .signOut();
                                               Sessions.clear().then((value) =>
                                                   context.go(RouteNames.root));
                                             },
@@ -546,10 +549,10 @@ class DashboardPage extends StatelessWidget {
                                     ],
                                   );
                                 } else {
-                                  return SizedBox();
+                                  return const SizedBox();
                                 }
                               } else {
-                                return SizedBox();
+                                return const SizedBox();
                               }
                             }),
                           ),

@@ -6,6 +6,14 @@ import 'package:pos/data/api/services.dart';
 import 'package:pos/engine/engine.dart';
 import 'package:pos/modules/report/cubit/report_cubit.dart';
 import 'package:pos/modules/report/cubit/report_transaction_cubit.dart';
+import 'package:pos/modules/report/refactor_cubit/report_transaction_bagi_bagi_cubit.dart';
+import 'package:pos/modules/report/refactor_cubit/report_transaction_cubit.dart' as refc_report;
+import 'package:pos/modules/report/refactor_cubit/report_transaction_by_payment_method_cubit.dart' as refc_report_paymennt;
+import 'package:pos/modules/report/refactor_cubit/report_transaction_by_product_cubit.dart';
+import 'package:pos/modules/report/refactor_view/report_transaction_bagi_bagi_page.dart';
+import 'package:pos/modules/report/refactor_view/report_transaction_by_product_page.dart';
+import 'package:pos/modules/report/refactor_view/report_transaction_page.dart';
+import 'package:pos/modules/report/refactor_view/report_transaction_payment_method_page.dart';
 import 'package:pos/modules/report/view/report.dart';
 import 'package:pos/modules/report/view/report_transaction.dart';
 
@@ -56,12 +64,20 @@ class MasterReportCubit extends BaseCubit<MasterReportState> {
 
   List<Widget> page = [
     BlocProvider(
-      create: (context) => ReportTransactionCubit(context),
-      child: ReportTransaction(),
+      create: (context) => refc_report.ReportTransactionCubit(context),
+      child: const ReportTransactionPage(),
     ),
     BlocProvider(
-      create: (context) => ReportCubit(context),
-      child: ReportPage(),
+      create: (context) => refc_report_paymennt.ReportTransactionByPaymentMethodCubit(context),
+      child: const ReportTransactionPaymentMethodPage(),
+    ),
+    BlocProvider(
+      create: (context) => ReportTransactionByProductCubit(context),
+      child: const ReportTransactionByProductPage(),
+    ),
+    BlocProvider(
+      create: (context) => ReportTransactionBagiBagiCubit(context),
+      child: const ReportTransactionBagiBagiPage(),
     ),
   ];
   Widget showMaster() {
@@ -75,33 +91,77 @@ class MasterReportCubit extends BaseCubit<MasterReportState> {
             (state.store?.store?.merChantRole == "SUPP")
                 ? const SizedBox()
                 : CustomButton(
-                    onPressed: () {
-                      showPage(false);
-                      changePage(0);
-                      // context.read<CatalogCubit>().initData();
-                    },
-                    child: Container(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(24),
-                        color: AppColor.appColor.primary.withOpacity(0.15),
-                      ),
-                      height: 40,
-                      child: Center(
-                        child: Text(
-                          "Report Transaksi Penjualan",
-                          style: AppFont.largePrimary(context),
-                        ),
-                      ),
-                    ),
+              onPressed: () {
+                showPage(false);
+                changePage(0);
+              },
+              child: Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(24),
+                  color: AppColor.appColor.primary.withOpacity(0.15),
+                ),
+                height: 40,
+                child: Center(
+                  child: Text(
+                    "Report Transaction",
+                    style: AppFont.largePrimary(context),
                   ),
+                ),
+              ),
+            ),
+            (state.store?.store?.merChantRole == "SUPP") ? const SizedBox() : const SizedBox(height: 20),
+            (state.store?.store?.merChantRole == "SUPP")
+                ? const SizedBox()
+                : CustomButton(
+              onPressed: () {
+                showPage(false);
+                changePage(1);
+              },
+              child: Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(24),
+                  color: AppColor.appColor.primary.withOpacity(0.15),
+                ),
+                height: 40,
+                child: Center(
+                  child: Text(
+                    "Report Transaction by Payment Method",
+                    style: AppFont.largePrimary(context),
+                    textAlign: TextAlign.center,
+                  ),
+                ),
+              ),
+            ),
+            (state.store?.store?.merChantRole == "SUPP") ? const SizedBox() : const SizedBox(height: 20),
+            (state.store?.store?.merChantRole == "SUPP")
+                ? const SizedBox()
+                : CustomButton(
+              onPressed: () {
+                showPage(false);
+                changePage(2);
+              },
+              child: Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(24),
+                  color: AppColor.appColor.primary.withOpacity(0.15),
+                ),
+                height: 40,
+                child: Center(
+                  child: Text(
+                    "Report Transaction by Product",
+                    style: AppFont.largePrimary(context),
+                    textAlign: TextAlign.center,
+                  ),
+                ),
+              ),
+            ),
             (state.store?.store?.merChantRole == "SUPP")
                 ? const SizedBox()
                 : const SizedBox(height: 20),
             CustomButton(
               onPressed: () {
                 showPage(false);
-                changePage(1);
-                // context.read<CatalogCubit>().initData();
+                changePage(3);
               },
               child: Container(
                 decoration: BoxDecoration(
@@ -117,7 +177,7 @@ class MasterReportCubit extends BaseCubit<MasterReportState> {
                 ),
               ),
             ),
-            const SizedBox(height: 20)
+            const SizedBox(height: 20),
           ],
         ),
       );

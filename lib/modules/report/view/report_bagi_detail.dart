@@ -212,7 +212,14 @@ class ReportBagiDretail extends StatelessWidget {
                                                                         ?.totalPrice ==
                                                                     null)
                                                                 ? ""
-                                                                : "${(item!.flatAmount! - (int.parse(state.fee ?? "0") + int.parse(state.tax ?? "0"))).currencyFormat(symbol: "Rp.")}",
+                                                                : (item!.flatAmount! -
+                                                                        (int.parse(state.fee ??
+                                                                                "0") +
+                                                                            int.parse(state.tax ??
+                                                                                "0")))
+                                                                    .currencyFormat(
+                                                                        symbol:
+                                                                            "Rp."),
                                                             style: AppFont
                                                                     .medium(
                                                                         context)!
@@ -314,7 +321,14 @@ class ReportBagiDretail extends StatelessWidget {
                                                                     ?.totalPrice ==
                                                                 null)
                                                             ? ""
-                                                            : "${(item!.flatAmount! - (int.parse(state.fee ?? "0") + int.parse(state.tax ?? "0"))).currencyFormat(symbol: "Rp.")}",
+                                                            : (item!.flatAmount! -
+                                                                    (int.parse(state.fee ??
+                                                                            "0") +
+                                                                        int.parse(state.tax ??
+                                                                            "0")))
+                                                                .currencyFormat(
+                                                                    symbol:
+                                                                        "Rp."),
                                                         style: AppFont.medium(
                                                                 context)!
                                                             .copyWith(
@@ -367,9 +381,9 @@ class ReportBagiDretail extends StatelessWidget {
                         const SizedBox(height: 15),
                         (state.invoice?.feeGarapin == null ||
                                 state.invoice?.feeGarapin == 0)
-                            ? SizedBox()
+                            ? const SizedBox()
                             : (state.store?.store?.merChantRole == "SUPP")
-                                ? SizedBox()
+                                ? const SizedBox()
                                 : Row(
                                     mainAxisAlignment:
                                         MainAxisAlignment.spaceBetween,
@@ -412,9 +426,9 @@ class ReportBagiDretail extends StatelessWidget {
                         const SizedBox(height: 15),
                         (state.invoice?.feeGarapin == null ||
                                 state.invoice?.feeGarapin == 0)
-                            ? SizedBox()
+                            ? const SizedBox()
                             : (state.store?.store?.merChantRole == "SUPP")
-                                ? SizedBox()
+                                ? const SizedBox()
                                 : const Divider(thickness: 2),
                         const SizedBox(height: 15),
                         Align(
@@ -719,7 +733,14 @@ class ReportBagiDretail extends StatelessWidget {
                                                         ?.totalPrice ==
                                                     null)
                                                 ? ""
-                                                : "${(state.invoice!.product!.totalPrice! - int.parse(state.fee ?? "0") - int.parse(state.tax ?? "0")).currencyFormat(symbol: "Rp.")}",
+                                                : (state.invoice!.product!
+                                                            .totalPrice! -
+                                                        int.parse(
+                                                            state.fee ?? "0") -
+                                                        int.parse(
+                                                            state.tax ?? "0"))
+                                                    .currencyFormat(
+                                                        symbol: "Rp."),
                                             style: AppFont.largeBold(context)!
                                                 .copyWith(
                                                     color: AppColor

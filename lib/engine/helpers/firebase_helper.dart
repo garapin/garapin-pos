@@ -11,7 +11,7 @@ class FirebaseHelper {
             Sessions.clear();
           } else {
             user.getIdTokenResult().then((value) {
-              Sessions.setToken(value.token!);
+              Sessions.setFirebaseToken(value.token!);
             });
           }
         },

@@ -1,6 +1,10 @@
 import 'dart:developer';
 
 import 'package:pos/data/models/base/config_version_apps.dart';
+import 'package:pos/data/models/base/report_transaction.dart';
+import 'package:pos/data/models/base/report_transaction_bagi_bagi.dart';
+import 'package:pos/data/models/base/report_transaction_by_payment_method.dart';
+import 'package:pos/data/models/base/report_transaction_by_product.dart';
 import 'package:pos/data/models/base/split_rule.dart';
 
 import '../base/account_balance.dart';
@@ -113,6 +117,22 @@ Object factoryModel(String type, {Map<String, dynamic>? json}) {
       return json != null
           ? AmountPendingTransaction.fromJson(json)
           : AmountPendingTransaction();
+    case 'ReportTransaction':
+      return json != null
+          ? ReportTransaction.fromJson(json)
+          : ReportTransaction();
+    case 'ReportTransactionByPaymentMethod':
+      return json != null
+          ? ReportTransactionByPaymentMethod.fromJson(json)
+          : ReportTransactionByPaymentMethod();
+    case 'ReportTransactionByProduct':
+      return json != null
+          ? ReportTransactionByProduct.fromJson(json)
+          : ReportTransactionByProduct();
+    case 'ReportTransactionBagiBagi':
+      return json != null
+          ? ReportTransactionBagiBagi.fromJson(json)
+          : ReportTransactionBagiBagi();
     case 'dynamic':
       return json != null ? DefaultModel(json) : DefaultModel({});
     default:

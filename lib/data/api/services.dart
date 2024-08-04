@@ -17,6 +17,10 @@ import 'package:pos/data/models/base/invoices.dart';
 import 'package:pos/data/models/base/payment_cash.dart';
 import 'package:pos/data/models/base/product.dart';
 import 'package:pos/data/models/base/qrcode.dart';
+import 'package:pos/data/models/base/report_transaction.dart';
+import 'package:pos/data/models/base/report_transaction_bagi_bagi.dart';
+import 'package:pos/data/models/base/report_transaction_by_payment_method.dart';
+import 'package:pos/data/models/base/report_transaction_by_product.dart';
 import 'package:pos/data/models/base/split_payment_detail.dart';
 import 'package:pos/data/models/base/split_rule.dart';
 import 'package:pos/data/models/base/store.dart';
@@ -875,5 +879,111 @@ class ApiService {
         .then(
             (result) => ApiResponseList<WithdrawHistory>.fromJson(result.data))
         .handler((error) => ApiResponseList<WithdrawHistory>.onError(error));
+  }
+
+  // TODO: Service Refactor for Report
+  static Future<ApiResponse<ReportTransaction>> getReportTransaction(
+    BuildContext context, {
+    required String startDate,
+    required String endDate,
+    required String database,
+    int start = 0,
+    int length = 5,
+    int draw = 1,
+    String filter = "",
+  }) async {
+    return await ApiConfigure(context)
+        .get('/store/report/transaction', params: {
+          "startDate": startDate,
+          "endDate": endDate,
+          "start": start,
+          "length": length,
+          "draw": draw,
+          "targetDatabase": database,
+          "filter": filter
+        })
+        .then((result) => ApiResponse<ReportTransaction>.fromJson(result.data))
+        .handler((error) => ApiResponse<ReportTransaction>.onError(error));
+  }
+
+  static Future<ApiResponse<ReportTransactionByPaymentMethod>>
+      getReportTransactionByPaymentMethod(
+    BuildContext context, {
+    required String startDate,
+    required String endDate,
+    required String database,
+    int start = 0,
+    int length = 5,
+    int draw = 1,
+    String filter = "",
+  }) async {
+    return await ApiConfigure(context)
+        .get('/store/report/transaction/payment-method', params: {
+          "startDate": startDate,
+          "endDate": endDate,
+          "start": start,
+          "length": length,
+          "draw": draw,
+          "targetDatabase": database,
+          "filter": filter
+        })
+        .then((result) =>
+            ApiResponse<ReportTransactionByPaymentMethod>.fromJson(result.data))
+        .handler((error) =>
+            ApiResponse<ReportTransactionByPaymentMethod>.onError(error));
+  }
+
+  static Future<ApiResponse<ReportTransactionByProduct>>
+      getReportTransactionByProduct(
+    BuildContext context, {
+    required String startDate,
+    required String endDate,
+    required String database,
+    int start = 0,
+    int length = 5,
+    int draw = 1,
+    String filter = "",
+  }) async {
+    return await ApiConfigure(context)
+        .get('/store/report/transaction/product', params: {
+          "startDate": startDate,
+          "endDate": endDate,
+          "start": start,
+          "length": length,
+          "draw": draw,
+          "targetDatabase": database,
+          "filter": filter
+        })
+        .then((result) =>
+            ApiResponse<ReportTransactionByProduct>.fromJson(result.data))
+        .handler(
+            (error) => ApiResponse<ReportTransactionByProduct>.onError(error));
+  }
+
+  static Future<ApiResponse<ReportTransactionBagiBagi>>
+  getReportTransactionBagiBagi(
+      BuildContext context, {
+        required String startDate,
+        required String endDate,
+        required String database,
+        int start = 0,
+        int length = 5,
+        int draw = 1,
+        String filter = "",
+      }) async {
+    return await ApiConfigure(context)
+        .get('/store/report/transaction/bagi-bagi', params: {
+      "startDate": startDate,
+      "endDate": endDate,
+      "start": start,
+      "length": length,
+      "draw": draw,
+      "targetDatabase": database,
+      "filter": filter
+    })
+        .then((result) =>
+    ApiResponse<ReportTransactionBagiBagi>.fromJson(result.data))
+        .handler(
+            (error) => ApiResponse<ReportTransactionBagiBagi>.onError(error));
   }
 }

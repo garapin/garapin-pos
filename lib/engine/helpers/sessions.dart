@@ -14,6 +14,8 @@ abstract class Sessions {
   ///SET
   static Future setToken(String token) async =>
       box.write(SessionKeys.token, token);
+  static Future setFirebaseToken(String firebaseToken) async =>
+      box.write(SessionKeys.firebaseToken, firebaseToken);
   static Future setIsLogin(String isLogin) async =>
       box.write(SessionKeys.isLogin, isLogin);
   static Future setUsers(String user) async =>
@@ -31,6 +33,8 @@ abstract class Sessions {
   static String? getUser() => box.read<String>(SessionKeys.user);
   static String? getIsLogin() => box.read<String>(SessionKeys.isLogin);
   static String? getToken() => box.read<String>(SessionKeys.token);
+  static String? getFirebaseToken() =>
+      box.read<String>(SessionKeys.firebaseToken);
   static String? getDatabase() => box.read<String>(SessionKeys.database);
   static String? getAccountHolder() =>
       box.read<String>(SessionKeys.accountHolder);
@@ -53,6 +57,8 @@ abstract class Sessions {
       await box.remove(SessionKeys.bluetooth);
   static Future<void> removeIsPayedQuickRelease() async =>
       await box.remove(SessionKeys.isPayedQuickRelease);
+  static Future<void> removeFirebaseToken() async =>
+      await box.remove(SessionKeys.firebaseToken);
 
   static User? getUserModel() {
     String? data = getUser();

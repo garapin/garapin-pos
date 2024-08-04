@@ -2,6 +2,9 @@ import 'dart:developer';
 import 'dart:io';
 
 import 'package:dio/dio.dart';
+import 'package:flutter/material.dart';
+import 'package:pos/engine/helpers/sessions.dart';
+import 'package:pos/routes/routes.dart';
 
 import 'network_exceptions.dart';
 import 'response.dart';
@@ -33,6 +36,8 @@ class ErrorHandler {
                 case 401:
                   networkExceptions =
                       const NetworkExceptions.unauthorisedRequest();
+                  Sessions.clear();
+                  // Redirect to login page (or see the redirect go router)
                   break;
                 case 403:
                   networkExceptions =

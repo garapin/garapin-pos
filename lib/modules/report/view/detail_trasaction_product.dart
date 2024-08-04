@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -23,7 +25,7 @@ class DetailTransactionProduct extends StatelessWidget {
         builder: (context, state) {
           return ContainerStateHandler(
             status: state.status,
-            loading: Center(
+            loading: const Center(
               child: CircularProgressIndicator(),
             ),
             child: SingleChildScrollView(
@@ -116,12 +118,12 @@ class DetailTransactionProduct extends StatelessWidget {
                                   textAlign: TextAlign.center,
                                   style: AppFont.largeBold(context))),
                         ]),
-                    SizedBox(height: 12),
-                    Divider(thickness: 2),
+                    const SizedBox(height: 12),
+                    const Divider(thickness: 2),
                     SizedBox(
                       child: ListView.separated(
                         shrinkWrap: true,
-                        physics: NeverScrollableScrollPhysics(),
+                        physics: const NeverScrollableScrollPhysics(),
                         itemCount: state.invoice?.product?.items?.length ?? 0,
                         itemBuilder: (context, index) {
                           var item = state.invoice?.product?.items?[index];
@@ -203,15 +205,15 @@ class DetailTransactionProduct extends StatelessWidget {
                               ]);
                         },
                         separatorBuilder: (BuildContext context, int index) {
-                          return Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 12),
+                          return const Padding(
+                            padding: EdgeInsets.symmetric(vertical: 12),
                             child: Divider(thickness: 2),
                           );
                         },
                       ),
                     ),
-                    Divider(thickness: 2),
-                    SizedBox(height: 15),
+                    const Divider(thickness: 2),
+                    const SizedBox(height: 15),
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 50),
                       child: Align(
@@ -228,13 +230,13 @@ class DetailTransactionProduct extends StatelessWidget {
                                   style: AppFont.largeBold(context)!
                                       .copyWith(color: AppColor.appColor.error),
                                 ),
-                                SizedBox(height: 4),
+                                const SizedBox(height: 4),
                                 Text(
                                   "Tax",
                                   style: AppFont.largeBold(context)!
                                       .copyWith(color: AppColor.appColor.error),
                                 ),
-                                SizedBox(height: 4),
+                                const SizedBox(height: 4),
                                 Text(
                                   "Total",
                                   style: AppFont.largeBold(context)!.copyWith(
@@ -242,7 +244,7 @@ class DetailTransactionProduct extends StatelessWidget {
                                 ),
                               ],
                             ),
-                            SizedBox(width: 12),
+                            const SizedBox(width: 12),
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.end,
                               children: [
@@ -251,17 +253,20 @@ class DetailTransactionProduct extends StatelessWidget {
                                   style: AppFont.largeBold(context)!
                                       .copyWith(color: AppColor.appColor.error),
                                 ),
-                                SizedBox(height: 4),
+                                const SizedBox(height: 4),
                                 Text(
                                   "- ${int.parse(state.tax ?? "0").currencyFormat(symbol: "Rp.")}",
                                   style: AppFont.largeBold(context)!
                                       .copyWith(color: AppColor.appColor.error),
                                 ),
-                                SizedBox(height: 4),
+                                const SizedBox(height: 4),
                                 Text(
                                   (state.invoice?.product?.totalPrice == null)
                                       ? ""
-                                      : "${(state.invoice!.product!.totalPrice! - int.parse(state.fee ?? "0") - int.parse(state.tax ?? "0")).currencyFormat(symbol: "Rp.")}",
+                                      : (state.invoice!.product!.totalPrice! -
+                                              int.parse(state.fee ?? "0") -
+                                              int.parse(state.tax ?? "0"))
+                                          .currencyFormat(symbol: "Rp."),
                                   style: AppFont.largeBold(context)!.copyWith(
                                       color: AppColor.appColor.success),
                                 ),
@@ -271,7 +276,7 @@ class DetailTransactionProduct extends StatelessWidget {
                         ),
                       ),
                     ),
-                    SizedBox(height: 15),
+                    const SizedBox(height: 15),
                   ],
                 ),
               ),
