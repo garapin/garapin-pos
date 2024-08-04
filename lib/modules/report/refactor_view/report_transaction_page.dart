@@ -473,34 +473,90 @@ class _ReportTransactionPageState extends State<ReportTransactionPage> {
           width: baseWidth,
           child: ScrollableTableView(
             paginationController: paginationController,
-            headers: [
-              "Transaction Date",
-              "Invoice No",
-              "Gross Sales",
-              "Discount Sales",
-              "Nett Sales (Amount - Discount)",
-            ].map((label) {
-              return TableViewHeader(
-                alignment: Alignment.center,
-                padding: const EdgeInsets.symmetric(horizontal: 8),
-                label: label,
-                minWidth: 170,
-              );
-            }).toList(),
-            rows: [
+            headers: selectedChart == "Yearly"
+                ? [
+                    "Transaction Date",
+                    "Gross Sales",
+                    "Discount Sales",
+                    "Nett Sales (Amount - Discount)",
+                  ].map((label) {
+                    return TableViewHeader(
+                      alignment: Alignment.center,
+                      padding: const EdgeInsets.symmetric(horizontal: 8),
+                      label: label,
+                      minWidth: 170,
+                    );
+                  }).toList()
+                : [
+                    "Transaction Date",
+                    "Invoice No",
+                    "Status",
+                    "Gross Sales",
+                    "Discount Sales",
+                    "Nett Sales (Amount - Discount)",
+                  ].map((label) {
+                    return TableViewHeader(
+                      alignment: Alignment.center,
+                      padding: const EdgeInsets.symmetric(horizontal: 8),
+                      label: label,
+                      minWidth: 170,
+                    );
+                  }).toList(),
+            rows: selectedChart == "Yearly" ? [
               for (var item in transaction)
                 TableViewRow(
                   height: 60,
                   cells: [
                     TableViewCell(
                       child: Text(
-                         selectedChart == "Yearly" ? item.date!.toMMMyyyy() : item.date!.toddMMMyyyy(),
+                        selectedChart == "Yearly"
+                            ? item.date!.toMMMyyyy()
+                            : item.date!.toddMMMyyyyHHmmss(),
+                        style: AppFont.largeBold(context),
+                      ),
+                    ),
+                    TableViewCell(
+                      child: Text(
+                        item.grossSales.currencyFormat(symbol: "Rp "),
+                        style: AppFont.largeBold(context),
+                      ),
+                    ),
+                    TableViewCell(
+                      child: Text(
+                        item.discount.currencyFormat(symbol: "Rp "),
+                        style: AppFont.largeBold(context),
+                      ),
+                    ),
+                    TableViewCell(
+                      child: Text(
+                        item.netSales.currencyFormat(symbol: "Rp "),
+                        style: AppFont.largeBold(context),
+                      ),
+                    ),
+                  ],
+                ),
+            ] : [
+              for (var item in transaction)
+                TableViewRow(
+                  height: 60,
+                  cells: [
+                    TableViewCell(
+                      child: Text(
+                        selectedChart == "Yearly"
+                            ? item.date!.toMMMyyyy()
+                            : item.date!.toddMMMyyyyHHmmss(),
                         style: AppFont.largeBold(context),
                       ),
                     ),
                     TableViewCell(
                       child: Text(
                         item.invoice!,
+                        style: AppFont.largeBold(context),
+                      ),
+                    ),
+                    TableViewCell(
+                      child: Text(
+                        item.settlement!,
                         style: AppFont.largeBold(context),
                       ),
                     ),

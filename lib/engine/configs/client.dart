@@ -7,7 +7,7 @@ abstract class Development {
   static String baseUrl() {
     switch (Environment.mode) {
       case EnvironmentMode.dev:
-        return 'https://e4f9-158-140-162-186.ngrok-free.app/';
+        return 'https://d8cb-36-90-2-172.ngrok-free.app/';
       case EnvironmentMode.test:
         return 'https://garapinpos-test.garapin.cloud/';
       case EnvironmentMode.production:
@@ -18,7 +18,7 @@ abstract class Development {
   static String urlImage() {
     switch (Environment.mode) {
       case EnvironmentMode.dev:
-        return 'https://e4f9-158-140-162-186.ngrok-free.app/';
+        return 'https://d8cb-36-90-2-172.ngrok-free.app/';
       case EnvironmentMode.test:
         return 'https://garapinpos-test.garapin.cloud/';
       case EnvironmentMode.production:

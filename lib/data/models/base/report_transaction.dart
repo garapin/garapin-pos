@@ -52,6 +52,8 @@ class Transaction {
   DateTime? date;
   @JsonKey(name: "invoice")
   String? invoice;
+  @JsonKey(name: "settlement_status")
+  String? settlement;
   @JsonKey(name: "grossSales")
   int? grossSales;
   @JsonKey(name: "discount")
@@ -62,6 +64,7 @@ class Transaction {
   Transaction({
     this.date,
     this.invoice,
+    this.settlement,
     this.grossSales,
     this.discount,
     this.netSales,
