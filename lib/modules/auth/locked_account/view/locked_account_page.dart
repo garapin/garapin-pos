@@ -574,6 +574,13 @@ class _LockedAccountPageState extends State<LockedAccountPage> {
                                   Sessions.setPayedQuickRelease(true);
                                 }
 
+                                if (!widget.fromDashboard && widget.isQuickRelease) {
+                                  final GoogleSignInAccount? s =
+                                  await GoogleSignIn().signOut();
+                                  Sessions.clear().then(
+                                          (value) => context.go(RouteNames.root));
+                                }
+
                                 context.pop();
                               },
                               child: const Text("Done"),
