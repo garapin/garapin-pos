@@ -556,7 +556,7 @@ class _ReportTransactionPageState extends State<ReportTransactionPage> {
                     ),
                     TableViewCell(
                       child: Text(
-                        item.settlement!,
+                        item.settlement ?? "",
                         style: AppFont.largeBold(context),
                       ),
                     ),
